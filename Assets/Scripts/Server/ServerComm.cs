@@ -12,6 +12,8 @@ public class ServerComm : MonoBehaviour
     int throughPackets = 0;
     int errorPackets = 0;
     public float updateSpeed;
+    int ID = -1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +25,20 @@ public class ServerComm : MonoBehaviour
         catch(Exception e){
             Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
+        ID = join("User" + UnityEngine.Random.Range(1000, 9999));
+        Debug.Log("User ID: " + ID);
         InvokeRepeating("serverUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);
+    }
+
+    int join(string name)
+    {
+        byte[] sendBytes = Encoding.ASCII.GetBytes("join~" + name);
+        client.Send(sendBytes, sendBytes.Length);
+        
+        //recieve
+        byte[] receiveBytes = client.Receive(ref remoteEndPoint);
+        return int.Parse(Encoding.ASCII.GetString(receiveBytes));
     }
 
     void updatePPSGUI(){
