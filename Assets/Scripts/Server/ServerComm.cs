@@ -37,6 +37,11 @@ public class ServerComm : MonoBehaviour
     void Update() {
     }
 
+    public void send(string message){
+        byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+        client.Send(sendBytes, sendBytes.Length);
+    }
+
     string serverUpdate()
     {
         try{
