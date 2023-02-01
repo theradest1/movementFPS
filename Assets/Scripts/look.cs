@@ -23,7 +23,7 @@ public class look : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(controlsManagerScript.mouseDelta);
+        //Debug.Log(controlsManagerScript.mouseDelta);
         player.transform.Rotate(0f, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal, 0f);
 
         camRotX = Mathf.Clamp(camRotX - controlsManagerScript.mouseDelta.y * lookSpeedVertical, minCamRotX, maxCamRotX);
