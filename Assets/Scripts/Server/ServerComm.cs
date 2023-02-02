@@ -12,6 +12,7 @@ public class ServerComm : MonoBehaviour
     //int throughPackets = 0;
     //int errorPackets = 0;
     public float updateSpeed;
+    public ServerEvents serverEvents;
     int ID = -1;
 
     // Start is called before the first frame update
@@ -76,7 +77,27 @@ public class ServerComm : MonoBehaviour
             return;
         }
 
-        List<string> rawEvents = info.split("|");
-        Debug.Log(rawEvents);
+        //Debug.Log(info);
+        string[] rawEvents = info.Split('|');
+        for(int i = 0; i < rawEvents.Length; i++){
+            if(rawEvents[i] != ""){
+                Debug.Log("___________________________________________");
+                Debug.Log("Events recieved: " + rawEvents[i]);
+                string[] splitRawEvents = rawEvents[i].Split("~");
+                switch (splitRawEvents[0])
+                {
+                    case "update":
+                        serverEvents.update(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //ID, position, rotation
+                        break;
+                    case "newClient":
+                        serverEvents.newClient(splitRawEvents[1], splitRawEvents[2]); //ID, username
+                        break;
+                    default:
+                        Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
+                        break;
+                }
+                
+            }
+        }
     }
 }

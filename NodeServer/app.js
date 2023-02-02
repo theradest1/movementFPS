@@ -91,11 +91,12 @@ function update(info, senderPort, senderAddress){
 	//console.log(splitInfo[1]);
 	transformsToSend = "";
 	for(playerIndex in currentPlayerIDs){
-		transformsToSend += playerTransformInfo[playerIndex] + "|"
+		transformsToSend += "update~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
 	}
 	playerIndex = currentPlayerIDs.indexOf(parseInt(splitInfo[1]));
 	if(playerIndex != -1){
 		server.send(eventsToSend[playerIndex] + transformsToSend, senderPort, senderAddress); //send events, and later other players new positions
+		eventsToSend[playerIndex] = "";
 		playerTransformInfo[playerIndex] = splitInfo[2] + "~" + splitInfo[3];
 		playerDisconnectTimers[playerIndex] = 0;
 	}
