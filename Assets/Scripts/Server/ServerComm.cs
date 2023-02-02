@@ -9,8 +9,8 @@ public class ServerComm : MonoBehaviour
     UdpClient client;
     IPEndPoint remoteEndPoint;
     public GameObject player;
-    int throughPackets = 0;
-    int errorPackets = 0;
+    //int throughPackets = 0;
+    //int errorPackets = 0;
     public float updateSpeed;
     int ID = -1;
 
@@ -28,7 +28,7 @@ public class ServerComm : MonoBehaviour
         ID = join("User" + UnityEngine.Random.Range(1000, 9999));
         Debug.Log("User ID: " + ID);
         InvokeRepeating("serverUpdate", .1f, updateSpeed);
-        InvokeRepeating("updatePPSGUI", 0f, 1f);
+        //InvokeRepeating("updatePPSGUI", 0f, 1f);
     }
 
     int join(string name)
@@ -41,13 +41,13 @@ public class ServerComm : MonoBehaviour
         return int.Parse(Encoding.ASCII.GetString(receiveBytes));
     }
 
-    void updatePPSGUI(){
+    /*void updatePPSGUI(){
         Debug.Log("through packets: " + throughPackets);
         Debug.Log("error packets: " + errorPackets);
 
         throughPackets = 0;
         errorPackets = 0;
-    }
+    }*/
     void Update() {
     }
 
@@ -56,8 +56,9 @@ public class ServerComm : MonoBehaviour
         client.Send(sendBytes, sendBytes.Length);
     }
 
-    string serverUpdate()
+    void serverUpdate()
     {
+        string info;
         try{
             //send
             byte[] sendBytes = Encoding.ASCII.GetBytes("update~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
@@ -66,13 +67,16 @@ public class ServerComm : MonoBehaviour
             //recieve
             byte[] receiveBytes = client.Receive(ref remoteEndPoint);
 
-            throughPackets++;
-            return Encoding.ASCII.GetString(receiveBytes);
+            //throughPackets++;
+            info = Encoding.ASCII.GetString(receiveBytes);
         }
         catch(Exception e){
             Debug.LogError(e.Message);
-            errorPackets++;
-            return "";
+            //errorPackets++;
+            return;
         }
+
+        List<string> rawEvents = info.split("|");
+        Debug.Log(rawEvents);
     }
 }

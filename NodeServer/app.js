@@ -60,22 +60,22 @@ function checkDisconnectTimers(){
 
 function newClient(info, senderPort, senderAddress){
 	server.send(currentID + "", senderPort, senderAddress);
+	splitInfo = info.split("~");
 
 	console.log("New client: " + currentID);
 	//console.log(info);
-	splitInfo = info.split("~");
-	addEventToAll("join~" + currentID + "~" + splitInfo[1]);
 
+	allPlayerJoinInfo = "";
+	for(playerIndex in currentPlayerIDs){
+		allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex];
+	}
+	eventsToSend.push(allPlayerJoinInfo);
 	playerInfo.push(splitInfo[1]);
 	playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
 
-	allPlayerJoinInfo = "";
-	for(playerIndex in currentPlayerIDs){
-		allPlayerJoinInfo += "join~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex];
-	}
-	eventsToSend.push(allPlayerJoinInfo);
+	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]); //move to top when done tetsting to get rid of ghost player
 
 	currentID++;
 }
@@ -89,9 +89,13 @@ function addEventToAll(eventString){
 function update(info, senderPort, senderAddress){
 	splitInfo = info.split("~")
 	//console.log(splitInfo[1]);
+	transformsToSend = "";
+	for(playerIndex in currentPlayerIDs){
+		transformsToSend += playerTransformInfo[playerIndex] + "|"
+	}
 	playerIndex = currentPlayerIDs.indexOf(parseInt(splitInfo[1]));
 	if(playerIndex != -1){
-		server.send(eventsToSend[playerIndex], senderPort, senderAddress); //send events, and later other players new positions
+		server.send(eventsToSend[playerIndex] + transformsToSend, senderPort, senderAddress); //send events, and later other players new positions
 		playerTransformInfo[playerIndex] = splitInfo[2] + "~" + splitInfo[3];
 		playerDisconnectTimers[playerIndex] = 0;
 	}
