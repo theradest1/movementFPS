@@ -33,7 +33,7 @@ public class ServerComm : MonoBehaviour
 
     int join(string name)
     {
-        byte[] sendBytes = Encoding.ASCII.GetBytes("join~" + name);
+        byte[] sendBytes = Encoding.ASCII.GetBytes("newClient~" + name);
         client.Send(sendBytes, sendBytes.Length);
         
         //recieve
@@ -60,7 +60,7 @@ public class ServerComm : MonoBehaviour
     {
         try{
             //send
-            byte[] sendBytes = Encoding.ASCII.GetBytes(player.transform.position + "~" + player.transform.rotation);
+            byte[] sendBytes = Encoding.ASCII.GetBytes("update~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
             client.Send(sendBytes, sendBytes.Length);
             
             //recieve
