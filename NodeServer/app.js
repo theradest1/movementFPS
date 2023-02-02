@@ -62,12 +62,13 @@ function newClient(info, senderPort, senderAddress){
 	server.send(currentID + "", senderPort, senderAddress);
 	splitInfo = info.split("~");
 
+	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]); //move to top when done tetsting to get rid of ghost player
 	console.log("New client: " + currentID);
 	//console.log(info);
 
 	allPlayerJoinInfo = "";
 	for(playerIndex in currentPlayerIDs){
-		allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex];
+		allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex] + "|";
 	}
 	eventsToSend.push(allPlayerJoinInfo);
 	playerInfo.push(splitInfo[1]);
@@ -75,7 +76,6 @@ function newClient(info, senderPort, senderAddress){
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
 
-	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]); //move to top when done tetsting to get rid of ghost player
 
 	currentID++;
 }

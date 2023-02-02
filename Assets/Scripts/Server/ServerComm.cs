@@ -13,7 +13,7 @@ public class ServerComm : MonoBehaviour
     //int errorPackets = 0;
     public float updateSpeed;
     public ServerEvents serverEvents;
-    int ID = -1;
+    public int ID = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -78,12 +78,12 @@ public class ServerComm : MonoBehaviour
         }
         
         serverEvents.resetSmoothTimer();
-        //Debug.Log(info);
+        
+        Debug.Log("___________________________________________");
+        Debug.Log("Events recieved: " + info);
         string[] rawEvents = info.Split('|');
         for(int i = 0; i < rawEvents.Length; i++){
             if(rawEvents[i] != ""){
-                //Debug.Log("___________________________________________");
-                //Debug.Log("Events recieved: " + rawEvents[i]);
                 string[] splitRawEvents = rawEvents[i].Split("~");
                 switch (splitRawEvents[0])
                 {

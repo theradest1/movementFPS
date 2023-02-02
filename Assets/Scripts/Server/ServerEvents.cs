@@ -26,16 +26,20 @@ public class ServerEvents : MonoBehaviour
         newClientObject.name = newClientID;
         clientObjects.Add(newClientObject);
         clientIDs.Add(int.Parse(newClientID));
+        Debug.Log("New player's ID: " + int.Parse(newClientID));
         pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
         targetPositions.Add(new Vector3(0f, 0f,0f));
     }
 
     public void update(string clientID, string position, string rotation){
-        int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
-        pastTargetPositions[playerIndex] = targetPositions[playerIndex];
-        targetPositions[playerIndex] = parseVector3(position);
-        clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
-        //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
+        if(int.Parse(clientID) != serverComm.ID){
+            int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
+            Debug.Log(clientID);
+            pastTargetPositions[playerIndex] = targetPositions[playerIndex];
+            targetPositions[playerIndex] = parseVector3(position);
+            clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
+            //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
+        }
     }
 
     Vector3 parseVector3(string vector3String){
