@@ -5,7 +5,7 @@ const server = dgram.createSocket('udp4');
 currentID = 0;
 
 const maxChecksBeforeDisconnect = 3;
-const disconnectInterval = 2000; //in ms
+const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 
 playerTransformInfo = []; //position and rotation

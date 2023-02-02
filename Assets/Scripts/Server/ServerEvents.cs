@@ -6,8 +6,11 @@ public class ServerEvents : MonoBehaviour
 {
     public List<GameObject> clientObjects;
     public List<int> clientIDs;
+    public List<Vector3> targetPositions;
+    public List<Vector3> pastTargetPositions;
     public ServerComm serverComm;
     public GameObject clientPrefab;
+    float startTime;
 
     public void recieveEvent(string message){
         Debug.Log("Event recieved: " + message);
@@ -18,18 +21,21 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void newClient(string newClientID, string newCleintUsername){
-        Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
+        //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
         GameObject newClientObject = Instantiate(clientPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         newClientObject.name = newClientID;
         clientObjects.Add(newClientObject);
         clientIDs.Add(int.Parse(newClientID));
+        pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
+        targetPositions.Add(new Vector3(0f, 0f,0f));
     }
 
     public void update(string clientID, string position, string rotation){
         int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
-        clientObjects[playerIndex].transform.position = parseVector3(position);
+        pastTargetPositions[playerIndex] = targetPositions[playerIndex];
+        targetPositions[playerIndex] = parseVector3(position);
         clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
-        Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
+        //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
     }
 
     Vector3 parseVector3(string vector3String){
@@ -41,5 +47,21 @@ public class ServerEvents : MonoBehaviour
         quaternionString = quaternionString.Substring(1, quaternionString.Length-2); //get rid of parenthisis
 		string[] parts = quaternionString.Split(',');
 		return new Quaternion(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
+    }
+
+    public void resetSmoothTimer(){
+        startTime = Time.time;
+    }
+
+    void Update(){
+        float percentDone = (Time.time - startTime) / serverComm.updateSpeed;
+        //Debug.Log("Percent: " + percentDone);
+        //Debug.Log("Time Difference: " + (Time.time - startTime));
+        //Debug.Log("Start timer: " + startTime);
+
+        for(int i = 0; i < clientObjects.Count; i++){
+            clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
+            //Debug.Log("Past pos: " + pastTargetPositions[i] + "  CurrentTargetPos: " + targetPositions[i]);
+        }
     }
 }

@@ -203,6 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientObjects: []
   clientIDs: 
+  targetPositions: []
+  pastTargetPositions: []
   serverComm: {fileID: 331435471}
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
 --- !u!1 &562311096

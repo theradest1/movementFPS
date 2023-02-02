@@ -76,13 +76,14 @@ public class ServerComm : MonoBehaviour
             //errorPackets++;
             return;
         }
-
+        
+        serverEvents.resetSmoothTimer();
         //Debug.Log(info);
         string[] rawEvents = info.Split('|');
         for(int i = 0; i < rawEvents.Length; i++){
             if(rawEvents[i] != ""){
-                Debug.Log("___________________________________________");
-                Debug.Log("Events recieved: " + rawEvents[i]);
+                //Debug.Log("___________________________________________");
+                //Debug.Log("Events recieved: " + rawEvents[i]);
                 string[] splitRawEvents = rawEvents[i].Split("~");
                 switch (splitRawEvents[0])
                 {
@@ -99,5 +100,6 @@ public class ServerComm : MonoBehaviour
                 
             }
         }
+
     }
 }
