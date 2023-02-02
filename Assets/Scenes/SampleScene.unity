@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1360005019}
-  updateSpeed: 0.02
+  updateSpeed: 0.05
   serverEvents: {fileID: 331435472}
 --- !u!114 &331435472
 MonoBehaviour:
@@ -201,6 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76ce6c5aa63d9542a75f1dd18dd09af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clientObjects: []
+  clientIDs: 
   serverComm: {fileID: 331435471}
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
 --- !u!1 &562311096

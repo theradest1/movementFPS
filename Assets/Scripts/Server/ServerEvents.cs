@@ -26,6 +26,20 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void update(string clientID, string position, string rotation){
+        int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
+        clientObjects[playerIndex].transform.position = parseVector3(position);
+        clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
         Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
+    }
+
+    Vector3 parseVector3(string vector3String){
+        vector3String = vector3String.Substring(1, vector3String.Length-2); //get rid of parenthisis
+		string[] parts = vector3String.Split(',');
+		return new Vector3(-float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
+    }
+    Quaternion parseQuaternion(string quaternionString){
+        quaternionString = quaternionString.Substring(1, quaternionString.Length-2); //get rid of parenthisis
+		string[] parts = quaternionString.Split(',');
+		return new Quaternion(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
     }
 }
