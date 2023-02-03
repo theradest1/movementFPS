@@ -12,7 +12,7 @@ public class ServerComm : MonoBehaviour
     IPEndPoint remoteEndPoint;
     public GameObject player;
     int throughPackets = 0;
-    int errorPackets = 0;
+    //int errorPackets = 0;
     public float updateSpeed;
     public ServerEvents serverEvents;
     public int ID = -1;
@@ -24,6 +24,10 @@ public class ServerComm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SERVERADDRESS = MainMenu.address;
+        CLIENTPORT = MainMenu.clientPort;
+        SERVERPORT = MainMenu.port;
+
         PPSText.text = "PPS: lots";
         try{
             client = new UdpClient(CLIENTPORT);
@@ -33,7 +37,7 @@ public class ServerComm : MonoBehaviour
         catch(Exception e){
             Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
-        ID = join("User" + UnityEngine.Random.Range(1000, 9999));
+        ID = join("User" + MainMenu.username);
         Debug.Log("User ID: " + ID);
         InvokeRepeating("runServerUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);
