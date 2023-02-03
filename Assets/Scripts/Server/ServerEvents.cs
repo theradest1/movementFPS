@@ -28,7 +28,13 @@ public class ServerEvents : MonoBehaviour
         clientIDs.Add(int.Parse(newClientID));
         Debug.Log("New player's ID: " + int.Parse(newClientID));
         pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
-        targetPositions.Add(new Vector3(0f, 0f,0f));
+        targetPositions.Add(new Vector3(0f, 0f, 0f));
+    }
+
+    public void removeClient(string ID){
+        Debug.Log("Player with ID " + ID + " has left the game");
+        int playerIndex = clientIDs.IndexOf(int.Parse(ID));
+        clientIDs.deleteIndex(playerIndex);
     }
 
     public void update(string clientID, string position, string rotation){
@@ -45,7 +51,7 @@ public class ServerEvents : MonoBehaviour
     Vector3 parseVector3(string vector3String){
         vector3String = vector3String.Substring(1, vector3String.Length-2); //get rid of parenthisis
 		string[] parts = vector3String.Split(',');
-		return new Vector3(-float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
+		return new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
     }
     Quaternion parseQuaternion(string quaternionString){
         quaternionString = quaternionString.Substring(1, quaternionString.Length-2); //get rid of parenthisis

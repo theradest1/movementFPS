@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Collections;
 using UnityEngine;
 
 public class ServerComm : MonoBehaviour
@@ -20,7 +21,7 @@ public class ServerComm : MonoBehaviour
     {
         try{
             client = new UdpClient(5000);
-            client.Connect("127.0.0.1", 4000);
+            client.Connect("localhost", 4000);
             remoteEndPoint = new IPEndPoint(IPAddress.Any, 4000);
         }
         catch(Exception e){
@@ -28,7 +29,7 @@ public class ServerComm : MonoBehaviour
         }
         ID = join("User" + UnityEngine.Random.Range(1000, 9999));
         Debug.Log("User ID: " + ID);
-        InvokeRepeating("serverUpdate", .1f, updateSpeed);
+        InvokeRepeating("runServerUpdate", .1f, updateSpeed);
         //InvokeRepeating("updatePPSGUI", 0f, 1f);
     }
 
@@ -57,9 +58,13 @@ public class ServerComm : MonoBehaviour
         client.Send(sendBytes, sendBytes.Length);
     }
 
-    void serverUpdate()
+    void runServerUpdate(){
+        StartCoroutine(serverUpdate());
+    }
+
+    private IEnumerator serverUpdate()
     {
-        string info;
+        string info = "";
         try{
             //send
             byte[] sendBytes = Encoding.ASCII.GetBytes("update~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
@@ -73,14 +78,12 @@ public class ServerComm : MonoBehaviour
         }
         catch(Exception e){
             Debug.LogError(e.Message);
-            //errorPackets++;
-            return;
         }
         
         serverEvents.resetSmoothTimer();
         
-        Debug.Log("___________________________________________");
-        Debug.Log("Events recieved: " + info);
+        //Debug.Log("___________________________________________");
+        //Debug.Log("Events recieved: " + info);
         string[] rawEvents = info.Split('|');
         for(int i = 0; i < rawEvents.Length; i++){
             if(rawEvents[i] != ""){
@@ -93,6 +96,9 @@ public class ServerComm : MonoBehaviour
                     case "newClient":
                         serverEvents.newClient(splitRawEvents[1], splitRawEvents[2]); //ID, username
                         break;
+                    case "removeClient":
+                        serverEvents.removeClient(splitRawEvents[1]); //ID
+                        break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
                         break;
@@ -100,6 +106,7 @@ public class ServerComm : MonoBehaviour
                 
             }
         }
+        yield return null;
 
     }
 }

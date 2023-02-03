@@ -48,6 +48,7 @@ function checkDisconnectTimers(){
 		console.log("Players to disconnect: " + playerIndexesToDisconnect);
 		for(playerIndexesID in playerIndexesToDisconnect){
 			playerIndex = playerIndexesToDisconnect[playerIndexesToDisconnect.length - 1 - playerIndexesID];
+			addEventToAll("removeClient~" + currentPlayerIDs[playerIndex] + "|");
 			delete currentPlayerIDs[playerIndex];
 			delete playerDisconnectTimers[playerIndex];
 			delete playerTransformInfo[playerIndex];
