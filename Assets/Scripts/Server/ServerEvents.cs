@@ -24,6 +24,7 @@ public class ServerEvents : MonoBehaviour
         //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
         GameObject newClientObject = Instantiate(clientPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         newClientObject.name = newClientID;
+        newClientObject.GetComponent<OtherPlayer>().setUsername(newCleintUsername);
         clientObjects.Add(newClientObject);
         clientIDs.Add(int.Parse(newClientID));
         Debug.Log("New player's ID: " + int.Parse(newClientID));

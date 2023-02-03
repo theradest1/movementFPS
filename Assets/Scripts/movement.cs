@@ -28,7 +28,7 @@ public class movement : MonoBehaviour
 
         if(isGrounded && controlsManagerScript.jumping){
             isGrounded = false;
-            velocity.y += jumpPower;
+            velocity.y = jumpPower;
         }
 
         if(isGrounded){

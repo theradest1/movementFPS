@@ -4,7 +4,7 @@ const { send } = require('process');
 const server = dgram.createSocket('udp4');
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 7;
+const maxChecksBeforeDisconnect = 50;
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 
