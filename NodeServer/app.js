@@ -25,7 +25,7 @@ server.on('message', (msg, senderInfo) => {
 });
 
 function checkDisconnectTimers(){
-	console.log("___________________________________________")
+	/*console.log("___________________________________________")
 	console.log("Transforms: ");
 	console.log(playerTransformInfo);
 	console.log("Current player IDs: ");
@@ -35,7 +35,7 @@ function checkDisconnectTimers(){
 	console.log("Player usernames: ");
 	console.log(playerInfo);
 	console.log("Events to send: ");
-	console.log(eventsToSend);
+	console.log(eventsToSend);*/
 
 	playerIndexesToDisconnect = [];
 	for(playerListID in playerDisconnectTimers){
