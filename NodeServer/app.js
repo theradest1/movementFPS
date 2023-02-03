@@ -87,12 +87,12 @@ function addEventToAll(eventString){
 	}
 }
 
-function update(info, senderPort, senderAddress){
+function u(info, senderPort, senderAddress){
 	splitInfo = info.split("~")
 	//console.log(splitInfo[1]);
 	transformsToSend = "";
 	for(playerIndex in currentPlayerIDs){
-		transformsToSend += "update~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
+		transformsToSend += "u~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
 	}
 	playerIndex = currentPlayerIDs.indexOf(parseInt(splitInfo[1]));
 	if(playerIndex != -1){
