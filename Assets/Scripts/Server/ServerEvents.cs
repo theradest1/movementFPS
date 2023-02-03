@@ -34,7 +34,11 @@ public class ServerEvents : MonoBehaviour
     public void removeClient(string ID){
         Debug.Log("Player with ID " + ID + " has left the game");
         int playerIndex = clientIDs.IndexOf(int.Parse(ID));
-        clientIDs.deleteIndex(playerIndex);
+        clientIDs.RemoveAt(playerIndex);
+        pastTargetPositions.RemoveAt(playerIndex);
+        targetPositions.RemoveAt(playerIndex);
+        Destroy(clientObjects[playerIndex]);
+        clientObjects.RemoveAt(playerIndex);
     }
 
     public void update(string clientID, string position, string rotation){
