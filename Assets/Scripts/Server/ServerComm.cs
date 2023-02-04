@@ -77,20 +77,14 @@ public class ServerComm : MonoBehaviour
     IEnumerator serverUpdate()
     {
         string info = "";
-        try{
-            //send
-            byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
-            client.Send(sendBytes, sendBytes.Length);
-            throughPackets++;
-            //recieve
-            byte[] receiveBytes = client.Receive(ref remoteEndPoint);
+        byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
+        client.Send(sendBytes, sendBytes.Length);
+        throughPackets++;
 
-            info = Encoding.ASCII.GetString(receiveBytes);
-        }
-        catch(Exception e){
-            Debug.LogError(e.Message);
-        }
-        
+
+        //recieve
+        byte[] receiveBytes = client.Receive(ref remoteEndPoint);
+        info = Encoding.ASCII.GetString(receiveBytes);
         serverEvents.resetSmoothTimer();
         
         //Debug.Log("___________________________________________");
