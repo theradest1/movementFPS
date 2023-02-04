@@ -88,7 +88,7 @@ function addEventToAll(eventString){
 }
 
 function u(info, senderPort, senderAddress){
-	sleep(500);
+	//sleep(500);
 	splitInfo = info.split("~")
 	//console.log(splitInfo[1]);
 	transformsToSend = "";
