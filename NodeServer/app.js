@@ -88,6 +88,7 @@ function addEventToAll(eventString){
 }
 
 function u(info, senderPort, senderAddress){
+	sleep(500);
 	splitInfo = info.split("~")
 	//console.log(splitInfo[1]);
 	transformsToSend = "";
@@ -104,6 +105,14 @@ function u(info, senderPort, senderAddress){
 	else{
 		console.log("ERROR: player with ID " + splitInfo[1] + " is not currently in the game but tried to update transform");
 	}
+}
+
+function sleep(milliseconds) { //for debuging
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
 }
 
 server.on('listening', () => {

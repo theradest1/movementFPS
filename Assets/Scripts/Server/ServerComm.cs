@@ -71,10 +71,10 @@ public class ServerComm : MonoBehaviour
     }
 
     void runServerUpdate(){
-        serverUpdate();
+        StartCoroutine(serverUpdate());
     }
 
-    private async void serverUpdate()
+    IEnumerator serverUpdate()
     {
         string info = "";
         try{
@@ -117,7 +117,7 @@ public class ServerComm : MonoBehaviour
                 
             }
         }
-        return; 
+        yield return null; 
 
     }
 }
