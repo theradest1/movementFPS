@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
@@ -71,10 +72,10 @@ public class ServerComm : MonoBehaviour
     }
 
     void runServerUpdate(){
-        StartCoroutine(serverUpdate());
+        serverUpdate();
     }
 
-    IEnumerator serverUpdate()
+    async void serverUpdate()
     {
         string info = "";
         byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
@@ -83,7 +84,8 @@ public class ServerComm : MonoBehaviour
 
 
         //recieve
-        byte[] receiveBytes = client.Receive(ref remoteEndPoint);
+        byte[] receiveBytes = new byte[0];
+        await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
         info = Encoding.ASCII.GetString(receiveBytes);
         serverEvents.resetSmoothTimer();
         
@@ -111,7 +113,11 @@ public class ServerComm : MonoBehaviour
                 
             }
         }
-        yield return null; 
+        //yield return null; 
 
     }
+
+    //byte[] waitForResponse(ref remoteEndPoint){
+
+    //}
 }
