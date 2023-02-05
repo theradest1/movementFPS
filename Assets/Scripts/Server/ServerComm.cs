@@ -31,7 +31,7 @@ public class ServerComm : MonoBehaviour
 
         PPSText.text = "PPS: lots";
         try{
-            client = new UdpClient(CLIENTPORT);
+            client = new UdpClient(/*CLIENTPORT*/);
             client.Connect(SERVERADDRESS, SERVERPORT);
             remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
         }
