@@ -18,7 +18,7 @@ public class ServerComm : MonoBehaviour
     public ServerEvents serverEvents;
     public int ID = -1;
     public int SERVERPORT;
-    public int CLIENTPORT;
+    //public int CLIENTPORT;
     public string SERVERADDRESS;
     public TextMeshProUGUI PPSText;
 
@@ -26,7 +26,7 @@ public class ServerComm : MonoBehaviour
     void Start()
     {
         SERVERADDRESS = MainMenu.address;
-        CLIENTPORT = MainMenu.clientPort;
+        //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;
 
         PPSText.text = "PPS: lots";

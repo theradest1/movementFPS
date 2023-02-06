@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public static int port;
-    public static int clientPort;
-    public static string address;
-    public static string username;
+    public static int port = 4000;
+    //public static int clientPort = 5000;
+    public static string address = "192.168.0.50";
+    public static string username = "joe";
 
     public TMP_InputField portInput;
-    public TMP_InputField clientPortInput;
+    //public TMP_InputField clientPortInput;
     public TMP_InputField addressInput;
     public TMP_InputField usernameInput;
 
@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     public void updateInfo(){
         port = int.Parse(portInput.text);
-        clientPort = int.Parse(clientPortInput.text);
+        //clientPort = int.Parse(clientPortInput.text);
         address = addressInput.text;
         username = usernameInput.text;
     }
