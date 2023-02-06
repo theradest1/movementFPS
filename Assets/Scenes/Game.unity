@@ -1592,8 +1592,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.3
   jumpPower: 0.02
-  stopSpeedGround: 0.7
-  stopSpeedAir: 0.998
+  stopSpeedGround: 40
+  stopSpeedAir: 49.7
   groundCheck: {fileID: 19522334}
   groundMask:
     serializedVersion: 2
@@ -1605,13 +1605,13 @@ MonoBehaviour:
   velocityText: {fileID: 859947215}
   attatched: 0
   ableToAttatch: 1
-  ableToJumpOff: 1
+  ableToJumpOff: 0
   ableToJumpOffTimer: 0
   timeBeforeAbleToJumpOff: 0.1
   ableToAttatchTimer: 0
   timeBeforeAbleToAttatch: 0.5
   wallJumpVerticalPower: 0.02
-  wallJumpPower: 0.015
+  wallJumpPower: 500
   cam: {fileID: 963194225}
   lookScript: {fileID: 963194229}
   lookSpeedHorizontal: 0.2

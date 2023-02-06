@@ -67,7 +67,7 @@ public class movement : MonoBehaviour
         if(attatched && controlsManagerScript.jumping && ableToJumpOff){
             attatched = false;
             velocity.y = wallJumpVerticalPower;
-            velocity += cam.transform.forward * wallJumpPower;
+            Vector3 addedForce = cam.transform.forward * wallJumpPower;
             ableToAttatchTimer = timeBeforeAbleToAttatch;
         }
 
@@ -110,12 +110,12 @@ public class movement : MonoBehaviour
 
     void FixedUpdate() {
         if(!isGrounded){
-            velocity.x *= stopSpeedAir;
-            velocity.z *= stopSpeedAir;
+            velocity.x *= stopSpeedAir * Time.fixedDeltaTime;
+            velocity.z *= stopSpeedAir * Time.fixedDeltaTime;
         }
         else{
-            velocity.x *= stopSpeedGround;
-            velocity.z *= stopSpeedGround;
+            velocity.x *= stopSpeedGround * Time.fixedDeltaTime;
+            velocity.z *= stopSpeedGround * Time.fixedDeltaTime;
         }
     }
 
