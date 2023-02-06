@@ -1590,8 +1590,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d77ae0456d02e04ebd8e1bbfa0546f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.3
-  jumpPower: 0.02
+  speed: 0.15
+  jumpPower: 0.015
   stopSpeedGround: 40
   stopSpeedAir: 49.7
   groundCheck: {fileID: 19522334}
@@ -1601,23 +1601,13 @@ MonoBehaviour:
   isGrounded: 1
   controlsManagerScript: {fileID: 331435469}
   gravity: -0.04
-  velocity: {x: 0, y: 0, z: 0}
+  velocity: {x: -0.00000080763516, y: -0.015379209, z: -0.00000043159724}
   velocityText: {fileID: 859947215}
-  attatched: 0
-  ableToAttatch: 1
-  ableToJumpOff: 0
-  ableToJumpOffTimer: 0
-  timeBeforeAbleToJumpOff: 0.1
-  ableToAttatchTimer: 0
-  timeBeforeAbleToAttatch: 0.5
-  wallJumpVerticalPower: 0.02
-  wallJumpPower: 500
   cam: {fileID: 963194225}
   lookScript: {fileID: 963194229}
   lookSpeedHorizontal: 0.2
-  speedReductionPerDegree: 0.99
-  minDegreesToEffectSpeed: 0.01
-  inAirStrafingSpeed: 0.5
+  speedReductionPerDegree: 0.985
+  minDegreesToEffectSpeed: 0.005
   maxSpeed: 0.06
 --- !u!4 &1360005022
 Transform:
