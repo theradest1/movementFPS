@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18350838, g: 0.2290651, b: 0.30572262, a: 1}
+  m_IndirectSpecularColor: {r: 0.18350783, g: 0.22906432, b: 0.3057214, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1038,7 +1038,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1360005022}
-  - component: {fileID: 1360005021}
   - component: {fileID: 1360005020}
   m_Layer: 3
   m_Name: Player
@@ -1066,25 +1065,17 @@ MonoBehaviour:
   groundCheck: {fileID: 19522334}
   groundMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 192
   isGrounded: 1
   controlsManagerScript: {fileID: 331435469}
   gravity: -0.05
   velocity: {x: 1.01493945e-10, y: -0.019728173, z: 1.01493945e-10}
---- !u!136 &1360005021
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360005019}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  velocityText: {fileID: 859947215}
+  attatched: 0
+  ableToAttatch: 1
+  wallJumpVerticalPower: 0.01
+  wallJumpPower: 0.05
+  cam: {fileID: 963194225}
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0
@@ -1093,7 +1084,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360005019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.18, z: 0}
+  m_LocalPosition: {x: 0, y: 21.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
