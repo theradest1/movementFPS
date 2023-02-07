@@ -55,8 +55,8 @@ public class movement : MonoBehaviour
         }
 
         if(isGrounded){
-            velocity += speed * transform.right * moveDirection.x * Time.deltaTime;
-            velocity += speed * transform.forward * moveDirection.y * Time.deltaTime;
+            velocity += speed * transform.right * moveDirection.x;
+            velocity += speed * transform.forward * moveDirection.y;
         }
         else{
             velocity.y += gravity * Time.deltaTime;
@@ -83,11 +83,10 @@ public class movement : MonoBehaviour
 
     void applyVelocity(Vector3 velocity){
         //transform.position += transform.forward * velocity.z + transform.right * velocity.x + new Vector3(0f, velocity.y, 0f);
-        velocityText.text = (Mathf.Round(velocity.magnitude * 10000f) / 100f) + "";
         
-        transform.position += new Vector3(0f, velocity.y, 0f);
+        transform.position += new Vector3(0f, velocity.y, 0f) * Time.deltaTime;
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, velocity.y, 0f);
+            transform.position -= new Vector3(0f, velocity.y, 0f) * Time.deltaTime;
             isGrounded = velocity.y <= 0f;
             velocity.y = 0f;
         }
@@ -95,16 +94,18 @@ public class movement : MonoBehaviour
             isGrounded = false;
         }
 
-        transform.position += new Vector3(0f, 0f, velocity.z);
+        transform.position += new Vector3(0f, 0f, velocity.z) * Time.deltaTime;
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, 0f, velocity.z);
+            transform.position -= new Vector3(0f, 0f, velocity.z) * Time.deltaTime;
             velocity.z = 0f;
         }
         
-        transform.position += new Vector3(velocity.x, 0f, 0f);
+        transform.position += new Vector3(velocity.x, 0f, 0f) * Time.deltaTime;
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(velocity.x, 0f, 0f);
+            transform.position -= new Vector3(velocity.x, 0f, 0f) * Time.deltaTime;
             velocity.x = 0f;
         }
+        
+        velocityText.text = (Mathf.Round(velocity.magnitude * 10000f) / 100f) + "";
     }
 }

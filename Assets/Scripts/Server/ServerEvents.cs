@@ -45,7 +45,7 @@ public class ServerEvents : MonoBehaviour
     public void update(string clientID, string position, string rotation){
         if(int.Parse(clientID) != serverComm.ID){
             int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
-            Debug.Log(clientID);
+            //Debug.Log(clientID);
             pastTargetPositions[playerIndex] = targetPositions[playerIndex];
             targetPositions[playerIndex] = parseVector3(position);
             clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);

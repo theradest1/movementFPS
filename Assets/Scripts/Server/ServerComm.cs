@@ -38,7 +38,7 @@ public class ServerComm : MonoBehaviour
         catch(Exception e){
             Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
-        ID = join("User" + MainMenu.username);
+        ID = join(MainMenu.username);
         Debug.Log("User ID: " + ID);
         InvokeRepeating("runServerUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);

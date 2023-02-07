@@ -4,7 +4,7 @@ const { send } = require('process');
 const server = dgram.createSocket('udp4');
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 3;
+const maxChecksBeforeDisconnect = 50;
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 
@@ -21,6 +21,11 @@ server.on('error', (err) => {
 
 server.on('message', (msg, senderInfo) => {
 	msg = msg + "";
+	console.log("---------------------");
+	console.log("Message: " + msg);
+	console.log("Port: " + senderInfo.port);
+	console.log("Address: " + senderInfo.address);
+	console.log("---------------------");
 	eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
 });
 

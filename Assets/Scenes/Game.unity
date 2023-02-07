@@ -538,6 +538,8 @@ MonoBehaviour:
   movementScript: {fileID: 1360005020}
   lookScript: {fileID: 963194229}
   jumping: 0
+  shooting: 0
+  aiming: 0
 --- !u!4 &331435470
 Transform:
   m_ObjectHideFlags: 0
@@ -602,6 +604,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b3db56ddc763d24a85b1c5b454ed6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &417303071
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 417303073}
+  - component: {fileID: 417303072}
+  m_Layer: 0
+  m_Name: ak
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &417303072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417303071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727181ed3682b894a8c57d28dff64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 30
+  cooldown: 0.1
+  shootSound: 0
+  reloadSound: 0
+  reloadTime: 0
+  clipSize: 0
+  recoilHorizontal: 0
+  recoilVertical: 0
+--- !u!4 &417303073
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417303071}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7923317, y: 17.135958, z: -1.3132153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &508172593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,6 +1625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1360005022}
   - component: {fileID: 1360005020}
+  - component: {fileID: 1360005023}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1590,25 +1645,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d77ae0456d02e04ebd8e1bbfa0546f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.15
-  jumpPower: 0.015
+  speed: 0.2
+  jumpPower: 7
   stopSpeedGround: 40
-  stopSpeedAir: 49.7
+  stopSpeedAir: 49.9
   groundCheck: {fileID: 19522334}
   groundMask:
     serializedVersion: 2
     m_Bits: 192
   isGrounded: 1
   controlsManagerScript: {fileID: 331435469}
-  gravity: -0.04
-  velocity: {x: -0.00000080763516, y: -0.015379209, z: -0.00000043159724}
+  gravity: -15
+  velocity: {x: -0.0000000025886187, y: -7.1889625, z: 5.165585e-10}
   velocityText: {fileID: 859947215}
   cam: {fileID: 963194225}
   lookScript: {fileID: 963194229}
   lookSpeedHorizontal: 0.2
-  speedReductionPerDegree: 0.985
+  speedReductionPerDegree: 0.999
   minDegreesToEffectSpeed: 0.005
-  maxSpeed: 0.06
+  maxSpeed: 9999
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0
@@ -1627,6 +1682,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1360005023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360005019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8ef844e38beba44a0af5b573b32a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlsManagerScript: {fileID: 331435469}
+  guns:
+  - {fileID: 1842815992}
+  - {fileID: 417303072}
+  equippedGun: {fileID: 0}
+  cam: {fileID: 963194225}
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  cooldownTimer: 0
 --- !u!1 &1361770549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,6 +2465,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 183979845}
   m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1842815991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1842815993}
+  - component: {fileID: 1842815992}
+  m_Layer: 0
+  m_Name: sniper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1842815992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842815991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727181ed3682b894a8c57d28dff64d31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  cooldown: 2
+  shootSound: 0
+  reloadSound: 0
+  reloadTime: 0
+  clipSize: 0
+  recoilHorizontal: 0
+  recoilVertical: 0
+--- !u!4 &1842815993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842815991}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7923317, y: 17.135958, z: -1.3132153}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085856442
 GameObject:
