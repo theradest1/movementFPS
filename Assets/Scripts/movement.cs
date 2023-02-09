@@ -55,15 +55,15 @@ public class movement : MonoBehaviour
         }
 
         if(isGrounded){
-            velocity += speed * transform.right * moveDirection.x;
-            velocity += speed * transform.forward * moveDirection.y;
+            velocity += speed * transform.right * moveDirection.x * Time.deltaTime;
+            velocity += speed * transform.forward * moveDirection.y * Time.deltaTime;
         }
         else{
             velocity.y += gravity * Time.deltaTime;
             velocity = Quaternion.AngleAxis(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal, Vector3.up) * velocity;
-            if(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * Time.deltaTime > minDegreesToEffectSpeed){
-                velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);
-            }
+            //if(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * Time.deltaTime > minDegreesToEffectSpeed){
+            //    velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);
+            //}
             
         }
         
@@ -72,12 +72,12 @@ public class movement : MonoBehaviour
 
     void FixedUpdate() {
         if(!isGrounded){
-            velocity.x *= stopSpeedAir * Time.fixedDeltaTime;
-            velocity.z *= stopSpeedAir * Time.fixedDeltaTime;
+            velocity.x *= stopSpeedAir;
+            velocity.z *= stopSpeedAir;
         }
         else{
-            velocity.x *= stopSpeedGround * Time.fixedDeltaTime;
-            velocity.z *= stopSpeedGround * Time.fixedDeltaTime;
+            velocity.x *= stopSpeedGround;
+            velocity.z *= stopSpeedGround;
         }
     }
 

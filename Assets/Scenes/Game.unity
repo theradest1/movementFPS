@@ -1813,10 +1813,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d77ae0456d02e04ebd8e1bbfa0546f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.2
+  speed: 70
   jumpPower: 7
-  stopSpeedGround: 40
-  stopSpeedAir: 49.9
+  stopSpeedGround: 0.85
+  stopSpeedAir: 0.999
   groundCheck: {fileID: 19522334}
   groundMask:
     serializedVersion: 2
