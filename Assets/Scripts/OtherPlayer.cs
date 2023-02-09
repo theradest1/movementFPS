@@ -9,6 +9,7 @@ public class OtherPlayer : MonoBehaviour
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
     GameObject playerCam;
+    public float health = 100f;
 
     public void setUsername(string usrname){
         usernameText.text = usrname;
