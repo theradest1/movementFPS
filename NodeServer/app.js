@@ -2,6 +2,7 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
+const validCommands = ['u', 'newClient'];
 currentID = 0;
 
 const maxChecksBeforeDisconnect = 3;
@@ -27,7 +28,12 @@ server.on('message', (msg, senderInfo) => {
 	console.log("Address: " + senderInfo.address);
 	console.log("---------------------");
 	try {
-		eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
+		if(validCommands.includes(msg.split("~")[0])){
+			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
+		}
+		else{
+			console.warn("Unknown command (prob from a dumb bot, but maybe not)")
+		}
 	} catch (error) {
 		console.error(error);
 	}
