@@ -6,6 +6,7 @@ public class GunScript : MonoBehaviour
 {
     public float damage;
     public float cooldown;
+    public float bulletTravelSpeed;
     public int shootSound;
     public int reloadSound;
     public float reloadTime;

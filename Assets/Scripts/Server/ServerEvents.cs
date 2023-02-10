@@ -13,6 +13,7 @@ public class ServerEvents : MonoBehaviour
     public GameObject clientPrefab;
     public PlayerManager playerManager;
     float startTime;
+    public GameObject bulletPrefab;
 
     public void recieveEvent(string message){
         Debug.Log("Event recieved: " + message);
@@ -56,6 +57,13 @@ public class ServerEvents : MonoBehaviour
         }
         else{
             playerManager.changeHealth(float.Parse(damage));
+        }
+    }
+
+    public void spawnBullet(string senderID, string position, string rotation, string travelSpeed){
+        if(int.Parse(senderID) != serverComm.ID){
+            GameObject bullet = Instantiate(bulletPrefab, parseVector3(position), parseQuaternion(rotation));
+            bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false);
         }
     }
 

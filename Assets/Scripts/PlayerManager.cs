@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
         healthSlider.value = health/maxHealth;
         healthText.text = Mathf.Round(health) + "/100";
         if(health == 0f){
-            transform.position = new Vector3(0f, 20f, 0f);
+            transform.position = new Vector3(Random.Range(-20f, 20f), 20f, Random.Range(-20f, 20f));
             serverEvents.sendEvent("universalEvent", "damage", serverComm.ID + "~" + -100);
         }
     }
