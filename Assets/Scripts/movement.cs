@@ -61,6 +61,9 @@ public class movement : MonoBehaviour
         else{
             velocity.y += gravity * Time.deltaTime;
             velocity = Quaternion.AngleAxis(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal, Vector3.up) * velocity;
+            if(transform.position.y < -100){
+                transform.position = new Vector3(0f, 20f, 0f);
+            }
             //if(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * Time.deltaTime > minDegreesToEffectSpeed){
             //    velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);
             //}
