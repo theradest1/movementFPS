@@ -20,22 +20,29 @@ server.on('error', (err) => {
 	//server.close();
 });
 
-server.on('message', (msg, senderInfo) => {
-	msg = msg + "";
+function logSenderInfo(msg, senderInfo){
 	console.log("---------------------");
+	console.log("Date/Time: " + Date());
 	console.log("Message: " + msg);
 	console.log("Port: " + senderInfo.port);
 	console.log("Address: " + senderInfo.address);
-	console.log("---------------------");
+}
+
+server.on('message', (msg, senderInfo) => {
+	msg = msg + "";
 	try {
 		if(validCommands.includes(msg.split("~")[0])){
 			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
 		}
 		else{
-			console.warn("Unknown command (prob from a dumb bot, but maybe not)")
+			logSenderInfo(msg, senderInfo);
+			console.warn("Unknown command (prob from a dumb bot, but maybe not)");
+			console.log("---------------------");
 		}
 	} catch (error) {
+		logSenderInfo(msg, senderInfo);
 		console.error(error);
+		console.log("---------------------");
 	}
 });
 
@@ -79,7 +86,10 @@ function newClient(info, senderPort, senderAddress){
 	splitInfo = info.split("~");
 
 	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]); //move to top when done tetsting to get rid of ghost player
-	console.log("New client: " + currentID);
+	console.log("---------------------");
+	console.log("Date/Time: " + Date());
+	console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
+	console.log("---------------------");
 	//console.log(info);
 
 	allPlayerJoinInfo = "";
@@ -103,9 +113,8 @@ function addEventToAll(eventString){
 }
 
 function u(info, senderPort, senderAddress){
-	//sleep(500);
 	splitInfo = info.split("~")
-	//console.log(splitInfo[1]);
+	console.log("Player with ID " + splitInfo[1] + " updated");
 	transformsToSend = "";
 	for(playerIndex in currentPlayerIDs){
 		transformsToSend += "u~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
