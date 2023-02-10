@@ -113,9 +113,9 @@ public class ServerComm : MonoBehaviour
                         }
                         break;
                     case "sound":
-                        if(int.Parse(splitRawEvents[1]) != ID){
+                        //if(int.Parse(splitRawEvents[1]) != ID){
                             serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
-                        }
+                        //}
                         break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);

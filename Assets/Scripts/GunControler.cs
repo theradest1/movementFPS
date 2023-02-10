@@ -46,7 +46,7 @@ public class GunControler : MonoBehaviour
         if(controlsManagerScript.shooting && cooldownTimer <= 0f){
             cooldownTimer = equippedGun.cooldown;
             serverEvents.sendEvent("universalEvent", "sound", "0~" + equippedGun.transform.position + "~1~1");
-            soundManager.playSound(0, equippedGun.transform.position, 1f, 1f);
+            //soundManager.playSound(0, equippedGun.transform.position, 1f, 1f);
             serverEvents.sendEvent("universalEvent", "spawnBullet", equippedGun.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
             GameObject bullet = Instantiate(bulletPrefab, equippedGun.transform.position, equippedGun.transform.rotation);
             bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true);

@@ -611,6 +611,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - {fileID: 8300000, guid: 1b766da7cc2d648aa84e36cb5fe8abcb, type: 3}
+  - {fileID: 8300000, guid: d3247579c549643a5b3a95f9224eaf3c, type: 3}
+  - {fileID: 8300000, guid: 062aac8f0463d7945a5a16732efbea51, type: 3}
+  - {fileID: 8300000, guid: 8c2c6c300bd8fc441878f426377bec64, type: 3}
+  - {fileID: 8300000, guid: e331a9e83f5b77e49bd9efba1b2c2fd9, type: 3}
+  - {fileID: 8300000, guid: f8e559768bed7ed4680ab0449da7ec3a, type: 3}
   audioSourcePrefab: {fileID: 2954496176510275675, guid: f0d8917a075b2b94e95b94df000bc8d9, type: 3}
 --- !u!1 &417303071
 GameObject:
@@ -1845,6 +1850,9 @@ MonoBehaviour:
   speedReductionPerDegree: 0.999
   minDegreesToEffectSpeed: 0.005
   maxSpeed: 9999
+  footstepInterval: 1
+  lastFootstepPos: {x: 0, y: 0}
+  serverEvents: {fileID: 331435472}
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0

@@ -29,6 +29,11 @@ public class movement : MonoBehaviour
     public float minDegreesToEffectSpeed;
     public float maxSpeed;
 
+    public float footstepInterval;
+    //public float footstepPitchMultiplier;
+    public Vector2 lastFootstepPos;
+
+    public ServerEvents serverEvents;
 
     void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
@@ -46,6 +51,11 @@ public class movement : MonoBehaviour
         //isGrounded = Physics.CheckSphere(groundCheck.position, .5f, groundMask);
         //bool colliding = Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask);
         //Debug.Log("Colliding: " + colliding);
+        
+        if(Vector2.Distance(lastFootstepPos, new Vector2(transform.position.x, transform.position.z)) >= footstepInterval && isGrounded){
+            lastFootstepPos = new Vector2(transform.position.x, transform.position.z);
+            serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, ~" + transform.position + "~1~1");
+        }
 
         Vector2 moveDirection = controlsManagerScript.moveDirection;
 

@@ -11,7 +11,7 @@ public class SoundPlayer : MonoBehaviour
         source.pitch = pitch;
         source.volume = volume;
         source.Play();
-        Invoke("destroy()", clip.length);
+        Invoke("destroy", clip.length);
     }
 
     void destroy(){
