@@ -121,8 +121,8 @@ function newClient(info, senderPort, senderAddress){
 }
 
 function universalEvent(info, senderPort, senderAddress){
-	server.send(currentID + "", senderPort, senderAddress);
 	splitInfo = info.split("~");
+	addEventToAll(info.slice(1, splitInfo.length));
 }
 
 function u(info, senderPort, senderAddress){

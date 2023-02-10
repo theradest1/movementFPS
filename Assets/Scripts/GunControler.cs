@@ -12,6 +12,7 @@ public class GunControler : MonoBehaviour
     public GameObject cam;
     public LayerMask playerMask;
     public float cooldownTimer;
+    public ServerEvents serverEvents;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class GunControler : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, playerMask)){
                 Debug.Log("Hit player with ID " + hit.transform.gameObject.name);
+                serverEvents.sendEvent("universalEvent", "damage", hit.transform.gameObject.name + "~" + equippedGun.damage);
             }
         }
     }

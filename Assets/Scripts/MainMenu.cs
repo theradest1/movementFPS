@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public static int port = 4000;
     //public static int clientPort = 5000;
-    public static string address = "localhost";//"192.168.0.50";
+    public static string address = "192.168.0.50";
     public static string username = "joe";
     public int usernameLengthLimit;
 

@@ -1875,6 +1875,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   cooldownTimer: 0
+  serverEvents: {fileID: 331435472}
 --- !u!114 &1360005024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2795,7 +2796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 727181ed3682b894a8c57d28dff64d31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 69
   cooldown: 2
   shootSound: 0
   reloadSound: 0
