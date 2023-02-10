@@ -5,11 +5,13 @@ using UnityEngine;
 public class ServerEvents : MonoBehaviour
 {
     public List<GameObject> clientObjects;
+    public List<OtherPlayer> clientScripts;
     public List<int> clientIDs;
     public List<Vector3> targetPositions;
     public List<Vector3> pastTargetPositions;
     public ServerComm serverComm;
     public GameObject clientPrefab;
+    public PlayerManager playerManager;
     float startTime;
 
     public void recieveEvent(string message){
@@ -28,6 +30,7 @@ public class ServerEvents : MonoBehaviour
         newClientObject.name = newClientID;
         newClientObject.GetComponent<OtherPlayer>().setUsername(newCleintUsername);
         clientObjects.Add(newClientObject);
+        clientScripts.Add(newClientObject.GetComponent<OtherPlayer>());
         clientIDs.Add(int.Parse(newClientID));
         Debug.Log("New player's ID: " + int.Parse(newClientID));
         pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
@@ -42,10 +45,18 @@ public class ServerEvents : MonoBehaviour
         targetPositions.RemoveAt(playerIndex);
         Destroy(clientObjects[playerIndex]);
         clientObjects.RemoveAt(playerIndex);
+        clientScripts.RemoveAt(playerIndex);
     }
 
     public void damage(string attackerID, string victimID, string damage){
-        Debug.Log("Player with ID " + attackerID + " attacked player with ID " + victimID + " for " + damage + " damage.");
+        //Debug.Log("Player with ID " + attackerID + " attacked player with ID " + victimID + " for " + damage + " damage.");
+        if(int.Parse(victimID) != serverComm.ID){
+            int victimIndex = clientIDs.IndexOf(int.Parse(victimID));
+            clientScripts[victimIndex].changeHealth(float.Parse(damage));
+        }
+        else{
+            playerManager.changeHealth(float.Parse(damage));
+        }
     }
 
     public void update(string clientID, string position, string rotation){
@@ -76,13 +87,9 @@ public class ServerEvents : MonoBehaviour
 
     void Update(){
         float percentDone = (Time.time - startTime) / serverComm.updateSpeed;
-        //Debug.Log("Percent: " + percentDone);
-        //Debug.Log("Time Difference: " + (Time.time - startTime));
-        //Debug.Log("Start timer: " + startTime);
 
         for(int i = 0; i < clientObjects.Count; i++){
             clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
-            //Debug.Log("Past pos: " + pastTargetPositions[i] + "  CurrentTargetPos: " + targetPositions[i]);
         }
     }
 }

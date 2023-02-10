@@ -104,6 +104,7 @@ public class ServerComm : MonoBehaviour
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
                     case "damage":
+                        Debug.Log(rawEvents[i]);
                         serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
                         break;
                     default:

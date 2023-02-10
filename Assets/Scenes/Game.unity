@@ -588,11 +588,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clientObjects: []
+  clientScripts: []
   clientIDs: 
   targetPositions: []
   pastTargetPositions: []
   serverComm: {fileID: 331435471}
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
+  playerManager: {fileID: 1360005024}
 --- !u!114 &331435473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,8 +1869,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlsManagerScript: {fileID: 331435469}
   guns:
-  - {fileID: 1842815992}
   - {fileID: 417303072}
+  - {fileID: 1842815992}
   equippedGun: {fileID: 0}
   cam: {fileID: 963194225}
   playerMask:
@@ -1892,6 +1894,8 @@ MonoBehaviour:
   maxHealth: 100
   healthText: {fileID: 1910368291}
   healthSlider: {fileID: 1003322799}
+  serverEvents: {fileID: 331435472}
+  serverComm: {fileID: 331435471}
 --- !u!1 &1361770549
 GameObject:
   m_ObjectHideFlags: 0
