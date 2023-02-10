@@ -15,14 +15,10 @@ public class ServerEvents : MonoBehaviour
     float startTime;
     public GameObject bulletPrefab;
 
-    public void recieveEvent(string message){
-        Debug.Log("Event recieved: " + message);
-    }
-
     public void sendEvent(string eventType, string eventName, string eventInfo){
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
         serverComm.send(eventToSend);
-        Debug.Log("Send event: " + eventToSend);
+        //Debug.Log("Send event: " + eventToSend);
     }
 
     public void newClient(string newClientID, string newCleintUsername){

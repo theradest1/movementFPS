@@ -123,7 +123,7 @@ function newClient(info, senderPort, senderAddress){
 function universalEvent(info, senderPort, senderAddress){
 	splitInfo = info.split("~");
 	newEvent = info.substring(splitInfo[0].length + 1, info.length);
-	console.log(newEvent);
+	//console.log(newEvent);
 	addEventToAll(newEvent);
 }
 
