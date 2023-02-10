@@ -17,8 +17,9 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
-        serverComm.send(eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo);
-        Debug.Log("Send event: " + eventType + "~" + serverComm.ID + "~" + eventInfo);
+        string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
+        serverComm.send(eventToSend);
+        Debug.Log("Send event: " + eventToSend);
     }
 
     public void newClient(string newClientID, string newCleintUsername){

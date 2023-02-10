@@ -88,7 +88,6 @@ public class ServerComm : MonoBehaviour
         serverEvents.resetSmoothTimer();
         
         //Debug.Log("___________________________________________");
-        //Debug.Log("Events recieved: " + info);
         string[] rawEvents = info.Split('|');
         for(int i = 0; i < rawEvents.Length; i++){
             if(rawEvents[i] != ""){
@@ -109,6 +108,7 @@ public class ServerComm : MonoBehaviour
                         break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
+                        Debug.Log("Message recieved: " + info);
                         break;
                 }
             }
