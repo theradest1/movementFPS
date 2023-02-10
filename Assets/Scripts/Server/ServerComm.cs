@@ -21,6 +21,7 @@ public class ServerComm : MonoBehaviour
     //public int CLIENTPORT;
     public string SERVERADDRESS;
     public TextMeshProUGUI PPSText;
+    public TextMeshProUGUI latencyText;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,7 @@ public class ServerComm : MonoBehaviour
         }
         ID = join(MainMenu.username);
         Debug.Log("User ID: " + ID);
-        InvokeRepeating("runServerUpdate", .1f, updateSpeed);
+        InvokeRepeating("serverUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);
     }
 
@@ -62,17 +63,10 @@ public class ServerComm : MonoBehaviour
         throughPackets = 0;
     }
 
-    void Update() {
-    }
-
     public void send(string message){
         byte[] sendBytes = Encoding.ASCII.GetBytes(message);
         client.Send(sendBytes, sendBytes.Length);
         throughPackets++;
-    }
-
-    void runServerUpdate(){
-        serverUpdate();
     }
 
     async void serverUpdate()
@@ -85,7 +79,11 @@ public class ServerComm : MonoBehaviour
 
         //recieve
         byte[] receiveBytes = new byte[0];
+        
+        float latencyTimer = Time.time;
         await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
+        latencyText.text = "Latency: " + Mathf.Round((Time.time - latencyTimer) * 1000f);
+
         info = Encoding.ASCII.GetString(receiveBytes);
         serverEvents.resetSmoothTimer();
         
@@ -110,14 +108,7 @@ public class ServerComm : MonoBehaviour
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
                         break;
                 }
-                
             }
         }
-        //yield return null; 
-
     }
-
-    //byte[] waitForResponse(ref remoteEndPoint){
-
-    //}
 }

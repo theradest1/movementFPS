@@ -2,10 +2,10 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
-const validCommands = ['u', 'newClient'];
+const validCommands = ['u', 'newClient', 'universalEvent', 'soloEvent'];
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 3;
+const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 
@@ -17,16 +17,13 @@ eventsToSend = []; //events that que up untill the client calls an update, where
 
 server.on('error', (err) => {
 	console.log(`server error:\n${err.stack}`);
-	//server.close();
+	server.close();
 });
 
-function logSenderInfo(msg, senderInfo){
-	console.log("---------------------");
-	console.log("Date/Time: " + Date());
-	console.log("Message: " + msg);
-	console.log("Port: " + senderInfo.port);
-	console.log("Address: " + senderInfo.address);
-}
+server.on('listening', () => {
+	const address = server.address();
+	console.log(`server listening on ${address.address}:${address.port}`);
+});
 
 server.on('message', (msg, senderInfo) => {
 	msg = msg + "";
@@ -46,13 +43,15 @@ server.on('message', (msg, senderInfo) => {
 	}
 });
 
+
+//Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
 	/*console.log("___________________________________________")
 	console.log("Transforms: ");
 	console.log(playerTransformInfo);
 	console.log("Current player IDs: ");
 	console.log(currentPlayerIDs);
-	console.log("Player disconnect timers: ");
+	console.log("Player disconnect timers: ");       //this basically debugs everything in one second intervals
 	console.log(playerDisconnectTimers);
 	console.log("Player usernames: ");
 	console.log(playerInfo);
@@ -78,14 +77,29 @@ function checkDisconnectTimers(){
 			delete eventsToSend[playerIndex];
 		}
 	}	
-
 }
 
+function addEventToAll(eventString){
+	for(eventsToSendID in eventsToSend){
+		eventsToSend[eventsToSendID] += eventString + "|";
+	}
+}
+
+function logSenderInfo(msg, senderInfo){
+	console.log("---------------------");
+	console.log("Date/Time: " + Date());
+	console.log("Message: " + msg);
+	console.log("Port: " + senderInfo.port);
+	console.log("Address: " + senderInfo.address);
+}
+
+
+//Client functions -----------------------------------------------------------------------------
 function newClient(info, senderPort, senderAddress){
 	server.send(currentID + "", senderPort, senderAddress);
 	splitInfo = info.split("~");
 
-	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]); //move to top when done tetsting to get rid of ghost player
+	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
 	console.log("---------------------");
 	console.log("Date/Time: " + Date());
 	console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
@@ -106,10 +120,9 @@ function newClient(info, senderPort, senderAddress){
 	currentID++;
 }
 
-function addEventToAll(eventString){
-	for(eventsToSendID in eventsToSend){
-		eventsToSend[eventsToSendID] += eventString + "|";
-	}
+function universalEvent(info, senderPort, senderAddress){
+	server.send(currentID + "", senderPort, senderAddress);
+	splitInfo = info.split("~");
 }
 
 function u(info, senderPort, senderAddress){
@@ -130,18 +143,5 @@ function u(info, senderPort, senderAddress){
 		console.log("ERROR: player with ID " + splitInfo[1] + " is not currently in the game but tried to update transform");
 	}
 }
-
-function sleep(milliseconds) { //for debuging
-	const date = Date.now();
-	let currentDate = null;
-	do {
-		currentDate = Date.now();
-	} while (currentDate - date < milliseconds);
-}
-
-server.on('listening', () => {
-	const address = server.address();
-	console.log(`server listening on ${address.address}:${address.port}`);
-});
 
 server.bind(4000);
