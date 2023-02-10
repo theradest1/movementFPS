@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
+    public List<AudioClip> sounds;
+    public GameObject audioSourcePrefab;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void playSound(int clipID, Vector3 position, float volume, float pitch){
+        GameObject soundObject = Instantiate(audioSourcePrefab, position, Quaternion.identity);
+        soundObject.GetComponent<SoundPlayer>().playSound(sounds[clipID], volume, pitch);
     }
 }

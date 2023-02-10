@@ -14,11 +14,12 @@ public class ServerEvents : MonoBehaviour
     public PlayerManager playerManager;
     float startTime;
     public GameObject bulletPrefab;
+    public SoundManager soundManager;
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
         serverComm.send(eventToSend);
-        //Debug.Log("Send event: " + eventToSend);
+        Debug.Log("Send event: " + eventToSend);
     }
 
     public void newClient(string newClientID, string newCleintUsername){
@@ -57,10 +58,12 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void spawnBullet(string senderID, string position, string rotation, string travelSpeed){
-        if(int.Parse(senderID) != serverComm.ID){
-            GameObject bullet = Instantiate(bulletPrefab, parseVector3(position), parseQuaternion(rotation));
-            bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false);
-        }
+        GameObject bullet = Instantiate(bulletPrefab, parseVector3(position), parseQuaternion(rotation));
+        bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false);
+    }
+
+    public void playSound(string clipID, string position, string volume, string pitch){
+        soundManager.playSound(int.Parse(clipID), parseVector3(position), float.Parse(volume), float.Parse(pitch));
     }
 
     public void update(string clientID, string position, string rotation){

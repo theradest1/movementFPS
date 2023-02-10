@@ -21,6 +21,7 @@ public class GunControler : MonoBehaviour
     public GameObject bulletPrefab;
     public float maxGunRotation;
     public float minAimDistance;
+    public SoundManager soundManager;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +45,8 @@ public class GunControler : MonoBehaviour
         cooldownTimer -= Time.deltaTime;
         if(controlsManagerScript.shooting && cooldownTimer <= 0f){
             cooldownTimer = equippedGun.cooldown;
+            serverEvents.sendEvent("universalEvent", "sound", "0~" + equippedGun.transform.position + "~1~1");
+            soundManager.playSound(0, equippedGun.transform.position, 1f, 1f);
             serverEvents.sendEvent("universalEvent", "spawnBullet", equippedGun.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
             GameObject bullet = Instantiate(bulletPrefab, equippedGun.transform.position, equippedGun.transform.rotation);
             bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true);

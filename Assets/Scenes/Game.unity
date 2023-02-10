@@ -596,6 +596,7 @@ MonoBehaviour:
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
   playerManager: {fileID: 1360005024}
   bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
+  soundManager: {fileID: 331435473}
 --- !u!114 &331435473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +609,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b3db56ddc763d24a85b1c5b454ed6bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sounds:
+  - {fileID: 8300000, guid: 1b766da7cc2d648aa84e36cb5fe8abcb, type: 3}
+  audioSourcePrefab: {fileID: 2954496176510275675, guid: f0d8917a075b2b94e95b94df000bc8d9, type: 3}
 --- !u!1 &417303071
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,7 +1895,8 @@ MonoBehaviour:
   gunTravelSpeed: 50
   bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
   maxGunRotation: 5
-  minAimDistance: 2
+  minAimDistance: 8
+  soundManager: {fileID: 331435473}
 --- !u!114 &1360005024
 MonoBehaviour:
   m_ObjectHideFlags: 0
