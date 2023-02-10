@@ -5,7 +5,7 @@ const server = dgram.createSocket('udp4');
 const validCommands = ['u', 'newClient', 'universalEvent', 'soloEvent'];
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
+const maxChecksBeforeDisconnect = 50; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 

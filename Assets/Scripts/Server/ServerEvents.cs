@@ -17,7 +17,7 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void sendEvent(string eventType, string eventInfo){
-        serverComm.send(eventType + "~" + eventInfo);
+        serverComm.send(eventType + "~" + serverComm.ID + "~" + eventInfo);
     }
 
     public void newClient(string newClientID, string newCleintUsername){
@@ -40,6 +40,10 @@ public class ServerEvents : MonoBehaviour
         targetPositions.RemoveAt(playerIndex);
         Destroy(clientObjects[playerIndex]);
         clientObjects.RemoveAt(playerIndex);
+    }
+
+    public void damage(string attackerID, string victimID, string damage){
+        Debug.Log("Player with ID " + attackerID + " attacked player with ID " + victimID + " for " + damage + " damage.");
     }
 
     public void update(string clientID, string position, string rotation){

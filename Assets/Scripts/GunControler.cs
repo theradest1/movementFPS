@@ -27,7 +27,7 @@ public class GunControler : MonoBehaviour
             cooldownTimer = equippedGun.cooldown;
             RaycastHit hit;
             if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, playerMask)){
-                Debug.Log("Hit");
+                Debug.Log("Hit player with ID " + hit.transform.gameObject.name);
             }
         }
     }

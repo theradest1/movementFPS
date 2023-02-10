@@ -104,6 +104,9 @@ public class ServerComm : MonoBehaviour
                     case "removeClient":
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
+                    case "damage":
+                        serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
+                        break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
                         break;
