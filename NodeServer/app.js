@@ -127,7 +127,7 @@ function universalEvent(info, senderPort, senderAddress){
 
 function u(info, senderPort, senderAddress){
 	splitInfo = info.split("~")
-	console.log("Player with ID " + splitInfo[1] + " updated");
+	//console.log("Player with ID " + splitInfo[1] + " updated");
 	transformsToSend = "";
 	for(playerIndex in currentPlayerIDs){
 		transformsToSend += "u~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
