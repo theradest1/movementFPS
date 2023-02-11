@@ -54,7 +54,7 @@ public class movement : MonoBehaviour
         
         if(Vector2.Distance(lastFootstepPos, new Vector2(transform.position.x, transform.position.z)) >= footstepInterval && isGrounded){
             lastFootstepPos = new Vector2(transform.position.x, transform.position.z);
-            serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, ~" + transform.position + "~1~1");
+            serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
         Vector2 moveDirection = controlsManagerScript.moveDirection;

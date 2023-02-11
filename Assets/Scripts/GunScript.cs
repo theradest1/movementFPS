@@ -10,6 +10,7 @@ public class GunScript : MonoBehaviour
     public int shootSound;
     public int reloadSound;
     public float reloadTime;
+    public int bulletsInClip;
     public int clipSize;
     public float recoilHorizontal;
     public float recoilVertical;

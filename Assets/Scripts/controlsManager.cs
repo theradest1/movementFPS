@@ -13,6 +13,7 @@ public class controlsManager : MonoBehaviour
     public bool jumping;
     public bool shooting;
     public bool aiming;
+    public bool reloading;
 
     private void Awake() {
         playerControls = new PlayerControls();
@@ -35,5 +36,6 @@ public class controlsManager : MonoBehaviour
         jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
         shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
         aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
+        reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
     }
 }

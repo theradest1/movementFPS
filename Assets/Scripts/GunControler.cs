@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GunControler : MonoBehaviour
 {
@@ -22,6 +23,10 @@ public class GunControler : MonoBehaviour
     public float maxGunRotation;
     public float minAimDistance;
     public SoundManager soundManager;
+    public bool reloading;
+    public float reloadingTimer;
+    public TextMeshProUGUI bulletsInClipText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,19 +48,34 @@ public class GunControler : MonoBehaviour
         }
 
         cooldownTimer -= Time.deltaTime;
-        if(controlsManagerScript.shooting && cooldownTimer <= 0f){
-            cooldownTimer = equippedGun.cooldown;
-            serverEvents.sendEvent("universalEvent", "sound", "0~" + equippedGun.transform.position + "~1~1");
-            //soundManager.playSound(0, equippedGun.transform.position, 1f, 1f);
+        reloadingTimer -= Time.deltaTime;
+        if(controlsManagerScript.shooting && cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
+
+            //events
+            serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
             serverEvents.sendEvent("universalEvent", "spawnBullet", equippedGun.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
+
+            reloading = false;
+            equippedGun.bulletsInClip -= 1;
+            bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
+            cooldownTimer = equippedGun.cooldown;
+            
+            //bullet
             GameObject bullet = Instantiate(bulletPrefab, equippedGun.transform.position, equippedGun.transform.rotation);
             bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true);
-            gunContainer.transform.rotation *= Quaternion.Euler(-equippedGun.recoilVertical, 0f, 0f);
-            gunContainer.transform.rotation *= Quaternion.Euler(Random.Range(-equippedGun.recoilHorizontal, equippedGun.recoilHorizontal), 0f, 0f);
-            //if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity, playerMask)){
-            //    Debug.Log("Hit player with ID " + hit.transform.gameObject.name);
-            //    serverEvents.sendEvent("universalEvent", "damage", hit.transform.gameObject.name + "~" + equippedGun.damage);
-            //}
+        }
+
+        if(reloading && reloadingTimer <= 0f){
+            reloading = false;
+            equippedGun.bulletsInClip = equippedGun.clipSize;
+            bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
+        }
+
+        if(controlsManagerScript.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
+            reloading = true;
+            bulletsInClipText.text = "--/" + equippedGun.clipSize;
+            serverEvents.sendEvent("universalEvent", "sound", equippedGun.reloadSound + "~" + equippedGun.transform.position + "~1~1");
+            reloadingTimer = equippedGun.reloadTime;
         }
     }
 }
