@@ -15,24 +15,36 @@ public class BulletScript : MonoBehaviour
     public float fakeBulletAccuracy;
     public float minFinalDistance;
     bool destroyed = false;
+    public float bulletHoleLife;
+    GameObject bulletHole;
+    public GameObject bulletHolePrefab;
+    float travelSpeed;
+    Vector3 travelDirection;
+    public float timeBeforeDestroyFake;
+    GameObject flash;
+    public float flashTime;
 
-    public void goTo(float travelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
+    public void goTo(float giveTravelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
         //currentTravelSpeed = travelSpeed;
-        rb.velocity = transform.forward * travelSpeed;
+        travelSpeed = giveTravelSpeed;
+        rb.velocity = transform.forward * giveTravelSpeed;
         serverEvents = givenServerEvents;
         damage = givenDamage;
         doesDamage = givenDoesDamage;
         fakeBullet = giveFakeBullet;
+        travelDirection = transform.forward;
+
     }
 
     void Start(){
         Invoke("destroy", lifeTime);
+        flash = transform.GetChild(0).gameObject;
+        Destroy(flash, flashTime);
     }
 
     void destroy(){
         Destroy(rb);
         destroyed = true;
-        
     }
 
     // Update is called once per frame
@@ -40,16 +52,26 @@ public class BulletScript : MonoBehaviour
     {
         fakeBullet.transform.position = Vector3.Lerp(fakeBullet.transform.position, transform.position, fakeBulletAccuracy * Time.deltaTime);
 
-        if(destroyed && Vector3.Distance(fakeBullet.transform.position, transform.position) < minFinalDistance){
-            Destroy(fakeBullet);
-            Destroy(this.gameObject);
+        if(destroyed){
+            this.transform.position += travelDirection * travelSpeed * Time.deltaTime;
+        }
+
+        if(destroyed){
+            Destroy(fakeBullet, timeBeforeDestroyFake);
+            //this.gameObject.SetActive(false);
+            Destroy(bulletHole, bulletHoleLife);
+            Destroy(this.gameObject, bulletHoleLife + .1f);
         }
     }
 
-    void OnTriggerEnter(Collider coll) {
+    void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer == 7 && doesDamage){
-            Debug.Log("Hit game object: " + coll.gameObject.name);
+            //Debug.Log("Hit game object: " + coll.gameObject.name);
             serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
+        }
+        else{
+            bulletHole = Instantiate(bulletHolePrefab, coll.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, coll.contacts[0].normal));
+            bulletHole.transform.RotateAround(bulletHole.transform.position, coll.contacts[0].normal, Random.Range(0f, 360f));
         }
         destroy();
     }

@@ -42,7 +42,7 @@ public class GunControler : MonoBehaviour
         gunContainer.transform.position = Vector3.Lerp(gunContainer.transform.position, cam.transform.position, gunTravelSpeed * Time.deltaTime);
         gunContainer.transform.rotation = Quaternion.Slerp(gunContainer.transform.rotation, player.transform.rotation, gunRotationSpeed * Time.deltaTime);
         equippedGun.transform.rotation = Quaternion.Slerp(equippedGun.transform.rotation, cam.transform.rotation, gunRotationSpeed * Time.deltaTime);
-        Debug.Log(cam.transform.eulerAngles);
+        //Debug.Log(cam.transform.eulerAngles);
         //if(Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask)){
         //    Quaternion rot = Quaternion.LookRotation(hit.point - equippedGun.transform.position);
         //    equippedGun.transform.rotation = Quaternion.Slerp(equippedGun.transform.rotation, rot, gunRotationSpeed * Time.deltaTime);
