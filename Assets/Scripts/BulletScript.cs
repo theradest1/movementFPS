@@ -11,30 +11,31 @@ public class BulletScript : MonoBehaviour
     public float lifeTime;
     bool doesDamage = false;
     public Rigidbody rb;
+    GameObject fakeBullet;
+    public float fakeBulletAccuracy;
 
-    public void goTo(float travelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage){
+    public void goTo(float travelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
         //currentTravelSpeed = travelSpeed;
         rb.velocity = transform.forward * travelSpeed;
         serverEvents = givenServerEvents;
         damage = givenDamage;
         doesDamage = givenDoesDamage;
+        fakeBullet = giveFakeBullet;
     }
 
     void Start(){
-        Invoke("Destroy", lifeTime);
+        Invoke("destroy", lifeTime);
     }
 
-    void Destroy(){
+    void destroy(){
+        Destroy(fakeBullet);
         Destroy(this.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //pastPos = transform.position;
-        //transform.position += transform.forward * currentTravelSpeed * Time.deltaTime;
-        //RaycastHit hi;
-        //if(Physics.Linecast(transform.position, pastPos, out hit);
+        fakeBullet.transform.position = Vector3.Lerp(fakeBullet.transform.position, transform.position, fakeBulletAccuracy * Time.deltaTime);
     }
 
     void OnTriggerEnter(Collider coll) {
@@ -42,6 +43,6 @@ public class BulletScript : MonoBehaviour
             Debug.Log("Hit game object: " + coll.gameObject.name);
             serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
         }
-        Destroy(this.gameObject);
+        destroy();
     }
 }

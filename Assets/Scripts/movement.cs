@@ -28,6 +28,7 @@ public class movement : MonoBehaviour
     public float speedReductionPerDegree;
     public float minDegreesToEffectSpeed;
     public float maxSpeed;
+    public float sprintMultiplier;
 
     public float footstepInterval;
     //public float footstepPitchMultiplier;
@@ -48,25 +49,24 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //isGrounded = Physics.CheckSphere(groundCheck.position, .5f, groundMask);
-        //bool colliding = Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask);
-        //Debug.Log("Colliding: " + colliding);
-        
+        Vector2 moveDirection = controlsManagerScript.moveDirection;
+
         if(Vector2.Distance(lastFootstepPos, new Vector2(transform.position.x, transform.position.z)) >= footstepInterval && isGrounded){
             lastFootstepPos = new Vector2(transform.position.x, transform.position.z);
             serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
-        Vector2 moveDirection = controlsManagerScript.moveDirection;
-
         if(isGrounded && controlsManagerScript.jumping){
             velocity.y = jumpPower;
-            //isGrounded = false;
         }
 
-        if(isGrounded){
+        if(isGrounded && !controlsManagerScript.sprinting){
             velocity += speed * transform.right * moveDirection.x * Time.deltaTime;
             velocity += speed * transform.forward * moveDirection.y * Time.deltaTime;
+        }
+        else if(isGrounded && controlsManagerScript.sprinting){
+            velocity += speed * transform.right * moveDirection.x * sprintMultiplier * Time.deltaTime;
+            velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * Time.deltaTime;
         }
         else{
             velocity.y += gravity * Time.deltaTime;
@@ -75,8 +75,8 @@ public class movement : MonoBehaviour
                 transform.position = new Vector3(0f, 20f, 0f);
             }
             //if(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * Time.deltaTime > minDegreesToEffectSpeed){
-            //    velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);
-            //}
+            //    velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);  //reduce speed by how much you turn while in the air 
+            //} 
             
         }
         

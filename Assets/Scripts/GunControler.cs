@@ -20,6 +20,7 @@ public class GunControler : MonoBehaviour
     public float gunRotationSpeed;
     public float gunTravelSpeed;
     public GameObject bulletPrefab;
+    public GameObject fakebulletPrefab;
     public float maxGunRotation;
     public float minAimDistance;
     public SoundManager soundManager;
@@ -61,9 +62,11 @@ public class GunControler : MonoBehaviour
             bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
             cooldownTimer = equippedGun.cooldown;
             
+            Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
             //bullet
             GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, equippedGun.transform.rotation);
-            bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true);
+            GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position, equippedGun.transform.rotation);
+            bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true, fakeBullet);
         }
 
         if(reloading && reloadingTimer <= 0f){

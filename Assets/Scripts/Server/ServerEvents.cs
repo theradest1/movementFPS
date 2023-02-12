@@ -59,7 +59,7 @@ public class ServerEvents : MonoBehaviour
 
     public void spawnBullet(string senderID, string position, string rotation, string travelSpeed){
         GameObject bullet = Instantiate(bulletPrefab, parseVector3(position), parseQuaternion(rotation));
-        bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false);
+        bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false, null);
     }
 
     public void playSound(string clipID, string position, string volume, string pitch){
