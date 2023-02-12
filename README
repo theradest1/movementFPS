@@ -1,0 +1,17 @@
+To run the server:
+  open the root folder of this in a terminal
+  cd into NodeServer
+  run 'node app.js'
+
+
+To connect with the client:
+  For running my client: 
+    https://www.dropbox.com/s/r83rmle6trjn7at/movementFPS-updater.zip?dl=1
+  
+  For running your changed client:
+    build the unity game and run it
+    change the port in the main menu to what the server is running on (look at app.js, is 4000 if you don't change it)
+    change the address in the main menu to the ip of the server
+      if it is local (not on the same machine), type 'ipconfig' on the server hoster and use the IPv4 address, or look at your router stuff
+      if it is local (and on the same machine), use 'localhost'
+      if it not local, just enter the ip address of the server
