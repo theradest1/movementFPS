@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class MainMenu : MonoBehaviour
     //public static int clientPort = 5000;
     public static string address = "localhost";//"192.168.0.50";
     public static string username = "joe";
+    public static bool inSchool = true;
     public int usernameLengthLimit;
 
     public TMP_InputField portInput;
     //public TMP_InputField clientPortInput;
     public TMP_InputField addressInput;
     public TMP_InputField usernameInput;
+    public Toggle inSchoolToggle;
 
     void Start(){
         updateInfo();
@@ -24,6 +27,7 @@ public class MainMenu : MonoBehaviour
 
     // Update is called once per frame
     public void updateInfo(){
+        inSchool = inSchoolToggle.isOn;
         string allowedChars = "1234567890abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUFWYXZ_";
 		int strLen = usernameInput.text.Length;
 		if(strLen >= 1){

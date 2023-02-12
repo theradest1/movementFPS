@@ -22,6 +22,7 @@ public class ServerComm : MonoBehaviour
     public string SERVERADDRESS;
     public TextMeshProUGUI PPSText;
     public TextMeshProUGUI latencyText;
+    bool inSchool;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class ServerComm : MonoBehaviour
         SERVERADDRESS = MainMenu.address;
         //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;
+        inSchool = MainMenu.inSchool;
 
         PPSText.text = "PPS: lots";
         try{
@@ -71,6 +73,18 @@ public class ServerComm : MonoBehaviour
 
     async void serverUpdate()
     {
+        if(inSchool){
+            try{
+                client = new UdpClient(/*CLIENTPORT*/);
+                client.Connect(SERVERADDRESS, SERVERPORT);
+                remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
+                //Debug.Log("howdy more");
+            }
+            catch(Exception e){
+                Debug.LogError("Couldn't connect, exeption: " + e.Message);
+            }
+        }
+
         string info = "";
         byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
         client.Send(sendBytes, sendBytes.Length);

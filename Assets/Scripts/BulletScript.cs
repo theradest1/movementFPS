@@ -50,10 +50,12 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        fakeBullet.transform.position = Vector3.Lerp(fakeBullet.transform.position, transform.position, fakeBulletAccuracy * Time.deltaTime);
 
         if(destroyed){
             this.transform.position += travelDirection * travelSpeed * Time.deltaTime;
+        }
+        if(fakeBullet != null){
+            fakeBullet.transform.position = Vector3.Lerp(fakeBullet.transform.position, transform.position, fakeBulletAccuracy * Time.deltaTime);
         }
 
         if(destroyed){
