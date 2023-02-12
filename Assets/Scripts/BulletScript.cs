@@ -6,12 +6,15 @@ public class BulletScript : MonoBehaviour
 {
     float currentTravelSpeed = 0f;
     ServerEvents serverEvents;
+    //Vector3 pastPos;
     float damage;
     public float lifeTime;
     bool doesDamage = false;
+    public Rigidbody rb;
 
     public void goTo(float travelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage){
-        currentTravelSpeed = travelSpeed;
+        //currentTravelSpeed = travelSpeed;
+        rb.velocity = transform.forward * travelSpeed;
         serverEvents = givenServerEvents;
         damage = givenDamage;
         doesDamage = givenDoesDamage;
@@ -28,7 +31,10 @@ public class BulletScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.forward * currentTravelSpeed * Time.deltaTime;
+        //pastPos = transform.position;
+        //transform.position += transform.forward * currentTravelSpeed * Time.deltaTime;
+        //RaycastHit hi;
+        //if(Physics.Linecast(transform.position, pastPos, out hit);
     }
 
     void OnTriggerEnter(Collider coll) {

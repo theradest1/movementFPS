@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1512663751266156881}
   - component: {fileID: 5512877873571260354}
   - component: {fileID: 6103693875184836659}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +324,7 @@ GameObject:
   - component: {fileID: 2306926375819504321}
   - component: {fileID: 6486832854800210187}
   - component: {fileID: 7333147120436451695}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513213424515866243}
   - component: {fileID: 7724480901090554960}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 6132854965544720833}
   - component: {fileID: 6132854965544720832}
   - component: {fileID: 2035460166080584835}
+  - component: {fileID: -8474614667969805789}
   m_Layer: 7
   m_Name: OtherPlayer
   m_TagString: Untagged
@@ -597,6 +598,22 @@ MonoBehaviour:
   health: 100
   maxHealth: 100
   healthSlider: {fileID: 7724480901090554960}
+--- !u!54 &-8474614667969805789
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6132854965544720835}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &6132854966944286252
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +706,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4277802510440726231}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
