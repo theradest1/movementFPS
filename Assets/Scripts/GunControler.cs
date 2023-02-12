@@ -64,8 +64,8 @@ public class GunControler : MonoBehaviour
             
             Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
             //bullet
-            GameObject bullet = Instantiate(bulletPrefab, cam.transform.position, equippedGun.transform.rotation);
-            GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position, equippedGun.transform.rotation);
+            GameObject bullet = Instantiate(bulletPrefab, cam.transform.position + cam.transform.forward * equippedGun.gunLength * 1.5f, equippedGun.transform.rotation);
+            GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position + equippedGun.transform.forward * equippedGun.gunLength, equippedGun.transform.rotation);
             bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true, fakeBullet);
         }
 

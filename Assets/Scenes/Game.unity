@@ -650,7 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 30
   cooldown: 0.1
-  bulletTravelSpeed: 100
+  bulletTravelSpeed: 200
   shootSound: 0
   reloadSound: 1
   reloadTime: 1.5
@@ -658,6 +658,7 @@ MonoBehaviour:
   clipSize: 30
   recoilHorizontal: 0
   recoilVertical: 0
+  gunLength: 2
 --- !u!4 &417303073
 Transform:
   m_ObjectHideFlags: 0
@@ -3175,6 +3176,7 @@ MonoBehaviour:
   clipSize: 0
   recoilHorizontal: 0
   recoilVertical: 0
+  gunLength: 0
 --- !u!4 &1842815993
 Transform:
   m_ObjectHideFlags: 0

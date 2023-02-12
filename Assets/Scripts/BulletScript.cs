@@ -13,6 +13,8 @@ public class BulletScript : MonoBehaviour
     public Rigidbody rb;
     GameObject fakeBullet;
     public float fakeBulletAccuracy;
+    public float minFinalDistance;
+    bool destroyed = false;
 
     public void goTo(float travelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
         //currentTravelSpeed = travelSpeed;
@@ -28,14 +30,20 @@ public class BulletScript : MonoBehaviour
     }
 
     void destroy(){
-        Destroy(fakeBullet);
-        Destroy(this.gameObject);
+        Destroy(rb);
+        destroyed = true;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         fakeBullet.transform.position = Vector3.Lerp(fakeBullet.transform.position, transform.position, fakeBulletAccuracy * Time.deltaTime);
+
+        if(destroyed && Vector3.Distance(fakeBullet.transform.position, transform.position) < minFinalDistance){
+            Destroy(fakeBullet);
+            Destroy(this.gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider coll) {

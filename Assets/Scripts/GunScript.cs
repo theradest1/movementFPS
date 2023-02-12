@@ -14,4 +14,5 @@ public class GunScript : MonoBehaviour
     public int clipSize;
     public float recoilHorizontal;
     public float recoilVertical;
+    public float gunLength;
 }

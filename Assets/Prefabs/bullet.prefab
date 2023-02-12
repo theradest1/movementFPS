@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6221045549996187465}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -113,7 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 3
   rb: {fileID: -3675639272251135434}
-  fakeBulletAccuracy: 15
+  fakeBulletAccuracy: 8
+  minFinalDistance: 0.1
 --- !u!54 &-3675639272251135434
 Rigidbody:
   m_ObjectHideFlags: 0
