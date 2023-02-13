@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-    float currentTravelSpeed = 0f;
+    //float currentTravelSpeed = 0f;
     ServerEvents serverEvents;
     //Vector3 pastPos;
     float damage;
@@ -13,7 +13,7 @@ public class BulletScript : MonoBehaviour
     public Rigidbody rb;
     GameObject fakeBullet;
     public float fakeBulletAccuracy;
-    public float minFinalDistance;
+    //public float minFinalDistance;
     bool destroyed = false;
     public float bulletHoleLife;
     GameObject bulletHole;
@@ -21,8 +21,8 @@ public class BulletScript : MonoBehaviour
     float travelSpeed;
     Vector3 travelDirection;
     public float timeBeforeDestroyFake;
-    GameObject flash;
-    public float flashTime;
+    //GameObject flash;
+    //public float flashTime;
 
     public void goTo(float giveTravelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
         //currentTravelSpeed = travelSpeed;
@@ -38,8 +38,8 @@ public class BulletScript : MonoBehaviour
 
     void Start(){
         Invoke("destroy", lifeTime);
-        flash = transform.GetChild(0).gameObject;
-        Destroy(flash, flashTime);
+        //flash = transform.GetChild(0).gameObject;
+        //Destroy(flash, flashTime);
     }
 
     void destroy(){

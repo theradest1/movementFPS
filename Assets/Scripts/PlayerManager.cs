@@ -12,9 +12,17 @@ public class PlayerManager : MonoBehaviour
     public Slider healthSlider;
     public ServerEvents serverEvents;
     public ServerComm serverComm;
+    public Image flashImage;
+    public float flashRecovery;
 
     void Start(){
         changeHealth(0f);
+    }
+
+    private void Update() {
+        if(flashImage.color.a > 0){
+            flashImage.color = new Color(1, 1, 1, flashImage.color.a - flashRecovery * Time.deltaTime);
+        }
     }
 
     public void changeHealth(float subbedHealth){

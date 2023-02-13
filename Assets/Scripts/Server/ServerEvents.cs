@@ -15,6 +15,7 @@ public class ServerEvents : MonoBehaviour
     float startTime;
     public GameObject bulletPrefab;
     public SoundManager soundManager;
+    public GameObject flashPrefab;
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
@@ -77,6 +78,12 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
+    public void spawnFlash(string position, string velocity){
+        GameObject newFlash = Instantiate(flashPrefab, parseVector3(position), Quaternion.identity);
+        newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
+        //Debug.Log("flash");
+    }
+ 
     Vector3 parseVector3(string vector3String){
         vector3String = vector3String.Substring(1, vector3String.Length-2); //get rid of parenthisis
 		string[] parts = vector3String.Split(',');

@@ -15,6 +15,8 @@ public class controlsManager : MonoBehaviour
     public bool aiming;
     public bool reloading;
     public bool sprinting;
+    public int equippedNum;
+    public GunControler gunControler;
 
     private void Awake() {
         playerControls = new PlayerControls();
@@ -32,6 +34,7 @@ public class controlsManager : MonoBehaviour
 
     void Update()
     {
+        //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
         mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();
         
         moveDirection = playerControls.movement.Walk.ReadValue<Vector2>();
@@ -41,5 +44,41 @@ public class controlsManager : MonoBehaviour
         shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
         aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
         reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
+
+        int newEquippedNum = equippedNum;
+        if(playerControls.weaponSelects.one.ReadValue<float>() == 1){
+            newEquippedNum = 1;
+        }
+        if(playerControls.weaponSelects.two.ReadValue<float>() == 1){
+            newEquippedNum = 2;
+        }
+        if(playerControls.weaponSelects.three.ReadValue<float>() == 1){
+            newEquippedNum = 3;
+        }
+        if(playerControls.weaponSelects.four.ReadValue<float>() == 1){
+            newEquippedNum = 4;
+        }
+        if(playerControls.weaponSelects.five.ReadValue<float>() == 1){
+            newEquippedNum = 5;
+        }
+        if(playerControls.weaponSelects.six.ReadValue<float>() == 1){
+            newEquippedNum = 6;
+        }
+        if(playerControls.weaponSelects.seven.ReadValue<float>() == 1){
+            newEquippedNum = 7;
+        }
+        if(playerControls.weaponSelects.eight.ReadValue<float>() == 1){
+            newEquippedNum = 8;
+        }
+        if(playerControls.weaponSelects.nine.ReadValue<float>() == 1){
+            newEquippedNum = 9;
+        }
+        if(playerControls.weaponSelects.ten.ReadValue<float>() == 1){
+            newEquippedNum = 10;
+        }
+        if(newEquippedNum != equippedNum){
+            gunControler.changeObject(newEquippedNum);
+            equippedNum = newEquippedNum;
+        }
     }
 }

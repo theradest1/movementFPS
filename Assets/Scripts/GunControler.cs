@@ -14,7 +14,7 @@ public class GunControler : MonoBehaviour
     public GameObject player;
     public LayerMask playerMask;
     public LayerMask aimableMask;
-    public float cooldownTimer;
+    //public float cooldownTimer;
     public ServerEvents serverEvents;
     public GameObject gunContainer;
     public float gunRotationSpeed;
@@ -32,7 +32,22 @@ public class GunControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        equippedGun = guns[0];
+        //equippedGun = guns[0];
+        changeObject(1);
+    }
+
+    public void changeObject(int newObject){
+        if(newObject <= guns.Count){
+            //cooldownTimer = 0f; //exploit (switch to remove cooldown)
+            reloading = false;
+            if(equippedGun != null){
+                equippedGun.gameObject.SetActive(false);
+            }
+            equippedGun = guns[newObject - 1];
+            equippedGun.gameObject.SetActive(true);
+            //Debug.Log("Changed to " + equippedGun.gameObject.name);
+            bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
+        }
     }
 
     // Update is called once per frame
@@ -49,37 +64,50 @@ public class GunControler : MonoBehaviour
         //    //equippedGun.transform.localRotation = Quaternion.Euler(equippedGun.transform.localEulerAngles.x, Mathf.Clamp(equippedGun.transform.localEulerAngles.y, -maxGunRotation, maxGunRotation), equippedGun.transform.localEulerAngles.z);
         //}
 
-        cooldownTimer -= Time.deltaTime;
+        equippedGun.cooldownTimer -= Time.deltaTime;
         reloadingTimer -= Time.deltaTime;
-        if(controlsManagerScript.shooting && cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
 
-            //events
-            serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
-            serverEvents.sendEvent("universalEvent", "spawnBullet", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
+        if(!equippedGun.flash && !equippedGun.smoke){
+            if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
 
-            reloading = false;
-            equippedGun.bulletsInClip -= 1;
-            bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
-            cooldownTimer = equippedGun.cooldown;
+                //events
+                serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
+                serverEvents.sendEvent("universalEvent", "spawnBullet", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
+
+                reloading = false;
+                equippedGun.bulletsInClip -= 1;
+                bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
+                equippedGun.cooldownTimer = equippedGun.cooldown;
+                
+                Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
+                //bullet
+                GameObject bullet = Instantiate(bulletPrefab, cam.transform.position + cam.transform.forward * equippedGun.gunLength * 1.5f, equippedGun.transform.rotation);
+                GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position + equippedGun.transform.forward * equippedGun.gunLength, equippedGun.transform.rotation);
+                bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true, fakeBullet);
+            }
             
-            Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
-            //bullet
-            GameObject bullet = Instantiate(bulletPrefab, cam.transform.position + cam.transform.forward * equippedGun.gunLength * 1.5f, equippedGun.transform.rotation);
-            GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position + equippedGun.transform.forward * equippedGun.gunLength, equippedGun.transform.rotation);
-            bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true, fakeBullet);
-        }
 
-        if(reloading && reloadingTimer <= 0f){
-            reloading = false;
-            equippedGun.bulletsInClip = equippedGun.clipSize;
-            bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
-        }
+            if(reloading && reloadingTimer <= 0f){
+                reloading = false;
+                equippedGun.bulletsInClip = equippedGun.clipSize;
+                bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
+            }
 
-        if(controlsManagerScript.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
-            reloading = true;
-            bulletsInClipText.text = "--/" + equippedGun.clipSize;
-            serverEvents.sendEvent("universalEvent", "sound", equippedGun.reloadSound + "~" + equippedGun.transform.position + "~1~1");
-            reloadingTimer = equippedGun.reloadTime;
+            if(controlsManagerScript.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
+                reloading = true;
+                bulletsInClipText.text = "--/" + equippedGun.clipSize;
+                serverEvents.sendEvent("universalEvent", "sound", equippedGun.reloadSound + "~" + equippedGun.transform.position + "~1~1");
+                reloadingTimer = equippedGun.reloadTime;
+            }
+        }
+        else{
+            if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f){
+                //Debug.Log("threw flash");
+                equippedGun.cooldownTimer = equippedGun.cooldown;
+                serverEvents.sendEvent("universalEvent", "flash", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
+                //GameObject newThrowable = Instantiate(equippedGun, equippedGun.transform.position, Quaternion.identity);
+                //throwable.GetComponent<Rigidbody>().velocity = cam.transform.forward * equippedGun.bulletTravelSpeed;
+            }
         }
     }
 }
