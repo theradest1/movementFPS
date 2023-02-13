@@ -8,6 +8,7 @@ public class look : MonoBehaviour
     public GameObject player;
     public float lookSpeedHorizontal;
     public float lookSpeedVertical;
+    public float generalSense;
     public float camRotX = 0f;
     public float minCamRotX;
     public float maxCamRotX;
@@ -24,9 +25,9 @@ public class look : MonoBehaviour
     void Update()
     {
         //Debug.Log(controlsManagerScript.mouseDelta);
-        player.transform.Rotate(0f, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal, 0f);
+        player.transform.Rotate(0f, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * generalSense, 0f);
 
-        camRotX = Mathf.Clamp(camRotX - controlsManagerScript.mouseDelta.y * lookSpeedVertical, minCamRotX, maxCamRotX);
+        camRotX = Mathf.Clamp(camRotX - controlsManagerScript.mouseDelta.y * lookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
         this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
     }
 }

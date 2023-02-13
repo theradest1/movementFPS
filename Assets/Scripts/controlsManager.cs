@@ -17,6 +17,8 @@ public class controlsManager : MonoBehaviour
     public bool sprinting;
     public int equippedNum;
     public GunControler gunControler;
+    public InGameGUIManager inGameGUIManager;
+    public bool escape;
 
     private void Awake() {
         playerControls = new PlayerControls();
@@ -44,6 +46,10 @@ public class controlsManager : MonoBehaviour
         shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
         aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
         reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
+        if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){
+            inGameGUIManager.changeGUIState();
+        }
+        escape = playerControls.interactions.escape.ReadValue<float>() == 1;
 
         int newEquippedNum = equippedNum;
         if(playerControls.weaponSelects.one.ReadValue<float>() == 1){

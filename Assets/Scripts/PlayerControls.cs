@@ -213,6 +213,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""fe59f4c2-fd0f-4556-9b28-ccbc3baf1af4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -246,6 +255,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""483043b9-6cbb-4223-b6a4-e46b238ac423"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""escape"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -476,6 +496,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_interactions_shoot = m_interactions.FindAction("shoot", throwIfNotFound: true);
         m_interactions_ADS = m_interactions.FindAction("ADS", throwIfNotFound: true);
         m_interactions_reload = m_interactions.FindAction("reload", throwIfNotFound: true);
+        m_interactions_escape = m_interactions.FindAction("escape", throwIfNotFound: true);
         // weaponSelects
         m_weaponSelects = asset.FindActionMap("weaponSelects", throwIfNotFound: true);
         m_weaponSelects_one = m_weaponSelects.FindAction("one", throwIfNotFound: true);
@@ -640,6 +661,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_interactions_shoot;
     private readonly InputAction m_interactions_ADS;
     private readonly InputAction m_interactions_reload;
+    private readonly InputAction m_interactions_escape;
     public struct InteractionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -647,6 +669,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @shoot => m_Wrapper.m_interactions_shoot;
         public InputAction @ADS => m_Wrapper.m_interactions_ADS;
         public InputAction @reload => m_Wrapper.m_interactions_reload;
+        public InputAction @escape => m_Wrapper.m_interactions_escape;
         public InputActionMap Get() { return m_Wrapper.m_interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -665,6 +688,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @reload.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnReload;
                 @reload.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnReload;
                 @reload.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnReload;
+                @escape.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
+                @escape.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
+                @escape.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_InteractionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -678,6 +704,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @reload.started += instance.OnReload;
                 @reload.performed += instance.OnReload;
                 @reload.canceled += instance.OnReload;
+                @escape.started += instance.OnEscape;
+                @escape.performed += instance.OnEscape;
+                @escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -803,6 +832,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnShoot(InputAction.CallbackContext context);
         void OnADS(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
     public interface IWeaponSelectsActions
     {
