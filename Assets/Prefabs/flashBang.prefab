@@ -125,11 +125,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8190345500511294596}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 167466fda66960443a820010f92b748b, type: 3}
+  m_Script: {fileID: 11500000, guid: e63dabbb7fa12c24596eeba93db8445c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeToFlash: 2
-  bounceSound: 9
-  throwSound: 8
+  bounceSound: 8
+  throwSound: 9
   bangSound: 7
-  speedOnThrow: 0

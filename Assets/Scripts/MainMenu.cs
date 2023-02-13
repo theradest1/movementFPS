@@ -14,15 +14,18 @@ public class MainMenu : MonoBehaviour
     public static bool inSchool = true;
     public int usernameLengthLimit;
 
-    public TMP_InputField portInput;
-    //public TMP_InputField clientPortInput;
-    public TMP_InputField addressInput;
-    public TMP_InputField usernameInput;
-    public Toggle inSchoolToggle;
+    TMP_InputField portInput;
+    TMP_InputField addressInput;
+    TMP_InputField usernameInput;
+    Toggle inSchoolToggle;
 
     void Start(){
+        portInput = GameObject.Find("port input").GetComponent<TMP_InputField>();
+        addressInput = GameObject.Find("address input").GetComponent<TMP_InputField>();
+        usernameInput = GameObject.Find("username input").GetComponent<TMP_InputField>();
+        inSchoolToggle = GameObject.Find("schoolwifi").GetComponent<Toggle>();
+
         updateInfo();
-        Debug.Log("howdy");
     }
 
     // Update is called once per frame

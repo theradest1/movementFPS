@@ -1778,7 +1778,7 @@ GameObject:
   - component: {fileID: 897979828}
   - component: {fileID: 897979827}
   m_Layer: 5
-  m_Name: username
+  m_Name: username input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2252,10 +2252,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usernameLengthLimit: 15
-  portInput: {fileID: 2116191710}
-  addressInput: {fileID: 1903998749}
-  usernameInput: {fileID: 897979827}
-  inSchoolToggle: {fileID: 1682898086}
 --- !u!4 &1004568853
 Transform:
   m_ObjectHideFlags: 0
@@ -3942,7 +3938,7 @@ GameObject:
   - component: {fileID: 1903998750}
   - component: {fileID: 1903998749}
   m_Layer: 5
-  m_Name: address
+  m_Name: address input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4130,7 +4126,7 @@ GameObject:
   - component: {fileID: 2116191711}
   - component: {fileID: 2116191710}
   m_Layer: 5
-  m_Name: port
+  m_Name: port input
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,22 +4,41 @@ using UnityEngine;
 
 public class controlsManager : MonoBehaviour
 {
+    [HideInInspector]
     public Vector2 moveDirection;
+    [HideInInspector]
     public Vector2 mouseDelta;
 
     public PlayerControls playerControls;
-    public movement movementScript;
-    public look lookScript;
+    movement movementScript;
+    look lookScript;
+    GunControler gunControler;
+    InGameGUIManager inGameGUIManager;
+
+    [HideInInspector]
     public bool jumping;
+    [HideInInspector]
     public bool shooting;
+    [HideInInspector]
     public bool aiming;
+    [HideInInspector]
     public bool reloading;
+    [HideInInspector]
     public bool sprinting;
+    [HideInInspector]
     public bool crouching;
-    public int equippedNum;
-    public GunControler gunControler;
-    public InGameGUIManager inGameGUIManager;
+    [HideInInspector]
     public bool escape;
+    [HideInInspector]
+    public int equippedNum;
+
+    private void Start() {
+        movementScript = GameObject.Find("Player").GetComponent<movement>();
+        lookScript = GameObject.Find("Main Camera").GetComponent<look>();
+        gunControler = GameObject.Find("Player").GetComponent<GunControler>();
+        inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
+    }
+    
 
     private void Awake() {
         playerControls = new PlayerControls();

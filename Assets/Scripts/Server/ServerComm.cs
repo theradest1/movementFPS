@@ -11,22 +11,29 @@ public class ServerComm : MonoBehaviour
 {
     UdpClient client;
     IPEndPoint remoteEndPoint;
-    public GameObject player;
+    int SERVERPORT;
+    string SERVERADDRESS;
+
+    ServerEvents serverEvents;
+    GameObject player;
+    TextMeshProUGUI PPSText;
+    TextMeshProUGUI latencyText;
+
     int throughPackets = 0;
-    //int errorPackets = 0;
-    public float updateSpeed;
-    public ServerEvents serverEvents;
-    public int ID = -1;
-    public int SERVERPORT;
-    //public int CLIENTPORT;
-    public string SERVERADDRESS;
-    public TextMeshProUGUI PPSText;
-    public TextMeshProUGUI latencyText;
     bool inSchool;
+
+    public float updateSpeed;
+    public int ID = -1;
+    //public int CLIENTPORT;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
+        PPSText = GameObject.Find("PPS debug").GetComponent<TextMeshProUGUI>();
+        latencyText = GameObject.Find("Latency Debug").GetComponent<TextMeshProUGUI>();
+
         SERVERADDRESS = MainMenu.address;
         //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;

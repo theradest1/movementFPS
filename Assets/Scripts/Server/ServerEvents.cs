@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class ServerEvents : MonoBehaviour
 {
-    public List<GameObject> clientObjects;
-    public List<OtherPlayer> clientScripts;
-    public List<int> clientIDs;
-    public List<Vector3> targetPositions;
-    public List<Vector3> pastTargetPositions;
-    public ServerComm serverComm;
-    public GameObject clientPrefab;
-    public PlayerManager playerManager;
+    List<GameObject> clientObjects = new List<GameObject>();
+    List<OtherPlayer> clientScripts;
+    List<int> clientIDs;
+    List<Vector3> targetPositions;
+    List<Vector3> pastTargetPositions;
+
     float startTime;
+
+    ServerComm serverComm;
+    PlayerManager playerManager;
+    SoundManager soundManager;
+
+    public GameObject clientPrefab;
     public GameObject bulletPrefab;
-    public SoundManager soundManager;
     public GameObject flashPrefab;
+
+    private void Start() {
+        serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
+        soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
+        playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+    }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;

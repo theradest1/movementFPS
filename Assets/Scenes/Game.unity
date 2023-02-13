@@ -844,18 +844,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDirection: {x: 0, y: 0}
   mouseDelta: {x: 0, y: 0}
-  movementScript: {fileID: 1360005020}
-  lookScript: {fileID: 963194229}
   jumping: 0
   shooting: 0
   aiming: 0
   reloading: 0
   sprinting: 0
   crouching: 0
-  equippedNum: 0
-  gunControler: {fileID: 1360005023}
-  inGameGUIManager: {fileID: 410860481}
   escape: 0
+  equippedNum: 0
 --- !u!4 &331435470
 Transform:
   m_ObjectHideFlags: 0
@@ -883,14 +879,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a71837f5d69ec46a230c8042347252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1360005019}
   updateSpeed: 0.05
-  serverEvents: {fileID: 331435472}
   ID: -1
-  SERVERPORT: 4000
-  SERVERADDRESS: localhost
-  PPSText: {fileID: 757716119}
-  latencyText: {fileID: 1904778851}
 --- !u!114 &331435472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,16 +893,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76ce6c5aa63d9542a75f1dd18dd09af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clientObjects: []
-  clientScripts: []
-  clientIDs: 
-  targetPositions: []
-  pastTargetPositions: []
-  serverComm: {fileID: 331435471}
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
-  playerManager: {fileID: 1360005024}
   bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
-  soundManager: {fileID: 331435473}
   flashPrefab: {fileID: 8190345500511294596, guid: 343ba4540133a754cac46449d7118c18, type: 3}
 --- !u!114 &331435473
 MonoBehaviour:
@@ -1159,8 +1141,6 @@ MonoBehaviour:
   reloadTime: 1.5
   bulletsInClip: 30
   clipSize: 30
-  recoilHorizontal: 0
-  recoilVertical: 0
   gunLength: 2
   flash: 0
   smoke: 0
@@ -2285,11 +2265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b045ac5911831d4f909a9e9d9289b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1360005019}
   lookSpeedHorizontal: 0.2
   lookSpeedVertical: 0.1
   generalSense: 1
-  camRotX: 0
   minCamRotX: -70
   maxCamRotX: 70
   controlsManagerScript: {fileID: 331435469}
@@ -2931,27 +2909,20 @@ MonoBehaviour:
   - {fileID: 417303072}
   - {fileID: 1842815992}
   - {fileID: 1361948173}
-  equippedGun: {fileID: 0}
-  cam: {fileID: 963194225}
-  player: {fileID: 1360005019}
+  bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
+  fakebulletPrefab: {fileID: 6221045549996187465, guid: 0ba44a335458693469a7173c909fedf8, type: 3}
   playerMask:
     serializedVersion: 2
     m_Bits: 128
   aimableMask:
     serializedVersion: 2
     m_Bits: 192
-  serverEvents: {fileID: 331435472}
-  gunContainer: {fileID: 1653132530}
   gunRotationSpeed: 20
   gunTravelSpeed: 50
-  bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
-  fakebulletPrefab: {fileID: 6221045549996187465, guid: 0ba44a335458693469a7173c909fedf8, type: 3}
   maxGunRotation: 5
   minAimDistance: 8
-  soundManager: {fileID: 331435473}
   reloading: 0
   reloadingTimer: 0
-  bulletsInClipText: {fileID: 1660965946}
 --- !u!114 &1360005024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2966,12 +2937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   maxHealth: 100
-  healthText: {fileID: 1910368291}
-  healthSlider: {fileID: 1003322799}
-  serverEvents: {fileID: 331435472}
-  serverComm: {fileID: 331435471}
-  flashImage: {fileID: 1343678131}
-  flashRecovery: 0.1
+  flashRecovery: 0.15
 --- !u!1 &1361770549
 GameObject:
   m_ObjectHideFlags: 0
@@ -3123,8 +3089,6 @@ MonoBehaviour:
   reloadTime: 0
   bulletsInClip: 0
   clipSize: 0
-  recoilHorizontal: 0
-  recoilVertical: 0
   gunLength: 2
   flash: 1
   smoke: 0
@@ -4408,8 +4372,6 @@ MonoBehaviour:
   reloadTime: 3
   bulletsInClip: 10
   clipSize: 10
-  recoilHorizontal: 0
-  recoilVertical: 0
   gunLength: 2.5
   flash: 0
   smoke: 0

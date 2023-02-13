@@ -6,12 +6,16 @@ using UnityEngine.UI;
 
 public class OtherPlayer : MonoBehaviour
 {
+    GameObject playerCam;
+
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
-    GameObject playerCam;
-    public float health = 100f;
-    public float maxHealth = 100f;
     public Slider healthSlider;
+    
+    [HideInInspector]
+    public float health = 100f;
+    [HideInInspector]
+    public float maxHealth = 100f;
 
     public void setUsername(string usrname){
         usernameText.text = usrname;
