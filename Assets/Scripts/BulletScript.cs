@@ -6,23 +6,21 @@ public class BulletScript : MonoBehaviour
 {
     //float currentTravelSpeed = 0f;
     ServerEvents serverEvents;
-    //Vector3 pastPos;
-    float damage;
-    public float lifeTime;
-    bool doesDamage = false;
-    public Rigidbody rb;
     GameObject fakeBullet;
-    public float fakeBulletAccuracy;
-    //public float minFinalDistance;
-    bool destroyed = false;
-    public float bulletHoleLife;
     GameObject bulletHole;
-    public GameObject bulletHolePrefab;
+
+    float damage;
+    bool doesDamage = false;
+    bool destroyed = false;
     float travelSpeed;
     Vector3 travelDirection;
+
+    public GameObject bulletHolePrefab;
+    public float lifeTime;
+    public Rigidbody rb;
+    public float fakeBulletAccuracy;
+    public float bulletHoleLife;
     public float timeBeforeDestroyFake;
-    //GameObject flash;
-    //public float flashTime;
 
     public void goTo(float giveTravelSpeed, ServerEvents givenServerEvents, float givenDamage, bool givenDoesDamage, GameObject giveFakeBullet){
         //currentTravelSpeed = travelSpeed;

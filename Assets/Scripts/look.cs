@@ -5,11 +5,11 @@ using UnityEngine.InputSystem;
 
 public class look : MonoBehaviour
 {
-    public GameObject player;
+    GameObject player;
     public float lookSpeedHorizontal;
     public float lookSpeedVertical;
     public float generalSense;
-    public float camRotX = 0f;
+    float camRotX = 0f;
     public float minCamRotX;
     public float maxCamRotX;
 
@@ -18,6 +18,7 @@ public class look : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.Find("Player");
         //Cursor.lockState = CursorLockMode.Locked;
     }
 

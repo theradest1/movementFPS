@@ -13,8 +13,8 @@ public class GunScript : MonoBehaviour
     public float reloadTime;
     public int bulletsInClip;
     public int clipSize;
-    public float recoilHorizontal;
-    public float recoilVertical;
+    //public float recoilHorizontal;
+    //public float recoilVertical;
     public float gunLength;
 
     public bool flash;

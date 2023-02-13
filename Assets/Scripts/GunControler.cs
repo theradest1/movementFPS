@@ -8,30 +8,37 @@ public class GunControler : MonoBehaviour
     public controlsManager controlsManagerScript;
 
     public List<GunScript> guns;
-    public GunScript equippedGun;
+    GunScript equippedGun;
 
-    public GameObject cam;
-    public GameObject player;
-    public LayerMask playerMask;
-    public LayerMask aimableMask;
-    //public float cooldownTimer;
-    public ServerEvents serverEvents;
-    public GameObject gunContainer;
-    public float gunRotationSpeed;
-    public float gunTravelSpeed;
+    GameObject cam;
+    GameObject player;
+    ServerEvents serverEvents;
+    GameObject gunContainer;
+    SoundManager soundManager;
+    TextMeshProUGUI bulletsInClipText;
+
     public GameObject bulletPrefab;
     public GameObject fakebulletPrefab;
+    
+    public LayerMask playerMask;
+    public LayerMask aimableMask;
+    public float gunRotationSpeed;
+    public float gunTravelSpeed;
     public float maxGunRotation;
     public float minAimDistance;
-    public SoundManager soundManager;
     public bool reloading;
     public float reloadingTimer;
-    public TextMeshProUGUI bulletsInClipText;
-
 
     // Start is called before the first frame update
     void Start()
     {
+        cam = GameObject.Find("Main Camera");
+        player = GameObject.Find("Player");
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
+        gunContainer = GameObject.Find("guns");
+        soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
+        bulletsInClipText = GameObject.Find("ammo left").GetComponent<TextMeshProUGUI>();
+
         //equippedGun = guns[0];
         changeObject(1);
     }

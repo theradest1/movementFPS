@@ -6,16 +6,23 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+    TextMeshProUGUI healthText;
+    ServerEvents serverEvents;
+    ServerComm serverComm;
+    Slider healthSlider;
+    Image flashImage;
+
     public float health;
     public float maxHealth = 100f;
-    public TextMeshProUGUI healthText;
-    public Slider healthSlider;
-    public ServerEvents serverEvents;
-    public ServerComm serverComm;
-    public Image flashImage;
     public float flashRecovery;
 
     void Start(){
+        healthText = GameObject.Find("healthText").GetComponent<TextMeshProUGUI>();
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
+        serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
+        healthSlider = GameObject.Find("health").GetComponent<Slider>();
+        flashImage = GameObject.Find("flash image").GetComponent<Image>();
+
         changeHealth(0f);
     }
 
