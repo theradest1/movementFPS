@@ -61,7 +61,7 @@ public class BulletScript : MonoBehaviour
             Destroy(fakeBullet, timeBeforeDestroyFake);
             //this.gameObject.SetActive(false);
             Destroy(bulletHole, bulletHoleLife);
-            Destroy(this.gameObject, bulletHoleLife + .1f);
+            Destroy(this.gameObject, timeBeforeDestroyFake);
         }
     }
 
