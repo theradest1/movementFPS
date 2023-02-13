@@ -43,14 +43,15 @@ public class BulletScript : MonoBehaviour
     }
 
     void destroy(){
-        Destroy(rb);
-        destroyed = true;
+        if(rb != null){
+            Destroy(rb);
+            destroyed = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
         if(destroyed){
             this.transform.position += travelDirection * travelSpeed * Time.deltaTime;
         }
@@ -68,7 +69,6 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer == 7 && doesDamage){
-            //Debug.Log("Hit game object: " + coll.gameObject.name);
             serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
         }
         else{

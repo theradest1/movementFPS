@@ -15,6 +15,7 @@ public class controlsManager : MonoBehaviour
     public bool aiming;
     public bool reloading;
     public bool sprinting;
+    public bool crouching;
     public int equippedNum;
     public GunControler gunControler;
     public InGameGUIManager inGameGUIManager;
@@ -42,6 +43,7 @@ public class controlsManager : MonoBehaviour
         moveDirection = playerControls.movement.Walk.ReadValue<Vector2>();
         jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
         sprinting = playerControls.movement.Sprint.ReadValue<float>() == 1;
+        crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
 
         shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
         aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;

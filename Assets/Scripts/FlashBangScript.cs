@@ -12,7 +12,6 @@ public class FlashBangScript : MonoBehaviour
     public int bounceSound;
     public int throwSound;
     public int bangSound;
-    public float speedOnThrow;
 
     // Start is called before the first frame update
     void Start()

@@ -6,35 +6,27 @@ using TMPro;
 
 public class movement : MonoBehaviour
 {
+    GameObject cam;
+    look lookScript;
+    controlsManager controlsManagerScript;
+    ServerEvents serverEvents;
+    TextMeshProUGUI velocityText;
+
+    Vector3 velocity = new Vector3(0f, 0f, 0f);
+    bool isGrounded = true;
+
+    public LayerMask groundMask;
+    public float gravity;
+
     public float speed;
     public float jumpPower;
     public float stopSpeedGround;
     public float stopSpeedAir;
-
-    public Transform groundCheck;
-    public LayerMask groundMask;
-    public bool isGrounded = true;
-
-    public controlsManager controlsManagerScript;
-
-    public float gravity;
-    public Vector3 velocity = new Vector3(0f, 0f, 0f);
-
-    public TextMeshProUGUI velocityText;
-
-    public GameObject cam;
-    public look lookScript;
-    public float lookSpeedHorizontal;
-    public float speedReductionPerDegree;
-    public float minDegreesToEffectSpeed;
     public float maxSpeed;
     public float sprintMultiplier;
 
     public float footstepInterval;
-    //public float footstepPitchMultiplier;
     public Vector2 lastFootstepPos;
-
-    public ServerEvents serverEvents;
 
     void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
@@ -43,7 +35,11 @@ public class movement : MonoBehaviour
     }
 
     void Start(){
-        lookSpeedHorizontal = lookScript.lookSpeedHorizontal;
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
+        cam = GameObject.Find("Main Camera");
+        lookScript = cam.GetComponent<look>();
+        controlsManagerScript = GameObject.Find("manager").GetComponent<controlsManager>();
+        velocityText = GameObject.Find("velocity debug").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
@@ -70,14 +66,10 @@ public class movement : MonoBehaviour
         }
         else{
             velocity.y += gravity * Time.deltaTime;
-            velocity = Quaternion.AngleAxis(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal, Vector3.up) * velocity;
+            velocity = Quaternion.AngleAxis(controlsManagerScript.mouseDelta.x * lookScript.lookSpeedHorizontal, Vector3.up) * velocity;
             if(transform.position.y < -100){
                 transform.position = new Vector3(0f, 20f, 0f);
             }
-            //if(controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * Time.deltaTime > minDegreesToEffectSpeed){
-            //    velocity *= Mathf.Pow(speedReductionPerDegree, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal);  //reduce speed by how much you turn while in the air 
-            //} 
-            
         }
         
         applyVelocity(velocity);

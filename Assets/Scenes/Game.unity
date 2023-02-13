@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18350838, g: 0.2290651, b: 0.30572262, a: 1}
+  m_IndirectSpecularColor: {r: 0.18350783, g: 0.22906432, b: 0.3057214, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -851,6 +851,7 @@ MonoBehaviour:
   aiming: 0
   reloading: 0
   sprinting: 0
+  crouching: 0
   equippedNum: 0
   gunControler: {fileID: 1360005023}
   inGameGUIManager: {fileID: 410860481}
@@ -1072,12 +1073,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 410860479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a90655c2072b0f489bd352da3f05860, type: 3}
+  m_Script: {fileID: 11500000, guid: cd7f9f6a4d784e2458e58150025d11f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu: {fileID: 410860479}
-  senseSlider: {fileID: 445919259}
-  lookScript: {fileID: 963194229}
 --- !u!114 &410860482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2510,7 +2508,7 @@ GameObject:
   - component: {fileID: 1132788805}
   - component: {fileID: 1132788804}
   m_Layer: 3
-  m_Name: sense
+  m_Name: senseInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2886,29 +2884,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d77ae0456d02e04ebd8e1bbfa0546f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 192
+  gravity: -15
   speed: 70
   jumpPower: 7
   stopSpeedGround: 0.85
   stopSpeedAir: 0.999
-  groundCheck: {fileID: 19522334}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 192
-  isGrounded: 1
-  controlsManagerScript: {fileID: 331435469}
-  gravity: -15
-  velocity: {x: -0.0000000025886187, y: -7.1889625, z: 5.165585e-10}
-  velocityText: {fileID: 859947215}
-  cam: {fileID: 963194225}
-  lookScript: {fileID: 963194229}
-  lookSpeedHorizontal: 0.2
-  speedReductionPerDegree: 0.999
-  minDegreesToEffectSpeed: 0.005
   maxSpeed: 9999
   sprintMultiplier: 1.8
   footstepInterval: 3
   lastFootstepPos: {x: 0, y: 0}
-  serverEvents: {fileID: 331435472}
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0

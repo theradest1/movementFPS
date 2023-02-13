@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class testAnimationScript : MonoBehaviour
 {
-
     public Animator animator;
     public controlsManager controlsManagerScript;
     public float directionChangeSpeedVertical;

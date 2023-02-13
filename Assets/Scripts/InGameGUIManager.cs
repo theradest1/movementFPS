@@ -5,13 +5,17 @@ using UnityEngine.UI;
 
 public class InGameGUIManager : MonoBehaviour
 {
-    public GameObject menu;
-    public Slider senseSlider;
-    public look lookScript;
+    GameObject menu;
+    Slider senseSlider;
+    look lookScript;
 
     // Start is called before the first frame update
     void Start()
     {
+        menu = GameObject.Find("Menu");
+        senseSlider = GameObject.Find("sense").GetComponent<Slider>();
+        lookScript = GameObject.Find("Main Camera").GetComponent<look>();
+
         menu.SetActive(false);
     }
 
