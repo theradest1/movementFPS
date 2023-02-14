@@ -4,32 +4,63 @@ using UnityEngine;
 
 public class ServerEvents : MonoBehaviour
 {
-    List<GameObject> clientObjects = new List<GameObject>();
-    List<OtherPlayer> clientScripts;
-    List<int> clientIDs;
-    List<Vector3> targetPositions;
-    List<Vector3> pastTargetPositions;
+    public List<GameObject> clientObjects;
+    public List<OtherPlayer> clientScripts;
+    public List<int> clientIDs;
+    public List<Vector3> targetPositions;
+    public List<Vector3> pastTargetPositions;
+    public List<string> clientUsernames;
 
     float startTime;
+
+    public float invincibilityTimeOnDeath;
 
     ServerComm serverComm;
     PlayerManager playerManager;
     SoundManager soundManager;
+    InGameGUIManager inGameGUIManager;
+    GameObject player;
 
     public GameObject clientPrefab;
     public GameObject bulletPrefab;
     public GameObject flashPrefab;
 
     private void Start() {
+        player = GameObject.Find("Player");
+        inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
+        if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
+            eventType = "ue";
+        }
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
         serverComm.send(eventToSend);
         //Debug.Log("Send event: " + eventToSend);
+    }
+
+    public void death(string killerID, string killedID){
+        inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
+        if(int.Parse(killedID) == serverComm.ID){
+            player.transform.position = new Vector3(Random.Range(-20f, 20f), 20f, Random.Range(-20f, 20f));
+            playerManager.changeHealth(-1000f);
+        }
+        else{
+            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].invincibilityTimer = invincibilityTimeOnDeath;
+            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].changeHealth(-1000f); 
+        }
+    }
+
+    string getUsername(string _ID){ //is string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
+        if(int.Parse(_ID) == serverComm.ID){
+            return serverComm.username;
+        }
+        else{
+            return clientUsernames[clientIDs.IndexOf(int.Parse(_ID))];
+        }
     }
 
     public void newClient(string newClientID, string newCleintUsername){
@@ -39,6 +70,7 @@ public class ServerEvents : MonoBehaviour
         newClientObject.GetComponent<OtherPlayer>().setUsername(newCleintUsername);
         clientObjects.Add(newClientObject);
         clientScripts.Add(newClientObject.GetComponent<OtherPlayer>());
+        clientUsernames.Add(newCleintUsername);
         clientIDs.Add(int.Parse(newClientID));
         Debug.Log("New player's ID: " + int.Parse(newClientID));
         pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
@@ -54,6 +86,7 @@ public class ServerEvents : MonoBehaviour
         Destroy(clientObjects[playerIndex]);
         clientObjects.RemoveAt(playerIndex);
         clientScripts.RemoveAt(playerIndex);
+        clientUsernames.RemoveAt(playerIndex);
     }
 
     public void damage(string attackerID, string victimID, string damage){
@@ -92,7 +125,7 @@ public class ServerEvents : MonoBehaviour
         newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
         //Debug.Log("flash");
     }
- 
+
     Vector3 parseVector3(string vector3String){
         vector3String = vector3String.Substring(1, vector3String.Length-2); //get rid of parenthisis
 		string[] parts = vector3String.Split(',');

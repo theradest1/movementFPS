@@ -2,21 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InGameGUIManager : MonoBehaviour
 {
     GameObject menu;
     Slider senseSlider;
     look lookScript;
+    GameObject killFeedObject;
+    public GameObject killFeedChildPrefab;
+    public float killFeedTime;
 
     // Start is called before the first frame update
     void Start()
     {
+        killFeedObject = GameObject.Find("kill feed");
         menu = GameObject.Find("Menu");
         senseSlider = GameObject.Find("sense").GetComponent<Slider>();
         lookScript = GameObject.Find("Main Camera").GetComponent<look>();
 
         menu.SetActive(false);
+    }
+
+    public void killFeed(string killerUsername, string killedUsername){
+        Debug.Log(killedUsername + " got " + killedUsername + " with a spatchula");
+        GameObject newPart = Instantiate(killFeedChildPrefab, Vector3.zero, Quaternion.identity, killFeedObject.transform);
+        newPart.GetComponent<TextMeshProUGUI>().text = killedUsername + " got " + killedUsername + " with a spatchula";
+        Destroy(newPart, killFeedTime);
     }
 
     public void changeGUIState(){

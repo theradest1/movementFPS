@@ -13,6 +13,9 @@ public class ServerComm : MonoBehaviour
     IPEndPoint remoteEndPoint;
     int SERVERPORT;
     string SERVERADDRESS;
+    
+    [HideInInspector]
+    public string username;
 
     ServerEvents serverEvents;
     GameObject player;
@@ -41,6 +44,7 @@ public class ServerComm : MonoBehaviour
         //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;
         inSchool = MainMenu.inSchool;
+        username = MainMenu.username;
 
         PPSText.text = "PPS: lots";
         try{
@@ -51,7 +55,7 @@ public class ServerComm : MonoBehaviour
         catch(Exception e){
             Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
-        ID = join(MainMenu.username);
+        ID = join(username);
         Debug.Log("User ID: " + ID);
         InvokeRepeating("serverUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);
@@ -77,6 +81,18 @@ public class ServerComm : MonoBehaviour
     }
 
     public void send(string message){
+        if(inSchool){
+            try{
+                client = new UdpClient(/*CLIENTPORT*/);
+                client.Connect(SERVERADDRESS, SERVERPORT);
+                remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
+                //Debug.Log("howdy more");
+            }
+            catch(Exception e){
+                Debug.LogError("Couldn't connect, exeption: " + e.Message);
+            }
+        }
+
         byte[] sendBytes = Encoding.ASCII.GetBytes(message);
         bytes += sendBytes.Length;
         client.Send(sendBytes, sendBytes.Length);
@@ -131,7 +147,6 @@ public class ServerComm : MonoBehaviour
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
                     case "damage":
-                        //Debug.Log(rawEvents[i]);
                         serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
                         break;
                     case "spawnBullet":
@@ -140,12 +155,13 @@ public class ServerComm : MonoBehaviour
                         }
                         break;
                     case "sound":
-                        //if(int.Parse(splitRawEvents[1]) != ID){
-                            serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
-                        //}
+                        serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
                         break;
                     case "flash":
                         serverEvents.spawnFlash(splitRawEvents[2], splitRawEvents[3]); //position, velocity
+                        break;
+                    case "death":
+                        serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed
                         break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);

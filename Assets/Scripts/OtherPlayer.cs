@@ -11,6 +11,10 @@ public class OtherPlayer : MonoBehaviour
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
     public Slider healthSlider;
+
+    public float invincibilityTimer = 0f;
+
+    Collider coll;
     
     [HideInInspector]
     public float health = 100f;
@@ -27,12 +31,21 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Start(){
+        coll = this.gameObject.GetComponent<Collider>();
         playerCam = GameObject.Find("Main Camera");
-        Debug.Log(playerCam);
         changeHealth(0f);
     }
 
     void Update(){
         usernameCanvas.gameObject.transform.LookAt(playerCam.transform);
+
+        invincibilityTimer -= Time.deltaTime;
+
+        if(invincibilityTimer > 0f){
+            coll.enabled = false;
+        }
+        else{
+            coll.enabled = true;
+        }
     }
 }

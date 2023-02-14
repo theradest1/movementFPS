@@ -67,7 +67,12 @@ public class BulletScript : MonoBehaviour
 
     void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer == 7 && doesDamage){
-            serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
+            if(serverEvents.clientScripts[serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))].health <= damage){
+                serverEvents.sendEvent("ue", "death", coll.gameObject.name);
+            }
+            else{
+                serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
+            }
         }
         else{
             bulletHole = Instantiate(bulletHolePrefab, coll.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, coll.contacts[0].normal));

@@ -2,10 +2,10 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
-const validCommands = ['u', 'newClient', 'universalEvent', 'soloEvent', 'spawnBullet'];
+const validCommands = ['u', 'newClient', 'ue']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
+const maxChecksBeforeDisconnect = 50; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 
@@ -93,7 +93,6 @@ function logSenderInfo(msg, senderInfo){
 	console.log("Address: " + senderInfo.address);
 }
 
-
 //Client functions -----------------------------------------------------------------------------
 function newClient(info, senderPort, senderAddress){
 	server.send(currentID + "", senderPort, senderAddress);
@@ -120,7 +119,7 @@ function newClient(info, senderPort, senderAddress){
 	currentID++;
 }
 
-function universalEvent(info, senderPort, senderAddress){
+function ue(info, senderPort, senderAddress){
 	splitInfo = info.split("~");
 	newEvent = info.substring(splitInfo[0].length + 1, info.length);
 	//console.log(newEvent);
