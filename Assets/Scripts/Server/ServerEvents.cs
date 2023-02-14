@@ -24,6 +24,7 @@ public class ServerEvents : MonoBehaviour
     public GameObject clientPrefab;
     public GameObject bulletPrefab;
     public GameObject flashPrefab;
+    public GameObject granadePrefab;
 
     private void Start() {
         player = GameObject.Find("Player");
@@ -123,6 +124,12 @@ public class ServerEvents : MonoBehaviour
     public void spawnFlash(string position, string velocity){
         GameObject newFlash = Instantiate(flashPrefab, parseVector3(position), Quaternion.identity);
         newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
+        //Debug.Log("flash");
+    }
+
+    public void spawnGranade(string position, string velocity){
+        GameObject newGranade = Instantiate(granadePrefab, parseVector3(position), Quaternion.identity);
+        newGranade.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
         //Debug.Log("flash");
     }
 

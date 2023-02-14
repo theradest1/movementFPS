@@ -25,7 +25,6 @@ public class GunControler : MonoBehaviour
     public float gunRotationSpeed;
     public float gunTravelSpeed;
     public float maxGunRotation;
-    public float minAimDistance;
     public bool reloading;
     public float reloadingTimer;
 
@@ -60,7 +59,7 @@ public class GunControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
+        //RaycastHit hit;
         gunContainer.transform.position = Vector3.Lerp(gunContainer.transform.position, cam.transform.position, gunTravelSpeed * Time.deltaTime);
         gunContainer.transform.rotation = Quaternion.Slerp(gunContainer.transform.rotation, player.transform.rotation, gunRotationSpeed * Time.deltaTime);
         equippedGun.transform.rotation = Quaternion.Slerp(equippedGun.transform.rotation, cam.transform.rotation, gunRotationSpeed * Time.deltaTime);
@@ -74,7 +73,7 @@ public class GunControler : MonoBehaviour
         equippedGun.cooldownTimer -= Time.deltaTime;
         reloadingTimer -= Time.deltaTime;
 
-        if(!equippedGun.flash && !equippedGun.smoke){
+        if(!equippedGun.flash && !equippedGun.smoke && !equippedGun.granade){
             if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
 
                 //events
@@ -86,7 +85,7 @@ public class GunControler : MonoBehaviour
                 bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
                 equippedGun.cooldownTimer = equippedGun.cooldown;
                 
-                Physics.Raycast(cam.transform.position + cam.transform.forward * minAimDistance, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
+                //Physics.Raycast(cam.transform.position + cam.transform.forward * equippedGun.gunLength, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
                 //bullet
                 GameObject bullet = Instantiate(bulletPrefab, cam.transform.position + cam.transform.forward * equippedGun.gunLength * 1.5f, equippedGun.transform.rotation);
                 GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position + equippedGun.transform.forward * equippedGun.gunLength, equippedGun.transform.rotation);
@@ -107,13 +106,14 @@ public class GunControler : MonoBehaviour
                 reloadingTimer = equippedGun.reloadTime;
             }
         }
-        else{
-            if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f){
-                //Debug.Log("threw flash");
+        else if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f){
+            if(equippedGun.flash){
                 equippedGun.cooldownTimer = equippedGun.cooldown;
-                serverEvents.sendEvent("universalEvent", "flash", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
-                //GameObject newThrowable = Instantiate(equippedGun, equippedGun.transform.position, Quaternion.identity);
-                //throwable.GetComponent<Rigidbody>().velocity = cam.transform.forward * equippedGun.bulletTravelSpeed;
+                serverEvents.sendEvent("ue", "flash", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
+            }
+            else if(equippedGun.granade){
+                equippedGun.cooldownTimer = equippedGun.cooldown;
+                serverEvents.sendEvent("ue", "granade", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
             }
         }
     }

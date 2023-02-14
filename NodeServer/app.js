@@ -8,6 +8,7 @@ currentID = 0;
 const maxChecksBeforeDisconnect = 50; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
+packetCounter = 0; //will be inaccurate if disconnect interval is different
 
 playerTransformInfo = []; //position and rotation
 playerInfo = []; //usernames, might be more later
@@ -26,6 +27,7 @@ server.on('listening', () => {
 });
 
 server.on('message', (msg, senderInfo) => {
+	packetCounter++;
 	msg = msg + "";
 	try {
 		if(validCommands.includes(msg.split("~")[0])){
@@ -46,6 +48,8 @@ server.on('message', (msg, senderInfo) => {
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
+	//console.log("PPS: " + packetCounter);
+	//packetCounter = 0;
 	/*console.log("___________________________________________")
 	console.log("Transforms: ");
 	console.log(playerTransformInfo);

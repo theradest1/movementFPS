@@ -46,7 +46,8 @@ public class ServerComm : MonoBehaviour
         inSchool = MainMenu.inSchool;
         username = MainMenu.username;
 
-        PPSText.text = "PPS: lots";
+        PPSText.text = "PPS: None";
+        BPSText.text = "BPS: None";
         try{
             client = new UdpClient(/*CLIENTPORT*/);
             client.Connect(SERVERADDRESS, SERVERPORT);
@@ -159,6 +160,9 @@ public class ServerComm : MonoBehaviour
                         break;
                     case "flash":
                         serverEvents.spawnFlash(splitRawEvents[2], splitRawEvents[3]); //position, velocity
+                        break;
+                    case "granade":
+                        serverEvents.spawnGranade(splitRawEvents[2], splitRawEvents[3]);
                         break;
                     case "death":
                         serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed

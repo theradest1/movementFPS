@@ -111,6 +111,6 @@ public class movement : MonoBehaviour
             velocity.x = 0f;
         }
         
-        velocityText.text = (Mathf.Round(velocity.magnitude * 10000f) / 100f) + "";
+        velocityText.text = "Velocity: " + (Mathf.Round(velocity.magnitude * 10000f) / 100f);
     }
 }

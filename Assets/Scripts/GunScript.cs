@@ -19,4 +19,5 @@ public class GunScript : MonoBehaviour
 
     public bool flash;
     public bool smoke;
+    public bool granade;
 }
