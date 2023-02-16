@@ -78,7 +78,7 @@ public class GunControler : MonoBehaviour
 
                 //events
                 serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
-                serverEvents.sendEvent("universalEvent", "spawnBullet", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
+                serverEvents.sendEvent("universalEvent", "pr", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed); //need to change rotation and speed to velocity (3d)
 
                 reloading = false;
                 equippedGun.bulletsInClip -= 1;

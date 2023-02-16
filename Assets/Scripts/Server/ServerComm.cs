@@ -48,6 +48,7 @@ public class ServerComm : MonoBehaviour
 
         PPSText.text = "PPS: None";
         BPSText.text = "BPS: None";
+        
         try{
             client = new UdpClient(/*CLIENTPORT*/);
             client.Connect(SERVERADDRESS, SERVERPORT);
@@ -56,22 +57,26 @@ public class ServerComm : MonoBehaviour
         catch(Exception e){
             Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
-        ID = join(username);
-        Debug.Log("User ID: " + ID);
-        InvokeRepeating("serverUpdate", .1f, updateSpeed);
-        InvokeRepeating("updatePPSGUI", 0f, 1f);
+
+        join(username);
     }
 
-    int join(string name)
+    async void join(string name)
     {
         byte[] sendBytes = Encoding.ASCII.GetBytes("newClient~" + name);
         client.Send(sendBytes, sendBytes.Length);
         
+        Debug.Log("Joining...");
         //recieve
-        byte[] receiveBytes = client.Receive(ref remoteEndPoint);
-        return int.Parse(Encoding.ASCII.GetString(receiveBytes));
-    }
 
+        byte[] receiveBytes = new byte[0];
+        await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
+        ID = int.Parse(Encoding.ASCII.GetString(receiveBytes));
+        Debug.Log("User ID: " + ID);
+
+        InvokeRepeating("serverUpdate", .1f, updateSpeed);
+        InvokeRepeating("updatePPSGUI", 0f, 1f);
+    }
     void updatePPSGUI(){
         //Debug.Log("through packets: " + throughPackets);
         //Debug.Log("error packets: " + errorPackets);
@@ -82,9 +87,9 @@ public class ServerComm : MonoBehaviour
     }
 
     public void send(string message){
-        if(inSchool){
+        /*if(inSchool){
             try{
-                client = new UdpClient(/*CLIENTPORT*/);
+                client = new UdpClient();
                 client.Connect(SERVERADDRESS, SERVERPORT);
                 remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
                 //Debug.Log("howdy more");
@@ -92,7 +97,7 @@ public class ServerComm : MonoBehaviour
             catch(Exception e){
                 Debug.LogError("Couldn't connect, exeption: " + e.Message);
             }
-        }
+        }*/
 
         byte[] sendBytes = Encoding.ASCII.GetBytes(message);
         bytes += sendBytes.Length;
@@ -102,9 +107,9 @@ public class ServerComm : MonoBehaviour
 
     async void serverUpdate()
     {
-        if(inSchool){
+        /*if(inSchool){
             try{
-                client = new UdpClient(/*CLIENTPORT*/);
+                client = new UdpClient();
                 client.Connect(SERVERADDRESS, SERVERPORT);
                 remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
                 //Debug.Log("howdy more");
@@ -112,7 +117,7 @@ public class ServerComm : MonoBehaviour
             catch(Exception e){
                 Debug.LogError("Couldn't connect, exeption: " + e.Message);
             }
-        }
+        }*/
 
         string info = "";
         byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
@@ -150,19 +155,11 @@ public class ServerComm : MonoBehaviour
                     case "damage":
                         serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
                         break;
-                    case "spawnBullet":
-                        if(int.Parse(splitRawEvents[1]) != ID){
-                            serverEvents.spawnBullet(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //senderID, position, rotation, travel speed
-                        }
+                    case "pr": //projectile
+                        serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //senderID, type ID, position, velocity
                         break;
                     case "sound":
                         serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
-                        break;
-                    case "flash":
-                        serverEvents.spawnFlash(splitRawEvents[2], splitRawEvents[3]); //position, velocity
-                        break;
-                    case "granade":
-                        serverEvents.spawnGranade(splitRawEvents[2], splitRawEvents[3]);
                         break;
                     case "death":
                         serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed

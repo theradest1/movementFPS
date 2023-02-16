@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ServerEvents : MonoBehaviour
 {
+    public List<GameObject> projectilePrefabs;
     public List<GameObject> clientObjects;
     public List<OtherPlayer> clientScripts;
     public List<int> clientIDs;
@@ -101,10 +102,22 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
-    public void spawnBullet(string senderID, string position, string rotation, string travelSpeed){
-        GameObject bullet = Instantiate(bulletPrefab, parseVector3(position), parseQuaternion(rotation));
-        bullet.GetComponent<BulletScript>().goTo(float.Parse(travelSpeed), this, 0f, false, null);
+    public void spawnProjectile(string senderID, string typeID, string position, string velocity){
+        GameObject newProjectile = Instantiate(projectilePrefabs[int.Parse(typeID)], parseVector3(position), Quaternion.identity);
+        newProjectile.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
     }
+
+    /*public void spawnFlash(string position, string velocity){
+        GameObject newFlash = Instantiate(flashPrefab, parseVector3(position), Quaternion.identity);
+        newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
+        //Debug.Log("flash");
+    }
+
+    public void spawnGranade(string position, string velocity){
+        GameObject newGranade = Instantiate(granadePrefab, parseVector3(position), Quaternion.identity);
+        newGranade.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
+        //Debug.Log("flash");
+    }*/
 
     public void playSound(string clipID, string position, string volume, string pitch){
         soundManager.playSound(int.Parse(clipID), parseVector3(position), float.Parse(volume), float.Parse(pitch));
@@ -119,18 +132,6 @@ public class ServerEvents : MonoBehaviour
             clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
             //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
         }
-    }
-
-    public void spawnFlash(string position, string velocity){
-        GameObject newFlash = Instantiate(flashPrefab, parseVector3(position), Quaternion.identity);
-        newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
-        //Debug.Log("flash");
-    }
-
-    public void spawnGranade(string position, string velocity){
-        GameObject newGranade = Instantiate(granadePrefab, parseVector3(position), Quaternion.identity);
-        newGranade.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
-        //Debug.Log("flash");
     }
 
     Vector3 parseVector3(string vector3String){
