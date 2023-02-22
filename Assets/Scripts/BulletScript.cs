@@ -36,6 +36,7 @@ public class BulletScript : MonoBehaviour
 
     void Start(){
         Invoke("destroy", lifeTime);
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         //flash = transform.GetChild(0).gameObject;
         //Destroy(flash, flashTime);
     }
@@ -71,7 +72,7 @@ public class BulletScript : MonoBehaviour
                 serverEvents.sendEvent("ue", "death", coll.gameObject.name);
             }
             else{
-                serverEvents.sendEvent("universalEvent", "damage", coll.gameObject.name + "~" + damage);
+                serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
             }
         }
         else{

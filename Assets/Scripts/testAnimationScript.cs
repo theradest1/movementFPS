@@ -5,7 +5,7 @@ using UnityEngine;
 public class testAnimationScript : MonoBehaviour
 {
     public Animator animator;
-    public controlsManager controlsManagerScript;
+    public ControlsManager controlsManager;
     public float directionChangeSpeedVertical;
     public float directionChangeSpeedHorizontal;
     public Vector2 currentDirection;
@@ -13,7 +13,7 @@ public class testAnimationScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 moveDirection = controlsManagerScript.moveDirection;
+        Vector2 moveDirection = controlsManager.moveDirection;
         currentDirection = new Vector2(Mathf.Lerp(currentDirection.x, moveDirection.x, Time.deltaTime * directionChangeSpeedHorizontal),  Mathf.Lerp(currentDirection.y, moveDirection.y, Time.deltaTime * directionChangeSpeedVertical));
         animator.SetFloat("x", currentDirection.x);
         animator.SetFloat("y", currentDirection.y);

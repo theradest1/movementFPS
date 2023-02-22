@@ -8,7 +8,7 @@ public class InGameGUIManager : MonoBehaviour
 {
     GameObject menu;
     Slider senseSlider;
-    look lookScript;
+    Look look;
     GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
     public float killFeedTime;
@@ -19,7 +19,7 @@ public class InGameGUIManager : MonoBehaviour
         killFeedObject = GameObject.Find("kill feed");
         menu = GameObject.Find("Menu");
         senseSlider = GameObject.Find("sense").GetComponent<Slider>();
-        lookScript = GameObject.Find("Main Camera").GetComponent<look>();
+        look = GameObject.Find("Main Camera").GetComponent<Look>();
 
         menu.SetActive(false);
     }
@@ -35,16 +35,16 @@ public class InGameGUIManager : MonoBehaviour
         menu.SetActive(!menu.activeSelf);
         if(menu.activeSelf){
             Cursor.lockState = CursorLockMode.None;
-            lookScript.generalSense = 0f;
+            look.generalSense = 0f;
         }
         else{
             Cursor.lockState = CursorLockMode.Locked;
-            lookScript.generalSense = senseSlider.value;
+            look.generalSense = senseSlider.value;
         }
     }
 
     public void changeValue(){
-        lookScript.generalSense = senseSlider.value;
+        look.generalSense = senseSlider.value;
     }
 
     public void quit(){

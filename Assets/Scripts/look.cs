@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class look : MonoBehaviour
+public class Look : MonoBehaviour
 {
     GameObject player;
-    public float lookSpeedHorizontal;
-    public float lookSpeedVertical;
+    public float LookSpeedHorizontal;
+    public float LookSpeedVertical;
     public float generalSense;
     float camRotX = 0f;
     public float minCamRotX;
     public float maxCamRotX;
 
 
-    public controlsManager controlsManagerScript;
+    public ControlsManager controlsManager;
 
     void Start()
     {
@@ -25,10 +25,10 @@ public class look : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(controlsManagerScript.mouseDelta);
-        player.transform.Rotate(0f, controlsManagerScript.mouseDelta.x * lookSpeedHorizontal * generalSense, 0f);
+        //Debug.Log(controlsManager.mouseDelta);
+        player.transform.Rotate(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
 
-        camRotX = Mathf.Clamp(camRotX - controlsManagerScript.mouseDelta.y * lookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
+        camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
         this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
     }
 }

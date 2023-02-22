@@ -7,8 +7,8 @@ using TMPro;
 public class movement : MonoBehaviour
 {
     GameObject cam;
-    look lookScript;
-    controlsManager controlsManagerScript;
+    Look look;
+    ControlsManager controlsManager;
     ServerEvents serverEvents;
     TextMeshProUGUI velocityText;
 
@@ -37,36 +37,36 @@ public class movement : MonoBehaviour
     void Start(){
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         cam = GameObject.Find("Main Camera");
-        lookScript = cam.GetComponent<look>();
-        controlsManagerScript = GameObject.Find("manager").GetComponent<controlsManager>();
+        look = cam.GetComponent<Look>();
+        controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         velocityText = GameObject.Find("velocity debug").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2 moveDirection = controlsManagerScript.moveDirection;
+        Vector2 moveDirection = controlsManager.moveDirection;
 
         if(Vector2.Distance(lastFootstepPos, new Vector2(transform.position.x, transform.position.z)) >= footstepInterval && isGrounded){
             lastFootstepPos = new Vector2(transform.position.x, transform.position.z);
             serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
-        if(isGrounded && controlsManagerScript.jumping){
+        if(isGrounded && controlsManager.jumping){
             velocity.y = jumpPower;
         }
 
-        if(isGrounded && !controlsManagerScript.sprinting){
+        if(isGrounded && !controlsManager.sprinting){
             velocity += speed * transform.right * moveDirection.x * Time.deltaTime;
             velocity += speed * transform.forward * moveDirection.y * Time.deltaTime;
         }
-        else if(isGrounded && controlsManagerScript.sprinting){
+        else if(isGrounded && controlsManager.sprinting){
             velocity += speed * transform.right * moveDirection.x * sprintMultiplier * Time.deltaTime;
             velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * Time.deltaTime;
         }
         else{
             velocity.y += gravity * Time.deltaTime;
-            velocity = Quaternion.AngleAxis(controlsManagerScript.mouseDelta.x * lookScript.lookSpeedHorizontal, Vector3.up) * velocity;
+            velocity = Quaternion.AngleAxis(controlsManager.mouseDelta.x * look.LookSpeedHorizontal, Vector3.up) * velocity;
             if(transform.position.y < -100){
                 transform.position = new Vector3(0f, 20f, 0f);
             }

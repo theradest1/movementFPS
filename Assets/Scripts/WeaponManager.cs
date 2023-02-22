@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 public class WeaponManager : MonoBehaviour
 {
-    public ControlsManager controlsManager;
-    public List<ProjectileInfo> weapons;
-    ProjectileInfo equippedWeapon;
+    ControlsManager ControlsManager;
+    public List<WeaponInfo> weapons;
+    WeaponInfo equippedWeapon;
+
     GameObject cam;
     GameObject player;
     ServerEvents serverEvents;
     GameObject weaponContainer;
     SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
-    public LayerMask playerMask;
-    public LayerMask aimableMask;
+
+    //public LayerMask playerMask;
+    //public LayerMask aimableMask;
+
     public float weaponRotationSpeed;
     public float weaponTravelSpeed;
     public float reloadingTimer;
@@ -25,14 +28,14 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ControlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         cam = GameObject.Find("Main Camera");
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
-        weaponContainer = GameObject.Find("guns");
+        weaponContainer = GameObject.Find("weapons");
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         objectsInClipText = GameObject.Find("ammo left").GetComponent<TextMeshProUGUI>();
 
-        //equippedGun = guns[0];
         changeWeapon(1);
     }
 
@@ -43,7 +46,7 @@ public class WeaponManager : MonoBehaviour
             }
             reloading = false;
             
-            equippedWeapon = guns[newWeapon - 1];
+            equippedWeapon = weapons[newWeapon - 1];
             equippedWeapon.gameObject.SetActive(true);
             
             if(equippedWeapon.cooldown < equippedWeapon.equipCooldown){
@@ -62,13 +65,32 @@ public class WeaponManager : MonoBehaviour
         weaponContainer.transform.rotation = Quaternion.Slerp(weaponContainer.transform.rotation, player.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
+        
+        if(ControlsManager.reloading && !reloading && equippedWeapon.reloadable){
+            reloading = true;
+            reloadingTimer = equippedWeapon.reloadTime;
+            objectsInClipText.text = "--/" + equippedWeapon.clipSize;
+        }
 
-        if(controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0){
-            serverEvents.sendEvent("ue", "pr", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed);
+        reloadingTimer -= Time.deltaTime;
+        if(reloading && reloadingTimer <= 0 && equippedWeapon.objectsInClip < equippedWeapon.clipSize){
+            reloading = false;
+            equippedWeapon.objectsInClip = equippedWeapon.clipSize;
+            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+            serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
+        }
+
+        if(ControlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0){
+            reloading = false;
+            equippedWeapon.objectsInClip -= 1;
+            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+            equippedWeapon.cooldownTimer = equippedWeapon.cooldown;
+            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + cam.transform.position + "~" + weaponContainer.transform.forward * equippedWeapon.bulletTravelSpeed);
+            serverEvents.sendEvent("ue", "sound", equippedWeapon.shootSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
 
         /*if(!equippedGun.flash && !equippedGun.smoke && !equippedGun.granade){
-            if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
+            if(controlsManager.shooting && equippedGun.cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
 
                 //events
                 serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
@@ -93,14 +115,14 @@ public class WeaponManager : MonoBehaviour
                 bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
             }
 
-            if(controlsManagerScript.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
+            if(controlsManager.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
                 reloading = true;
                 bulletsInClipText.text = "--/" + equippedGun.clipSize;
                 serverEvents.sendEvent("universalEvent", "sound", equippedGun.reloadSound + "~" + equippedGun.transform.position + "~1~1");
                 reloadingTimer = equippedGun.reloadTime;
             }
         }
-        else if(controlsManagerScript.shooting && equippedGun.cooldownTimer <= 0f){
+        else if(controlsManager.shooting && equippedGun.cooldownTimer <= 0f){
             if(equippedGun.flash){
                 equippedGun.cooldownTimer = equippedGun.cooldown;
                 serverEvents.sendEvent("ue", "flash", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);

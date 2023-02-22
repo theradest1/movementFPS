@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class controlsManager : MonoBehaviour
+public class ControlsManager : MonoBehaviour
 {
     [HideInInspector]
     public Vector2 moveDirection;
@@ -11,8 +11,8 @@ public class controlsManager : MonoBehaviour
 
     public PlayerControls playerControls;
     movement movementScript;
-    look lookScript;
-    GunControler gunControler;
+    Look look;
+    WeaponManager weaponManager;
     InGameGUIManager inGameGUIManager;
 
     [HideInInspector]
@@ -34,8 +34,8 @@ public class controlsManager : MonoBehaviour
 
     private void Start() {
         movementScript = GameObject.Find("Player").GetComponent<movement>();
-        lookScript = GameObject.Find("Main Camera").GetComponent<look>();
-        gunControler = GameObject.Find("Player").GetComponent<GunControler>();
+        look = GameObject.Find("Main Camera").GetComponent<Look>();
+        weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
     }
     
@@ -104,7 +104,7 @@ public class controlsManager : MonoBehaviour
             newEquippedNum = 10;
         }
         if(newEquippedNum != equippedNum){
-            gunControler.changeObject(newEquippedNum);
+            weaponManager.changeWeapon(newEquippedNum);
             equippedNum = newEquippedNum;
         }
     }

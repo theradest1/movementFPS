@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileInfo : MonoBehaviour
+public class WeaponInfo : MonoBehaviour
 {
-    public GameObject projectileID;
+    public int projectileID;
     public float bulletTravelSpeed;
     public float damage;
     public float startDistance;

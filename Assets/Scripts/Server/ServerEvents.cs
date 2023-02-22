@@ -20,17 +20,16 @@ public class ServerEvents : MonoBehaviour
     PlayerManager playerManager;
     SoundManager soundManager;
     InGameGUIManager inGameGUIManager;
+    ProjectileManager projectileManager;
     GameObject player;
 
     public GameObject clientPrefab;
-    public GameObject bulletPrefab;
-    public GameObject flashPrefab;
-    public GameObject granadePrefab;
 
     private void Start() {
         player = GameObject.Find("Player");
         inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
+        projectileManager = GameObject.Find("manager").GetComponent<ProjectileManager>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
     }
