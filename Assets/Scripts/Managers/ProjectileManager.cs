@@ -35,6 +35,9 @@ public class ProjectileManager : MonoBehaviour
             if(projectileID == 3){
                 newProjectile.GetComponent<FakeBullet>().setInfo(velocity, senderID);
             }
+            if(projectileID == 4){
+                newProjectile.GetComponent<Smoke>().setInfo(velocity);
+            }
         }
     }
 }

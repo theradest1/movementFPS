@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1779930606269458194}
   - component: {fileID: 209336473861058758}
   - component: {fileID: 8581965224537758689}
+  - component: {fileID: -5856950134755788395}
+  - component: {fileID: 5267590851433709600}
   m_Layer: 0
   m_Name: smoke
   m_TagString: Untagged
@@ -98,3 +100,33 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5856950134755788395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190345500511294596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7cb0b7db7c92d4fa78fa1006f1b60f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToExplode: 2
+  rb: {fileID: 5267590851433709600}
+--- !u!54 &5267590851433709600
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190345500511294596}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
