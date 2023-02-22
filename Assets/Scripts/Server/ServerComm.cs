@@ -159,7 +159,7 @@ public class ServerComm : MonoBehaviour
                         serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity
                         break;
                     case "s": //sound
-                        serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
+                        serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitch
                         break;
                     case "death":
                         serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed

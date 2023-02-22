@@ -14,11 +14,12 @@ public class Look : MonoBehaviour
     public float maxCamRotX;
 
 
-    public ControlsManager controlsManager;
+    ControlsManager controlsManager;
 
     void Start()
     {
         player = GameObject.Find("Player");
+        controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         //Cursor.lockState = CursorLockMode.Locked;
     }
 
