@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ac518e0ced6f142890be5c369ad5a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 686731377572739687}
   bulletHolePrefab: {fileID: 6221045549996187465, guid: 74397d116dc8f584ca1531ca891cd9ec, type: 3}
   bulletHoleLife: 10
   maxLifeTime: 5

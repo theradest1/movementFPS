@@ -6,7 +6,15 @@ public class Granade : MonoBehaviour
 {
     public float timeToExplode;
     float damage;
-    public void setInfo(float givenDamage){
+    public Rigidbody rb;
+
+    public void setInfo(Vector3 givenVelocity, float givenDamage){
         damage = givenDamage;
+        rb.velocity = givenVelocity;
+        Invoke("explode", timeToExplode);
+    }
+
+    void explode(){
+        Debug.Log("bang (granade)");
     }
 }

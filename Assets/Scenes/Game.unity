@@ -796,7 +796,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76ce6c5aa63d9542a75f1dd18dd09af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefabs: []
   clientObjects: []
   clientScripts: []
   clientIDs: 
@@ -805,9 +804,6 @@ MonoBehaviour:
   clientUsernames: []
   invincibilityTimeOnDeath: 3
   clientPrefab: {fileID: 6132854965544720835, guid: 8d16eeaaa9710e9478fa3d8fa04a6adf, type: 3}
-  bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
-  flashPrefab: {fileID: 8190345500511294596, guid: 343ba4540133a754cac46449d7118c18, type: 3}
-  granadePrefab: {fileID: 8190345500511294596, guid: c2453b07a3b876741a5e9106bb16d8e7, type: 3}
 --- !u!114 &331435473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,12 +975,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61183ca6b250b28449992669cdac26e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileID: 0
+  projectileID: 3
   bulletTravelSpeed: 100
   damage: 20
   startDistance: 1.7
   shootSound: 0
-  reloadSound: 0
+  reloadSound: 1
   cooldown: 0.1
   equipCooldown: 0.5
   cooldownTimer: 0
@@ -2097,8 +2093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b045ac5911831d4f909a9e9d9289b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookSpeedHorizontal: 0
-  LookSpeedVertical: 0
+  LookSpeedHorizontal: 0.5
+  LookSpeedVertical: 0.5
   generalSense: 1
   minCamRotX: -70
   maxCamRotX: 70
@@ -3058,6 +3054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapons:
   - {fileID: 417303074}
+  equippedWeapon: {fileID: 0}
   weaponRotationSpeed: 20
   weaponTravelSpeed: 50
   reloadingTimer: 0
@@ -3074,7 +3071,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27e257b898598e49a92125ca8ec16eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectiles: []
+  projectiles:
+  - {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
+  - {fileID: 8190345500511294596, guid: 343ba4540133a754cac46449d7118c18, type: 3}
+  - {fileID: 8190345500511294596, guid: c2453b07a3b876741a5e9106bb16d8e7, type: 3}
+  - {fileID: 6221045549996187465, guid: 6a4f2ddf9c384ae4ea72a7dce64c35d9, type: 3}
 --- !u!1 &1361770549
 GameObject:
   m_ObjectHideFlags: 0

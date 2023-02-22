@@ -152,13 +152,13 @@ public class ServerComm : MonoBehaviour
                     case "removeClient":
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
-                    case "damage":
+                    case "d": //damage
                         serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
                         break;
                     case "pr": //projectile
-                        serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //senderID, type ID, position, velocity
+                        serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity
                         break;
-                    case "sound":
+                    case "s": //sound
                         serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitcj
                         break;
                     case "death":

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ServerEvents : MonoBehaviour
 {
-    public List<GameObject> projectilePrefabs;
     public List<GameObject> clientObjects;
     public List<OtherPlayer> clientScripts;
     public List<int> clientIDs;
@@ -29,7 +28,7 @@ public class ServerEvents : MonoBehaviour
         player = GameObject.Find("Player");
         inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
-        projectileManager = GameObject.Find("manager").GetComponent<ProjectileManager>();
+        projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
     }
@@ -37,6 +36,12 @@ public class ServerEvents : MonoBehaviour
     public void sendEvent(string eventType, string eventName, string eventInfo){
         if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
             eventType = "ue";
+        }
+        if(eventName == "damage"){ //I'll eventually get rid of this but i'm currently lazy
+            eventName = "d";
+        }
+        if(eventName == "sound"){ //I'll eventually get rid of this but i'm currently lazy
+            eventName = "s";
         }
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
         serverComm.send(eventToSend);
@@ -101,9 +106,11 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
-    public void spawnProjectile(string senderID, string typeID, string position, string velocity){
-        GameObject newProjectile = Instantiate(projectilePrefabs[int.Parse(typeID)], parseVector3(position), Quaternion.identity);
-        newProjectile.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
+    public void spawnProjectile(string senderID, string typeID, string damage, string position, string velocity){
+        //Debug.Log(senderID + ", " + typeID + ", " + damage + ", " + position + ", " + velocity);
+        projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), parseVector3(velocity));
+        //GameObject newProjectile = Instantiate(projectilePrefabs[int.Parse(typeID)], parseVector3(position), Quaternion.identity);
+        //newProjectile.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
     }
 
     /*public void spawnFlash(string position, string velocity){

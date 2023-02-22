@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 6221045549996187469}
   - component: {fileID: 6221045549996187466}
   - component: {fileID: 6221045549996187467}
+  - component: {fileID: 7960592675238241489}
   - component: {fileID: 6221045549996187464}
-  - component: {fileID: -8066836948280246429}
   - component: {fileID: -3675639272251135434}
   m_Layer: 0
   m_Name: bullet
@@ -86,6 +86,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7960592675238241489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6221045549996187465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f92a31685e641948b2e59a575539fc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fakeBulletPrefab: {fileID: 6221045549996187465, guid: 0ba44a335458693469a7173c909fedf8, type: 3}
+  bulletHolePrefab: {fileID: 6221045549996187465, guid: 74397d116dc8f584ca1531ca891cd9ec, type: 3}
+  rb: {fileID: -3675639272251135434}
+  maxLifeTime: 3
+  fakeBulletAccuracy: 8
+  bulletHoleLife: 10
+  fakeBulletLifeTime: 2
 --- !u!135 &6221045549996187464
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -99,24 +118,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-8066836948280246429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6221045549996187465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56100031d04336549833a837908236ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 3
-  rb: {fileID: -3675639272251135434}
-  fakeBulletAccuracy: 8
-  bulletHoleLife: 10
-  bulletHolePrefab: {fileID: 6221045549996187465, guid: 74397d116dc8f584ca1531ca891cd9ec, type: 3}
-  timeBeforeDestroyFake: 2
 --- !u!54 &-3675639272251135434
 Rigidbody:
   m_ObjectHideFlags: 0

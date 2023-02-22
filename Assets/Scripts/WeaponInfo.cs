@@ -23,6 +23,6 @@ public class WeaponInfo : MonoBehaviour
     public int clipSize;
 
     private void Update() {
-        cooldown -= Time.deltaTime;
+        cooldownTimer -= Time.deltaTime;
     }
 }

@@ -8,12 +8,15 @@ public class WeaponManager : MonoBehaviour
 {
     ControlsManager ControlsManager;
     public List<WeaponInfo> weapons;
-    WeaponInfo equippedWeapon;
+    
+    [HideInInspector]
+    public WeaponInfo equippedWeapon;
 
     GameObject cam;
     GameObject player;
     ServerEvents serverEvents;
     GameObject weaponContainer;
+    ProjectileManager projectileManager;
     SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
 
@@ -28,6 +31,7 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         ControlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         cam = GameObject.Find("Main Camera");
         player = GameObject.Find("Player");
@@ -49,8 +53,8 @@ public class WeaponManager : MonoBehaviour
             equippedWeapon = weapons[newWeapon - 1];
             equippedWeapon.gameObject.SetActive(true);
             
-            if(equippedWeapon.cooldown < equippedWeapon.equipCooldown){
-                equippedWeapon.cooldown = equippedWeapon.equipCooldown;
+            if(equippedWeapon.cooldownTimer < equippedWeapon.equipCooldown){
+                equippedWeapon.cooldownTimer = equippedWeapon.equipCooldown;
             }
             
             Debug.Log("Changed to " + equippedWeapon.gameObject.name);
@@ -70,6 +74,7 @@ public class WeaponManager : MonoBehaviour
             reloading = true;
             reloadingTimer = equippedWeapon.reloadTime;
             objectsInClipText.text = "--/" + equippedWeapon.clipSize;
+            serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
 
         reloadingTimer -= Time.deltaTime;
@@ -77,7 +82,6 @@ public class WeaponManager : MonoBehaviour
             reloading = false;
             equippedWeapon.objectsInClip = equippedWeapon.clipSize;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
-            serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
 
         if(ControlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0){
@@ -85,7 +89,12 @@ public class WeaponManager : MonoBehaviour
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
             equippedWeapon.cooldownTimer = equippedWeapon.cooldown;
-            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + cam.transform.position + "~" + weaponContainer.transform.forward * equippedWeapon.bulletTravelSpeed);
+            
+            if(equippedWeapon.projectileID == 3){ //only for bullets
+                projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * equippedWeapon.bulletTravelSpeed);
+            }
+
+            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * equippedWeapon.bulletTravelSpeed);
             serverEvents.sendEvent("ue", "sound", equippedWeapon.shootSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
 
