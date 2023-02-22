@@ -25,7 +25,7 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void killFeed(string killerUsername, string killedUsername){
-        Debug.Log(killedUsername + " got " + killedUsername + " with a spatchula");
+        Debug.Log(killerUsername + " got " + killedUsername + " with a spatchula");
         GameObject newPart = Instantiate(killFeedChildPrefab, Vector3.zero, Quaternion.identity, killFeedObject.transform);
         newPart.GetComponent<TextMeshProUGUI>().text = killedUsername + " got " + killedUsername + " with a spatchula";
         Destroy(newPart, killFeedTime);
