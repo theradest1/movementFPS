@@ -52,6 +52,7 @@ public class WeaponManager : MonoBehaviour
             
             equippedWeapon = weapons[newWeapon - 1];
             equippedWeapon.gameObject.SetActive(true);
+            equippedWeapon.transform.localRotation = Quaternion.Euler(50f, equippedWeapon.transform.localEulerAngles.y, equippedWeapon.transform.localEulerAngles.z); 
             
             if(equippedWeapon.cooldownTimer < equippedWeapon.equipCooldown){
                 equippedWeapon.cooldownTimer = equippedWeapon.equipCooldown;
@@ -70,7 +71,7 @@ public class WeaponManager : MonoBehaviour
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
-        if(controlsManager.reloading && !reloading && equippedWeapon.reloadable){
+        if((controlsManager.reloading && !reloading && equippedWeapon.reloadable) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
             reloadingTimer = equippedWeapon.reloadTime;
             objectsInClipText.text = "--/" + equippedWeapon.clipSize;

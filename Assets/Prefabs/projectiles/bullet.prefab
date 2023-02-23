@@ -102,9 +102,9 @@ MonoBehaviour:
   bulletHolePrefab: {fileID: 6221045549996187465, guid: 74397d116dc8f584ca1531ca891cd9ec, type: 3}
   rb: {fileID: -3675639272251135434}
   maxLifeTime: 3
-  fakeBulletAccuracy: 8
+  fakeBulletAccuracy: 30
   bulletHoleLife: 10
-  fakeBulletLifeTime: 0.07
+  fakeBulletLifeTime: 0.1
 --- !u!135 &6221045549996187464
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -10,8 +10,8 @@ public class WeaponInfo : MonoBehaviour
     public float startDistance;
 
     public int shootSound;
-    public float shootPitch;
-    public float shootVolume;
+    public float shootPitch = 1f;
+    public float shootVolume = 1f;
     public int reloadSound;
     
     public float cooldown;
