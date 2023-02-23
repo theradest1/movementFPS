@@ -43,7 +43,6 @@ public class ServerComm : MonoBehaviour
         SERVERADDRESS = MainMenu.address;
         //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;
-        inSchool = MainMenu.inSchool;
         username = MainMenu.username;
 
         PPSText.text = "PPS: None";
