@@ -62,9 +62,13 @@ public class MainMenu : MonoBehaviour
             port = 4000;
             address = "75.100.205.73";
         }
-        else if(option == "Local Host"){
+        else if(option == "Local Host - self"){
             port = 4000;
             address = "localhost";
+        }
+        else if(option == "Local Host - raspi"){
+            port = 4000;
+            address = "192.168.0.50";
         }
         else if(option == "Custom"){
             port = int.Parse(portInput.text);

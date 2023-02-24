@@ -5,10 +5,10 @@ const server = dgram.createSocket('udp4');
 const validCommands = ['u', 'newClient', 'ue']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 50; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
+const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
-packetCounter = 0; //will be inaccurate if disconnect interval is different
+packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
 
 playerTransformInfo = []; //position and rotation
 playerInfo = []; //usernames, might be more later

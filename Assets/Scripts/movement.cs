@@ -73,7 +73,7 @@ public class movement : MonoBehaviour
             serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
-        if(controlsManager.jumping){
+        if(isGrounded && controlsManager.jumping && ableToJump && !isSliding){
             velocity.y = jumpPower;
             isGrounded = false;
             ableToJump = false;
