@@ -27,9 +27,10 @@ public class movement : MonoBehaviour
     public float stopSpeedAir;
     public float maxSpeed;
     public float sprintMultiplier;
+    public float speedBoostOnSlide;
 
     public float footstepInterval;
-    public Vector2 lastFootstepPos;
+    Vector2 lastFootstepPos;
 
     public Vector3 camPosSliding;
     public float camPosSpeed;
@@ -72,15 +73,15 @@ public class movement : MonoBehaviour
             serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
-        if(isGrounded && controlsManager.jumping && !isSliding && ableToJump){
+        if(controlsManager.jumping){
             velocity.y = jumpPower;
-            ableToJump = false;
             isGrounded = false;
+            ableToJump = false;
         }
         //Debug.Log(velocity);
         if(isGrounded && controlsManager.crouching){
             if(!isSliding){
-                float velocityMag = velocity.magnitude;
+                float velocityMag = velocity.magnitude + speedBoostOnSlide;
                 velocity = cam.transform.forward * velocityMag;
             }
             isSliding = true;
@@ -90,7 +91,7 @@ public class movement : MonoBehaviour
         }
 
         if(isGrounded && !isSliding){
-            velocity.y  = -1f;
+            velocity.y = -1f;
         }
 
         if(isGrounded && !isSliding){

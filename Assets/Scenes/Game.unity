@@ -3816,13 +3816,13 @@ MonoBehaviour:
   speed: 100
   jumpPower: 7
   stopSpeedGround: 0.85
-  stopSpeedSliding: 0.995
+  stopSpeedSliding: 0.997
   stopSpeedAir: 0.999
   maxSpeed: 9999
   sprintMultiplier: 1
+  speedBoostOnSlide: 2
   footstepInterval: 3
-  lastFootstepPos: {x: 0, y: 0}
-  camPosSliding: {x: 0, y: 0.4, z: 0}
+  camPosSliding: {x: 0, y: 0.2, z: 0}
   camPosSpeed: 25
   camPosNotSliding: {x: 0, y: 0.72, z: 0}
 --- !u!4 &1360005022
