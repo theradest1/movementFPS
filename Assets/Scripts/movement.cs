@@ -154,7 +154,10 @@ public class movement : MonoBehaviour
             transform.position -= new Vector3(velocity.x, 0f, 0f) * Time.deltaTime;
             velocity.x = 0f;
         }
-        
+            
+        float yVel = velocity.y;
+        velocity.y = 0f;
         velocityText.text = "Velocity: " + (Mathf.Round(velocity.magnitude * 10000f) / 100f);
+        velocity.y = yVel;
     }
 }

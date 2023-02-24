@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18350838, g: 0.2290651, b: 0.30572262, a: 1}
+  m_IndirectSpecularColor: {r: 0.18350783, g: 0.22906432, b: 0.3057214, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3818,9 +3818,9 @@ MonoBehaviour:
   stopSpeedGround: 0.85
   stopSpeedSliding: 0.997
   stopSpeedAir: 0.999
-  maxSpeed: 9999
+  maxSpeed: 3000
   sprintMultiplier: 1
-  speedBoostOnSlide: 2
+  speedBoostOnSlide: 3
   footstepInterval: 3
   camPosSliding: {x: 0, y: 0.2, z: 0}
   camPosSpeed: 25

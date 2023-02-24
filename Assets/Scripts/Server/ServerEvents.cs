@@ -20,11 +20,13 @@ public class ServerEvents : MonoBehaviour
     SoundManager soundManager;
     InGameGUIManager inGameGUIManager;
     ProjectileManager projectileManager;
+    WeaponManager weaponManager;
     GameObject player;
 
     public GameObject clientPrefab;
 
     private void Start() {
+        weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         player = GameObject.Find("Player");
         inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
@@ -51,8 +53,9 @@ public class ServerEvents : MonoBehaviour
     public void death(string killerID, string killedID){
         inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
         if(int.Parse(killedID) == serverComm.ID){
-            player.transform.position = new Vector3(Random.Range(-20f, 20f), 20f, Random.Range(-20f, 20f));
+            player.transform.position = new Vector3(Random.Range(-18f, 18), 10f, Random.Range(-18f, 18f));
             playerManager.changeHealth(-1000f);
+            weaponManager.resetAllWeapons();
         }
         else{
             clientScripts[clientIDs.IndexOf(int.Parse(killedID))].invincibilityTimer = invincibilityTimeOnDeath;

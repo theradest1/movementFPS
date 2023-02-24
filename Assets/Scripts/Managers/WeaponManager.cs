@@ -43,6 +43,14 @@ public class WeaponManager : MonoBehaviour
         changeWeapon(1);
     }
 
+    public void resetAllWeapons(){
+        for(int weaponID = 0; weaponID < weapons.Count; weaponID++){
+            weapons[weaponID].objectsInClip = weapons[weaponID].clipSize;
+            weapons[weaponID].cooldownTimer = 0f;
+        }
+        objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+    }
+
     public void changeWeapon(int newWeapon){
         if(newWeapon <= weapons.Count){
             if(equippedWeapon != null){
@@ -71,7 +79,7 @@ public class WeaponManager : MonoBehaviour
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
-        if((controlsManager.reloading && !reloading && equippedWeapon.reloadable) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
+        if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < equippedWeapon.clipSize) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
             reloadingTimer = equippedWeapon.reloadTime;
             objectsInClipText.text = "--/" + equippedWeapon.clipSize;
