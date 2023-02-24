@@ -74,7 +74,6 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        weaponContainer.transform.position = Vector3.Lerp(weaponContainer.transform.position, cam.transform.position, weaponTravelSpeed * Time.deltaTime);
         weaponContainer.transform.rotation = Quaternion.Slerp(weaponContainer.transform.rotation, player.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);

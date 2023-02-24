@@ -3812,19 +3812,20 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 192
-  gravity: -15
-  speed: 100
-  jumpPower: 7
+  gravity: -0.002
+  speed: 0.015
+  jumpPower: 0.085
   stopSpeedGround: 0.85
   stopSpeedSliding: 0.997
   stopSpeedAir: 0.999
   maxSpeed: 3000
   sprintMultiplier: 1
-  speedBoostOnSlide: 3
+  speedBoostOnSlide: 0.002
   footstepInterval: 3
   camPosSliding: {x: 0, y: 0.2, z: 0}
-  camPosSpeed: 25
+  camPosSpeed: 0.05
   camPosNotSliding: {x: 0, y: 0.72, z: 0}
+  weaponTravelSpeed: 0.3
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0

@@ -35,6 +35,8 @@ public class movement : MonoBehaviour
     public Vector3 camPosSliding;
     public float camPosSpeed;
     public Vector3 camPosNotSliding;
+    public float weaponTravelSpeed;
+    GameObject weaponContainer;
     
 
     void OnDrawGizmos(){
@@ -44,6 +46,7 @@ public class movement : MonoBehaviour
     }
 
     void Start(){
+        weaponContainer = GameObject.Find("weapons");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         cam = GameObject.Find("Main Camera");
         look = cam.GetComponent<Look>();
@@ -54,23 +57,18 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    void FixedUpdate() {
         Vector2 moveDirection = controlsManager.moveDirection;
         if(!controlsManager.jumping){
             ableToJump = true;
         }
-        
-        Vector3 goToPos;
-        if(isSliding){
-            goToPos = camPosSliding;
-        }
-        else{
-            goToPos = camPosNotSliding;
-        }
-        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed * Time.deltaTime);
 
         if(Vector2.Distance(lastFootstepPos, new Vector2(transform.position.x, transform.position.z)) >= footstepInterval && isGrounded && !isSliding){
             lastFootstepPos = new Vector2(transform.position.x, transform.position.z);
-            serverEvents.sendEvent("universalEvent", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
+            serverEvents.sendEvent("ue", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
         if(isGrounded && controlsManager.jumping && ableToJump && !isSliding){
@@ -78,11 +76,12 @@ public class movement : MonoBehaviour
             isGrounded = false;
             ableToJump = false;
         }
-        //Debug.Log(velocity);
+        Debug.Log(velocity);
         if(isGrounded && controlsManager.crouching){
             if(!isSliding){
                 float velocityMag = velocity.magnitude + speedBoostOnSlide;
                 velocity = cam.transform.forward * velocityMag;
+                Debug.Log("added velocity with magnitude " + velocityMag);
             }
             isSliding = true;
         }
@@ -91,31 +90,27 @@ public class movement : MonoBehaviour
         }
 
         if(isGrounded && !isSliding){
-            velocity.y = -1f;
+            velocity.y = -.0001f;
         }
 
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
-                velocity += speed * transform.right * moveDirection.x * sprintMultiplier * Time.deltaTime;
-                velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * Time.deltaTime;
+                velocity += speed * transform.right * moveDirection.x * sprintMultiplier;
+                velocity += speed * transform.forward * moveDirection.y * sprintMultiplier;
             }
             else{
-                velocity += speed * transform.right * moveDirection.x * Time.deltaTime;
-                velocity += speed * transform.forward * moveDirection.y * Time.deltaTime;
+                velocity += speed * transform.right * moveDirection.x;
+                velocity += speed * transform.forward * moveDirection.y;
             }
         }
         else if(!isSliding){
-            velocity.y += gravity * Time.deltaTime;
+            velocity.y += gravity;
             //velocity = Quaternion.AngleAxis(controlsManager.mouseDelta.x * look.LookSpeedHorizontal, Vector3.up) * velocity;
             if(transform.position.y < -100){
                 transform.position = new Vector3(0f, 20f, 0f);
             }
         }
         
-        applyVelocity(velocity);
-    }
-
-    void FixedUpdate() {
         if(isGrounded){
             if(isSliding){
                 velocity.x *= stopSpeedSliding;
@@ -130,12 +125,25 @@ public class movement : MonoBehaviour
             velocity.x *= stopSpeedAir;
             velocity.z *= stopSpeedAir;
         }
+
+        applyVelocity(velocity);
+        
+        weaponContainer.transform.position = Vector3.Lerp(weaponContainer.transform.position, cam.transform.position, weaponTravelSpeed);
+        
+        Vector3 goToPos;
+        if(isSliding){
+            goToPos = camPosSliding;
+        }
+        else{
+            goToPos = camPosNotSliding;
+        }
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed);
     }
 
     void applyVelocity(Vector3 velocity){
-        transform.position += new Vector3(0f, velocity.y, 0f) * Time.deltaTime;
+        transform.position += new Vector3(0f, velocity.y, 0f);
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, velocity.y, 0f) * Time.deltaTime;
+            transform.position -= new Vector3(0f, velocity.y, 0f);
             isGrounded = true;//velocity.y <= 0f;
             velocity.y = 0f;
         }
@@ -143,15 +151,15 @@ public class movement : MonoBehaviour
             isGrounded = false;
         }
 
-        transform.position += new Vector3(0f, 0f, velocity.z) * Time.deltaTime;
+        transform.position += new Vector3(0f, 0f, velocity.z);
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, 0f, velocity.z) * Time.deltaTime;
+            transform.position -= new Vector3(0f, 0f, velocity.z);
             velocity.z = 0f;
         }
         
-        transform.position += new Vector3(velocity.x, 0f, 0f) * Time.deltaTime;
+        transform.position += new Vector3(velocity.x, 0f, 0f);
         if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(velocity.x, 0f, 0f) * Time.deltaTime;
+            transform.position -= new Vector3(velocity.x, 0f, 0f);
             velocity.x = 0f;
         }
             
