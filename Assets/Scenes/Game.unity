@@ -3813,14 +3813,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   gravity: -15
-  speed: 70
+  speed: 100
   jumpPower: 7
   stopSpeedGround: 0.85
+  stopSpeedSliding: 0.995
   stopSpeedAir: 0.999
   maxSpeed: 9999
-  sprintMultiplier: 1.8
+  sprintMultiplier: 1
   footstepInterval: 3
   lastFootstepPos: {x: 0, y: 0}
+  camPosSliding: {x: 0, y: 0.4, z: 0}
+  camPosSpeed: 25
+  camPosNotSliding: {x: 0, y: 0.72, z: 0}
 --- !u!4 &1360005022
 Transform:
   m_ObjectHideFlags: 0
