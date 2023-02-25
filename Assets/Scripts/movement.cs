@@ -76,12 +76,11 @@ public class movement : MonoBehaviour
             isGrounded = false;
             ableToJump = false;
         }
-        Debug.Log(velocity);
+
         if(isGrounded && controlsManager.crouching){
             if(!isSliding){
                 float velocityMag = velocity.magnitude + speedBoostOnSlide;
                 velocity = cam.transform.forward * velocityMag;
-                Debug.Log("added velocity with magnitude " + velocityMag);
             }
             isSliding = true;
         }

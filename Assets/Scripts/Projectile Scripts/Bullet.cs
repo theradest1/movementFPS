@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
         serverEvents = givenServerEvents;
         damage = givenDamage;
         fakeBullet = Instantiate(fakeBulletPrefab, fouxBulletPos, Quaternion.identity);
+        fakeBullet.transform.LookAt(fakeBullet.transform.position + rb.velocity);
 
         Destroy(fakeBullet, maxLifeTime);
         Destroy(this.gameObject, maxLifeTime);

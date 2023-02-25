@@ -27,6 +27,7 @@ public class WeaponManager : MonoBehaviour
     public float weaponTravelSpeed;
     public float reloadingTimer;
     public bool reloading;
+    public bool ableToShoot = true;
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +58,7 @@ public class WeaponManager : MonoBehaviour
                 equippedWeapon.gameObject.SetActive(false);
             }
             reloading = false;
+            ableToShoot = true;
             
             equippedWeapon = weapons[newWeapon - 1];
             equippedWeapon.gameObject.SetActive(true);
@@ -74,6 +76,10 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!controlsManager.shooting){
+            ableToShoot = true;
+        }
+        
         weaponContainer.transform.rotation = Quaternion.Slerp(weaponContainer.transform.rotation, player.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
@@ -92,7 +98,10 @@ public class WeaponManager : MonoBehaviour
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
         }
 
-        if(controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0){
+        if(controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0 && ableToShoot){
+            if(!equippedWeapon.automatic){
+                ableToShoot = false;
+            }
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;

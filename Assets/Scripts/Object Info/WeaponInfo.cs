@@ -20,6 +20,7 @@ public class WeaponInfo : MonoBehaviour
     public float reloadTime;
 
     public bool reloadable;
+    public bool automatic = true;
 
     public int objectsInClip;
     public int clipSize;
