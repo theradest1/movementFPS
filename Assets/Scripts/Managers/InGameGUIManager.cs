@@ -6,24 +6,29 @@ using TMPro;
 
 public class InGameGUIManager : MonoBehaviour
 {
-    GameObject menu;
-    Slider senseSlider;
-    Slider volumeSlider;
+    public GameObject menu;
+    public Slider senseSlider;
+    public Slider volumeSlider;
     Look look;
     SoundManager soundManager;
-    GameObject killFeedObject;
+    ControlsManager controlsManager;
+    public GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
     public float killFeedTime;
+    public GameObject scoreboard;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        killFeedObject = GameObject.Find("kill feed");
-        menu = GameObject.Find("Menu");
-        senseSlider = GameObject.Find("sense").GetComponent<Slider>();
-        volumeSlider = GameObject.Find("volume").GetComponent<Slider>();
+        //killFeedObject = GameObject.Find("kill feed");
+        //menu = GameObject.Find("Menu");
+        //senseSlider = GameObject.Find("sense").GetComponent<Slider>();
+        //volumeSlider = GameObject.Find("volume").GetComponent<Slider>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
+        controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 
         menu.SetActive(false);
         changeValue();
@@ -54,5 +59,9 @@ public class InGameGUIManager : MonoBehaviour
 
     public void quit(){
         Application.Quit();
+    }
+
+    private void Update() {
+        scoreboard.SetActive(controlsManager.tab);
     }
 }

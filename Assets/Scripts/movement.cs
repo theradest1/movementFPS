@@ -11,6 +11,7 @@ public class movement : MonoBehaviour
     ControlsManager controlsManager;
     ServerEvents serverEvents;
     TextMeshProUGUI velocityText;
+    TextMeshProUGUI FPStext;
 
     Vector3 velocity = new Vector3(0f, 0f, 0f);
     bool isGrounded = false;
@@ -46,6 +47,7 @@ public class movement : MonoBehaviour
     }
 
     void Start(){
+        FPStext = GameObject.Find("FPS debug").GetComponent<TextMeshProUGUI>();
         weaponContainer = GameObject.Find("weapons");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         cam = GameObject.Find("Main Camera");
@@ -57,7 +59,7 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        FPStext.text = "FPS: " + (Mathf.Round(1/Time.deltaTime));
     }
 
     void FixedUpdate() {

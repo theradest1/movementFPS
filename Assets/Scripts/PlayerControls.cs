@@ -222,6 +222,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""55e4f593-e2c1-4ca3-9da6-2a87a83ffe29"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -266,6 +275,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0afbed0-f617-4d2c-b246-33721de0b6d8"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""tab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -497,6 +517,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_interactions_ADS = m_interactions.FindAction("ADS", throwIfNotFound: true);
         m_interactions_reload = m_interactions.FindAction("reload", throwIfNotFound: true);
         m_interactions_escape = m_interactions.FindAction("escape", throwIfNotFound: true);
+        m_interactions_tab = m_interactions.FindAction("tab", throwIfNotFound: true);
         // weaponSelects
         m_weaponSelects = asset.FindActionMap("weaponSelects", throwIfNotFound: true);
         m_weaponSelects_one = m_weaponSelects.FindAction("one", throwIfNotFound: true);
@@ -662,6 +683,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_interactions_ADS;
     private readonly InputAction m_interactions_reload;
     private readonly InputAction m_interactions_escape;
+    private readonly InputAction m_interactions_tab;
     public struct InteractionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -670,6 +692,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ADS => m_Wrapper.m_interactions_ADS;
         public InputAction @reload => m_Wrapper.m_interactions_reload;
         public InputAction @escape => m_Wrapper.m_interactions_escape;
+        public InputAction @tab => m_Wrapper.m_interactions_tab;
         public InputActionMap Get() { return m_Wrapper.m_interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -691,6 +714,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @escape.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
                 @escape.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
                 @escape.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnEscape;
+                @tab.started -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
+                @tab.performed -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
+                @tab.canceled -= m_Wrapper.m_InteractionsActionsCallbackInterface.OnTab;
             }
             m_Wrapper.m_InteractionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -707,6 +733,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @escape.started += instance.OnEscape;
                 @escape.performed += instance.OnEscape;
                 @escape.canceled += instance.OnEscape;
+                @tab.started += instance.OnTab;
+                @tab.performed += instance.OnTab;
+                @tab.canceled += instance.OnTab;
             }
         }
     }
@@ -833,6 +862,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnADS(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
     }
     public interface IWeaponSelectsActions
     {

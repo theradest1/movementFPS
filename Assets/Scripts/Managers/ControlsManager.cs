@@ -31,12 +31,14 @@ public class ControlsManager : MonoBehaviour
     public bool escape;
     [HideInInspector]
     public int equippedNum;
+    [HideInInspector]
+    public bool tab;
 
     private void Start() {
         movementScript = GameObject.Find("Player").GetComponent<movement>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
-        inGameGUIManager = GameObject.Find("Menu").GetComponent<InGameGUIManager>();
+        inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
     }
     
 
@@ -67,6 +69,9 @@ public class ControlsManager : MonoBehaviour
         shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
         aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
         reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
+
+        tab = playerControls.interactions.tab.ReadValue<float>() == 1;
+
         if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){
             inGameGUIManager.changeGUIState();
         }
