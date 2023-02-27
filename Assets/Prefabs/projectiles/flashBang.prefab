@@ -132,3 +132,6 @@ MonoBehaviour:
   timeToExplode: 1.5
   bangSound: 7
   bounceSound: 8
+  stopFrom:
+    serializedVersion: 2
+    m_Bits: 503

@@ -11,10 +11,12 @@ public class ProjectileManager : MonoBehaviour
     public Image flashImage;
     public GameObject playerCam;
     WeaponManager weaponManager;
+    PlayerManager playerManager;
     public List<GameObject> projectiles;
 
 
     private void Start() {
+        playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
@@ -30,7 +32,7 @@ public class ProjectileManager : MonoBehaviour
                 newProjectile.GetComponent<Flash>().setInfo(velocity, soundManager, flashImage, playerCam);
             }
             if(projectileID == 2){
-                newProjectile.GetComponent<Granade>().setInfo(velocity, damage);
+                newProjectile.GetComponent<Granade>().setInfo(velocity, damage, playerManager, playerCam, senderID, serverEvents, serverComm, soundManager);
             }
             if(projectileID == 3){
                 newProjectile.GetComponent<FakeBullet>().setInfo(velocity, senderID);

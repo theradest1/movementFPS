@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18350783, g: 0.22906432, b: 0.3057214, a: 1}
+  m_IndirectSpecularColor: {r: 0.18350838, g: 0.2290651, b: 0.30572262, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4091,6 +4091,7 @@ GameObject:
   - component: {fileID: 1360005024}
   - component: {fileID: 1360005025}
   - component: {fileID: 1360005026}
+  - component: {fileID: 1360005027}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -4178,7 +4179,6 @@ MonoBehaviour:
   - {fileID: 227887959}
   - {fileID: 1410834773}
   - {fileID: 999345546}
-  - {fileID: 1381926180}
   - {fileID: 1975887463}
   equippedWeapon: {fileID: 0}
   weaponRotationSpeed: 20
@@ -4206,6 +4206,20 @@ MonoBehaviour:
   - {fileID: 8190345500511294596, guid: c2453b07a3b876741a5e9106bb16d8e7, type: 3}
   - {fileID: 6221045549996187465, guid: 6a4f2ddf9c384ae4ea72a7dce64c35d9, type: 3}
   - {fileID: 8190345500511294596, guid: 14968b960debecc47b0ff1955ae2806c, type: 3}
+--- !u!136 &1360005027
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360005019}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1361770549
 GameObject:
   m_ObjectHideFlags: 0
@@ -6427,7 +6441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileID: 2
   bulletTravelSpeed: 20
-  damage: 0
+  damage: 40
   startDistance: 0
   shootSound: 8
   shootPitch: 5

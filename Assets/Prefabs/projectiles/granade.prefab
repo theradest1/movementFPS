@@ -128,5 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c4012b9e421b54ba1743c27826e0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToExplode: 1.5
+  timeToExplode: 3
   rb: {fileID: 3511326757640559904}
+  radius: 5
+  bangSound: 7
+  bounceSound: 8
+  stopFrom:
+    serializedVersion: 2
+    m_Bits: 503

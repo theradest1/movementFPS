@@ -53,7 +53,7 @@ public class ServerEvents : MonoBehaviour
         clientUsernameScoreboard = Instantiate(scoreboardLeftPrefab, scoreboardLeftContainer.transform).GetComponent<TextMeshProUGUI>();
         clientKDScoreboard = Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>();
 
-        clientUsernameScoreboard.text = serverComm.username;
+        clientUsernameScoreboard.text = " " + serverComm.username;
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
@@ -67,6 +67,21 @@ public class ServerEvents : MonoBehaviour
             eventName = "s";
         }
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
+        serverComm.send(eventToSend);
+        //Debug.Log("Send event: " + eventToSend);
+    }
+
+    public void sendEventFromOther(int senderID, string eventType, string eventName, string eventInfo){
+        if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
+            eventType = "ue";
+        }
+        if(eventName == "damage"){ //I'll eventually get rid of this but i'm currently lazy
+            eventName = "d";
+        }
+        if(eventName == "sound"){ //I'll eventually get rid of this but i'm currently lazy
+            eventName = "s";
+        }
+        string eventToSend = eventType + "~" + eventName + "~" + senderID + "~" + eventInfo;
         serverComm.send(eventToSend);
         //Debug.Log("Send event: " + eventToSend);
     }
@@ -106,7 +121,7 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
-    string getUsername(string _ID){ //is string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
+    string getUsername(string _ID){ //is a string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
         if(int.Parse(_ID) == serverComm.ID){
             return serverComm.username;
         }
@@ -126,7 +141,9 @@ public class ServerEvents : MonoBehaviour
         clientIDs.Add(int.Parse(newClientID));
         deaths.Add(0);
         kills.Add(0);
-        scoreboardUsername.Add(Instantiate(scoreboardLeftPrefab, scoreboardLeftContainer.transform).GetComponent<TextMeshProUGUI>());
+        TextMeshProUGUI newClientScoreboardUsername = Instantiate(scoreboardLeftPrefab, scoreboardLeftContainer.transform).GetComponent<TextMeshProUGUI>();
+        scoreboardUsername.Add(newClientScoreboardUsername);
+        newClientScoreboardUsername.text = " "  + newCleintUsername;
         scoreboardKDRatio.Add(Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>());
 
         Debug.Log("New player's ID: " + int.Parse(newClientID));
