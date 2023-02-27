@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    ServerEvents serverEvents;
     float damage;
 
     GameObject fakeBullet;
@@ -19,10 +18,11 @@ public class Bullet : MonoBehaviour
     public float bulletHoleLife;
     public float fakeBulletLifeTime;
     bool destroyed = false;
+    ProjectileFunctions projectileFunctions;
     
-    public void setInfo(Vector3 givenVelocity, float givenDamage, ServerEvents givenServerEvents, Vector3 fouxBulletPos){
+    public void setInfo(Vector3 givenVelocity, float givenDamage, Vector3 fouxBulletPos, ProjectileFunctions givenProjectileFunctions){
         rb.velocity = givenVelocity;
-        serverEvents = givenServerEvents;
+        projectileFunctions = givenProjectileFunctions;
         damage = givenDamage;
         fakeBullet = Instantiate(fakeBulletPrefab, fouxBulletPos, Quaternion.identity);
         fakeBullet.transform.LookAt(fakeBullet.transform.position + rb.velocity);
@@ -52,11 +52,11 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer != 3 && !destroyed){
             if(coll.gameObject.layer == 7){
-                if(serverEvents.clientScripts[serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))].health <= damage){
-                    serverEvents.sendEvent("ue", "death", coll.gameObject.name);
+                if(projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))].health <= damage){
+                    projectileFunctions.serverEvents.sendEvent("ue", "death", coll.gameObject.name);
                 }
                 else{
-                    serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
+                    projectileFunctions.serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
                 }
             }
             else{

@@ -20,11 +20,13 @@ public class ServerComm : MonoBehaviour
     ServerEvents serverEvents;
     GameObject player;
     TextMeshProUGUI PPSText;
-    TextMeshProUGUI BPSText;
+    TextMeshProUGUI sendBPSText;
+    TextMeshProUGUI recieveBPSText;
     TextMeshProUGUI latencyText;
 
     int throughPackets = 0;
-    int bytes = 0;
+    int sendBPS;
+    int recieveBPS;
     bool inSchool;
 
     public float updateSpeed;
@@ -37,16 +39,14 @@ public class ServerComm : MonoBehaviour
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         PPSText = GameObject.Find("PPS debug").GetComponent<TextMeshProUGUI>();
-        BPSText = GameObject.Find("BPS debug").GetComponent<TextMeshProUGUI>();
+        sendBPSText = GameObject.Find("BPS send debug").GetComponent<TextMeshProUGUI>();
+        recieveBPSText = GameObject.Find("BPS recieve debug").GetComponent<TextMeshProUGUI>();
         latencyText = GameObject.Find("Latency Debug").GetComponent<TextMeshProUGUI>();
 
         SERVERADDRESS = MainMenu.address;
         //CLIENTPORT = MainMenu.clientPort;
         SERVERPORT = MainMenu.port;
         username = MainMenu.username;
-
-        PPSText.text = "PPS: None";
-        BPSText.text = "BPS: None";
         
         try{
             client = new UdpClient(/*CLIENTPORT*/);
@@ -79,8 +79,10 @@ public class ServerComm : MonoBehaviour
     void updatePPSGUI(){
         //Debug.Log("through packets: " + throughPackets);
         //Debug.Log("error packets: " + errorPackets);
-        BPSText.text = "BPS: " + bytes;
-        bytes = 0;
+        sendBPSText.text = "BPS: " + sendBPS;
+        recieveBPSText.text = "BPS: " + recieveBPS;
+        sendBPS = 0;
+        recieveBPS = 0;
         PPSText.text = "PPS: " + throughPackets;
         throughPackets = 0;
     }
@@ -99,7 +101,7 @@ public class ServerComm : MonoBehaviour
         }*/
 
         byte[] sendBytes = Encoding.ASCII.GetBytes(message);
-        bytes += sendBytes.Length;
+        sendBPS += sendBytes.Length;
         client.Send(sendBytes, sendBytes.Length);
         throughPackets++;
     }
@@ -120,10 +122,9 @@ public class ServerComm : MonoBehaviour
 
         string info = "";
         byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
-        bytes += sendBytes.Length;
+        sendBPS += sendBytes.Length;
         client.Send(sendBytes, sendBytes.Length);
         throughPackets++;
-
 
         //recieve
         byte[] receiveBytes = new byte[0];
@@ -132,6 +133,7 @@ public class ServerComm : MonoBehaviour
         await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
         latencyText.text = "Latency: " + Mathf.Round((Time.time - latencyTimer) * 1000f);
 
+        recieveBPS += receiveBytes.Length;
         info = Encoding.ASCII.GetString(receiveBytes);
         serverEvents.resetSmoothTimer();
         

@@ -9,49 +9,51 @@ public class Granade : MonoBehaviour
     public Rigidbody rb;
     public float radius;
     int senderID;
-    ServerEvents serverEvents;
-    PlayerManager playerManager;
-    ServerComm serverComm;
 
-    SoundManager soundManager;
+    ProjectileFunctions projectileFunctions;
+
     public int bangSound;
     public int bounceSound;
 
-    GameObject playerCam;
+    public GameObject distanceVisualizer;
+    public GameObject explosionParticles;
     public LayerMask stopFrom;
 
-    public void setInfo(Vector3 givenVelocity, float givenDamage, PlayerManager givePlayerManager, GameObject givenPlayerCam, int givenSenderID, ServerEvents givenServerEvents, ServerComm givenServerComm, SoundManager givenSoundManager){
-        playerManager = givePlayerManager;
-        serverEvents = givenServerEvents;
-        soundManager = givenSoundManager;
+    public void setInfo(Vector3 givenVelocity, float givenDamage, int givenSenderID, ProjectileFunctions givenProjectileFunctions){
+        projectileFunctions = givenProjectileFunctions;
         senderID = givenSenderID;
-        playerCam = givenPlayerCam;
-        serverComm = givenServerComm;
         damage = givenDamage;
         rb.velocity = givenVelocity;
         Invoke("explode", timeToExplode);
+        distanceVisualizer.transform.localScale = new Vector3(radius * 2 / transform.localScale.x, .1f, radius * 2 / transform.localScale.x);
+    }
+
+    private void Update() {
+        distanceVisualizer.transform.eulerAngles = new Vector3(0f, 0f, 0f);
     }
 
     void explode(){
-        soundManager.playSound(bangSound, transform.position, 1f, 1f);
-        if(!Physics.Raycast(transform.position, playerCam.transform.position - transform.position, Vector3.Distance(transform.position, playerCam.transform.position), stopFrom)){
-            if(Vector3.Distance(transform.position, playerCam.transform.position) <= radius){
-                if(playerManager.health > damage){
-                    serverEvents.sendEventFromOther(senderID, "ue", "d", serverComm.ID + "~" + damage);
+        Destroy(Instantiate(explosionParticles, transform.position, Quaternion.identity), 5f);
+        projectileFunctions.soundManager.playSound(bangSound, transform.position, 1f, 1f);
+        if(!Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
+            if(Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= radius){
+                damage *= 1 - Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position)/radius;
+                if(projectileFunctions.playerManager.health > damage){
+                    projectileFunctions.serverEvents.sendEventFromOther(senderID, "ue", "d", projectileFunctions.serverComm.ID + "~" + damage);
                 }
                 else{
-                    serverEvents.sendEventFromOther(senderID, "ue", "death", serverComm.ID + "");
+                    projectileFunctions.serverEvents.sendEventFromOther(senderID, "ue", "death", projectileFunctions.serverComm.ID + "");
                 }
             }
         }
         //Collider coll = cols[i];
-        //if(!Physics.Raycast(transform.position, playerCam.transform.position - transform.position, Vector3.Distance(transform.position, playerCam.transform.position), stopFrom)){
+        //if(!Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
         //    if(coll.gameObject.layer == 3){
-        //        if(playerManager.health > damage){
-        //            serverEvents.sendEvent("ue", "damage", serverComm.ID + "~" + damage);
+        //        if(projectileFunctions.playerManager.health > damage){
+        //            projectileFunctions.serverEvents.sendEvent("ue", "damage", projectileFunctions.serverComm.ID + "~" + damage);
         //        }
         //        else{
-        //            serverEvents.sendEvent("ue", "death", serverComm.ID + "");
+        //            projectileFunctions.serverEvents.sendEvent("ue", "death", projectileFunctions.serverComm.ID + "");
         //        }
         //    }
         //}
@@ -65,6 +67,6 @@ public class Granade : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision coll){
-        soundManager.playSound(bounceSound, transform.position, 1f, 2f);
+        projectileFunctions.soundManager.playSound(bounceSound, transform.position, 1f, 2f);
     }
 }
