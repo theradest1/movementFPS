@@ -15,8 +15,8 @@ public class ServerEvents : MonoBehaviour
     public List<TextMeshProUGUI> scoreboardKDRatio;
     public List<int> kills;
     public List<int> deaths;
-
-
+    int clientKills = 0;
+    int clientDeaths = 0;
 
     float startTime;
 
@@ -37,6 +37,9 @@ public class ServerEvents : MonoBehaviour
     public GameObject scoreboardRightPrefab;
     public GameObject scoreboardRightContainer;
 
+    TextMeshProUGUI clientUsernameScoreboard;
+    TextMeshProUGUI clientKDScoreboard;
+
     private void Start() {
 
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
@@ -46,6 +49,11 @@ public class ServerEvents : MonoBehaviour
         projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+
+        clientUsernameScoreboard = Instantiate(scoreboardLeftPrefab, scoreboardLeftContainer.transform).GetComponent<TextMeshProUGUI>();
+        clientKDScoreboard = Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>();
+
+        clientUsernameScoreboard.text = serverComm.username;
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
@@ -64,10 +72,28 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void death(string killerID, string killedID){
-        deaths[clientIDs.IndexOf(int.Parse(killedID))] += 1;
-        kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
-        scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
-        scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
+        if(int.Parse(killedID) == serverComm.ID){
+            clientDeaths += 1;
+            clientKDScoreboard.text = clientKills + "/" + clientDeaths;
+        }
+        else
+        {
+            deaths[clientIDs.IndexOf(int.Parse(killedID))] += 1;    
+            scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
+        }
+
+        if(int.Parse(killerID) == serverComm.ID){
+            clientKills += 1;
+            clientKDScoreboard.text = clientKills + "/" + clientDeaths;
+        }
+        else
+        {
+            kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;    
+            scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
+        }
+
+        //kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
+        //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
         if(int.Parse(killedID) == serverComm.ID){
             player.transform.position = new Vector3(Random.Range(-18f, 18), 10f, Random.Range(-18f, 18f));
