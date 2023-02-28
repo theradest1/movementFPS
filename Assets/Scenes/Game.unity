@@ -3067,12 +3067,12 @@ MonoBehaviour:
   shootPitch: 5
   shootVolume: 0.7
   reloadSound: 0
-  cooldown: 2
+  cooldown: 1
   equipCooldown: 0.3
   cooldownTimer: 0
   reloadTime: 0
   reloadable: 0
-  automatic: 1
+  automatic: 0
   objectsInClip: 3
   clipSize: 3
 --- !u!4 &999345547
@@ -4545,7 +4545,7 @@ MonoBehaviour:
   cooldownTimer: 0
   reloadTime: 0
   reloadable: 0
-  automatic: 1
+  automatic: 0
   objectsInClip: 3
   clipSize: 3
 --- !u!1 &1410834771
@@ -6677,12 +6677,12 @@ MonoBehaviour:
   shootPitch: 5
   shootVolume: 0.7
   reloadSound: 0
-  cooldown: 2
+  cooldown: 1
   equipCooldown: 0.3
   cooldownTimer: 0
   reloadTime: 0
   reloadable: 0
-  automatic: 1
+  automatic: 0
   objectsInClip: 3
   clipSize: 3
 --- !u!1 &1978913865

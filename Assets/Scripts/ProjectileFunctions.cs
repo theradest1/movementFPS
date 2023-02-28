@@ -22,7 +22,19 @@ public class ProjectileFunctions : MonoBehaviour
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
     }
 
-    public void Explosion(Vector3 pos, float radius, float damage, float force, bool falloffDamage){
-
+    public void Explosion(Vector3 pos, float radius, float damage, float force, bool falloffDamage, LayerMask stopFrom, int senderID){
+        if(!Physics.Raycast(pos, playerCam.transform.position - pos, Vector3.Distance(pos, playerCam.transform.position), stopFrom)){
+            if(Vector3.Distance(pos, playerCam.transform.position) <= radius){
+                if(falloffDamage){
+                    damage *= 1 - Vector3.Distance(pos, playerCam.transform.position)/radius;
+                }
+                if(playerManager.health > damage){
+                    serverEvents.sendEventFromOther(senderID, "ue", "d", serverComm.ID + "~" + damage);
+                }
+                else{
+                    serverEvents.sendEventFromOther(senderID, "ue", "death", serverComm.ID + "");
+                }
+            }
+        }
     }
 }

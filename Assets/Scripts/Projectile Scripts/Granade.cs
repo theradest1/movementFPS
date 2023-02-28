@@ -35,28 +35,7 @@ public class Granade : MonoBehaviour
     void explode(){
         Destroy(Instantiate(explosionParticles, transform.position, Quaternion.identity), 5f);
         projectileFunctions.soundManager.playSound(bangSound, transform.position, 1f, 1f);
-        if(!Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
-            if(Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= radius){
-                damage *= 1 - Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position)/radius;
-                if(projectileFunctions.playerManager.health > damage){
-                    projectileFunctions.serverEvents.sendEventFromOther(senderID, "ue", "d", projectileFunctions.serverComm.ID + "~" + damage);
-                }
-                else{
-                    projectileFunctions.serverEvents.sendEventFromOther(senderID, "ue", "death", projectileFunctions.serverComm.ID + "");
-                }
-            }
-        }
-        //Collider coll = cols[i];
-        //if(!Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
-        //    if(coll.gameObject.layer == 3){
-        //        if(projectileFunctions.playerManager.health > damage){
-        //            projectileFunctions.serverEvents.sendEvent("ue", "damage", projectileFunctions.serverComm.ID + "~" + damage);
-        //        }
-        //        else{
-        //            projectileFunctions.serverEvents.sendEvent("ue", "death", projectileFunctions.serverComm.ID + "");
-        //        }
-        //    }
-        //}
+        projectileFunctions.Explosion(transform.position, radius, damage, 0, true, stopFrom, senderID);
         Destroy(this.gameObject);
     }
 
