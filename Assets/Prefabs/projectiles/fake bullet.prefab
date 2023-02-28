@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3693501904574506028}
   - component: {fileID: 3527181708171738058}
   - component: {fileID: 6452155943322645436}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6592136943997241183}
   - component: {fileID: 7797563803255593073}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: path
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 493150157035147240}
   - component: {fileID: 686731377572739687}
   - component: {fileID: -887922398233088862}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: fake bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

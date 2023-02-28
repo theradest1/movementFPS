@@ -33,6 +33,10 @@ public class OtherPlayer : MonoBehaviour
     public void changeHealth(float subbedHealth){
         health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
         healthSlider.value = health/maxHealth;
+
+        if(subbedHealth > 0){
+            healCooldown = timeBeforeHeal;
+        }
     }
 
     void Start(){

@@ -12,9 +12,12 @@ public class ProjectileManager : MonoBehaviour
     private void Start() {
         projectileFunctions = GameObject.Find("manager").GetComponent<ProjectileFunctions>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
+        
+        Physics.IgnoreLayerCollision(9, 9, true);
     }
     public void createProjectile(int senderID, int projectileID, float damage, Vector3 initialPos, Vector3 velocity){
-        if((projectileID == 3 && senderID != projectileFunctions.serverComm.ID) || projectileID != 3){
+        Debug.Log(senderID + "," + projectileID + "," + damage + "," + initialPos + "," + velocity);
+        if((projectileID == 3 && senderID != projectileFunctions.serverComm.ID) || (projectileID == 6 && senderID != projectileFunctions.serverComm.ID) || (projectileID != 3 && projectileID != 6)){
             GameObject newProjectile = Instantiate(projectiles[projectileID], initialPos, Quaternion.identity);
             if(projectileID == 0){
                 newProjectile.GetComponent<Bullet>().setInfo(velocity, damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, projectileFunctions);
@@ -31,6 +34,15 @@ public class ProjectileManager : MonoBehaviour
             if(projectileID == 4){
                 newProjectile.GetComponent<Smoke>().setInfo(velocity);
             }
+            if(projectileID == 5){
+                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, false);
+                //newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
+            }
+            if(projectileID == 6){
+                Debug.Log("HI");
+                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
+            }
+            
         }
     }
 }

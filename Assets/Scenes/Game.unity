@@ -1166,9 +1166,93 @@ MonoBehaviour:
   serverEvents: {fileID: 331435472}
   playerManager: {fileID: 1360005024}
   soundManager: {fileID: 331435473}
-  playerColl: {fileID: 0}
+  weaponManager: {fileID: 1360005025}
+  playerColl: {fileID: 1360005027}
   playerCam: {fileID: 963194225}
   flashImage: {fileID: 1343678131}
+--- !u!1 &369014535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 369014536}
+  - component: {fileID: 369014538}
+  - component: {fileID: 369014537}
+  m_Layer: 0
+  m_Name: AK47 model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &369014536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369014535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.851}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1.53}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 516407016}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &369014537
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369014535}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &369014538
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 369014535}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &377679954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1760,6 +1844,67 @@ Transform:
   m_Father: {fileID: 166807063}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &516407015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516407016}
+  - component: {fileID: 516407017}
+  m_Layer: 0
+  m_Name: Shotgun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &516407016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516407015}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.77, y: -0.64, z: 0.536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 369014536}
+  m_Father: {fileID: 1653132531}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &516407017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516407015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61183ca6b250b28449992669cdac26e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectileID: 6
+  bulletTravelSpeed: 200
+  damage: 15
+  startDistance: 1.7
+  shootSound: 0
+  shootPitch: 0.5
+  shootVolume: 0.7
+  reloadSound: 1
+  cooldown: 0.1
+  equipCooldown: 0.5
+  cooldownTimer: 0
+  reloadTime: 2
+  reloadable: 1
+  automatic: 0
+  objectsInClip: 5
+  clipSize: 5
 --- !u!43 &635112822
 Mesh:
   m_ObjectHideFlags: 0
@@ -38049,6 +38194,7 @@ MonoBehaviour:
   - {fileID: 1410834773}
   - {fileID: 999345546}
   - {fileID: 1975887463}
+  - {fileID: 516407017}
   equippedWeapon: {fileID: 0}
   weaponRotationSpeed: 20
   weaponTravelSpeed: 50
@@ -38073,6 +38219,8 @@ MonoBehaviour:
   - {fileID: 8190345500511294596, guid: c2453b07a3b876741a5e9106bb16d8e7, type: 3}
   - {fileID: 6221045549996187465, guid: 6a4f2ddf9c384ae4ea72a7dce64c35d9, type: 3}
   - {fileID: 8190345500511294596, guid: 14968b960debecc47b0ff1955ae2806c, type: 3}
+  - {fileID: 946353309227737376, guid: 3e88475e343df874987d6cabb0b92599, type: 3}
+  - {fileID: 946353309227737376, guid: 3e88475e343df874987d6cabb0b92599, type: 3}
 --- !u!136 &1360005027
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -39593,6 +39741,7 @@ Transform:
   - {fileID: 999345547}
   - {fileID: 1381926179}
   - {fileID: 1975887462}
+  - {fileID: 516407016}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

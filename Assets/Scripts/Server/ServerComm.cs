@@ -157,6 +157,7 @@ public class ServerComm : MonoBehaviour
                         serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
                         break;
                     case "pr": //projectile
+                        Debug.Log(info);
                         serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity, sound ID, volume, pitch
                         serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
                         break;
