@@ -135,3 +135,4 @@ MonoBehaviour:
   stopFrom:
     serializedVersion: 2
     m_Bits: 503
+  coll: {fileID: 8581965224537758689}

@@ -18,6 +18,7 @@ public class Granade : MonoBehaviour
     public GameObject distanceVisualizer;
     public GameObject explosionParticles;
     public LayerMask stopFrom;
+    public Collider coll;
 
     public void setInfo(Vector3 givenVelocity, float givenDamage, int givenSenderID, ProjectileFunctions givenProjectileFunctions){
         projectileFunctions = givenProjectileFunctions;
@@ -26,6 +27,10 @@ public class Granade : MonoBehaviour
         rb.velocity = givenVelocity;
         Invoke("explode", timeToExplode);
         distanceVisualizer.transform.localScale = new Vector3(radius * 2 / transform.localScale.x, .1f, radius * 2 / transform.localScale.x);
+    }
+
+    private void Start() {
+        Physics.IgnoreCollision(coll, projectileFunctions.playerColl, true);
     }
 
     private void Update() {

@@ -11,11 +11,16 @@ public class Flash : MonoBehaviour
     public int bounceSound;
     public LayerMask stopFrom;
     ProjectileFunctions projectileFunctions;
+    public Collider coll;
 
     public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions){
         rb.velocity = givenVelocity;
         projectileFunctions = givenProjectileFunctions;
         Invoke("explode", timeToExplode);
+    }
+
+    private void Start() {
+        Physics.IgnoreCollision(coll, projectileFunctions.playerColl, true);
     }
 
     void explode(){

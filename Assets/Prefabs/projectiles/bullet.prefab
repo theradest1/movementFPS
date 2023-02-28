@@ -105,6 +105,7 @@ MonoBehaviour:
   fakeBulletAccuracy: 30
   bulletHoleLife: 10
   fakeBulletLifeTime: 0.1
+  coll: {fileID: 6221045549996187464}
 --- !u!135 &6221045549996187464
 SphereCollider:
   m_ObjectHideFlags: 0

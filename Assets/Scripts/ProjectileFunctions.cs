@@ -11,7 +11,7 @@ public class ProjectileFunctions : MonoBehaviour
     public ServerEvents serverEvents;
     public PlayerManager playerManager;
     public SoundManager soundManager;
-
+    public Collider playerColl;
     public GameObject playerCam;
     public Image flashImage;
 
@@ -20,6 +20,7 @@ public class ProjectileFunctions : MonoBehaviour
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
+        playerColl = GameObject.Find("Player").GetComponent<Collider>();
     }
 
     public void Explosion(Vector3 pos, float radius, float damage, float force, bool falloffDamage, LayerMask stopFrom, int senderID){

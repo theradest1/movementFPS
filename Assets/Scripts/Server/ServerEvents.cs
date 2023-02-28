@@ -111,7 +111,7 @@ public class ServerEvents : MonoBehaviour
         //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
         if(int.Parse(killedID) == serverComm.ID){
-            player.transform.position = new Vector3(Random.Range(-18f, 18), 10f, Random.Range(-18f, 18f));
+            player.transform.position = new Vector3(Random.Range(0, 28), 14f, Random.Range(0, 28));
             playerManager.changeHealth(-1000f);
             weaponManager.resetAllWeapons();
         }

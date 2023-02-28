@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     public float fakeBulletAccuracy;
     public float bulletHoleLife;
     public float fakeBulletLifeTime;
+    public Collider coll;
     bool destroyed = false;
     ProjectileFunctions projectileFunctions;
     
@@ -29,6 +30,10 @@ public class Bullet : MonoBehaviour
 
         Destroy(fakeBullet, maxLifeTime);
         Destroy(this.gameObject, maxLifeTime);
+    }
+
+    private void Start() {
+        Physics.IgnoreCollision(coll, projectileFunctions.playerColl, true);
     }
 
     void Update()
