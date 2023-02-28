@@ -212,9 +212,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c4012b9e421b54ba1743c27826e0ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToExplode: 2.5
+  timeToExplode: 2
   rb: {fileID: 3511326757640559904}
-  radius: 8
+  radius: 9
   bangSound: 7
   bounceSound: 8
   distanceVisualizer: {fileID: 6598453651130814580}

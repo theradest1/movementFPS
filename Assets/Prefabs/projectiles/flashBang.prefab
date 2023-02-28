@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 3511326757640559904}
-  timeToExplode: 1.5
+  timeToExplode: 1.25
   bangSound: 7
   bounceSound: 8
   stopFrom:

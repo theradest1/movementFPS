@@ -9,7 +9,7 @@ public class Look : MonoBehaviour
     public float LookSpeedHorizontal;
     public float LookSpeedVertical;
     public float generalSense;
-    float camRotX = 0f;
+    float camRotX = 90;
     public float minCamRotX;
     public float maxCamRotX;
 
