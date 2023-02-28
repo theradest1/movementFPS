@@ -10,6 +10,8 @@ public class ServerEvents : MonoBehaviour
     public List<int> clientIDs;
     public List<Vector3> targetPositions;
     public List<Vector3> pastTargetPositions;
+    public List<Quaternion> targetRotations;
+    public List<Quaternion> pastTargetRotations;
     public List<string> clientUsernames;
     public List<TextMeshProUGUI> scoreboardUsername;
     public List<TextMeshProUGUI> scoreboardKDRatio;
@@ -144,6 +146,8 @@ public class ServerEvents : MonoBehaviour
         Debug.Log("New player's ID: " + int.Parse(newClientID));
         pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
         targetPositions.Add(new Vector3(0f, 0f, 0f));
+        pastTargetRotations.Add(Quaternion.identity);
+        targetRotations.Add(Quaternion.identity);
     }
 
     public void removeClient(string ID){
@@ -217,7 +221,8 @@ public class ServerEvents : MonoBehaviour
             //Debug.Log(clientID);
             pastTargetPositions[playerIndex] = targetPositions[playerIndex];
             targetPositions[playerIndex] = parseVector3(position);
-            clientObjects[playerIndex].transform.rotation = parseQuaternion(rotation);
+            pastTargetRotations[playerIndex] = targetRotations[playerIndex];
+            targetRotations[playerIndex] = parseQuaternion(rotation);
             //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
         }
     }
@@ -242,6 +247,7 @@ public class ServerEvents : MonoBehaviour
 
         for(int i = 0; i < clientObjects.Count; i++){
             clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
+            clientObjects[i].transform.rotation = Quaternion.Slerp(pastTargetRotations[i], targetRotations[i], percentDone);
         }
     }
 }
