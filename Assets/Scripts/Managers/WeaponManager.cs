@@ -20,6 +20,7 @@ public class WeaponManager : MonoBehaviour
     ProjectileManager projectileManager;
     SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
+    TextMeshProUGUI equippedWeaponText;
 
     //public LayerMask playerMask;
     //public LayerMask aimableMask;
@@ -41,6 +42,7 @@ public class WeaponManager : MonoBehaviour
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         weaponContainer = GameObject.Find("weapons");
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
+        equippedWeaponText = GameObject.Find("equipped weapon").GetComponent<TextMeshProUGUI>();
         objectsInClipText = GameObject.Find("ammo left").GetComponent<TextMeshProUGUI>();
 
         changeWeapon(1);
@@ -69,10 +71,8 @@ public class WeaponManager : MonoBehaviour
             if(equippedWeapon.cooldownTimer < equippedWeapon.equipCooldown){
                 equippedWeapon.cooldownTimer = equippedWeapon.equipCooldown;
             }
-
+            equippedWeaponText.text = equippedWeapon.gameObject.name;
             movementScript.speedMultiplierFromWeapon = equippedWeapon.speedMultiplier;
-            
-            Debug.Log("Changed to " + equippedWeapon.gameObject.name);
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
         }
     }
