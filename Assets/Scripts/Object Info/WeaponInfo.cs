@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
+    public float speedMultiplier = 1f;
     public int projectileID;
     public float bulletTravelSpeed;
     public float damage;
@@ -16,6 +17,7 @@ public class WeaponInfo : MonoBehaviour
     
     public float cooldown;
     public float equipCooldown;
+    [HideInInspector]
     public float cooldownTimer;
     public float reloadTime;
 

@@ -179,6 +179,20 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
+    public void clientDamage(string victimID, string damage){
+        if(float.Parse(damage) > 0){
+            if(int.Parse(victimID) != serverComm.ID){
+                int victimIndex = clientIDs.IndexOf(int.Parse(victimID));
+                clientScripts[victimIndex].healCooldown = clientScripts[victimIndex].timeBeforeHeal;
+                clientScripts[victimIndex].changeHealth(0f);
+            }
+            else{
+                playerManager.healCooldown = playerManager.timeBeforeHeal;
+                playerManager.changeHealth(0f);
+            }
+        }
+    }
+
     public void spawnProjectile(string senderID, string typeID, string damage, string position, string velocity){
         //Debug.Log(senderID + ", " + typeID + ", " + damage + ", " + position + ", " + velocity);
         projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), parseVector3(velocity));

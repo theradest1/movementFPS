@@ -154,10 +154,14 @@ public class ServerComm : MonoBehaviour
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
                     case "d": //damage
-                        serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
+                        if(int.Parse(splitRawEvents[1]) != ID){
+                            serverEvents.damage(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //attacker ID, victim ID, damage
+                        }
+                        else{
+                            serverEvents.clientDamage(splitRawEvents[2], splitRawEvents[3]); //victim ID, damage
+                        }
                         break;
                     case "pr": //projectile
-                        Debug.Log(info);
                         serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity, sound ID, volume, pitch
                         serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
                         break;

@@ -16,7 +16,6 @@ public class ProjectileManager : MonoBehaviour
         Physics.IgnoreLayerCollision(9, 9, true);
     }
     public void createProjectile(int senderID, int projectileID, float damage, Vector3 initialPos, Vector3 velocity){
-        Debug.Log(senderID + "," + projectileID + "," + damage + "," + initialPos + "," + velocity);
         if((projectileID == 3 && senderID != projectileFunctions.serverComm.ID) || (projectileID == 6 && senderID != projectileFunctions.serverComm.ID) || (projectileID != 3 && projectileID != 6)){
             GameObject newProjectile = Instantiate(projectiles[projectileID], initialPos, Quaternion.identity);
             if(projectileID == 0){

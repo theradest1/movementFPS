@@ -24,6 +24,7 @@ public class movement : MonoBehaviour
     public float gravity;
 
     public float speed;
+    public float speedMultiplierFromWeapon = 1f;
     public float jumpPower;
     public float stopSpeedGround;
     public float stopSpeedSliding;
@@ -101,12 +102,12 @@ public class movement : MonoBehaviour
 
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
-                rb.velocity += speed * transform.right * moveDirection.x * sprintMultiplier;
-                rb.velocity += speed * transform.forward * moveDirection.y * sprintMultiplier;
+                rb.velocity += speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon;
+                rb.velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon;
             }
             else{
-                rb.velocity += speed * transform.right * moveDirection.x;
-                rb.velocity += speed * transform.forward * moveDirection.y;
+                rb.velocity += speed * transform.right * moveDirection.x * speedMultiplierFromWeapon;
+                rb.velocity += speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon;
             }
         }
         else if(!isSliding){

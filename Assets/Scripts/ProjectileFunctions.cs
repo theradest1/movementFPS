@@ -33,6 +33,7 @@ public class ProjectileFunctions : MonoBehaviour
                 }
                 if(playerManager.health > damage){
                     serverEvents.sendEventFromOther(senderID, "ue", "d", serverComm.ID + "~" + damage);
+                    playerManager.health -= damage;
                 }
                 else{
                     serverEvents.sendEventFromOther(senderID, "ue", "death", serverComm.ID + "");

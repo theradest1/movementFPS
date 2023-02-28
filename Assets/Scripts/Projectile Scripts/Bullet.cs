@@ -51,17 +51,21 @@ public class Bullet : MonoBehaviour
         else{
             velocityAfterDestroy = rb.velocity;
         }
-
     }
 
     void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer != 3 && !destroyed){
             if(coll.gameObject.layer == 7){
-                if(projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))].health <= damage){
-                    projectileFunctions.serverEvents.sendEvent("ue", "death", coll.gameObject.name);
-                }
-                else{
-                    projectileFunctions.serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
+                OtherPlayer damagedScript = projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))];
+                if(damagedScript.invincibilityTimer <= 0){
+                    if(damagedScript.health <= damage){
+                        projectileFunctions.serverEvents.sendEvent("ue", "death", coll.gameObject.name);
+                        damagedScript.invincibilityTimer = 1f;
+                    }
+                    else{
+                        projectileFunctions.serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
+                        damagedScript.health -= damage;
+                    }
                 }
             }
             else{

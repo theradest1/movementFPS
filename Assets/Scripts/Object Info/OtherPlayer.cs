@@ -20,10 +20,11 @@ public class OtherPlayer : MonoBehaviour
     public float health;
     float maxHealth;
 
-    
-    float timeBeforeHeal;
+    [HideInInspector]
+    public float timeBeforeHeal;
     float healRate;
-    float healCooldown;
+    [HideInInspector]
+    public float healCooldown;
     PlayerManager playerManager;
 
     public void setUsername(string usrname){

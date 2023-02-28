@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public class WeaponManager : MonoBehaviour
 {
     ControlsManager controlsManager;
+    movement movementScript;
     public List<WeaponInfo> weapons;
     
     [HideInInspector]
@@ -32,6 +33,7 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        movementScript = GameObject.Find("Player").GetComponent<movement>();
         projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         cam = GameObject.Find("Main Camera");
@@ -67,6 +69,8 @@ public class WeaponManager : MonoBehaviour
             if(equippedWeapon.cooldownTimer < equippedWeapon.equipCooldown){
                 equippedWeapon.cooldownTimer = equippedWeapon.equipCooldown;
             }
+
+            movementScript.speedMultiplierFromWeapon = equippedWeapon.speedMultiplier;
             
             Debug.Log("Changed to " + equippedWeapon.gameObject.name);
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;

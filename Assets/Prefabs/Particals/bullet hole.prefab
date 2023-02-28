@@ -124,6 +124,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6221045549996187469}
     m_Modifications:
+    - target: {fileID: 3550061257546971939, guid: 94a9890005cbd514291b504ae26e9fcc, type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3711712705368687547, guid: 94a9890005cbd514291b504ae26e9fcc, type: 3}
       propertyPath: m_Name
       value: ImpactDebris
@@ -199,8 +203,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 6221045549996187469}
     m_Modifications:
     - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].value
+      value: 0.12162222
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[1].inSlope
+      value: -2.4605973
+      objectReference: {fileID: 0}
+    - target: {fileID: 6079116409829425062, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
+      propertyPath: EmissionModule.rateOverTime.maxCurve.m_Curve.Array.data[0].outSlope
+      value: -2.4605973
       objectReference: {fileID: 0}
     - target: {fileID: 6261678013242197188, guid: b5d2cc29722683344af8dfe10a37a1d4, type: 3}
       propertyPath: m_Name
