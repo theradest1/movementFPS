@@ -38013,8 +38013,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c39397b7e55f37d4aa94cf278199da82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  maxHealth: 100
+  health: 500
+  maxHealth: 500
   flashRecovery: 0.15
   spawnPoints:
   - {fileID: 1308715322}
@@ -38027,6 +38027,9 @@ MonoBehaviour:
   - {fileID: 830011768}
   - {fileID: 1334182714}
   - {fileID: 1839921717}
+  timeBeforeHeal: 6
+  healRate: 0.01
+  healCooldown: 0
 --- !u!114 &1360005025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45008,7 +45011,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100/100
+  m_text: health/maxhealth
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

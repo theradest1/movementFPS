@@ -16,6 +16,9 @@ public class PlayerManager : MonoBehaviour
     public float maxHealth = 100f;
     public float flashRecovery;
     public List<GameObject> spawnPoints;
+    public float timeBeforeHeal;
+    public float healRate;
+    public float healCooldown;
 
     void Start(){
         healthText = GameObject.Find("healthText").GetComponent<TextMeshProUGUI>();
@@ -25,11 +28,18 @@ public class PlayerManager : MonoBehaviour
         flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
         spawn();
-
+        InvokeRepeating("heal", 0, healRate);
         changeHealth(0f);
     }
 
+    void heal(){
+        if(healCooldown <= 0 && health < maxHealth){
+            changeHealth(-1);
+        }
+    }
+
     private void Update() {
+        healCooldown -= Time.deltaTime;
         if(flashImage.color.a > 0){
             flashImage.color = new Color(1, 1, 1, flashImage.color.a - flashRecovery * Time.deltaTime);
         }
@@ -42,6 +52,9 @@ public class PlayerManager : MonoBehaviour
     public void changeHealth(float subbedHealth){
         health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
         healthSlider.value = health/maxHealth;
-        healthText.text = Mathf.Round(health) + "/100";
+        healthText.text = Mathf.Round(health) + "/" + maxHealth;
+        if(subbedHealth > 0){
+            healCooldown = timeBeforeHeal;
+        }
     }
 }

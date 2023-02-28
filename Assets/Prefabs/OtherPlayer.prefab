@@ -597,8 +597,8 @@ MonoBehaviour:
   usernameCanvas: {fileID: 7517711980218633045}
   healthSlider: {fileID: 7724480901090554960}
   invincibilityTimer: 0
-  health: 100
-  maxHealth: 100
+  health: 500
+  maxHealth: 500
 --- !u!54 &-8474614667969805789
 Rigidbody:
   m_ObjectHideFlags: 0
