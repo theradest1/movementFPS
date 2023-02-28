@@ -90,11 +90,15 @@ public class ServerEvents : MonoBehaviour
         if(int.Parse(killedID) == serverComm.ID){
             clientDeaths += 1;
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
+            playerManager.death(int.Parse(killerID));
+            playerManager.changeHealth(-1000f);
+            weaponManager.resetAllWeapons();
         }
-        else
-        {
+        else{
             deaths[clientIDs.IndexOf(int.Parse(killedID))] += 1;    
             scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
+            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].invincibilityTimer = invincibilityTimeOnDeath;
+            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].changeHealth(-1000f); 
         }
 
         if(int.Parse(killerID) == serverComm.ID){
@@ -110,15 +114,6 @@ public class ServerEvents : MonoBehaviour
         //kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
         //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
-        if(int.Parse(killedID) == serverComm.ID){
-            playerManager.spawn();// player.transform.position = new Vector3(Random.Range(0, 28), 14f, Random.Range(0, 28));
-            playerManager.changeHealth(-1000f);
-            weaponManager.resetAllWeapons();
-        }
-        else{
-            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].invincibilityTimer = invincibilityTimeOnDeath;
-            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].changeHealth(-1000f); 
-        }
     }
 
     string getUsername(string _ID){ //is a string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)

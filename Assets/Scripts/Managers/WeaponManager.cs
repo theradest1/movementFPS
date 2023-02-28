@@ -8,6 +8,7 @@ public class WeaponManager : MonoBehaviour
 {
     ControlsManager controlsManager;
     movement movementScript;
+    public List<WeaponInfo> possibleWeapons;
     public List<WeaponInfo> weapons;
     
     [HideInInspector]
@@ -47,6 +48,17 @@ public class WeaponManager : MonoBehaviour
 
         changeWeapon(1);
     }
+
+    public void setWeapons(List<string> equippedWeapons){
+        weapons = new List<WeaponInfo>();
+        for(int i = 0; i < possibleWeapons.Count; i++){
+            if(equippedWeapons.Contains(possibleWeapons[i].gameObject.name)){
+                Debug.Log("using " + possibleWeapons[i].gameObject.name);
+                weapons.Add(possibleWeapons[i]);
+            }
+        }
+        changeWeapon(1);
+    } 
 
     public void resetAllWeapons(){
         for(int weaponID = 0; weaponID < weapons.Count; weaponID++){

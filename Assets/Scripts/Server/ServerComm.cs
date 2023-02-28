@@ -23,6 +23,7 @@ public class ServerComm : MonoBehaviour
     TextMeshProUGUI sendBPSText;
     TextMeshProUGUI recieveBPSText;
     TextMeshProUGUI latencyText;
+    ControlsManager controlsManager;
 
     int throughPackets = 0;
     int sendBPS;
@@ -36,6 +37,7 @@ public class ServerComm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         PPSText = GameObject.Find("PPS debug").GetComponent<TextMeshProUGUI>();
@@ -121,7 +123,13 @@ public class ServerComm : MonoBehaviour
         }*/
 
         string info = "";
-        byte[] sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
+        byte[] sendBytes;
+        if(controlsManager.deathMenuControlls){
+            sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + new Vector3(0f, -9, 0f) + "~" + player.transform.rotation);
+        }
+        else{
+            sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
+        }
         sendBPS += sendBytes.Length;
         client.Send(sendBytes, sendBytes.Length);
         throughPackets++;
