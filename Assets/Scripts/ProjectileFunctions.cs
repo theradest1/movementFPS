@@ -8,6 +8,7 @@ public class ProjectileFunctions : MonoBehaviour
     //just a bunch of small functions to make projectile programming and other things faster and more readable
     //also has references to other scripts to stay clean
     public ServerComm serverComm;
+    public InGameGUIManager inGameGUIManager;
     public ServerEvents serverEvents;
     public PlayerManager playerManager;
     public SoundManager soundManager;
@@ -17,6 +18,7 @@ public class ProjectileFunctions : MonoBehaviour
     public Image flashImage;
 
     private void Start() {
+        inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();

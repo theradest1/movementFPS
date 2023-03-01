@@ -9,8 +9,11 @@ public class Bullet : MonoBehaviour
     GameObject fakeBullet;
     public GameObject fakeBulletPrefab;
     public GameObject bulletHolePrefab;
+    public GameObject hitPlayerPrefab;
     GameObject bulletHole;
     public Rigidbody rb;
+    public float critHeight;
+    public float critMultiplier;
     Vector3 velocityAfterDestroy;
 
     public float maxLifeTime;
@@ -58,6 +61,13 @@ public class Bullet : MonoBehaviour
             if(coll.gameObject.layer == 7){
                 OtherPlayer damagedScript = projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))];
                 if(damagedScript.invincibilityTimer <= 0){
+                    bool isCrit = coll.contacts[0].point.y - coll.gameObject.transform.position.y >= critHeight;
+                    if(isCrit){
+                        damage *= critMultiplier;
+                        projectileFunctions.soundManager.playSound(10, projectileFunctions.playerCam.transform.position, .1f, 1.2f);
+                    }
+                    projectileFunctions.inGameGUIManager.hit(isCrit);
+
                     if(damagedScript.health <= damage){
                         projectileFunctions.serverEvents.sendEvent("ue", "death", coll.gameObject.name);
                         damagedScript.invincibilityTimer = 1f;
@@ -67,6 +77,10 @@ public class Bullet : MonoBehaviour
                         damagedScript.health -= damage;
                     }
                 }
+                else{
+                    projectileFunctions.inGameGUIManager.hit(false);
+                }
+                bulletHole = Instantiate(hitPlayerPrefab, coll.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, coll.contacts[0].normal));
             }
             else{
                 bulletHole = Instantiate(bulletHolePrefab, coll.contacts[0].point, Quaternion.FromToRotation(Vector3.forward, coll.contacts[0].normal));

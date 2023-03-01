@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     WeaponManager weaponManager;
     GameObject deathMenu;
     movement movementScript;
+    Look look;
 
     Slider healthSlider;
     Image flashImage;
@@ -32,6 +33,7 @@ public class PlayerManager : MonoBehaviour
     Rigidbody rb;
 
     void Start(){
+        look = GameObject.Find("Main Camera").GetComponent<Look>();
         movementScript = this.gameObject.GetComponent<movement>();
         coll = this.gameObject.GetComponent<Collider>();
         rb = this.gameObject.GetComponent<Rigidbody>();
@@ -68,6 +70,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void spawn(){
+        look.camRotX = 0;
         movementScript.gravity = -0.07f;
         coll.enabled = true;
         rb.useGravity = true;
@@ -79,6 +82,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void death(int killerID){
+        look.camRotX = 0;
         movementScript.gravity = 0f;
         rb.velocity = Vector3.zero;
         coll.enabled = false;
@@ -91,7 +95,7 @@ public class PlayerManager : MonoBehaviour
         }
         deathMenu.SetActive(true);
         controlsManager.deathMenuControlls = true;
-        transform.position = new Vector3(0f, -9f, 0f);
+        //transform.position = new Vector3(0f, -9f, 0f);
     }
 
     public void changeHealth(float subbedHealth){

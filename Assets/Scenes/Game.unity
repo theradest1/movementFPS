@@ -701,7 +701,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1263,7 +1263,7 @@ MonoBehaviour:
   speedMultiplier: 1.1
   projectileID: 3
   bulletTravelSpeed: 150
-  damage: 20
+  damage: 15
   startDistance: 1.3
   shootSound: 0
   shootPitch: 1
@@ -1701,6 +1701,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8e3b4236a7258471caabb3542eee992b, type: 3}
   - {fileID: 8300000, guid: 5e94f3d51023c5446b59f52c71e0cade, type: 3}
   - {fileID: 8300000, guid: a04e8112fb4cca944baabc0048ff839d, type: 3}
+  - {fileID: 8300000, guid: 60fbe1d775fa3614f85d0849cf2e99a8, type: 3}
   audioSourcePrefab: {fileID: 2954496176510275675, guid: f0d8917a075b2b94e95b94df000bc8d9, type: 3}
   generalVolume: 0
 --- !u!114 &331435474
@@ -1722,6 +1723,7 @@ MonoBehaviour:
   killFeedChildPrefab: {fileID: 4965715005015388577, guid: 442e59d6e8088a346bfb435eadd3bd8d, type: 3}
   killFeedTime: 3
   scoreboard: {fileID: 1441872043}
+  hitMarkerChangeSpeed: 5
 --- !u!114 &331435475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1735,6 +1737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverComm: {fileID: 331435471}
+  inGameGUIManager: {fileID: 0}
   serverEvents: {fileID: 331435472}
   playerManager: {fileID: 1360005024}
   soundManager: {fileID: 331435473}
@@ -2032,7 +2035,7 @@ RectTransform:
   - {fileID: 486727280}
   - {fileID: 264651907}
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2087,7 +2090,7 @@ MonoBehaviour:
   speedMultiplier: 1
   projectileID: 3
   bulletTravelSpeed: 200
-  damage: 50
+  damage: 40
   startDistance: 1.7
   shootSound: 0
   shootPitch: 1
@@ -2615,7 +2618,7 @@ MonoBehaviour:
   speedMultiplier: 0.9
   projectileID: 6
   bulletTravelSpeed: 200
-  damage: 15
+  damage: 10
   startDistance: 1.7
   shootSound: 0
   shootPitch: 0.5
@@ -2666,6 +2669,82 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &526946967
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526946968}
+  - component: {fileID: 526946970}
+  - component: {fileID: 526946969}
+  m_Layer: 3
+  m_Name: hit marker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &526946968
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526946967}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1349378482}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 40, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &526946969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526946967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 46ff6aa50ab640647a548323069ae76d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &526946970
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526946967}
+  m_CullTransparentMesh: 1
 --- !u!1 &552088872
 GameObject:
   m_ObjectHideFlags: 0
@@ -3439,7 +3518,7 @@ MonoBehaviour:
   speedMultiplier: 0.85
   projectileID: 3
   bulletTravelSpeed: 300
-  damage: 300
+  damage: 250
   startDistance: 2
   shootSound: 7
   shootPitch: 1
@@ -3720,7 +3799,7 @@ RectTransform:
   - {fileID: 2105082427}
   - {fileID: 620634866}
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4823,6 +4902,7 @@ MonoBehaviour:
   LookSpeedHorizontal: 0.2
   LookSpeedVertical: 0.2
   generalSense: 1
+  camRotX: 0
   minCamRotX: -70
   maxCamRotX: 90
 --- !u!1 &999345545
@@ -37400,7 +37480,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -40392,7 +40472,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -40473,6 +40553,7 @@ RectTransform:
   - {fileID: 1162079565}
   - {fileID: 1003322798}
   - {fileID: 1373749024}
+  - {fileID: 526946968}
   - {fileID: 1660965945}
   - {fileID: 151182647}
   - {fileID: 1119225186}
@@ -40643,7 +40724,7 @@ MonoBehaviour:
   stopSpeedAir: 0.9999
   maxSpeed: 3000
   sprintMultiplier: 1
-  speedBoostOnSlide: 2
+  speedBoostOnSlide: 3
   footstepInterval: 3
   camPosSliding: {x: 0, y: 0.2, z: 0}
   camPosSpeed: 0.2
@@ -41204,7 +41285,7 @@ MonoBehaviour:
   speedMultiplier: 1.2
   projectileID: 3
   bulletTravelSpeed: 200
-  damage: 50
+  damage: 30
   startDistance: 1
   shootSound: 0
   shootPitch: 1
@@ -41693,7 +41774,7 @@ RectTransform:
   - {fileID: 842087281}
   - {fileID: 1182350846}
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -42963,7 +43044,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1349378482}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}

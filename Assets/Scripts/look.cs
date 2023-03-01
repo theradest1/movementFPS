@@ -9,7 +9,7 @@ public class Look : MonoBehaviour
     public float LookSpeedHorizontal;
     public float LookSpeedVertical;
     public float generalSense;
-    float camRotX = 90;
+    public float camRotX;
     public float minCamRotX;
     public float maxCamRotX;
 
@@ -20,6 +20,7 @@ public class Look : MonoBehaviour
     {
         player = GameObject.Find("Player");
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
+        camRotX = 90;
         //Cursor.lockState = CursorLockMode.Locked;
     }
 

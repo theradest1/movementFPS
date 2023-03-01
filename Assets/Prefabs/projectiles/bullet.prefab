@@ -100,7 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fakeBulletPrefab: {fileID: 6221045549996187465, guid: 0ba44a335458693469a7173c909fedf8, type: 3}
   bulletHolePrefab: {fileID: 6221045549996187465, guid: 74397d116dc8f584ca1531ca891cd9ec, type: 3}
+  hitPlayerPrefab: {fileID: 6221045549996187465, guid: 8978d5b40375f3e4c82b5fabe91cfd0a, type: 3}
   rb: {fileID: -3675639272251135434}
+  critHeight: 0.4
+  critMultiplier: 2
   maxLifeTime: 3
   fakeBulletAccuracy: 30
   bulletHoleLife: 10

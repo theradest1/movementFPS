@@ -17,11 +17,15 @@ public class InGameGUIManager : MonoBehaviour
     public float killFeedTime;
     public GameObject scoreboard;
 
+    Image hitMarker;
+    public float hitMarkerChangeSpeed;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
+        hitMarker = GameObject.Find("hit marker").GetComponent<Image>();
         //killFeedObject = GameObject.Find("kill feed");
         //menu = GameObject.Find("Menu");
         //senseSlider = GameObject.Find("sense").GetComponent<Slider>();
@@ -61,7 +65,17 @@ public class InGameGUIManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void hit(bool crit){
+        if(crit){
+            hitMarker.color = new Color(1, 0, 0, 1);
+        }
+        else{
+            hitMarker.color = new Color(1, 1, 1, 1);
+        }
+    }
+
     private void Update() {
+        hitMarker.color = new Color(1, hitMarker.color.g + hitMarkerChangeSpeed * Time.deltaTime, hitMarker.color.b + hitMarkerChangeSpeed * Time.deltaTime, hitMarker.color.a - hitMarkerChangeSpeed * Time.deltaTime);
         scoreboard.SetActive(controlsManager.tab);
     }
 }
