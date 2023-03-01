@@ -41,6 +41,8 @@ public class movement : MonoBehaviour
     public Vector3 camPosNotSliding;
     public float weaponTravelSpeed;
     GameObject weaponContainer;
+
+    public ClassInfo currentClass;
     
 
     void OnDrawGizmos(){

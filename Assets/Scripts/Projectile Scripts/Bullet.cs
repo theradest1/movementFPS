@@ -68,14 +68,9 @@ public class Bullet : MonoBehaviour
                     }
                     projectileFunctions.inGameGUIManager.hit(isCrit);
 
-                    if(damagedScript.health <= damage){
-                        projectileFunctions.serverEvents.sendEvent("ue", "death", coll.gameObject.name);
-                        damagedScript.invincibilityTimer = 1f;
-                    }
-                    else{
-                        projectileFunctions.serverEvents.sendEvent("ue", "damage", coll.gameObject.name + "~" + damage);
-                        damagedScript.health -= damage;
-                    }
+                    
+                    projectileFunctions.triggerDamage(damagedScript, damage, projectileFunctions.serverComm.ID);
+                    //projectileFunctions.serverEvents.sendEvent("ue", "damage", projectileFunctions.serverComm.ID + "~" + coll.gameObject.name + "~" + damage);
                 }
                 else{
                     projectileFunctions.inGameGUIManager.hit(false);

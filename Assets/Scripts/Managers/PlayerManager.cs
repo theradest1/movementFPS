@@ -70,6 +70,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void spawn(){
+        Cursor.lockState = CursorLockMode.Locked;
         look.camRotX = 0;
         movementScript.gravity = -0.07f;
         coll.enabled = true;
@@ -82,6 +83,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void death(int killerID){
+        Cursor.lockState = CursorLockMode.None;
         look.camRotX = 0;
         movementScript.gravity = 0f;
         rb.velocity = Vector3.zero;

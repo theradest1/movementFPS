@@ -59,7 +59,6 @@ public class ControlsManager : MonoBehaviour
     void Update()
     {
         if(!deathMenuControlls){
-            Cursor.lockState = CursorLockMode.Locked;
             //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
             mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();
             
@@ -116,7 +115,6 @@ public class ControlsManager : MonoBehaviour
             }
         }
         else{
-            Cursor.lockState = CursorLockMode.None;
             
             mouseDelta = Vector2.zero;
             moveDirection = Vector3.zero;
