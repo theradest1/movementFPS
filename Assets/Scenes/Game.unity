@@ -1232,7 +1232,7 @@ MonoBehaviour:
   speedMult: 0.9
   ammoCapacityMult: 0.6
   health: 200
-  healRate: 0.5
+  healAmount: 0.5
   healCooldown: 4
   toolCapacityMult: 0.8
   reloadSpeedMult: 0.5
@@ -1739,7 +1739,7 @@ MonoBehaviour:
   speedMult: 0.8
   ammoCapacityMult: 1.5
   health: 800
-  healRate: 3
+  healAmount: 2
   healCooldown: 7
   toolCapacityMult: 1.5
   reloadSpeedMult: 1.2
@@ -4784,7 +4784,7 @@ MonoBehaviour:
   speedMult: 1
   ammoCapacityMult: 1
   health: 500
-  healRate: 1
+  healAmount: 1
   healCooldown: 6
   toolCapacityMult: 1
   reloadSpeedMult: 1
@@ -4913,7 +4913,7 @@ MonoBehaviour:
   speedMult: 1.2
   ammoCapacityMult: 0.8
   health: 300
-  healRate: 0.5
+  healAmount: 0.5
   healCooldown: 4
   toolCapacityMult: 0.7
   reloadSpeedMult: 0.8
@@ -39301,7 +39301,7 @@ MonoBehaviour:
   speedMult: 1
   ammoCapacityMult: 1
   health: 500
-  healRate: 1
+  healAmount: 1
   healCooldown: 6
   toolCapacityMult: 2.5
   reloadSpeedMult: 1

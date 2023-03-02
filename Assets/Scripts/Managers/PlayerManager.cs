@@ -57,12 +57,12 @@ public class PlayerManager : MonoBehaviour
 
     void heal(){
         if(healCooldown <= 0 && health < maxHealth){
-            if(health + currentClass.healRate > maxHealth){
+            if(health + currentClass.healAmount > maxHealth){
                 health = maxHealth;
                 changeHealth(0);
             }
             else{
-                changeHealth(-currentClass.healRate);
+                changeHealth(-currentClass.healAmount);
             }
         }
     }
@@ -97,6 +97,7 @@ public class PlayerManager : MonoBehaviour
         Debug.Log(classToSet.gameObject.name);
         movementScript.currentClass = classToSet;
         weaponManager.currentClass = classToSet;
+        currentClass = classToSet;
         weaponManager.resetAllWeapons();
         maxHealth = classToSet.health;
         health = maxHealth;
@@ -128,7 +129,7 @@ public class PlayerManager : MonoBehaviour
         healthSlider.value = health/maxHealth;
         healthText.text = Mathf.Round(health) + "/" + maxHealth;
         if(subbedHealth > 0){
-            healCooldown = timeBeforeHeal;
+            healCooldown = currentClass.healCooldown;
         }
     }
 }

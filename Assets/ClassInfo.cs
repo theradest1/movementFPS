@@ -8,7 +8,7 @@ public class ClassInfo : MonoBehaviour
     public float speedMult = 1;
     public float ammoCapacityMult = 1;
     public float health = 500;
-    public float healRate = .01f;
+    public float healAmount = .01f;
     public float healCooldown = 6f;
     public float toolCapacityMult = 1;
     public float reloadSpeedMult = 1;

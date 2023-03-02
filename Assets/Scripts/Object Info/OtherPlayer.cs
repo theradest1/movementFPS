@@ -16,15 +16,16 @@ public class OtherPlayer : MonoBehaviour
 
     Collider coll;
     
-    [HideInInspector]
+    //[HideInInspector]
     public float health;
     float maxHealth;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float timeBeforeHeal;
-    float healRate;
-    float healAmount;
-    [HideInInspector]
+
+    public float healRate;
+    public float healAmount;
+    //[HideInInspector]
     public float healCooldown;
     PlayerManager playerManager;
 
@@ -36,8 +37,8 @@ public class OtherPlayer : MonoBehaviour
         ClassInfo classToSetInfo = GameObject.Find(classToSet).GetComponent<ClassInfo>();
         maxHealth = classToSetInfo.health;
         health = maxHealth;
-        healAmount = classToSetInfo.healRate;
-        healCooldown = classToSetInfo.healCooldown;
+        healAmount = classToSetInfo.healAmount;
+        timeBeforeHeal = classToSetInfo.healCooldown;
     }
 
     public void changeHealth(float subbedHealth){
@@ -55,7 +56,7 @@ public class OtherPlayer : MonoBehaviour
         timeBeforeHeal = playerManager.timeBeforeHeal;
         health = playerManager.health;
         maxHealth = playerManager.maxHealth;
-        healAmount = playerManager.currentClass.healRate;
+        healAmount = playerManager.currentClass.healAmount;
 
         coll = this.gameObject.GetComponent<Collider>();
         playerCam = GameObject.Find("Main Camera");
