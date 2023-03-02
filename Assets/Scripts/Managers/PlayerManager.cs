@@ -35,6 +35,14 @@ public class PlayerManager : MonoBehaviour
     Rigidbody rb;
     public ClassInfo currentClass;
 
+    public TextMeshProUGUI classHealthText;
+    public TextMeshProUGUI classDamageText;
+    public TextMeshProUGUI classAmmoText;
+    public TextMeshProUGUI classToolText;
+    public TextMeshProUGUI classSpeedText;
+    public TextMeshProUGUI classReloadText;
+    public TextMeshProUGUI classFireRateText;
+
     void Start(){
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
@@ -53,6 +61,7 @@ public class PlayerManager : MonoBehaviour
         //spawn();
         InvokeRepeating("heal", 0, healRate);
         changeHealth(0f);
+        updateClassStats();
     }
 
     void heal(){
@@ -103,6 +112,17 @@ public class PlayerManager : MonoBehaviour
         health = maxHealth;
         changeHealth(0f);
         serverEvents.sendEvent("ue", "setClass", classToSet.gameObject.name);
+    }
+
+    public void updateClassStats(){
+        ClassInfo selectedClass = GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>();
+        classHealthText.text = selectedClass.health + "HP";
+        classDamageText.text = selectedClass.damageMult * 100 + "%";
+        classAmmoText.text = selectedClass.ammoCapacityMult * 100 + "%";
+        classToolText.text = selectedClass.toolCapacityMult * 100 + "%";
+        classSpeedText.text = selectedClass.speedMult * 100 + "%";
+        classReloadText.text = selectedClass.reloadSpeedMult * 100 + "%";
+        classFireRateText.text = Mathf.Round(200 - selectedClass.gunFireSpeedMult * 100) + "%";
     }
 
     public void death(int killerID){
