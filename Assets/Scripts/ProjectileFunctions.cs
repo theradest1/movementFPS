@@ -16,6 +16,7 @@ public class ProjectileFunctions : MonoBehaviour
     public movement movementScript;
     public Collider playerColl;
     public GameObject playerCam;
+    public Camera playerCamComponent;
     public Image flashImage;
 
     private void Start() {

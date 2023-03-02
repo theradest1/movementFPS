@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     ControlsManager controlsManager;
     WeaponManager weaponManager;
     GameObject deathMenu;
+    GameObject playerCam;
     movement movementScript;
     Look look;
     InGameGUIManager inGameGUIManager;
@@ -43,7 +44,11 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI classReloadText;
     public TextMeshProUGUI classFireRateText;
 
+    public GameObject ball;
+    public LayerMask stopFrom;
+
     void Start(){
+        playerCam = GameObject.Find("Main Camera");
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         movementScript = this.gameObject.GetComponent<movement>();
@@ -86,6 +91,7 @@ public class PlayerManager : MonoBehaviour
         if(flashImage.color.a > 0){
             flashImage.color = new Color(1, 1, 1, flashImage.color.a - flashRecovery * Time.deltaTime);
         }
+        
     }
 
     public void spawn(){

@@ -25,7 +25,9 @@ public class Flash : MonoBehaviour
 
     void explode(){
         projectileFunctions.soundManager.playSound(bangSound, transform.position, 1f, 1f);
-        if(this.gameObject.GetComponent<Renderer>().isVisible && !Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
+        
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(projectileFunctions.playerCamComponent);
+        if(GeometryUtility.TestPlanesAABB(planes , coll.bounds) && !Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
             projectileFunctions.flashImage.color = new Color(1, 1, 1, 1);
         }
         Debug.Log("bang (flash)");
