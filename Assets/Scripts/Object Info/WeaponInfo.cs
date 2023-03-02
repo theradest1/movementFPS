@@ -27,6 +27,9 @@ public class WeaponInfo : MonoBehaviour
     public int objectsInClip;
     public int clipSize;
 
+    public bool tool = false;
+    public bool gun = true;
+
     private void Update() {
         cooldownTimer -= Time.deltaTime;
     }

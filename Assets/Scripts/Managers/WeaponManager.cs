@@ -32,6 +32,8 @@ public class WeaponManager : MonoBehaviour
     public bool reloading;
     public bool ableToShoot = true;
 
+    public ClassInfo currentClass;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,10 +64,15 @@ public class WeaponManager : MonoBehaviour
 
     public void resetAllWeapons(){
         for(int weaponID = 0; weaponID < weapons.Count; weaponID++){
-            weapons[weaponID].objectsInClip = weapons[weaponID].clipSize;
-            weapons[weaponID].cooldownTimer = 0f;
+            equippedWeapon = weapons[weaponID];
+            equippedWeapon.objectsInClip = getModifiedMaxObjects();//(int)(weapons[weaponID].clipSize * currentClass.ammoCapacityMult);
+            equippedWeapon.cooldownTimer = 0f;
+            equippedWeapon.gameObject.SetActive(false);
         }
-        objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+        equippedWeapon = weapons[0];
+        controlsManager.equippedNum = 1;
+        equippedWeapon.gameObject.SetActive(true);
+        objectsInClipText.text = equippedWeapon.objectsInClip + "/" + getModifiedMaxObjects();
     }
 
     public void changeWeapon(int newWeapon){
@@ -85,13 +92,26 @@ public class WeaponManager : MonoBehaviour
             }
             equippedWeaponText.text = equippedWeapon.gameObject.name;
             movementScript.speedMultiplierFromWeapon = equippedWeapon.speedMultiplier;
-            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + getModifiedMaxObjects();
         }
+    }
+
+    int getModifiedMaxObjects(){
+        if(equippedWeapon.gun){
+            return (int)(equippedWeapon.clipSize * currentClass.ammoCapacityMult);
+        }
+        else if(equippedWeapon.tool){
+            return (int)(equippedWeapon.clipSize * currentClass.toolCapacityMult);
+        }
+        return 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        int modifiedMaxObjects = getModifiedMaxObjects();
+
+        
         if(!controlsManager.shooting){
             ableToShoot = true;
         }
@@ -100,18 +120,18 @@ public class WeaponManager : MonoBehaviour
         
         equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
-        if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < equippedWeapon.clipSize) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
+        if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
-            reloadingTimer = equippedWeapon.reloadTime;
-            objectsInClipText.text = "--/" + equippedWeapon.clipSize;
+            reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+            objectsInClipText.text = "--/" + modifiedMaxObjects;
             serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
 
         reloadingTimer -= Time.deltaTime;
-        if(reloading && reloadingTimer <= 0 && equippedWeapon.objectsInClip < equippedWeapon.clipSize){
+        if(reloading && reloadingTimer <= 0 && equippedWeapon.objectsInClip < modifiedMaxObjects){
             reloading = false;
-            equippedWeapon.objectsInClip = equippedWeapon.clipSize;
-            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
+            equippedWeapon.objectsInClip = modifiedMaxObjects;
+            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
         }
 
         if(controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0 && ableToShoot){
@@ -120,9 +140,9 @@ public class WeaponManager : MonoBehaviour
             }
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
-            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + equippedWeapon.clipSize;
-            equippedWeapon.cooldownTimer = equippedWeapon.cooldown;
-            
+            objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
+            equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
+        
             if(equippedWeapon.projectileID == 3){ //only for bullets
                 projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * equippedWeapon.bulletTravelSpeed);
             }

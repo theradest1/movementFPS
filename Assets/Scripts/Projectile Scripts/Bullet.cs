@@ -66,6 +66,7 @@ public class Bullet : MonoBehaviour
                         damage *= critMultiplier;
                         projectileFunctions.soundManager.playSound(10, projectileFunctions.playerCam.transform.position, .1f, 1.2f);
                     }
+                    damage *= projectileFunctions.movementScript.currentClass.damageMult;
                     projectileFunctions.inGameGUIManager.hit(isCrit);
 
                     

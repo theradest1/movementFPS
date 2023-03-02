@@ -161,6 +161,11 @@ public class ServerComm : MonoBehaviour
                     case "removeClient":
                         serverEvents.removeClient(splitRawEvents[1]); //ID
                         break;
+                    case "setClass":
+                        if(int.Parse(splitRawEvents[1]) != ID){
+                            serverEvents.setOtherClientClass(splitRawEvents[1], splitRawEvents[2]); //ID, class
+                        }
+                        break;
                     case "d": //damage
                         if(int.Parse(splitRawEvents[1]) != ID){
                             serverEvents.damage(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //attacker ID, victim ID, damage

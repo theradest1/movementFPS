@@ -14,6 +14,7 @@ public class PlayerManager : MonoBehaviour
     GameObject deathMenu;
     movement movementScript;
     Look look;
+    InGameGUIManager inGameGUIManager;
 
     Slider healthSlider;
     Image flashImage;
@@ -28,11 +29,14 @@ public class PlayerManager : MonoBehaviour
     public TMP_Dropdown mainDropdown;
     public TMP_Dropdown secondaryDropdown;
     public TMP_Dropdown toolDropdown;
+    public TMP_Dropdown classDropdown;
     public GameObject killer;
     Collider coll;
     Rigidbody rb;
+    public ClassInfo currentClass;
 
     void Start(){
+        inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         movementScript = this.gameObject.GetComponent<movement>();
         coll = this.gameObject.GetComponent<Collider>();
@@ -53,7 +57,13 @@ public class PlayerManager : MonoBehaviour
 
     void heal(){
         if(healCooldown <= 0 && health < maxHealth){
-            changeHealth(-1);
+            if(health + currentClass.healRate > maxHealth){
+                health = maxHealth;
+                changeHealth(0);
+            }
+            else{
+                changeHealth(-currentClass.healRate);
+            }
         }
     }
 
@@ -80,9 +90,22 @@ public class PlayerManager : MonoBehaviour
         controlsManager.deathMenuControlls = false;
 
         weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
+        setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
+    }
+
+    void setClass(ClassInfo classToSet){
+        Debug.Log(classToSet.gameObject.name);
+        movementScript.currentClass = classToSet;
+        weaponManager.currentClass = classToSet;
+        weaponManager.resetAllWeapons();
+        maxHealth = classToSet.health;
+        health = maxHealth;
+        changeHealth(0f);
+        serverEvents.sendEvent("ue", "setClass", classToSet.gameObject.name);
     }
 
     public void death(int killerID){
+        flashImage.color = new Color(1, 1, 1, 0);
         Cursor.lockState = CursorLockMode.None;
         look.camRotX = 0;
         movementScript.gravity = 0f;

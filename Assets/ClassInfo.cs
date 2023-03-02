@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ClassInfo : MonoBehaviour
 {
-    public float damage;
-    public float speed;
-    public float accuracy;
-    public float ammoCapacity;
-    public float healSpeed;
-    public float healCooldown;
+    public float damageMult = 1;
+    public float speedMult = 1;
+    public float ammoCapacityMult = 1;
+    public float health = 500;
+    public float healRate = .01f;
+    public float healCooldown = 6f;
+    public float toolCapacityMult = 1;
+    public float reloadSpeedMult = 1;
+    public float gunFireSpeedMult = 1;
 
 }

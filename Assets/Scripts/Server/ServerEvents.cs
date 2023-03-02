@@ -127,6 +127,11 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
+    public void setOtherClientClass(string ID, string classToSet){
+        OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(ID))];
+        clientScript.setClass(classToSet);
+    }
+
     public void newClient(string newClientID, string newCleintUsername){
         //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
         GameObject newClientObject = Instantiate(clientPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);

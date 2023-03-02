@@ -23,12 +23,21 @@ public class OtherPlayer : MonoBehaviour
     [HideInInspector]
     public float timeBeforeHeal;
     float healRate;
+    float healAmount;
     [HideInInspector]
     public float healCooldown;
     PlayerManager playerManager;
 
     public void setUsername(string usrname){
         usernameText.text = usrname;
+    }
+
+    public void setClass(string classToSet){
+        ClassInfo classToSetInfo = GameObject.Find(classToSet).GetComponent<ClassInfo>();
+        maxHealth = classToSetInfo.health;
+        health = maxHealth;
+        healAmount = classToSetInfo.healRate;
+        healCooldown = classToSetInfo.healCooldown;
     }
 
     public void changeHealth(float subbedHealth){
@@ -46,6 +55,7 @@ public class OtherPlayer : MonoBehaviour
         timeBeforeHeal = playerManager.timeBeforeHeal;
         health = playerManager.health;
         maxHealth = playerManager.maxHealth;
+        healAmount = playerManager.currentClass.healRate;
 
         coll = this.gameObject.GetComponent<Collider>();
         playerCam = GameObject.Find("Main Camera");
@@ -55,7 +65,13 @@ public class OtherPlayer : MonoBehaviour
 
     void heal(){
         if(healCooldown <= 0 && health < maxHealth){
-            changeHealth(-1);
+            if(health + healAmount > maxHealth){
+                health = maxHealth;
+                changeHealth(0);
+            }
+            else{
+                changeHealth(-healAmount);
+            }
         }
     }
 

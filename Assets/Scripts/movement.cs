@@ -43,7 +43,6 @@ public class movement : MonoBehaviour
     GameObject weaponContainer;
 
     public ClassInfo currentClass;
-    
 
     void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
@@ -104,12 +103,12 @@ public class movement : MonoBehaviour
 
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
-                rb.velocity += speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon;
-                rb.velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon;
+                rb.velocity += speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult;
+                rb.velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult;
             }
             else{
-                rb.velocity += speed * transform.right * moveDirection.x * speedMultiplierFromWeapon;
-                rb.velocity += speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon;
+                rb.velocity += speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult;
+                rb.velocity += speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult;
             }
         }
         else if(!isSliding){

@@ -13,11 +13,13 @@ public class ProjectileFunctions : MonoBehaviour
     public PlayerManager playerManager;
     public SoundManager soundManager;
     public WeaponManager weaponManager;
+    public movement movementScript;
     public Collider playerColl;
     public GameObject playerCam;
     public Image flashImage;
 
     private void Start() {
+        movementScript = GameObject.Find("Player").GetComponent<movement>();
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
