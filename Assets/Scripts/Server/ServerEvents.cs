@@ -153,6 +153,9 @@ public class ServerEvents : MonoBehaviour
         targetPositions.Add(new Vector3(0f, 0f, 0f));
         pastTargetRotations.Add(Quaternion.identity);
         targetRotations.Add(Quaternion.identity);
+
+        sendEvent("ue", "setClass", playerManager.currentClass.gameObject.name);
+        sendEvent("ue", "setHealth", playerManager.health + "~" + playerManager.healCooldown);
     }
 
     public void removeClient(string ID){
@@ -180,6 +183,19 @@ public class ServerEvents : MonoBehaviour
         }
         else{
             playerManager.changeHealth(float.Parse(damage));
+        }
+    }
+
+    public void setHealth(string clientID, string health, string healCooldown){
+        if(int.Parse(clientID) == serverComm.ID){
+            playerManager.health = float.Parse(health);
+            playerManager.healCooldown = float.Parse(healCooldown);
+        }
+        else{
+            int clientIDParsed = clientIDs.IndexOf(int.Parse(clientID));
+            clientScripts[clientIDParsed].health = float.Parse(health);
+            clientScripts[clientIDParsed].healCooldown = float.Parse(healCooldown);
+            clientScripts[clientIDParsed].changeHealth(0f);
         }
     }
 

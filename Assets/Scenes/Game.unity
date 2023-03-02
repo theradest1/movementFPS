@@ -5809,7 +5809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: 29}
+  m_AnchoredPosition: {x: 0, y: 29}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &930693048
@@ -6196,12 +6196,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b045ac5911831d4f909a9e9d9289b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   LookSpeedHorizontal: 0.2
   LookSpeedVertical: 0.2
   generalSense: 1
   camRotX: 0
   minCamRotX: -70
   maxCamRotX: 90
+  controlsManager: {fileID: 0}
 --- !u!1 &971398792
 GameObject:
   m_ObjectHideFlags: 0
@@ -42856,11 +42858,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d77ae0456d02e04ebd8e1bbfa0546f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  look: {fileID: 0}
+  rb: {fileID: 0}
+  controlsManager: {fileID: 0}
+  serverEvents: {fileID: 0}
+  velocityText: {fileID: 0}
+  FPStext: {fileID: 0}
   isGrounded: 0
   isSliding: 0
   ableToJump: 0
   groundMask:
-    serializedVersion: 2
     m_Bits: 192
   gravity: 0
   speed: 1
@@ -42873,10 +42881,12 @@ MonoBehaviour:
   sprintMultiplier: 1
   speedBoostOnSlide: 3
   footstepInterval: 3
+  lastFootstepPos: {x: 0, y: 0}
   camPosSliding: {x: 0, y: 0.2, z: 0}
   camPosSpeed: 0.2
   camPosNotSliding: {x: 0, y: 0.72, z: 0}
   weaponTravelSpeed: 40
+  weaponContainer: {fileID: 0}
   currentClass: {fileID: 782628377}
 --- !u!4 &1360005022
 Transform:
@@ -49788,7 +49798,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517578, y: 54.39}
+  m_AnchoredPosition: {x: 0, y: 54.39}
   m_SizeDelta: {x: 160, y: 30.400024}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1769827440

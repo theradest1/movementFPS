@@ -36,7 +36,7 @@ public class OtherPlayer : MonoBehaviour
     public void setClass(string classToSet){
         ClassInfo classToSetInfo = GameObject.Find(classToSet).GetComponent<ClassInfo>();
         maxHealth = classToSetInfo.health;
-        health = maxHealth;
+        //health = maxHealth;
         healAmount = classToSetInfo.healAmount;
         timeBeforeHeal = classToSetInfo.healCooldown;
     }
