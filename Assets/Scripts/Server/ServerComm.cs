@@ -84,6 +84,7 @@ public class ServerComm : MonoBehaviour
         InvokeRepeating("serverUpdate", .1f, updateSpeed);
         InvokeRepeating("updatePPSGUI", 0f, 1f);
     }
+
     void updatePPSGUI(){
         //Debug.Log("through packets: " + throughPackets);
         //Debug.Log("error packets: " + errorPackets);
@@ -165,6 +166,13 @@ public class ServerComm : MonoBehaviour
                         break;
                     case "death":
                         serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed
+                        break;
+                    case "updateSettings":
+                        string things = "";
+                        for(int j = 1; j < splitRawEvents.Length; j++){
+                            things += splitRawEvents[j] + "~";
+                        }
+                        variableUpdater.updateVars(things.Substring(0, things.Length - 1));
                         break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);

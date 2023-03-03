@@ -8,14 +8,29 @@ currentID = 0;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
+const settingCheckInterval = 5000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
+setInterval(checkSettings, settingCheckInterval);
 packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
+settings = "";
 
 playerTransformInfo = []; //position and rotation
 playerInfo = []; //usernames, might be more later
 currentPlayerIDs = []; //IDs (to find where other information is without having to do larger calculations)
 playerDisconnectTimers = []; //disconnect timers that go up untill they are disconnected because of not updating their transform
 eventsToSend = []; //events that que up untill the client calls an update, where they are dumped and the client then processes them
+
+function checkSettings(){
+	fs.readFile('quickSettings.txt', (err, data) => {
+		var dataString = data.toString();
+		dataString = dataString.replace(/(\r\n|\n|\r)/gm, "");
+		if(dataString != settings){
+			console.log("Updated settings");
+			addEventToAll("updateSettings~" + dataString);
+			settings = dataString;
+		}
+	})
+}
 
 server.on('error', (err) => {
 	console.log(`server error:\n${err.stack}`);
@@ -108,15 +123,14 @@ function logSenderInfo(msg, senderInfo){
 
 //Client functions -----------------------------------------------------------------------------
 function newClient(info, senderPort, senderAddress){
-	fs.readFile('quickSettings.txt', (err, data) => {
-		var dataString = data.toString();
-		dataString = dataString.replace(/(\r\n|\n|\r)/gm, ""); //gets rid of return
-		console.log("Quick set data: " + dataString);
-		console.log(currentID + "|" + dataString);
+	//fs.readFile('quickSettings.txt', (err, data) => {
+		//var dataString = data.toString();
+		//dataString = dataString.replace(/(\r\n|\n|\r)/gm, ""); //gets rid of return
+		console.log("Quick set data: " + settings);
+		console.log(currentID + "|" + settings);
 		console.log(currentID);
-		server.send(currentID + "|" + dataString, senderPort, senderAddress);
+		server.send(currentID + "|" + settings, senderPort, senderAddress);
 
-		
 		splitInfo = info.split("~");
 
 		addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
@@ -137,7 +151,7 @@ function newClient(info, senderPort, senderAddress){
 		currentPlayerIDs.push(currentID);
 
 		currentID++;
-	})
+	//})
 }
 
 function ue(info, senderPort, senderAddress){
