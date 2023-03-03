@@ -12,7 +12,6 @@ public class VariableUpdater : MonoBehaviour
         string[] varChunks = allData.Split("~");
         for(int i = 0; i < varChunks.Length; i++){
             string[] vars = varChunks[i].Split(";");
-            Debug.Log(vars[0] + ":");
 
             if(classes.transform.Find(vars[0]) != null){
                 classes.transform.Find(vars[0]).GetComponent<ClassInfo>().setVars(vars);
