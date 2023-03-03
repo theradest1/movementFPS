@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InGameGUIManager : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void quit(){
-        Application.Quit();
+        SceneManager.LoadScene(0);
     }
 
     public void hit(bool crit){

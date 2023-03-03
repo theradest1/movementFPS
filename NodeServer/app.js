@@ -2,6 +2,7 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
+const fs = require('fs')
 const validCommands = ['u', 'newClient', 'ue']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
@@ -99,28 +100,36 @@ function logSenderInfo(msg, senderInfo){
 
 //Client functions -----------------------------------------------------------------------------
 function newClient(info, senderPort, senderAddress){
-	server.send(currentID + "", senderPort, senderAddress);
-	splitInfo = info.split("~");
+	fs.readFile('quickSettings.txt', (err, data) => {
+		var dataString = data.toString();
+		dataString = dataString.replace(/(\r\n|\n|\r)/gm, ""); //gets rid of return
+		console.log("Quick set data: " + dataString);
+		console.log(currentID + "|" + dataString);
+		console.log(currentID);
+		server.send(currentID + "|" + dataString, senderPort, senderAddress);
 
-	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
-	console.log("---------------------");
-	console.log("Date/Time: " + Date());
-	console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
-	console.log("---------------------");
-	//console.log(info);
+		
+		splitInfo = info.split("~");
 
-	allPlayerJoinInfo = "";
-	for(playerIndex in currentPlayerIDs){
-		allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex] + "|";
-	}
-	eventsToSend.push(allPlayerJoinInfo);
-	playerInfo.push(splitInfo[1]);
-	playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
-	playerDisconnectTimers.push(0);
-	currentPlayerIDs.push(currentID);
+		addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
+		console.log("---------------------");
+		console.log("Date/Time: " + Date());
+		console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
+		console.log("---------------------");
+		//console.log(info);
 
+		allPlayerJoinInfo = "";
+		for(playerIndex in currentPlayerIDs){
+			allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex] + "|";
+		}
+		eventsToSend.push(allPlayerJoinInfo);
+		playerInfo.push(splitInfo[1]);
+		playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
+		playerDisconnectTimers.push(0);
+		currentPlayerIDs.push(currentID);
 
-	currentID++;
+		currentID++;
+	})
 }
 
 function ue(info, senderPort, senderAddress){

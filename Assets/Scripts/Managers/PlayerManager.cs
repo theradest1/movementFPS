@@ -43,7 +43,6 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI classSpeedText;
     public TextMeshProUGUI classReloadText;
     public TextMeshProUGUI classFireRateText;
-    public LayerMask stopFrom;
 
     void Start(){
         playerCam = GameObject.Find("Main Camera");

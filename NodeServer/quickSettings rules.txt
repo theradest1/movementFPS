@@ -1,0 +1,21 @@
+
+leave the spaces at the top
+classes:
+health
+damage
+ammo
+tools
+speed
+reload time
+fire rate (reversed)
+heal amount
+heal cooldown (after hit)
+
+weapons:
+speed
+bulletSpeed
+damage
+cooldown (fire rate)
+equip cooldown
+reload time
+clip size

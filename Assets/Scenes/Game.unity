@@ -1081,7 +1081,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh47184
+  m_Name: pb_Mesh62694
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1498,15 +1498,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd30d30332d1843982d94a1877b20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMult: 2
-  speedMult: 0.85
-  ammoCapacityMult: 0.5
   health: 200
+  damageMult: 2
+  ammoCapacityMult: 0.5
+  toolCapacityMult: 0.8
+  speedMult: 0.85
+  reloadSpeedMult: 0.5
+  gunFireSpeedMult: 1.3
   healAmount: 0.5
   healCooldown: 7
-  toolCapacityMult: 0.8
-  reloadSpeedMult: 0.8
-  gunFireSpeedMult: 0.8
 --- !u!1 &224059757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,22 +1584,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.1
-  projectileID: 3
   bulletTravelSpeed: 150
   damage: 15
+  cooldown: 0.07
+  equipCooldown: 0.1
+  reloadTime: 3
+  clipSize: 50
+  objectsInClip: 50
+  projectileID: 3
   startDistance: 1.3
   shootSound: 0
   shootPitch: 1
   shootVolume: 0.5
   reloadSound: 1
-  cooldown: 0.07
-  equipCooldown: 0.1
   cooldownTimer: 0
-  reloadTime: 3
   reloadable: 1
   automatic: 1
-  objectsInClip: 50
-  clipSize: 50
   tool: 0
   gun: 1
 --- !u!1 &264651906
@@ -1943,22 +1943,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.1
-  projectileID: 6
   bulletTravelSpeed: 100
   damage: 15
+  cooldown: 0.5
+  equipCooldown: 0.3
+  reloadTime: 1.5
+  clipSize: 2
+  objectsInClip: 2
+  projectileID: 6
   startDistance: 1.3
   shootSound: 0
   shootPitch: 0.7
   shootVolume: 0.7
   reloadSound: 1
-  cooldown: 0.5
-  equipCooldown: 0.3
   cooldownTimer: 0
-  reloadTime: 1.5
   reloadable: 1
   automatic: 0
-  objectsInClip: 2
-  clipSize: 2
   tool: 0
   gun: 1
 --- !u!1 &306465586
@@ -2005,15 +2005,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd30d30332d1843982d94a1877b20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 900
   damageMult: 0.8
-  speedMult: 0.7
-  ammoCapacityMult: 1.3
-  health: 800
+  ammoCapacityMult: 1.5
+  toolCapacityMult: 1.5
+  speedMult: 0.6
+  reloadSpeedMult: 1.2
+  gunFireSpeedMult: 1.1
   healAmount: 3
   healCooldown: 6
-  toolCapacityMult: 1.3
-  reloadSpeedMult: 1.2
-  gunFireSpeedMult: 0.8
 --- !u!1 &331435468
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,6 +2029,7 @@ GameObject:
   - component: {fileID: 331435473}
   - component: {fileID: 331435474}
   - component: {fileID: 331435475}
+  - component: {fileID: 331435476}
   m_Layer: 0
   m_Name: manager
   m_TagString: Untagged
@@ -2189,6 +2190,20 @@ MonoBehaviour:
   playerCam: {fileID: 963194225}
   playerCamComponent: {fileID: 963194227}
   flashImage: {fileID: 1343678131}
+--- !u!114 &331435476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331435468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38935268cadc114ca826958fa5ad30f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons: {fileID: 1653132530}
+  classes: {fileID: 1640984072}
 --- !u!1 &345976264
 GameObject:
   m_ObjectHideFlags: 0
@@ -2620,22 +2635,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1
-  projectileID: 3
   bulletTravelSpeed: 200
   damage: 40
+  cooldown: 0.1
+  equipCooldown: 0.5
+  reloadTime: 2
+  clipSize: 20
+  objectsInClip: 20
+  projectileID: 3
   startDistance: 1.7
   shootSound: 0
   shootPitch: 1
   shootVolume: 0.5
   reloadSound: 1
-  cooldown: 0.1
-  equipCooldown: 0.5
   cooldownTimer: 0
-  reloadTime: 2
   reloadable: 1
   automatic: 1
-  objectsInClip: 20
-  clipSize: 20
   tool: 0
   gun: 1
 --- !u!1 &437385839
@@ -3150,22 +3165,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 0.9
-  projectileID: 6
   bulletTravelSpeed: 200
   damage: 20
+  cooldown: 0.7
+  equipCooldown: 0.5
+  reloadTime: 2
+  clipSize: 5
+  objectsInClip: 5
+  projectileID: 6
   startDistance: 1.7
   shootSound: 0
   shootPitch: 0.5
   shootVolume: 0.7
   reloadSound: 1
-  cooldown: 0.7
-  equipCooldown: 0.5
   cooldownTimer: 0
-  reloadTime: 2
   reloadable: 1
   automatic: 0
-  objectsInClip: 5
-  clipSize: 5
   tool: 0
   gun: 1
 --- !u!1 &518440236
@@ -3661,7 +3676,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh47286
+  m_Name: pb_Mesh62808
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4297,22 +4312,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 0.7
-  projectileID: 3
   bulletTravelSpeed: 300
   damage: 250
+  cooldown: 3
+  equipCooldown: 0.7
+  reloadTime: 3
+  clipSize: 3
+  objectsInClip: 3
+  projectileID: 3
   startDistance: 2
   shootSound: 7
   shootPitch: 1
   shootVolume: 2
   reloadSound: 1
-  cooldown: 3
-  equipCooldown: 0.7
   cooldownTimer: 0
-  reloadTime: 3
   reloadable: 1
   automatic: 0
-  objectsInClip: 3
-  clipSize: 3
   tool: 0
   gun: 1
 --- !u!1 &705507993
@@ -4585,6 +4600,7 @@ RectTransform:
   - {fileID: 1769827439}
   - {fileID: 1798105056}
   - {fileID: 1238400606}
+  - {fileID: 1828601336}
   m_Father: {fileID: 1349378482}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5188,15 +5204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd30d30332d1843982d94a1877b20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMult: 1
-  speedMult: 1
-  ammoCapacityMult: 1
   health: 500
-  healAmount: 1
-  healCooldown: 6
+  damageMult: 1
+  ammoCapacityMult: 1
   toolCapacityMult: 1
+  speedMult: 1
   reloadSpeedMult: 1
   gunFireSpeedMult: 1
+  healAmount: 1
+  healCooldown: 6
 --- !u!1 &785564404
 GameObject:
   m_ObjectHideFlags: 0
@@ -5317,15 +5333,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd30d30332d1843982d94a1877b20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMult: 0.8
-  speedMult: 1.3
-  ammoCapacityMult: 1
   health: 400
+  damageMult: 0.8
+  ammoCapacityMult: 0.8
+  toolCapacityMult: 0.7
+  speedMult: 1.3
+  reloadSpeedMult: 0.8
+  gunFireSpeedMult: 0.8
   healAmount: 1
   healCooldown: 4
-  toolCapacityMult: 0.8
-  reloadSpeedMult: 1.2
-  gunFireSpeedMult: 1.2
 --- !u!1 &830011768
 GameObject:
   m_ObjectHideFlags: 0
@@ -6443,22 +6459,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.2
-  projectileID: 1
   bulletTravelSpeed: 15
   damage: 0
+  cooldown: 1
+  equipCooldown: 0.3
+  reloadTime: 0
+  clipSize: 3
+  objectsInClip: 3
+  projectileID: 1
   startDistance: 0
   shootSound: 8
   shootPitch: 5
   shootVolume: 0.7
   reloadSound: 0
-  cooldown: 1
-  equipCooldown: 0.3
   cooldownTimer: 0
-  reloadTime: 0
   reloadable: 0
   automatic: 0
-  objectsInClip: 3
-  clipSize: 3
   tool: 1
   gun: 0
 --- !u!4 &999345547
@@ -39180,7 +39196,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Reload Speed:'
+  m_text: 'Reload Time:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -39987,15 +40003,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcd30d30332d1843982d94a1877b20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMult: 0.05
-  speedMult: 1
-  ammoCapacityMult: 1
   health: 1000
-  healAmount: 10
-  healCooldown: 2
-  toolCapacityMult: 1
+  damageMult: 0.05
+  ammoCapacityMult: 1
+  toolCapacityMult: 10
+  speedMult: 1
   reloadSpeedMult: 1
   gunFireSpeedMult: 1
+  healAmount: 10
+  healCooldown: 3
 --- !u!1 &1238400605
 GameObject:
   m_ObjectHideFlags: 0
@@ -40020,8 +40036,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238400605}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000047068324}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42938,9 +42954,6 @@ MonoBehaviour:
   classSpeedText: {fileID: 1347268447}
   classReloadText: {fileID: 1538642688}
   classFireRateText: {fileID: 781932070}
-  stopFrom:
-    serializedVersion: 2
-    m_Bits: 1015
 --- !u!114 &1360005025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43219,22 +43232,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1
-  projectileID: 4
   bulletTravelSpeed: 15
   damage: 0
+  cooldown: 2
+  equipCooldown: 0.3
+  reloadTime: 0
+  clipSize: 3
+  objectsInClip: 3
+  projectileID: 4
   startDistance: 0
   shootSound: 8
   shootPitch: 5
   shootVolume: 0.7
   reloadSound: 0
-  cooldown: 2
-  equipCooldown: 0.3
   cooldownTimer: 0
-  reloadTime: 0
   reloadable: 0
   automatic: 0
-  objectsInClip: 3
-  clipSize: 3
   tool: 1
   gun: 0
 --- !u!43 &1404625255
@@ -43243,7 +43256,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh46774
+  m_Name: pb_Mesh62230
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -43447,22 +43460,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.1
-  projectileID: 3
   bulletTravelSpeed: 200
   damage: 30
+  cooldown: 0.15
+  equipCooldown: 0.05
+  reloadTime: 2.3
+  clipSize: 20
+  objectsInClip: 20
+  projectileID: 3
   startDistance: 1
   shootSound: 0
   shootPitch: 1
   shootVolume: 0.5
   reloadSound: 1
-  cooldown: 0.15
-  equipCooldown: 0.05
   cooldownTimer: 0
-  reloadTime: 2.3
   reloadable: 1
   automatic: 0
-  objectsInClip: 20
-  clipSize: 20
   tool: 0
   gun: 1
 --- !u!1 &1416935029
@@ -43568,7 +43581,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh46876
+  m_Name: pb_Mesh62346
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -45050,7 +45063,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tool Capacity:'
+  m_text: 'Tool:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -49973,6 +49986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1798105056}
   - component: {fileID: 1798105057}
+  - component: {fileID: 1798105058}
   m_Layer: 3
   m_Name: classStatsLabels
   m_TagString: Untagged
@@ -49987,8 +50001,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798105055}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0000047068324}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50033,6 +50047,14 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!222 &1798105058
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798105055}
+  m_CullTransparentMesh: 1
 --- !u!1 &1799831978
 GameObject:
   m_ObjectHideFlags: 0
@@ -50154,7 +50176,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 331435474}
         m_TargetAssemblyTypeName: InGameGUIManager, Assembly-CSharp
         m_MethodName: quit
         m_Mode: 1
@@ -50203,6 +50225,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826444407}
+  m_CullTransparentMesh: 1
+--- !u!1 &1828601335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1828601336}
+  - component: {fileID: 1828601338}
+  - component: {fileID: 1828601337}
+  m_Layer: 3
+  m_Name: class Stats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1828601336
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828601335}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 719418315}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 5.4, y: 28.39}
+  m_SizeDelta: {x: 197.52, y: 128.7}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1828601337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828601335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5529412}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1828601338
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828601335}
   m_CullTransparentMesh: 1
 --- !u!1 &1839921717
 GameObject:
@@ -53365,22 +53463,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.2
-  projectileID: 2
   bulletTravelSpeed: 15
   damage: 400
+  cooldown: 1
+  equipCooldown: 0.3
+  reloadTime: 0
+  clipSize: 3
+  objectsInClip: 3
+  projectileID: 2
   startDistance: 0
   shootSound: 8
   shootPitch: 5
   shootVolume: 0.7
   reloadSound: 0
-  cooldown: 1
-  equipCooldown: 0.3
   cooldownTimer: 0
-  reloadTime: 0
   reloadable: 0
   automatic: 0
-  objectsInClip: 3
-  clipSize: 3
   tool: 1
   gun: 0
 --- !u!1 &1978913865
@@ -53587,22 +53685,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMultiplier: 1.3
-  projectileID: 0
   bulletTravelSpeed: 0
   damage: 0
+  cooldown: 0
+  equipCooldown: 0
+  reloadTime: 0
+  clipSize: 0
+  objectsInClip: 0
+  projectileID: 0
   startDistance: 0
   shootSound: 0
   shootPitch: 0
   shootVolume: 0
   reloadSound: 0
-  cooldown: 0
-  equipCooldown: 0
   cooldownTimer: 0
-  reloadTime: 0
   reloadable: 0
   automatic: 0
-  objectsInClip: 0
-  clipSize: 0
   tool: 0
   gun: 0
 --- !u!1 &2046942896

@@ -30,6 +30,8 @@ public class ServerComm : MonoBehaviour
     int recieveBPS;
     bool inSchool;
 
+    VariableUpdater variableUpdater;
+
     public float updateSpeed;
     public int ID = -1;
     //public int CLIENTPORT;
@@ -37,6 +39,7 @@ public class ServerComm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        variableUpdater = GameObject.Find("manager").GetComponent<VariableUpdater>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
@@ -72,7 +75,10 @@ public class ServerComm : MonoBehaviour
 
         byte[] receiveBytes = new byte[0];
         await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
-        ID = int.Parse(Encoding.ASCII.GetString(receiveBytes));
+        string recieveString = Encoding.ASCII.GetString(receiveBytes);
+        ID = int.Parse(recieveString.Split('|')[0]);
+        variableUpdater.updateVars(recieveString.Split('|')[1]);
+
         Debug.Log("User ID: " + ID);
 
         InvokeRepeating("serverUpdate", .1f, updateSpeed);
@@ -90,18 +96,6 @@ public class ServerComm : MonoBehaviour
     }
 
     public void send(string message){
-        /*if(inSchool){
-            try{
-                client = new UdpClient();
-                client.Connect(SERVERADDRESS, SERVERPORT);
-                remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
-                //Debug.Log("howdy more");
-            }
-            catch(Exception e){
-                Debug.LogError("Couldn't connect, exeption: " + e.Message);
-            }
-        }*/
-
         byte[] sendBytes = Encoding.ASCII.GetBytes(message);
         sendBPS += sendBytes.Length;
         client.Send(sendBytes, sendBytes.Length);
@@ -110,18 +104,6 @@ public class ServerComm : MonoBehaviour
 
     async void serverUpdate()
     {
-        /*if(inSchool){
-            try{
-                client = new UdpClient();
-                client.Connect(SERVERADDRESS, SERVERPORT);
-                remoteEndPoint = new IPEndPoint(IPAddress.Any, SERVERPORT);
-                //Debug.Log("howdy more");
-            }
-            catch(Exception e){
-                Debug.LogError("Couldn't connect, exeption: " + e.Message);
-            }
-        }*/
-
         string info = "";
         byte[] sendBytes;
         if(controlsManager.deathMenuControlls){
