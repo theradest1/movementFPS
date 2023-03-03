@@ -43,8 +43,6 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI classSpeedText;
     public TextMeshProUGUI classReloadText;
     public TextMeshProUGUI classFireRateText;
-
-    public GameObject ball;
     public LayerMask stopFrom;
 
     void Start(){

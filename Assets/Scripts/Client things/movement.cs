@@ -66,6 +66,14 @@ public class movement : MonoBehaviour
     {
         FPStext.text = "FPS: " + (Mathf.Round(1/Time.deltaTime));
         weaponContainer.transform.position = Vector3.Lerp(weaponContainer.transform.position, cam.transform.position, weaponTravelSpeed * Time.deltaTime);
+        Vector3 goToPos;
+        if(isSliding){
+            goToPos = camPosSliding;
+        }
+        else{
+            goToPos = camPosNotSliding;
+        }
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed * Time.deltaTime);
     }
 
     void FixedUpdate() {
@@ -130,18 +138,7 @@ public class movement : MonoBehaviour
         else{
             rb.velocity = new Vector3(rb.velocity.x * stopSpeedAir, rb.velocity.y, rb.velocity.z * stopSpeedAir);
         }
-
-        //applyVelocity(velocity);
         
-        Vector3 goToPos;
-        if(isSliding){
-            goToPos = camPosSliding;
-        }
-        else{
-            goToPos = camPosNotSliding;
-        }
-        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed);
-
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.51f, 0f), .5f, groundMask)){
             isGrounded = true;
         }

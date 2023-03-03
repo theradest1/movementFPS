@@ -53,7 +53,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 5
+  MinDistance: 7.72
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -89,7 +89,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.6
+      value: 0.653
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2954496176510275675}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e13bfb5d5a8f7c42b32a81d6c5ff394, type: 3}
+  m_Script: {fileID: 11500000, guid: 559a391eef8d8f1498310f96c66bb09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 225942717511686723}
