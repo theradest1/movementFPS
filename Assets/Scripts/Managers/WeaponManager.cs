@@ -153,49 +153,5 @@ public class WeaponManager : MonoBehaviour
             serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * equippedWeapon.bulletTravelSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //serverEvents.sendEvent("ue", "sound",  + "~" + equippedWeapon.transform.position + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
         }
-
-        /*if(!equippedGun.flash && !equippedGun.smoke && !equippedGun.granade){
-            if(controlsManager.shooting && equippedGun.cooldownTimer <= 0f && equippedGun.bulletsInClip > 0){
-
-                //events
-                serverEvents.sendEvent("universalEvent", "sound", equippedGun.shootSound + "~" + equippedGun.transform.position + "~1~1");
-                serverEvents.sendEvent("universalEvent", "pr", cam.transform.position + "~" + gunContainer.transform.rotation + "~" + equippedGun.bulletTravelSpeed); //need to change rotation and speed to velocity (3d)
-
-                reloading = false;
-                equippedGun.bulletsInClip -= 1;
-                bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
-                equippedGun.cooldownTimer = equippedGun.cooldown;
-                
-                //Physics.Raycast(cam.transform.position + cam.transform.forward * equippedGun.gunLength, cam.transform.forward, out hit, Mathf.Infinity, aimableMask);
-                //bullet
-                GameObject bullet = Instantiate(bulletPrefab, cam.transform.position + cam.transform.forward * equippedGun.gunLength * 1.5f, equippedGun.transform.rotation);
-                GameObject fakeBullet = Instantiate(fakebulletPrefab, equippedGun.transform.position + equippedGun.transform.forward * equippedGun.gunLength, equippedGun.transform.rotation);
-                bullet.GetComponent<BulletScript>().goTo(equippedGun.bulletTravelSpeed, serverEvents, equippedGun.damage, true, fakeBullet);
-            }
-            
-
-            if(reloading && reloadingTimer <= 0f){
-                reloading = false;
-                equippedGun.bulletsInClip = equippedGun.clipSize;
-                bulletsInClipText.text = equippedGun.bulletsInClip + "/" + equippedGun.clipSize;
-            }
-
-            if(controlsManager.reloading && equippedGun.bulletsInClip < equippedGun.clipSize && reloadingTimer <= 0f){
-                reloading = true;
-                bulletsInClipText.text = "--/" + equippedGun.clipSize;
-                serverEvents.sendEvent("universalEvent", "sound", equippedGun.reloadSound + "~" + equippedGun.transform.position + "~1~1");
-                reloadingTimer = equippedGun.reloadTime;
-            }
-        }
-        else if(controlsManager.shooting && equippedGun.cooldownTimer <= 0f){
-            if(equippedGun.flash){
-                equippedGun.cooldownTimer = equippedGun.cooldown;
-                serverEvents.sendEvent("ue", "flash", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
-            }
-            else if(equippedGun.granade){
-                equippedGun.cooldownTimer = equippedGun.cooldown;
-                serverEvents.sendEvent("ue", "granade", cam.transform.position + cam.transform.forward * equippedGun.gunLength + "~" + cam.transform.forward * equippedGun.bulletTravelSpeed);
-            }
-        }*/
     }
 }

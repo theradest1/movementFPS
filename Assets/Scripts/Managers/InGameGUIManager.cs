@@ -13,6 +13,7 @@ public class InGameGUIManager : MonoBehaviour
     Look look;
     SoundManager soundManager;
     ControlsManager controlsManager;
+    ServerEvents serverEvents;
     public GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
     public float killFeedTime;
@@ -26,11 +27,8 @@ public class InGameGUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         hitMarker = GameObject.Find("hit marker").GetComponent<Image>();
-        //killFeedObject = GameObject.Find("kill feed");
-        //menu = GameObject.Find("Menu");
-        //senseSlider = GameObject.Find("sense").GetComponent<Slider>();
-        //volumeSlider = GameObject.Find("volume").GetComponent<Slider>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
@@ -63,6 +61,7 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void quit(){
+        serverEvents.leave();
         SceneManager.LoadScene(0);
     }
 

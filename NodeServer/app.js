@@ -3,7 +3,7 @@ const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
 const fs = require('fs')
-const validCommands = ['u', 'newClient', 'ue']; // u = update, ue = universal event (short for conservation of bandwidth)
+const validCommands = ['u', 'newClient', 'ue', 'leave']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
@@ -73,15 +73,23 @@ function checkDisconnectTimers(){
 	if(playerIndexesToDisconnect.length >= 1){
 		console.log("Players to disconnect: " + playerIndexesToDisconnect);
 		for(playerIndexesID in playerIndexesToDisconnect){
-			playerIndex = playerIndexesToDisconnect[playerIndexesToDisconnect.length - 1 - playerIndexesID];
-			addEventToAll("removeClient~" + currentPlayerIDs[playerIndex] + "|");
-			delete currentPlayerIDs[playerIndex];
-			delete playerDisconnectTimers[playerIndex];
-			delete playerTransformInfo[playerIndex];
-			delete playerInfo[playerIndex];
-			delete eventsToSend[playerIndex];
+			disconnectClient(playerIndexesToDisconnect[playerIndexesToDisconnect.length - 1 - playerIndexesID]);
 		}
 	}	
+}
+
+function leave(info, senderPort, senderAddress){
+	disconnectClient(currentPlayerIDs.indexOf(parseInt(info.split("~")[1])));
+	console.log("Player with ID " + info.split("~")[1] + " has left the game");
+}
+
+function disconnectClient(playerIndex){
+	addEventToAll("removeClient~" + currentPlayerIDs[playerIndex] + "|");
+	delete currentPlayerIDs[playerIndex];
+	delete playerDisconnectTimers[playerIndex];
+	delete playerTransformInfo[playerIndex];
+	delete playerInfo[playerIndex];
+	delete eventsToSend[playerIndex];
 }
 
 function addEventToAll(eventString){

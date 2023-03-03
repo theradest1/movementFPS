@@ -73,6 +73,10 @@ public class ServerEvents : MonoBehaviour
         //Debug.Log("Send event: " + eventToSend);
     }
 
+    public void leave(){
+        serverComm.send("leave~" + serverComm.ID);
+    }
+
     public void sendEventFromOther(int senderID, string eventType, string eventName, string eventInfo){
         if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
             eventType = "ue";

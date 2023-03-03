@@ -106,7 +106,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     void setClass(ClassInfo classToSet){
-        Debug.Log(classToSet.gameObject.name);
+        //Debug.Log(classToSet.gameObject.name);
         movementScript.currentClass = classToSet;
         weaponManager.currentClass = classToSet;
         currentClass = classToSet;
