@@ -203,7 +203,7 @@ public class ServerEvents : MonoBehaviour
         if(float.Parse(damage) > 0){
             if(int.Parse(victimID) != serverComm.ID){
                 int victimIndex = clientIDs.IndexOf(int.Parse(victimID));
-                clientScripts[victimIndex].healCooldown = clientScripts[victimIndex].timeBeforeHeal;
+                clientScripts[victimIndex].healCooldown = clientScripts[victimIndex].currentClass.healCooldown;
                 clientScripts[victimIndex].changeHealth(0f);
             }
             else{
@@ -214,23 +214,8 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void spawnProjectile(string senderID, string typeID, string damage, string position, string velocity){
-        //Debug.Log(senderID + ", " + typeID + ", " + damage + ", " + position + ", " + velocity);
         projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), parseVector3(velocity));
-        //GameObject newProjectile = Instantiate(projectilePrefabs[int.Parse(typeID)], parseVector3(position), Quaternion.identity);
-        //newProjectile.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
     }
-
-    /*public void spawnFlash(string position, string velocity){
-        GameObject newFlash = Instantiate(flashPrefab, parseVector3(position), Quaternion.identity);
-        newFlash.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
-        //Debug.Log("flash");
-    }
-
-    public void spawnGranade(string position, string velocity){
-        GameObject newGranade = Instantiate(granadePrefab, parseVector3(position), Quaternion.identity);
-        newGranade.GetComponent<Rigidbody>().velocity = parseVector3(velocity);
-        //Debug.Log("flash");
-    }*/
 
     public void playSound(string clipID, string position, string volume, string pitch){
         soundManager.playSound(int.Parse(clipID), parseVector3(position), float.Parse(volume), float.Parse(pitch));

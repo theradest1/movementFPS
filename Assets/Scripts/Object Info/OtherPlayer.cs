@@ -21,24 +21,19 @@ public class OtherPlayer : MonoBehaviour
     float maxHealth;
 
     //[HideInInspector]
-    public float timeBeforeHeal;
 
     public float healRate;
-    public float healAmount;
-    //[HideInInspector]
-    public float healCooldown;
     PlayerManager playerManager;
+    public ClassInfo currentClass;
+    public float healCooldown;
 
     public void setUsername(string usrname){
         usernameText.text = usrname;
     }
 
     public void setClass(string classToSet){
-        ClassInfo classToSetInfo = GameObject.Find(classToSet).GetComponent<ClassInfo>();
-        maxHealth = classToSetInfo.health;
-        //health = maxHealth;
-        healAmount = classToSetInfo.healAmount;
-        timeBeforeHeal = classToSetInfo.healCooldown;
+        currentClass = GameObject.Find(classToSet).GetComponent<ClassInfo>();
+        maxHealth = currentClass.health;
     }
 
     public void changeHealth(float subbedHealth){
@@ -46,17 +41,15 @@ public class OtherPlayer : MonoBehaviour
         healthSlider.value = health/maxHealth;
 
         if(subbedHealth > 0){
-            healCooldown = timeBeforeHeal;
+            healCooldown = currentClass.healCooldown;
         }
     }
 
     void Start(){
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         healRate = playerManager.healRate;
-        timeBeforeHeal = playerManager.timeBeforeHeal;
-        health = playerManager.health;
-        maxHealth = playerManager.maxHealth;
-        healAmount = playerManager.currentClass.healAmount;
+        maxHealth = currentClass.health;
+        health = 100f;
 
         coll = this.gameObject.GetComponent<Collider>();
         playerCam = GameObject.Find("Main Camera");
@@ -66,12 +59,12 @@ public class OtherPlayer : MonoBehaviour
 
     void heal(){
         if(healCooldown <= 0 && health < maxHealth){
-            if(health + healAmount > maxHealth){
+            if(health + currentClass.healAmount > maxHealth){
                 health = maxHealth;
                 changeHealth(0);
             }
             else{
-                changeHealth(-healAmount);
+                changeHealth(-currentClass.healAmount);
             }
         }
     }

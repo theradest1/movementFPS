@@ -116,6 +116,7 @@ public class PlayerManager : MonoBehaviour
         health = maxHealth;
         changeHealth(0f);
         serverEvents.sendEvent("ue", "setClass", classToSet.gameObject.name);
+        serverEvents.sendEvent("ue", "setHealth", health + "~" + healCooldown);
     }
 
     public void updateClassStats(){
