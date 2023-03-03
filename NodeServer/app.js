@@ -3,7 +3,7 @@ const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
 const fs = require('fs')
-const validCommands = ['u', 'newClient', 'ue', 'leave']; // u = update, ue = universal event (short for conservation of bandwidth)
+const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
@@ -61,6 +61,9 @@ server.on('message', (msg, senderInfo) => {
 	}
 });
 
+function youOnBruv(info, senderPort, senderAddress){
+	server.send("ong", senderPort, senderAddress);
+}
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){

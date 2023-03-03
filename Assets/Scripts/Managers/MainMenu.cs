@@ -1,12 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+
+    UdpClient client;
+    IPEndPoint remoteEndPoint;
+    public int delayBeforeOffline = 3000;
     public static int port = 4000;
     public static string address = "localhost";//"192.168.0.50";
     public static string username = "joe";
@@ -19,8 +28,10 @@ public class MainMenu : MonoBehaviour
     TMP_Dropdown IPDropdown;
     GameObject usernameWarning;
     Toggle inSchoolToggle;
+    TextMeshProUGUI serverStatus;
 
     void Start(){
+        serverStatus = GameObject.Find("server status").GetComponent<TextMeshProUGUI>();
         usernameWarning = GameObject.Find("usernameWarning");
         usernameWarning.SetActive(false);
         IPDropdown = GameObject.Find("IPs").GetComponent<TMP_Dropdown>();
@@ -73,6 +84,31 @@ public class MainMenu : MonoBehaviour
         else if(option == "Custom"){
             port = int.Parse(portInput.text);
             address = addressInput.text;
+        }
+        serverStatus.text = "Status: ...";
+        testConnection(address, port);
+        setAsOffline();
+    }
+
+    async void setAsOffline(){
+        await Task.Delay(delayBeforeOffline);
+        if(serverStatus.text == "Status: ..."){
+            serverStatus.text = "Status: Offline";
+        }
+    }
+
+    async void testConnection(string ip, int port){
+        try{
+            client = new UdpClient(/*CLIENTPORT*/);
+            client.Connect(ip, port);
+            remoteEndPoint = new IPEndPoint(IPAddress.Any, port);
+            byte[] sendBytes = Encoding.ASCII.GetBytes("youOnBruv");
+            client.Send(sendBytes, sendBytes.Length);
+            await Task.Run(() => client.Receive(ref remoteEndPoint));
+            serverStatus.text = "Status: Online";
+        }
+        catch(Exception e){
+            Debug.LogError("Couldn't connect, exeption: " + e.Message);
         }
     }
 
