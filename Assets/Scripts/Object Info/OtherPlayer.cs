@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class OtherPlayer : MonoBehaviour
 {
-    GameObject playerCam;
+    public GameObject playerCam;
 
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
@@ -18,7 +18,7 @@ public class OtherPlayer : MonoBehaviour
     
     //[HideInInspector]
     public float health;
-    float maxHealth;
+    public float maxHealth;
 
     //[HideInInspector]
 
@@ -46,13 +46,14 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Start(){
-        playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+        playerManager = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerManager;
+        currentClass = GameObject.Find("Guy").GetComponent<ClassInfo>();
+        playerCam = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerCam;
         healRate = playerManager.healRate;
         maxHealth = currentClass.health;
         health = 100f;
 
         coll = this.gameObject.GetComponent<Collider>();
-        playerCam = GameObject.Find("Main Camera");
         changeHealth(0f);
         InvokeRepeating("heal", 0, healRate);
     }
