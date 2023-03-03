@@ -18,6 +18,7 @@ public class InGameGUIManager : MonoBehaviour
     public GameObject killFeedChildPrefab;
     public float killFeedTime;
     public GameObject scoreboard;
+    public TMP_InputField senseInputText;
 
     Image hitMarker;
     public float hitMarkerChangeSpeed;
@@ -55,8 +56,21 @@ public class InGameGUIManager : MonoBehaviour
         }
     }
 
+    public void setSenseWithText(){
+        try
+        {
+            senseSlider.value = float.Parse(senseInputText.text)/100;
+            changeValue();
+        }
+        catch (System.Exception)
+        {
+            throw;
+        }
+    }
+
     public void changeValue(){
         look.generalSense = senseSlider.value;
+        senseInputText.text = (senseSlider.value * 100)  + "";
         soundManager.generalVolume = volumeSlider.value;
     }
 
