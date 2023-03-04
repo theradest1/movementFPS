@@ -39,6 +39,8 @@ public class MainMenu : MonoBehaviour
         addressInput = GameObject.Find("address input").GetComponent<TMP_InputField>();
         usernameInput = GameObject.Find("username input").GetComponent<TMP_InputField>();
 
+        usernameInput.text = PlayerPrefs.GetString("Username", "");
+
         updateInfo();
     }
 
@@ -114,6 +116,8 @@ public class MainMenu : MonoBehaviour
 
     public void join(){
         if(usernameInput.text.Length >= usernameLengthMin){
+            PlayerPrefs.SetString("Username", usernameInput.text);
+            PlayerPrefs.Save();
             SceneManager.LoadScene(1);
         }
     }

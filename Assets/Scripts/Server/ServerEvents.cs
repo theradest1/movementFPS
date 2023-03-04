@@ -59,9 +59,6 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
-        if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
-            eventType = "ue";
-        }
         if(eventName == "damage"){ //I'll eventually get rid of this but i'm currently lazy
             eventName = "d";
         }
@@ -78,9 +75,6 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void sendEventFromOther(int senderID, string eventType, string eventName, string eventInfo){
-        if(eventType == "universalEvent"){ //I'll eventually get rid of this but i'm currently lazy
-            eventType = "ue";
-        }
         if(eventName == "damage"){ //I'll eventually get rid of this but i'm currently lazy
             eventName = "d";
         }
@@ -191,6 +185,7 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void setHealth(string clientID, string health, string healCooldown){
+        Debug.Log("health: " + health + ", cooldown: " + healCooldown);
         if(int.Parse(clientID) == serverComm.ID){
             playerManager.health = float.Parse(health);
             playerManager.healCooldown = float.Parse(healCooldown);

@@ -21,7 +21,7 @@ public class GranadeScript : MonoBehaviour
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
 
         soundManager.playSound(throwSound, transform.position, 1f, 1.5f);
-        //serverEvents.sendEvent("universalEvent", "sound", throwSound + "~" + transform.position + "~1~1");
+        //serverEvents.sendEvent("ue", "sound", throwSound + "~" + transform.position + "~1~1");
         Invoke("explode", timeToExplode);
     }
 
@@ -31,12 +31,12 @@ public class GranadeScript : MonoBehaviour
         //Physics.CheckSphere()
         Debug.Log("bang");
         
-        //serverEvents.sendEvent("universalEvent", "sound", bangSound + "~" + transform.position + "~2~1");
+        //serverEvents.sendEvent("ue", "sound", bangSound + "~" + transform.position + "~2~1");
         Destroy(this.gameObject);
     }
 
     void OnCollisionEnter(Collision coll){
         soundManager.playSound(bounceSound, transform.position, 1f, 2f);
-        //serverEvents.sendEvent("universalEvent", "sound", bounceSound + "~" + transform.position + "~1~1");
+        //serverEvents.sendEvent("ue", "sound", bounceSound + "~" + transform.position + "~1~1");
     }
 }

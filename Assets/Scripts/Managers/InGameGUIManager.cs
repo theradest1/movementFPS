@@ -34,6 +34,12 @@ public class InGameGUIManager : MonoBehaviour
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 
+        float sense = PlayerPrefs.GetFloat("Sensitivity", 1f);
+        float volume = PlayerPrefs.GetFloat("Volume", 1f);
+
+        senseSlider.value = sense;
+        volumeSlider.value = volume;
+
         menu.SetActive(false);
         changeValue();
     }
@@ -72,6 +78,9 @@ public class InGameGUIManager : MonoBehaviour
         look.generalSense = senseSlider.value;
         senseInputText.text = (senseSlider.value * 100)  + "";
         soundManager.generalVolume = volumeSlider.value;
+        PlayerPrefs.SetFloat("Sensitivity", senseSlider.value);
+        PlayerPrefs.SetFloat("Volume", volumeSlider.value);
+        PlayerPrefs.Save();
     }
 
     public void quit(){

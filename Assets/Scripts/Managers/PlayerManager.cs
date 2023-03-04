@@ -60,6 +60,10 @@ public class PlayerManager : MonoBehaviour
         healthSlider = GameObject.Find("health").GetComponent<Slider>();
         flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
+        currentClass = GameObject.Find(PlayerPrefs.GetString("Class", "Guy")).GetComponent<ClassInfo>();
+        Debug.Log("loaded " + PlayerPrefs.GetString("Class", "Guy"));
+        Debug.Log(GameObject.Find(PlayerPrefs.GetString("Class", "Guy")).name);
+
         //spawn();
         InvokeRepeating("heal", 0, healRate);
         changeHealth(0f);
@@ -116,6 +120,10 @@ public class PlayerManager : MonoBehaviour
         changeHealth(0f);
         serverEvents.sendEvent("ue", "setClass", classToSet.gameObject.name);
         serverEvents.sendEvent("ue", "setHealth", health + "~" + healCooldown);
+
+        PlayerPrefs.SetString("Class", classToSet.gameObject.name);
+        PlayerPrefs.Save();
+        Debug.Log("saved " + classToSet.gameObject.name);
     }
 
     public void updateClassStats(){
