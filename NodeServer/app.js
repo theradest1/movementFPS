@@ -8,7 +8,7 @@ currentID = 0;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
-const settingCheckInterval = 5000; //in ms
+const settingCheckInterval = 60000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 setInterval(checkSettings, settingCheckInterval);
 packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
