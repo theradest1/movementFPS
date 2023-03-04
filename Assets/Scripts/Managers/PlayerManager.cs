@@ -60,9 +60,10 @@ public class PlayerManager : MonoBehaviour
         healthSlider = GameObject.Find("health").GetComponent<Slider>();
         flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
-        currentClass = GameObject.Find(PlayerPrefs.GetString("Class", "Guy")).GetComponent<ClassInfo>();
-        Debug.Log("loaded " + PlayerPrefs.GetString("Class", "Guy"));
-        Debug.Log(GameObject.Find(PlayerPrefs.GetString("Class", "Guy")).name);
+        classDropdown.value = PlayerPrefs.GetInt("Class", 0);
+        mainDropdown.value = PlayerPrefs.GetInt("Main", 0);
+        secondaryDropdown.value = PlayerPrefs.GetInt("Secondary", 0);
+        toolDropdown.value = PlayerPrefs.GetInt("Tool", 0);
 
         //spawn();
         InvokeRepeating("heal", 0, healRate);
@@ -107,6 +108,11 @@ public class PlayerManager : MonoBehaviour
 
         weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
         setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
+
+        PlayerPrefs.SetInt("Main", mainDropdown.value);
+        PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
+        PlayerPrefs.SetInt("Tool", toolDropdown.value);
+        PlayerPrefs.Save();
     }
 
     void setClass(ClassInfo classToSet){
@@ -120,10 +126,6 @@ public class PlayerManager : MonoBehaviour
         changeHealth(0f);
         serverEvents.sendEvent("ue", "setClass", classToSet.gameObject.name);
         serverEvents.sendEvent("ue", "setHealth", health + "~" + healCooldown);
-
-        PlayerPrefs.SetString("Class", classToSet.gameObject.name);
-        PlayerPrefs.Save();
-        Debug.Log("saved " + classToSet.gameObject.name);
     }
 
     public void updateClassStats(){
@@ -135,6 +137,9 @@ public class PlayerManager : MonoBehaviour
         classSpeedText.text = selectedClass.speedMult * 100 + "%";
         classReloadText.text = selectedClass.reloadSpeedMult * 100 + "%";
         classFireRateText.text = Mathf.Round(200 - selectedClass.gunFireSpeedMult * 100) + "%";
+        
+        PlayerPrefs.SetInt("Class", classDropdown.value);
+        PlayerPrefs.Save();
     }
 
     public void death(int killerID){
