@@ -13,7 +13,6 @@ public class Bullet : MonoBehaviour
     GameObject bulletHole;
     public Rigidbody rb;
     public float critHeight;
-    public float critMultiplier;
     Vector3 velocityAfterDestroy;
 
     public float maxLifeTime;
@@ -59,11 +58,11 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision coll) {
         if(coll.gameObject.layer != 3 && !destroyed){
             if(coll.gameObject.layer == 7){
-                OtherPlayer damagedScript = projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.name))];
+                OtherPlayer damagedScript = projectileFunctions.serverEvents.clientScripts[projectileFunctions.serverEvents.clientIDs.IndexOf(int.Parse(coll.gameObject.transform.parent.name))];
                 if(damagedScript.invincibilityTimer <= 0){
-                    bool isCrit = coll.contacts[0].point.y - coll.gameObject.transform.position.y >= critHeight;
+                    bool isCrit = coll.gameObject.name == "head";
                     if(isCrit){
-                        damage *= critMultiplier;
+                        damage *= projectileFunctions.weaponManager.equippedWeapon.headShotMult;
                         projectileFunctions.soundManager.playSound(10, projectileFunctions.playerCam.transform.position, .1f, 1.2f);
                     }
                     damage *= projectileFunctions.movementScript.currentClass.damageMult;

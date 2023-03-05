@@ -9,6 +9,7 @@ public class VariableUpdater : MonoBehaviour
     public GameObject classes;
 
     public void updateVars(string allData){
+        //Debug.Log(allData);
         string[] varChunks = allData.Split("~");
         for(int i = 0; i < varChunks.Length; i++){
             string[] vars = varChunks[i].Split(";");

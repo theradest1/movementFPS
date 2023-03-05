@@ -55,7 +55,7 @@ public class WeaponManager : MonoBehaviour
         weapons = new List<WeaponInfo>();
         for(int i = 0; i < possibleWeapons.Count; i++){
             if(equippedWeapons.Contains(possibleWeapons[i].gameObject.name)){
-                Debug.Log("using " + possibleWeapons[i].gameObject.name);
+                //Debug.Log("using " + possibleWeapons[i].gameObject.name);
                 weapons.Add(possibleWeapons[i]);
             }
         }

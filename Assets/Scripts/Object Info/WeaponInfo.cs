@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
+    [HideInInspector]
     public float speedMultiplier = 1f;
+    [HideInInspector]
     public float bulletTravelSpeed;
+    [HideInInspector]
     public float damage;
+    [HideInInspector]
     public float cooldown;
+    [HideInInspector]
     public float equipCooldown;
+    [HideInInspector]
     public float reloadTime;
+    [HideInInspector]
     public int clipSize;
     [HideInInspector]
     public int objectsInClip;
-
-    [Header("______________________")]
+    [HideInInspector]
+    public float headShotMult;
 
     public int projectileID;
     public float startDistance;
@@ -47,5 +54,6 @@ public class WeaponInfo : MonoBehaviour
         reloadTime = float.Parse(vars[6]);
         clipSize = int.Parse(vars[7]);
         objectsInClip = int.Parse(vars[7]);
+        headShotMult = float.Parse(vars[8]);
     }
 }

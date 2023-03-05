@@ -38,7 +38,6 @@ public class ProjectileManager : MonoBehaviour
                 //newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
             }
             if(projectileID == 6){
-                Debug.Log("HI");
                 newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
             }
             

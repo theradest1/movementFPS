@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72a77fcc85662cb498809c0f8a588ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spread: 40
+  spread: 23
   bullets: 15
   bulletPrefab: {fileID: 6221045549996187465, guid: 51ad9f423972ce3468a600a734fb76f4, type: 3}
   fakeBulletPrefab: {fileID: 6221045549996187465, guid: 6a4f2ddf9c384ae4ea72a7dce64c35d9, type: 3}

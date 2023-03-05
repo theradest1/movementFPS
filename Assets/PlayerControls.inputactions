@@ -301,67 +301,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "four",
-                    "type": "Button",
-                    "id": "a003a337-f1a7-40ad-9322-f0a1d97184c9",
-                    "expectedControlType": "Button",
+                    "name": "scroll",
+                    "type": "Value",
+                    "id": "47aa3d47-020c-4d04-a756-4cf3934bbc96",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "five",
-                    "type": "Button",
-                    "id": "7133d546-05d6-4312-ac93-dfa9118bc399",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "six",
-                    "type": "Button",
-                    "id": "21b8bbb5-ed59-41df-ab8c-6a3795a4b6bb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "seven",
-                    "type": "Button",
-                    "id": "11be58f9-32e7-4a33-b449-e034847f0dd5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "eight",
-                    "type": "Button",
-                    "id": "a0d6217e-7666-4892-a08e-a187cb250252",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "nine",
-                    "type": "Button",
-                    "id": "8f0df846-790d-4a3a-8ce4-157eab7ee7ab",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ten",
-                    "type": "Button",
-                    "id": "bf1b16e3-9e87-4cdd-8434-9e45401be16c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -389,72 +335,6 @@
                 },
                 {
                     "name": "",
-                    "id": "0e98f41f-1e7a-4f34-8e94-b763874d0726",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "four",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e3591064-e2bc-4658-a37d-2585cea47894",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "five",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b5684453-4316-49b2-b6bc-c339ea117026",
-                    "path": "<Keyboard>/6",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "six",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "56b1caf9-1a24-4ff0-9fb7-80ba893db2c1",
-                    "path": "<Keyboard>/7",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "seven",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "39c51085-8fe8-4ca5-a70f-0333f55ecebc",
-                    "path": "<Keyboard>/8",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "eight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8c7e730e-14c1-48bb-91fe-00be5d641fad",
-                    "path": "<Keyboard>/9",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "nine",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "37e83d31-cd17-41cb-8916-b7c9760b7b05",
                     "path": "<Keyboard>/1",
                     "interactions": "",
@@ -466,12 +346,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b8b42888-5cfa-4970-9526-497ded654aea",
-                    "path": "<Keyboard>/0",
+                    "id": "ae9df130-cef7-4cca-9252-507f1133b421",
+                    "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ten",
+                    "action": "scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

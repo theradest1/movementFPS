@@ -697,6 +697,89 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 68440180}
   m_CullTransparentMesh: 1
+--- !u!1 &76338156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76338157}
+  - component: {fileID: 76338159}
+  - component: {fileID: 76338158}
+  m_Layer: 0
+  m_Name: P90 model
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &76338157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76338156}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.45}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.86}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1825103371}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &76338158
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76338156}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &76338159
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76338156}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &79107105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1862,7 @@ MonoBehaviour:
   reloadTime: 3
   clipSize: 50
   objectsInClip: 50
+  headShotMult: 2
   projectileID: 3
   startDistance: 1.3
   shootSound: 0
@@ -2116,7 +2200,7 @@ Transform:
   m_Children:
   - {fileID: 1923905571}
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &305684668
 MonoBehaviour:
@@ -2138,6 +2222,7 @@ MonoBehaviour:
   reloadTime: 1.5
   clipSize: 2
   objectsInClip: 2
+  headShotMult: 2
   projectileID: 6
   startDistance: 1.3
   shootSound: 0
@@ -2833,6 +2918,7 @@ MonoBehaviour:
   reloadTime: 2
   clipSize: 20
   objectsInClip: 20
+  headShotMult: 2
   projectileID: 3
   startDistance: 1.7
   shootSound: 0
@@ -3341,7 +3427,7 @@ Transform:
   m_Children:
   - {fileID: 369014536}
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &516407017
 MonoBehaviour:
@@ -3363,6 +3449,7 @@ MonoBehaviour:
   reloadTime: 2
   clipSize: 5
   objectsInClip: 5
+  headShotMult: 2
   projectileID: 6
   startDistance: 1.7
   shootSound: 0
@@ -4248,6 +4335,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Shorty
       m_Image: {fileID: 0}
+    - m_Text: Colt Revolver
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -4510,6 +4599,7 @@ MonoBehaviour:
   reloadTime: 3
   clipSize: 3
   objectsInClip: 3
+  headShotMult: 2
   projectileID: 3
   startDistance: 2
   shootSound: 7
@@ -6845,6 +6935,7 @@ MonoBehaviour:
   reloadTime: 0
   clipSize: 3
   objectsInClip: 3
+  headShotMult: 2
   projectileID: 1
   startDistance: 0
   shootSound: 8
@@ -6870,7 +6961,7 @@ Transform:
   m_Children:
   - {fileID: 920091562}
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1003322797
 GameObject:
@@ -43642,6 +43733,7 @@ MonoBehaviour:
   - {fileID: 227887959}
   - {fileID: 516407017}
   - {fileID: 1410834773}
+  - {fileID: 1825103372}
   - {fileID: 305684668}
   - {fileID: 999345546}
   - {fileID: 1975887463}
@@ -43887,7 +43979,7 @@ Transform:
   m_Children:
   - {fileID: 1740519341}
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1381926180
 MonoBehaviour:
@@ -43909,6 +44001,7 @@ MonoBehaviour:
   reloadTime: 0
   clipSize: 3
   objectsInClip: 3
+  headShotMult: 2
   projectileID: 4
   startDistance: 0
   shootSound: 8
@@ -44137,6 +44230,7 @@ MonoBehaviour:
   reloadTime: 2.3
   clipSize: 20
   objectsInClip: 20
+  headShotMult: 2
   projectileID: 3
   startDistance: 1
   shootSound: 0
@@ -46481,6 +46575,7 @@ Transform:
   - {fileID: 704336361}
   - {fileID: 227887958}
   - {fileID: 1410834772}
+  - {fileID: 1825103371}
   - {fileID: 999345547}
   - {fileID: 1381926179}
   - {fileID: 1975887462}
@@ -50762,6 +50857,71 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1825103370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1825103371}
+  - component: {fileID: 1825103372}
+  m_Layer: 0
+  m_Name: Colt Revolver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1825103371
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825103370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.77, y: -0.64, z: 0.536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 76338157}
+  m_Father: {fileID: 1653132531}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1825103372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825103370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61183ca6b250b28449992669cdac26e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedMultiplier: 1.1
+  bulletTravelSpeed: 200
+  damage: 30
+  cooldown: 0.15
+  equipCooldown: 0.05
+  reloadTime: 2.3
+  clipSize: 20
+  objectsInClip: 20
+  headShotMult: 2
+  projectileID: 3
+  startDistance: 1
+  shootSound: 0
+  shootPitch: 1
+  shootVolume: 0.8
+  reloadSound: 1
+  cooldownTimer: 0
+  reloadable: 1
+  automatic: 0
+  tool: 0
+  gun: 1
 --- !u!1 &1826444407
 GameObject:
   m_ObjectHideFlags: 0
@@ -54118,7 +54278,7 @@ Transform:
   m_Children:
   - {fileID: 1058034609}
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1975887463
 MonoBehaviour:
@@ -54140,6 +54300,7 @@ MonoBehaviour:
   reloadTime: 0
   clipSize: 3
   objectsInClip: 3
+  headShotMult: 2
   projectileID: 2
   startDistance: 0
   shootSound: 8
@@ -54340,7 +54501,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1653132531}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2001910422
 MonoBehaviour:
@@ -54362,6 +54523,7 @@ MonoBehaviour:
   reloadTime: 0
   clipSize: 0
   objectsInClip: 0
+  headShotMult: 2
   projectileID: 0
   startDistance: 0
   shootSound: 0

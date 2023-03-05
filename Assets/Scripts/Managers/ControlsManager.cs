@@ -88,31 +88,12 @@ public class ControlsManager : MonoBehaviour
             if(playerControls.weaponSelects.three.ReadValue<float>() == 1){
                 newEquippedNum = 3;
             }
-            if(playerControls.weaponSelects.four.ReadValue<float>() == 1){
-                newEquippedNum = 4;
-            }
-            if(playerControls.weaponSelects.five.ReadValue<float>() == 1){
-                newEquippedNum = 5;
-            }
-            if(playerControls.weaponSelects.six.ReadValue<float>() == 1){
-                newEquippedNum = 6;
-            }
-            if(playerControls.weaponSelects.seven.ReadValue<float>() == 1){
-                newEquippedNum = 7;
-            }
-            if(playerControls.weaponSelects.eight.ReadValue<float>() == 1){
-                newEquippedNum = 8;
-            }
-            if(playerControls.weaponSelects.nine.ReadValue<float>() == 1){
-                newEquippedNum = 9;
-            }
-            if(playerControls.weaponSelects.ten.ReadValue<float>() == 1){
-                newEquippedNum = 10;
-            }
+            newEquippedNum = Mathf.Clamp(newEquippedNum + (int)Mathf.Clamp(playerControls.weaponSelects.scroll.ReadValue<Vector2>().y, -1, 1), 1, 3);
             if(newEquippedNum != equippedNum){
                 weaponManager.changeWeapon(newEquippedNum);
                 equippedNum = newEquippedNum;
             }
+
         }
         else{
             

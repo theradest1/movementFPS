@@ -150,6 +150,7 @@ public class PlayerManager : MonoBehaviour
         rb.velocity = Vector3.zero;
         coll.enabled = false;
         rb.useGravity = false;
+        Debug.Log(killerID);
         if(killerID != serverComm.ID){
             killer = GameObject.Find(killerID + "");
         }

@@ -14,7 +14,8 @@ public class OtherPlayer : MonoBehaviour
 
     public float invincibilityTimer = 0f;
 
-    Collider coll;
+    public Collider bodyColl;
+    public Collider headColl;
     
     //[HideInInspector]
     public float health;
@@ -53,7 +54,6 @@ public class OtherPlayer : MonoBehaviour
         maxHealth = currentClass.health;
         health = 100f;
 
-        coll = this.gameObject.GetComponent<Collider>();
         changeHealth(0f);
         InvokeRepeating("heal", 0, healRate);
     }
@@ -77,10 +77,12 @@ public class OtherPlayer : MonoBehaviour
         invincibilityTimer -= Time.deltaTime;
 
         if(invincibilityTimer > 0f){
-            coll.enabled = false;
+            bodyColl.enabled = false;
+            headColl.enabled = false;
         }
         else{
-            coll.enabled = true;
+            bodyColl.enabled = true;
+            headColl.enabled = true;
         }
     }
 }
