@@ -51157,9 +51157,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1360005024}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
-        m_MethodName: commitDie
+      - m_Target: {fileID: 331435474}
+        m_TargetAssemblyTypeName: InGameGUIManager, Assembly-CSharp
+        m_MethodName: changeGUIState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -51169,9 +51169,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 331435474}
-        m_TargetAssemblyTypeName: InGameGUIManager, Assembly-CSharp
-        m_MethodName: changeGUIState
+      - m_Target: {fileID: 1360005024}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: commitDie
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

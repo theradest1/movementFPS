@@ -145,7 +145,7 @@ public class movement : MonoBehaviour
             isGrounded = false;
         }
 
-        if(controlsManager.dashing){
+        if(controlsManager.dashing && !controlsManager.isSliding){
             if(ableToDash <= 0 && isGrounded){
                 float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
                 rb.velocity = cam.transform.forward * velocityMag;
