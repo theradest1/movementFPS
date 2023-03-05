@@ -2,6 +2,8 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
+var osu = require('node-os-utils')
+var cpu = osu.cpu
 const fs = require('fs')
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
@@ -68,6 +70,7 @@ function youOnBruv(info, senderPort, senderAddress){
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
+	cpu.free().then(info => {console.log(info)});
 	//console.log("PPS: " + packetCounter);
 	//packetCounter = 0;
 	/*console.log("___________________________________________")
@@ -165,7 +168,7 @@ function ue(info, senderPort, senderAddress){
 	addEventToAll(newEvent);
 }
 
-function u(info, senderPort, senderAddress){
+async function u(info, senderPort, senderAddress){
 	splitInfo = info.split("~")
 	//console.log("Player with ID " + splitInfo[1] + " updated");
 	transformsToSend = "";
@@ -182,6 +185,14 @@ function u(info, senderPort, senderAddress){
 	else{
 		console.log("ERROR: player with ID " + splitInfo[1] + " is not currently in the game but tried to update transform");
 	}
+}
+
+function sleep(milliseconds) {
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
 }
 
 server.bind(4000);

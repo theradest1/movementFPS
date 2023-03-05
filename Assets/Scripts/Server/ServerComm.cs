@@ -23,6 +23,7 @@ public class ServerComm : MonoBehaviour
     TextMeshProUGUI sendBPSText;
     TextMeshProUGUI recieveBPSText;
     TextMeshProUGUI latencyText;
+    TextMeshProUGUI TPSText;
     ControlsManager controlsManager;
 
     int throughPackets = 0;
@@ -36,6 +37,9 @@ public class ServerComm : MonoBehaviour
     public int ID = -1;
     //public int CLIENTPORT;
 
+    public float minUpdateSpeed;
+    public float maxUpdateSpeed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +48,7 @@ public class ServerComm : MonoBehaviour
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         PPSText = GameObject.Find("PPS debug").GetComponent<TextMeshProUGUI>();
+        TPSText = GameObject.Find("TPS debug").GetComponent<TextMeshProUGUI>();
         sendBPSText = GameObject.Find("BPS send debug").GetComponent<TextMeshProUGUI>();
         recieveBPSText = GameObject.Find("BPS recieve debug").GetComponent<TextMeshProUGUI>();
         latencyText = GameObject.Find("Latency Debug").GetComponent<TextMeshProUGUI>();
@@ -81,19 +86,27 @@ public class ServerComm : MonoBehaviour
 
         Debug.Log("User ID: " + ID);
 
-        InvokeRepeating("serverUpdate", .1f, updateSpeed);
-        InvokeRepeating("updatePPSGUI", 0f, 1f);
+        InvokeRepeating("updatePPSGUI", 1f, 1f);
+        /*while(true){
+            serverUpdate();
+            await Task.Delay((int)(updateSpeed * 1000));
+        }*/
     }
 
     void updatePPSGUI(){
         //Debug.Log("through packets: " + throughPackets);
         //Debug.Log("error packets: " + errorPackets);
-        sendBPSText.text = "BPS: " + sendBPS;
-        recieveBPSText.text = "BPS: " + recieveBPS;
+        sendBPSText.text = "Send BPS: " + sendBPS;
+        recieveBPSText.text = "Recieve BPS: " + recieveBPS;
         sendBPS = 0;
         recieveBPS = 0;
         PPSText.text = "PPS: " + throughPackets;
+        TPSText.text = "TPS: " + Mathf.Round(1/updateSpeed);
         throughPackets = 0;
+
+        CancelInvoke();
+        InvokeRepeating("updatePPSGUI", 1f, 1f);
+        InvokeRepeating("serverUpdate", 0f, updateSpeed);
     }
 
     public void send(string message){
@@ -181,5 +194,7 @@ public class ServerComm : MonoBehaviour
                 }
             }
         }
+
+        //Invoke("serverUpdate", Mathf.Clamp(updateSpeed - currentLatency, 0, 999999));
     }
 }
