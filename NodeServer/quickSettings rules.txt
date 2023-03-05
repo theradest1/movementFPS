@@ -19,3 +19,4 @@ cooldown (fire rate)
 equip cooldown
 reload time
 clip size
+headshot multiplier
