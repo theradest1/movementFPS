@@ -40,6 +40,7 @@ public class MainMenu : MonoBehaviour
         usernameInput = GameObject.Find("username input").GetComponent<TMP_InputField>();
 
         usernameInput.text = PlayerPrefs.GetString("Username", "");
+        IPDropdown.value = PlayerPrefs.GetInt("Server", 0);
 
         updateInfo();
     }
@@ -117,6 +118,7 @@ public class MainMenu : MonoBehaviour
     public void join(){
         if(usernameInput.text.Length >= usernameLengthMin){
             PlayerPrefs.SetString("Username", usernameInput.text);
+            PlayerPrefs.SetInt("Server", IPDropdown.value);
             PlayerPrefs.Save();
             SceneManager.LoadScene(1);
         }
