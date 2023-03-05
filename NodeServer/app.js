@@ -2,9 +2,10 @@ const dgram = require('dgram');
 const { join } = require('path');
 const { send } = require('process');
 const server = dgram.createSocket('udp4');
-var osu = require('node-os-utils')
-var cpu = osu.cpu
-const fs = require('fs')
+var osu = require('node-os-utils');
+var cpu = osu.cpu;
+var mem = osu.mem;
+const fs = require('fs');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
@@ -70,7 +71,12 @@ function youOnBruv(info, senderPort, senderAddress){
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
-	cpu.free().then(info => {console.log(info)});
+	cpu.free().then(cpuFree => {
+		console.log("CPU: " + cpuFree);
+	});
+	mem.free().then(info => {
+		console.log(info.freeMemMb/info.totalMemMb)
+	});
 	//console.log("PPS: " + packetCounter);
 	//packetCounter = 0;
 	/*console.log("___________________________________________")
