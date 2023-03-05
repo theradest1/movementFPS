@@ -31,7 +31,7 @@ public class movement : MonoBehaviour
     public float stopSpeedAir;
     public float maxSpeed;
     public float sprintMultiplier;
-    public float speedBoostOnSlide;
+    public float speedBoostOnDash;
 
     public float footstepInterval;
     Vector2 lastFootstepPos;
@@ -41,6 +41,9 @@ public class movement : MonoBehaviour
     public Vector3 camPosNotSliding;
     public float weaponTravelSpeed;
     GameObject weaponContainer;
+
+    public float ableToDash = 0f;
+    public float dashTimout;
 
     public ClassInfo currentClass;
 
@@ -95,10 +98,6 @@ public class movement : MonoBehaviour
         }
 
         if(isGrounded && controlsManager.crouching){
-            if(!isSliding){
-                float velocityMag = rb.velocity.magnitude + speedBoostOnSlide;
-                rb.velocity = cam.transform.forward * velocityMag;
-            }
             isSliding = true;
         }
         else{
@@ -128,6 +127,7 @@ public class movement : MonoBehaviour
         }
         
         if(isGrounded){
+            ableToDash -= Time.deltaTime;
             if(isSliding){
                 rb.velocity = new Vector3(rb.velocity.x * stopSpeedSliding, rb.velocity.y, rb.velocity.z * stopSpeedSliding);
             }
@@ -144,6 +144,14 @@ public class movement : MonoBehaviour
         }
         else{
             isGrounded = false;
+        }
+
+        if(controlsManager.dashing){
+            if(ableToDash <= 0 && isGrounded){
+                float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
+                rb.velocity = cam.transform.forward * velocityMag;
+                ableToDash = dashTimout;
+            }
         }
 
         velocityText.text = "Velocity: " + (Mathf.Round(new Vector3(rb.velocity.x, 0f, rb.velocity.z).magnitude * 100f) / 100f);

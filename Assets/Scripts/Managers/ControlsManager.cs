@@ -26,6 +26,8 @@ public class ControlsManager : MonoBehaviour
     [HideInInspector]
     public bool sprinting;
     [HideInInspector]
+    public bool dashing;
+    [HideInInspector]
     public bool crouching;
     [HideInInspector]
     public bool escape;
@@ -65,6 +67,7 @@ public class ControlsManager : MonoBehaviour
             moveDirection = playerControls.movement.Walk.ReadValue<Vector2>();
             jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
             sprinting = playerControls.movement.Sprint.ReadValue<float>() == 1;
+            dashing = playerControls.movement.Sprint.ReadValue<float>() == 1;
             crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
 
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;

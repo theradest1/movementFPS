@@ -2329,6 +2329,7 @@ MonoBehaviour:
   aiming: 0
   reloading: 0
   sprinting: 0
+  dashing: 0
   crouching: 0
   escape: 0
   equippedNum: 0
@@ -43648,12 +43649,14 @@ MonoBehaviour:
   stopSpeedAir: 0.999
   maxSpeed: 99999
   sprintMultiplier: 1
-  speedBoostOnSlide: 3
+  speedBoostOnDash: 7
   footstepInterval: 2.25
   camPosSliding: {x: 0, y: 0.45, z: 0}
   camPosSpeed: 45
   camPosNotSliding: {x: 0, y: 0.72, z: 0}
   weaponTravelSpeed: 45
+  ableToDash: 0
+  dashTimout: 0.1
   currentClass: {fileID: 782628377}
 --- !u!4 &1360005022
 Transform:
