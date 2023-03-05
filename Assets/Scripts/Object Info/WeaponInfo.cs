@@ -38,8 +38,11 @@ public class WeaponInfo : MonoBehaviour
     public bool automatic = true;
 
 
-    public bool tool = false;
     public bool gun = true;
+    
+    public bool tool = false;
+    public bool main = true;
+    public bool secondary = false;
 
     private void Update() {
         cooldownTimer -= Time.deltaTime;

@@ -137,9 +137,28 @@ public class PlayerManager : MonoBehaviour
         classSpeedText.text = selectedClass.speedMult * 100 + "%";
         classReloadText.text = selectedClass.reloadSpeedMult * 100 + "%";
         classFireRateText.text = Mathf.Round(200 - selectedClass.gunFireSpeedMult * 100) + "%";
+
+        mainDropdown.ClearOptions();
+        secondaryDropdown.ClearOptions();
+        toolDropdown.ClearOptions();
+        for(int i = 0; i < selectedClass.possibleWeapons.Count; i++){
+            if(selectedClass.possibleWeapons[i].main){
+                mainDropdown.AddOptions(new List<string> {selectedClass.possibleWeapons[i].gameObject.name});
+            }
+            if(selectedClass.possibleWeapons[i].secondary){
+                secondaryDropdown.AddOptions(new List<string> {selectedClass.possibleWeapons[i].gameObject.name});
+            }
+            if(selectedClass.possibleWeapons[i].tool){
+                toolDropdown.AddOptions(new List<string> {selectedClass.possibleWeapons[i].gameObject.name});
+            }
+        }
         
         PlayerPrefs.SetInt("Class", classDropdown.value);
         PlayerPrefs.Save();
+    }
+
+    public void commitDie(){
+        death(serverComm.ID);
     }
 
     public void death(int killerID){

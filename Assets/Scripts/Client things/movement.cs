@@ -49,8 +49,7 @@ public class movement : MonoBehaviour
 
     void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position + new Vector3(0f, .5f, 0f), .5f);
-        Gizmos.DrawSphere(transform.position + new Vector3(0f, -.5f, 0f), .5f);
+        Gizmos.DrawSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f);
     }
 
     void Start(){
@@ -139,7 +138,7 @@ public class movement : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x * stopSpeedAir, rb.velocity.y, rb.velocity.z * stopSpeedAir);
         }
         
-        if(Physics.CheckSphere(transform.position + new Vector3(0f, -.51f, 0f), .5f, groundMask)){
+        if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
             isGrounded = true;
         }
         else{

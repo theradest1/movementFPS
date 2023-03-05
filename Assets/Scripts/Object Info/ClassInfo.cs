@@ -13,6 +13,7 @@ public class ClassInfo : MonoBehaviour
     public float gunFireSpeedMult = 1;
     public float healAmount = .01f;
     public float healCooldown = 6f;
+    public List<WeaponInfo> possibleWeapons;
 
     public void setVars(string[] vars){
         health = float.Parse(vars[1]);
