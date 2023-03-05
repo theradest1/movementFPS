@@ -20,6 +20,7 @@ public class OtherPlayer : MonoBehaviour
     //[HideInInspector]
     public float health;
     public float maxHealth;
+    public Renderer bodyRenderer;
 
     //[HideInInspector]
 
@@ -35,6 +36,7 @@ public class OtherPlayer : MonoBehaviour
     public void setClass(string classToSet){
         currentClass = GameObject.Find(classToSet).GetComponent<ClassInfo>();
         maxHealth = currentClass.health;
+        bodyRenderer.material = currentClass.classMaterial;
     }
 
     public void changeHealth(float subbedHealth){

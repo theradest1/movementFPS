@@ -14,6 +14,7 @@ public class ClassInfo : MonoBehaviour
     public float healAmount = .01f;
     public float healCooldown = 6f;
     public List<WeaponInfo> possibleWeapons;
+    public Material classMaterial;
 
     public void setVars(string[] vars){
         health = float.Parse(vars[1]);

@@ -145,7 +145,7 @@ public class movement : MonoBehaviour
             isGrounded = false;
         }
 
-        if(controlsManager.dashing && !controlsManager.isSliding){
+        if(controlsManager.dashing && !isSliding){
             if(ableToDash <= 0 && isGrounded){
                 float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
                 rb.velocity = cam.transform.forward * velocityMag;
@@ -155,33 +155,4 @@ public class movement : MonoBehaviour
 
         velocityText.text = "Velocity: " + (Mathf.Round(new Vector3(rb.velocity.x, 0f, rb.velocity.z).magnitude * 100f) / 100f);
     }
-
-    /*void applyVelocity(Vector3 velocity){
-        transform.position += new Vector3(0f, velocity.y, 0f);
-        if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, velocity.y, 0f);
-            isGrounded = true;//velocity.y <= 0f;
-            velocity.y = 0f;
-        }
-        else{
-            isGrounded = false;
-        }
-
-        transform.position += new Vector3(0f, 0f, velocity.z);
-        if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(0f, 0f, velocity.z);
-            velocity.z = 0f;
-        }
-        
-        transform.position += new Vector3(velocity.x, 0f, 0f);
-        if(Physics.CheckCapsule(transform.position + new Vector3(0f, .5f, 0f), transform.position + new Vector3(0f, -.5f, 0f), .5f, groundMask)){
-            transform.position -= new Vector3(velocity.x, 0f, 0f);
-            velocity.x = 0f;
-        }
-            
-        float yVel = velocity.y;
-        velocity.y = 0f;
-        velocityText.text = "Velocity: " + (Mathf.Round(velocity.magnitude * 10000f) / 100f);
-        velocity.y = yVel;
-    }*/
 }

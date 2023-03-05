@@ -650,6 +650,7 @@ MonoBehaviour:
   headColl: {fileID: 748230054013386946}
   health: 500
   maxHealth: 0
+  bodyRenderer: {fileID: 5740867020030482657}
   healRate: 0
   currentClass: {fileID: 0}
   healCooldown: 0
