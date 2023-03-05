@@ -6,7 +6,7 @@ const fs = require('fs')
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 
-const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
+const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 const settingCheckInterval = 60000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
