@@ -14,6 +14,7 @@ maxTPS = 64;
 gameClock = 300;
 gameLength = 300;
 mapCount = 2;
+currentMap = 0;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
@@ -34,7 +35,8 @@ eventsToSend = []; //events that que up untill the client calls an update, where
 function updateGameClock(){
 	gameClock --;
 	if(gameClock <= 0){
-		addEventToAll("newMap~" + getRandomInt(mapCount));
+		currentMap = getRandomInt(mapCount);
+		addEventToAll("newMap~" + currentMap);
 		addEventToAll("setClock~" + gameLength);
 		gameClock = gameLength;
 	}
@@ -194,6 +196,8 @@ function newClient(info, senderPort, senderAddress){
 	currentPlayerIDs.push(currentID);
 	addEventToAll("tps~" + TPS);
 	addEventToAll("setClock~" + gameClock);
+
+	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "newMap~" + currentMap + "|";
 
 	currentID++;
 }
