@@ -11,8 +11,8 @@ currentID = 0;
 TPS = 64;
 minTPS = 10;
 maxTPS = 64;
-gameClock = 10;
-gameLength = 10;
+gameClock = 300;
+gameLength = 300;
 mapCount = 2;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
