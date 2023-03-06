@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     public float health;
     public float maxHealth = 100f;
     public float flashRecovery;
-    public List<GameObject> spawnPoints;
+    //public List<GameObject> spawnPoints;
     public float timeBeforeHeal;
     public float healRate;
     public float healCooldown;
@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     Collider coll;
     Rigidbody rb;
     public ClassInfo currentClass;
+    public MapInfo currentMap;
 
     public TextMeshProUGUI classHealthText;
     public TextMeshProUGUI classDamageText;
@@ -102,7 +103,7 @@ public class PlayerManager : MonoBehaviour
         movementScript.gravity = -0.07f;
         coll.enabled = true;
         rb.useGravity = true;
-        transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position + Vector3.up;
+        transform.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
         deathMenu.SetActive(false);
         controlsManager.deathMenuControlls = false;
 

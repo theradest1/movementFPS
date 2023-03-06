@@ -22,6 +22,9 @@ public class InGameGUIManager : MonoBehaviour
 
     Image hitMarker;
     public float hitMarkerChangeSpeed;
+    public float secondsUntilMapChange = 0;
+
+    public TextMeshProUGUI gameClock;
 
     
 
@@ -42,6 +45,12 @@ public class InGameGUIManager : MonoBehaviour
 
         menu.SetActive(false);
         changeValue();
+        InvokeRepeating("updateGameClock", 0f, 1f);
+    }
+
+    void updateGameClock(){
+        secondsUntilMapChange--;
+        gameClock.text = Mathf.Floor(secondsUntilMapChange/60) + " : " + Mathf.Round(secondsUntilMapChange%60);
     }
 
     public void killFeed(string killerUsername, string killedUsername){

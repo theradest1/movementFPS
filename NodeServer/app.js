@@ -6,18 +6,21 @@ var osu = require('node-os-utils');
 var cpu = osu.cpu;
 var mem = osu.mem;
 const fs = require('fs');
-const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
+const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 125;
+TPS = 64;
 minTPS = 10;
-maxTPS = 128;
-currentProcesses = 0;
+maxTPS = 64;
+gameClock = 10;
+gameLength = 10;
+mapCount = 2;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 const settingCheckInterval = 60000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 setInterval(checkSettings, settingCheckInterval);
+setInterval(updateGameClock, 1000);
 checkSettings();
 packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
 settings = "";
@@ -27,6 +30,15 @@ playerInfo = []; //usernames, might be more later
 currentPlayerIDs = []; //IDs (to find where other information is without having to do larger calculations)
 playerDisconnectTimers = []; //disconnect timers that go up untill they are disconnected because of not updating their transform
 eventsToSend = []; //events that que up untill the client calls an update, where they are dumped and the client then processes them
+
+function updateGameClock(){
+	gameClock --;
+	if(gameClock <= 0){
+		addEventToAll("newMap~" + getRandomInt(mapCount));
+		addEventToAll("setClock~" + gameLength);
+		gameClock = gameLength;
+	}
+}
 
 function checkSettings(){
 	fs.readFile('quickSettings.txt', (err, data) => {
@@ -55,7 +67,6 @@ server.on('message', (msg, senderInfo) => {
 	msg = msg + "";
 	try {
 		if(validCommands.includes(msg.split("~")[0])){
-			currentProcesses++;
 			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
 		}
 		else{
@@ -90,7 +101,6 @@ function checkDisconnectTimers(){
 				addEventToAll("tps~" + TPS);
 			}
 		});
-		console.log(currentProcesses);
 	});
 	//console.log("PPS: " + packetCounter);
 	//packetCounter = 0;
@@ -134,7 +144,6 @@ function disconnectClient(playerIndex){
 	delete playerTransformInfo[playerIndex];
 	delete playerInfo[playerIndex];
 	delete eventsToSend[playerIndex];
-	currentProcesses--;
 }
 
 function addEventToAll(eventString){
@@ -152,9 +161,12 @@ function logSenderInfo(msg, senderInfo){
 }
 
 //Client functions -----------------------------------------------------------------------------
+function skipMap(info, senderPort, senderAddress){
+	gameClock = 1;
+}
+
 function youOnBruv(info, senderPort, senderAddress){
 	server.send("ong", senderPort, senderAddress);
-	currentProcesses--;
 }
 
 function newClient(info, senderPort, senderAddress){
@@ -181,9 +193,9 @@ function newClient(info, senderPort, senderAddress){
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
 	addEventToAll("tps~" + TPS);
+	addEventToAll("setClock~" + gameClock);
 
 	currentID++;
-	currentProcesses--;
 }
 
 function ue(info, senderPort, senderAddress){
@@ -191,7 +203,6 @@ function ue(info, senderPort, senderAddress){
 	newEvent = info.substring(splitInfo[0].length + 1, info.length);
 	//console.log(newEvent);
 	addEventToAll(newEvent);
-	currentProcesses--;
 }
 
 async function u(info, senderPort, senderAddress){
@@ -211,17 +222,19 @@ async function u(info, senderPort, senderAddress){
 	else{
 		console.log("ERROR: player with ID " + splitInfo[1] + " is not currently in the game but tried to update transform");
 	}
-	currentProcesses--;
 }
 
 
-// debug tools
+// tools
 function sleep(milliseconds) {
 	const date = Date.now();
 	let currentDate = null;
 	do {
 		currentDate = Date.now();
 	} while (currentDate - date < milliseconds);
+}
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
 }
 
 server.bind(4000);

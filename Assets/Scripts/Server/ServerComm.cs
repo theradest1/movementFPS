@@ -25,6 +25,8 @@ public class ServerComm : MonoBehaviour
     TextMeshProUGUI latencyText;
     TextMeshProUGUI TPSText;
     ControlsManager controlsManager;
+    InGameGUIManager inGameGUIManager;
+    MapManager mapManager;
 
     int throughPackets = 0;
     int sendBPS;
@@ -43,6 +45,8 @@ public class ServerComm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mapManager = GameObject.Find("manager").GetComponent<MapManager>();
+        inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         variableUpdater = GameObject.Find("manager").GetComponent<VariableUpdater>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         player = GameObject.Find("Player");
@@ -139,6 +143,7 @@ public class ServerComm : MonoBehaviour
 
         recieveBPS += receiveBytes.Length;
         info = Encoding.ASCII.GetString(receiveBytes);
+        //Debug.Log(info);
         serverEvents.resetSmoothTimer();
         
         //Debug.Log("___________________________________________");
@@ -190,6 +195,12 @@ public class ServerComm : MonoBehaviour
                     case "tps":
                         Debug.Log(splitRawEvents[1]);
                         updateSpeed = 1/float.Parse(splitRawEvents[1]);
+                        break;
+                    case "newMap":
+                        mapManager.newMap(int.Parse(splitRawEvents[1]));
+                        break;
+                    case "setClock":
+                        inGameGUIManager.secondsUntilMapChange = int.Parse(splitRawEvents[1]);
                         break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
