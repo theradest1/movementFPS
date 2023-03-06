@@ -8,9 +8,9 @@ var mem = osu.mem;
 const fs = require('fs');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 64;
+TPS = 128;
 minTPS = 10;
-maxTPS = 64;
+maxTPS = 128;
 gameClock = 300;
 gameLength = 300;
 mapCount = 2;
@@ -193,9 +193,9 @@ function newClient(info, senderPort, senderAddress){
 	playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
-	addEventToAll("tps~" + TPS);
-	addEventToAll("setClock~" + gameClock);
 
+	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "tps~" + TPS + "|";
+	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "setClock~" + gameClock + "|";
 	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "newMap~" + currentMap + "|";
 
 	currentID++;
@@ -213,7 +213,9 @@ async function u(info, senderPort, senderAddress){
 	//console.log("Player with ID " + splitInfo[1] + " updated");
 	transformsToSend = "";
 	for(playerIndex in currentPlayerIDs){
-		transformsToSend += "u~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
+		if(currentPlayerIDs[playerIndex] != splitInfo[1]){
+			transformsToSend += "u~" + currentPlayerIDs[playerIndex] + "~" + playerTransformInfo[playerIndex] + "|"
+		}
 	}
 	playerIndex = currentPlayerIDs.indexOf(parseInt(splitInfo[1]));
 	if(playerIndex != -1){
