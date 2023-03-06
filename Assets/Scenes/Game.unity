@@ -2756,7 +2756,7 @@ MonoBehaviour:
   scoreboard: {fileID: 1441872043}
   senseInputText: {fileID: 823802582}
   hitMarkerChangeSpeed: 5
-  secondsUntilMapChange: 0
+  secondsUntilMapChange: 300
   gameClock: {fileID: 1817240878}
 --- !u!114 &331435475
 MonoBehaviour:

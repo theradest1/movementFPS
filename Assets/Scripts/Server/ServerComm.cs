@@ -91,6 +91,7 @@ public class ServerComm : MonoBehaviour
         Debug.Log("User ID: " + ID);
 
         InvokeRepeating("updatePPSGUI", 1f, 1f);
+        Invoke("serverUpdate", updateSpeed);
         /*while(true){
             serverUpdate();
             await Task.Delay((int)(updateSpeed * 1000));
@@ -108,9 +109,9 @@ public class ServerComm : MonoBehaviour
         TPSText.text = "TPS: " + Mathf.Round(1/updateSpeed);
         throughPackets = 0;
 
-        CancelInvoke();
-        InvokeRepeating("updatePPSGUI", 1f, 1f);
-        InvokeRepeating("serverUpdate", 0f, updateSpeed);
+        //CancelInvoke();
+        //InvokeRepeating("updatePPSGUI", 1f, 1f);
+        //Invoke("serverUpdate", updateSpeed);
     }
 
     public void send(string message){
@@ -209,7 +210,6 @@ public class ServerComm : MonoBehaviour
                 }
             }
         }
-
-        //Invoke("serverUpdate", Mathf.Clamp(updateSpeed - currentLatency, 0, 999999));
+        Invoke("serverUpdate", Mathf.Clamp(updateSpeed, 0, updateSpeed));
     }
 }

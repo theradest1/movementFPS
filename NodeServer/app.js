@@ -136,7 +136,6 @@ function checkDisconnectTimers(){
 function leave(info, senderPort, senderAddress){
 	disconnectClient(currentPlayerIDs.indexOf(parseInt(info.split("~")[1])));
 	console.log("Player with ID " + info.split("~")[1] + " has left the game");
-	currentProcesses--;
 }
 
 function disconnectClient(playerIndex){
