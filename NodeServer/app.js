@@ -1,6 +1,6 @@
 const dgram = require('dgram');
 const { join } = require('path');
-const { send } = require('process');
+const { send, cpuUsage } = require('process');
 const server = dgram.createSocket('udp4');
 var osu = require('node-os-utils');
 var cpu = osu.cpu;
@@ -8,6 +8,9 @@ var mem = osu.mem;
 const fs = require('fs');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
+TPS = 125;
+minTPS = 10;
+maxTPS = 128;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
@@ -71,11 +74,23 @@ function youOnBruv(info, senderPort, senderAddress){
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
+	var startingToLag = false;
+	var increasingTPS = false;
+
 	cpu.free().then(cpuFree => {
-		console.log("CPU: " + cpuFree);
-	});
-	mem.free().then(info => {
-		console.log(info.freeMemMb/info.totalMemMb)
+		mem.free().then(memInfo => {
+			memFree = memInfo.freeMemMb/memInfo.totalMemMb
+			if((memFree < .2 || cpuFree < 20) && TPS > minTPS){
+				TPS--;
+				console.log("Decreased TPS: " + TPS);
+				addEventToAll("tps~" + TPS);
+			}
+			else if((memFree > .4 || cpuFree > 40) && TPS < maxTPS){
+				TPS++;
+				console.log("Increased TPS: " + TPS);
+				addEventToAll("tps~" + TPS);
+			}
+		});
 	});
 	//console.log("PPS: " + packetCounter);
 	//packetCounter = 0;
@@ -162,6 +177,7 @@ function newClient(info, senderPort, senderAddress){
 		playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
 		playerDisconnectTimers.push(0);
 		currentPlayerIDs.push(currentID);
+		addEventToAll("tps~" + TPS);
 
 		currentID++;
 	//})

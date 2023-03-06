@@ -187,6 +187,10 @@ public class ServerComm : MonoBehaviour
                         }
                         variableUpdater.updateVars(things.Substring(0, things.Length - 1));
                         break;
+                    case "tps":
+                        Debug.Log(splitRawEvents[1]);
+                        updateSpeed = 1/float.Parse(splitRawEvents[1]);
+                        break;
                     default:
                         Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
                         Debug.Log("Message recieved: " + info);
