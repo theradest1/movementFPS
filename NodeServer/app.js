@@ -55,8 +55,8 @@ server.on('message', (msg, senderInfo) => {
 	msg = msg + "";
 	try {
 		if(validCommands.includes(msg.split("~")[0])){
-			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
 			currentProcesses++;
+			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
 		}
 		else{
 			logSenderInfo(msg, senderInfo);
