@@ -13,6 +13,8 @@ public class movement : MonoBehaviour
     ServerEvents serverEvents;
     TextMeshProUGUI velocityText;
     TextMeshProUGUI FPStext;
+    ServerComm serverComm;
+    PlayerManager playerManager;
 
     //Vector3 velocity = new Vector3(0f, 0f, 0f);
 
@@ -21,7 +23,6 @@ public class movement : MonoBehaviour
     public bool ableToJump = false;
 
     public LayerMask groundMask;
-    public float gravity;
 
     public float speed;
     public float speedMultiplierFromWeapon = 1f;
@@ -47,12 +48,32 @@ public class movement : MonoBehaviour
 
     public ClassInfo currentClass;
 
+    public float minHeight;
+    public Vector3 lastPosGrounded;
+    int launchAttempts = 0;
+    public int maxLaunchAttempts = 3;
+
+    public void launchTo(Vector3 goToPos){
+        launchAttempts++;
+        Vector3 toTarget = goToPos - transform.position;
+
+        //quadratic
+        float gSquared = Physics.gravity.sqrMagnitude;
+        float T = Mathf.Sqrt(Mathf.Sqrt(toTarget.sqrMagnitude * 4f/gSquared));
+
+        //convert from time-to-hit to a launch velocity:
+        Vector3 newVelocity = toTarget / T - Physics.gravity * T / 2f;
+        rb.AddForce(newVelocity, ForceMode.VelocityChange);
+    }
+
     void OnDrawGizmos(){
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f);
     }
 
     void Start(){
+        playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
+        serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         rb = this.gameObject.GetComponent<Rigidbody>();
         FPStext = GameObject.Find("FPS debug").GetComponent<TextMeshProUGUI>();
         weaponContainer = GameObject.Find("weapons");
@@ -79,7 +100,7 @@ public class movement : MonoBehaviour
     }
 
     void FixedUpdate() {
-        rb.velocity += Vector3.up * gravity;
+        //rb.velocity += Vector3.up * gravity;
         Vector2 moveDirection = controlsManager.moveDirection;
         if(!controlsManager.jumping){
             ableToJump = true;
@@ -120,8 +141,15 @@ public class movement : MonoBehaviour
         else if(!isSliding){
             //rb.velocity.y += gravity;
             //velocity = Quaternion.AngleAxis(controlsManager.mouseDelta.x * look.LookSpeedHorizontal, Vector3.up) * velocity;
-            if(transform.position.y < -100){
-                transform.position = new Vector3(0f, 20f, 0f);
+            if(transform.position.y < minHeight){
+                //transform.position = new Vector3(0f, 20f, 0f);
+                if(launchAttempts == maxLaunchAttempts){
+                    transform.position = new Vector3(0f, 100f, 0f);
+                    serverEvents.sendEvent("ue", "death", serverComm.ID + "");
+                }
+                else{
+                    launchTo(lastPosGrounded + Vector3.up/2);
+                }
             }
         }
         
@@ -140,6 +168,8 @@ public class movement : MonoBehaviour
         
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
             isGrounded = true;
+            lastPosGrounded = transform.position;
+            launchAttempts = 0;
         }
         else{
             isGrounded = false;

@@ -17,7 +17,7 @@ public class WeaponManager : MonoBehaviour
     GameObject cam;
     GameObject player;
     ServerEvents serverEvents;
-    GameObject weaponContainer;
+    public GameObject weaponContainer;
     ProjectileManager projectileManager;
     SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
@@ -43,7 +43,6 @@ public class WeaponManager : MonoBehaviour
         cam = GameObject.Find("Main Camera");
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
-        weaponContainer = GameObject.Find("weapons");
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         equippedWeaponText = GameObject.Find("equipped weapon").GetComponent<TextMeshProUGUI>();
         objectsInClipText = GameObject.Find("ammo left").GetComponent<TextMeshProUGUI>();

@@ -45,6 +45,15 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI classReloadText;
     public TextMeshProUGUI classFireRateText;
 
+
+    public TextMeshProUGUI weaponSpeedText;
+    public TextMeshProUGUI weaponDamageText;
+    public TextMeshProUGUI weaponFireRateText;
+    public TextMeshProUGUI weaponReloadTimeText;
+    public TextMeshProUGUI weaponClipSizeText;
+    public TextMeshProUGUI weaponHeadshotText;
+    public TextMeshProUGUI weaponNameText;
+
     void Start(){
         playerCam = GameObject.Find("Main Camera");
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
@@ -100,7 +109,6 @@ public class PlayerManager : MonoBehaviour
     public void spawn(){
         Cursor.lockState = CursorLockMode.Locked;
         look.camRotX = 0;
-        movementScript.gravity = -0.07f;
         coll.enabled = true;
         rb.useGravity = true;
         transform.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
@@ -156,6 +164,25 @@ public class PlayerManager : MonoBehaviour
         
         PlayerPrefs.SetInt("Class", classDropdown.value);
         PlayerPrefs.Save();
+        updateWeaponStats(mainDropdown);
+    }
+
+    public void updateWeaponStats(TMP_Dropdown dropdown){
+        WeaponInfo selectedWeapon = weaponManager.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
+        /*ClassInfo selectedClass = GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>();
+        for(int i = 0; i < selectedClass.possibleWeapons.Count; i++){
+            if(selectedClass.possibleWeapons[i].gameObject.name == mainDropdown.options[mainDropdown.value].text){
+                selectedWeapon = selectedClass.possibleWeapons[i];
+            }
+        }*/
+
+        weaponSpeedText.text = (selectedWeapon.speedMultiplier * 100) + "%";
+        weaponDamageText.text = selectedWeapon.damage + "";
+        weaponFireRateText.text = selectedWeapon.cooldown + "";
+        weaponReloadTimeText.text = selectedWeapon.reloadTime + "";
+        weaponClipSizeText.text = selectedWeapon.clipSize + "";
+        weaponHeadshotText.text = (selectedWeapon.headShotMult * 100) + "%";
+        weaponNameText.text = selectedWeapon.gameObject.name + "";
     }
 
     public void commitDie(){
@@ -166,7 +193,6 @@ public class PlayerManager : MonoBehaviour
         flashImage.color = new Color(1, 1, 1, 0);
         Cursor.lockState = CursorLockMode.None;
         look.camRotX = 0;
-        movementScript.gravity = 0f;
         rb.velocity = Vector3.zero;
         coll.enabled = false;
         rb.useGravity = false;
