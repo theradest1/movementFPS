@@ -24,11 +24,15 @@ public class ServerComm : MonoBehaviour
     TextMeshProUGUI recieveBPSText;
     TextMeshProUGUI latencyText;
     TextMeshProUGUI TPSText;
+    TextMeshProUGUI throttledPacketsText;
+    TextMeshProUGUI droppedPacketsText;
     ControlsManager controlsManager;
     InGameGUIManager inGameGUIManager;
     MapManager mapManager;
 
     int throughPackets = 0;
+    int throttledPackets = 0;
+    int droppedPackets = 0;
     int sendBPS;
     int recieveBPS;
     bool inSchool;
@@ -56,6 +60,8 @@ public class ServerComm : MonoBehaviour
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         PPSText = GameObject.Find("PPS debug").GetComponent<TextMeshProUGUI>();
         TPSText = GameObject.Find("TPS debug").GetComponent<TextMeshProUGUI>();
+        throttledPacketsText = GameObject.Find("throttled debug").GetComponent<TextMeshProUGUI>();
+        droppedPacketsText = GameObject.Find("dropped debug").GetComponent<TextMeshProUGUI>();
         sendBPSText = GameObject.Find("BPS send debug").GetComponent<TextMeshProUGUI>();
         recieveBPSText = GameObject.Find("BPS recieve debug").GetComponent<TextMeshProUGUI>();
         latencyText = GameObject.Find("Latency Debug").GetComponent<TextMeshProUGUI>();
@@ -110,7 +116,11 @@ public class ServerComm : MonoBehaviour
         recieveBPS = 0;
         PPSText.text = "PPS: " + throughPackets;
         TPSText.text = "TPS: " + Mathf.Round(1/updateSpeed);
+        droppedPacketsText.text = "Dropped Packets: " + droppedPackets;
+        throttledPacketsText.text = "Throttled Packets: " + throttledPackets;
         throughPackets = 0;
+        droppedPackets = 0;
+        throttledPackets = 0;
 
         CancelInvoke();
         InvokeRepeating("updatePPSGUI", 1f, 1f);
@@ -218,6 +228,7 @@ public class ServerComm : MonoBehaviour
                             inGameGUIManager.secondsUntilMapChange = int.Parse(splitRawEvents[1]);
                             break;
                         default:
+                            droppedPackets++;
                             Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
                             Debug.Log("Message recieved: " + info);
                             break;
@@ -226,7 +237,7 @@ public class ServerComm : MonoBehaviour
             }
         }
         else{
-            Debug.Log("TPS throttled");
+            throttledPackets++;
         }
     }
 }
