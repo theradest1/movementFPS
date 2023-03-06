@@ -194,9 +194,7 @@ function newClient(info, senderPort, senderAddress){
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
 
-	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "tps~" + TPS + "|";
-	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "setClock~" + gameClock + "|";
-	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "newMap~" + currentMap + "|";
+	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "tps~" + TPS + "|setClock~" + gameClock + "|newMap~" + currentMap + "|";
 
 	currentID++;
 }
