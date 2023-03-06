@@ -11,6 +11,7 @@ currentID = 0;
 TPS = 125;
 minTPS = 10;
 maxTPS = 128;
+currentProcesses = 0;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
@@ -55,6 +56,7 @@ server.on('message', (msg, senderInfo) => {
 	try {
 		if(validCommands.includes(msg.split("~")[0])){
 			eval(msg.split("~")[0] + "(\"" + msg + "\", " + senderInfo.port + ", \"" + senderInfo.address + "\")");
+			currentProcesses++;
 		}
 		else{
 			logSenderInfo(msg, senderInfo);
@@ -68,9 +70,6 @@ server.on('message', (msg, senderInfo) => {
 	}
 });
 
-function youOnBruv(info, senderPort, senderAddress){
-	server.send("ong", senderPort, senderAddress);
-}
 
 //Server functions -----------------------------------------------------------------------------
 function checkDisconnectTimers(){
@@ -91,6 +90,7 @@ function checkDisconnectTimers(){
 				addEventToAll("tps~" + TPS);
 			}
 		});
+		console.log(currentProcesses);
 	});
 	//console.log("PPS: " + packetCounter);
 	//packetCounter = 0;
@@ -124,6 +124,7 @@ function checkDisconnectTimers(){
 function leave(info, senderPort, senderAddress){
 	disconnectClient(currentPlayerIDs.indexOf(parseInt(info.split("~")[1])));
 	console.log("Player with ID " + info.split("~")[1] + " has left the game");
+	currentProcesses--;
 }
 
 function disconnectClient(playerIndex){
@@ -133,6 +134,7 @@ function disconnectClient(playerIndex){
 	delete playerTransformInfo[playerIndex];
 	delete playerInfo[playerIndex];
 	delete eventsToSend[playerIndex];
+	currentProcesses--;
 }
 
 function addEventToAll(eventString){
@@ -150,37 +152,38 @@ function logSenderInfo(msg, senderInfo){
 }
 
 //Client functions -----------------------------------------------------------------------------
+function youOnBruv(info, senderPort, senderAddress){
+	server.send("ong", senderPort, senderAddress);
+	currentProcesses--;
+}
+
 function newClient(info, senderPort, senderAddress){
-	//fs.readFile('quickSettings.txt', (err, data) => {
-		//var dataString = data.toString();
-		//dataString = dataString.replace(/(\r\n|\n|\r)/gm, ""); //gets rid of return
-		console.log("Quick set data: " + settings);
-		console.log(currentID + "|" + settings);
-		console.log(currentID);
-		server.send(currentID + "|" + settings, senderPort, senderAddress);
+	console.log("Quick set data: " + settings);
+	console.log(currentID + "|" + settings);
+	console.log(currentID);
+	server.send(currentID + "|" + settings, senderPort, senderAddress);
 
-		splitInfo = info.split("~");
+	splitInfo = info.split("~");
 
-		addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
-		console.log("---------------------");
-		console.log("Date/Time: " + Date());
-		console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
-		console.log("---------------------");
-		//console.log(info);
+	addEventToAll("newClient~" + currentID + "~" + splitInfo[1]);
+	console.log("---------------------");
+	console.log("Date/Time: " + Date());
+	console.log("New client: ID = " + currentID + ", Username = " + splitInfo[1]);
+	console.log("---------------------");
 
-		allPlayerJoinInfo = "";
-		for(playerIndex in currentPlayerIDs){
-			allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex] + "|";
-		}
-		eventsToSend.push(allPlayerJoinInfo);
-		playerInfo.push(splitInfo[1]);
-		playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
-		playerDisconnectTimers.push(0);
-		currentPlayerIDs.push(currentID);
-		addEventToAll("tps~" + TPS);
+	allPlayerJoinInfo = "";
+	for(playerIndex in currentPlayerIDs){
+		allPlayerJoinInfo += "newClient~" + currentPlayerIDs[playerIndex] + "~" + playerInfo[playerIndex] + "|";
+	}
+	eventsToSend.push(allPlayerJoinInfo);
+	playerInfo.push(splitInfo[1]);
+	playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
+	playerDisconnectTimers.push(0);
+	currentPlayerIDs.push(currentID);
+	addEventToAll("tps~" + TPS);
 
-		currentID++;
-	//})
+	currentID++;
+	currentProcesses--;
 }
 
 function ue(info, senderPort, senderAddress){
@@ -188,6 +191,7 @@ function ue(info, senderPort, senderAddress){
 	newEvent = info.substring(splitInfo[0].length + 1, info.length);
 	//console.log(newEvent);
 	addEventToAll(newEvent);
+	currentProcesses--;
 }
 
 async function u(info, senderPort, senderAddress){
@@ -207,8 +211,11 @@ async function u(info, senderPort, senderAddress){
 	else{
 		console.log("ERROR: player with ID " + splitInfo[1] + " is not currently in the game but tried to update transform");
 	}
+	currentProcesses--;
 }
 
+
+// debug tools
 function sleep(milliseconds) {
 	const date = Date.now();
 	let currentDate = null;
