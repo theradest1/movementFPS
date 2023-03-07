@@ -49,9 +49,9 @@ public class movement : MonoBehaviour
     public ClassInfo currentClass;
 
     public float minHeight;
-    public Vector3 lastPosGrounded;
     int launchAttempts = 0;
     public int maxLaunchAttempts = 3;
+    public float bounceBackCorrection = 1.05f;
 
     public void launchTo(Vector3 goToPos){
         launchAttempts++;
@@ -139,16 +139,14 @@ public class movement : MonoBehaviour
             }
         }
         else if(!isSliding){
-            //rb.velocity.y += gravity;
-            //velocity = Quaternion.AngleAxis(controlsManager.mouseDelta.x * look.LookSpeedHorizontal, Vector3.up) * velocity;
             if(transform.position.y < minHeight){
-                //transform.position = new Vector3(0f, 20f, 0f);
                 if(launchAttempts == maxLaunchAttempts){
                     transform.position = new Vector3(0f, 100f, 0f);
                     serverEvents.sendEvent("ue", "death", serverComm.ID + "");
                 }
                 else{
-                    launchTo(lastPosGrounded + Vector3.up/2);
+                    rb.velocity *= -bounceBackCorrection;
+                    launchAttempts++;
                 }
             }
         }
@@ -168,7 +166,6 @@ public class movement : MonoBehaviour
         
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
             isGrounded = true;
-            lastPosGrounded = transform.position;
             launchAttempts = 0;
         }
         else{

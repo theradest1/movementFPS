@@ -43,11 +43,9 @@ public class ServerComm : MonoBehaviour
     public int ID = -1;
     //public int CLIENTPORT;
 
-    public float minUpdateSpeed;
-    public float maxUpdateSpeed;
-
     int totalMessagesBeingSent;
     public int maxMessageBuffer = 3;
+    public int messageTimoutMS;
 
     // Start is called before the first frame update
     void Start()
@@ -157,10 +155,10 @@ public class ServerComm : MonoBehaviour
             throughPackets++;
 
             //recieve
-            byte[] receiveBytes = new byte[0];
+            byte[] receiveBytes = Encoding.ASCII.GetBytes("EMPTY");
             
             float latencyTimer = Time.time;
-            await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
+            await Task.WhenAny(Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint)), Task.Delay(messageTimoutMS));
             totalMessagesBeingSent--;
             //Debug.Log(updateSpeed - (Time.time - latencyTimer));
             //Invoke("serverUpdate", Mathf.Clamp(updateSpeed - (Time.time - latencyTimer), 0, 999));
@@ -170,70 +168,75 @@ public class ServerComm : MonoBehaviour
             info = Encoding.ASCII.GetString(receiveBytes);
             //Debug.Log(info);
             serverEvents.resetSmoothTimer();
-            
-            //Debug.Log("___________________________________________");
-            string[] rawEvents = info.Split('|');
-            for(int i = 0; i < rawEvents.Length; i++){
-                if(rawEvents[i] != ""){
-                    string[] splitRawEvents = rawEvents[i].Split("~");
-                    switch (splitRawEvents[0])
-                    {
-                        case "u":
-                            serverEvents.update(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //ID, position, rotation
-                            break;
-                        case "newClient":
-                            serverEvents.newClient(splitRawEvents[1], splitRawEvents[2]); //ID, username
-                            break;
-                        case "removeClient":
-                            serverEvents.removeClient(splitRawEvents[1]); //ID
-                            break;
-                        case "setClass":
-                            if(int.Parse(splitRawEvents[1]) != ID){
-                                serverEvents.setOtherClientClass(splitRawEvents[1], splitRawEvents[2]); //ID, class
-                            }
-                            break;
-                        case "d": //damage
-                            if(int.Parse(splitRawEvents[1]) != ID){
-                                serverEvents.damage(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //attacker ID, victim ID, damage
-                            }
-                            break;
-                        case "pr": //projectile
-                            serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity, sound ID, volume, pitch
-                            serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
-                            break;
-                        case "setHealth":
-                            serverEvents.setHealth(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //clientID, health, healing cooldown
-                            break;
-                        case "s": //sound
-                            serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitch
-                            break;
-                        case "death":
-                            serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed
-                            break;
-                        case "updateSettings":
-                            string things = "";
-                            for(int j = 1; j < splitRawEvents.Length; j++){
-                                things += splitRawEvents[j] + "~";
-                            }
-                            variableUpdater.updateVars(things.Substring(0, things.Length - 1));
-                            break;
-                        case "tps":
-                            Debug.Log(splitRawEvents[1]);
-                            updateSpeed = 1/float.Parse(splitRawEvents[1]);
-                            break;
-                        case "newMap":
-                            mapManager.newMap(int.Parse(splitRawEvents[1]));
-                            break;
-                        case "setClock":
-                            inGameGUIManager.secondsUntilMapChange = int.Parse(splitRawEvents[1]);
-                            break;
-                        default:
-                            droppedPackets++;
-                            Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
-                            Debug.Log("Message recieved: " + info);
-                            break;
+
+            if(info != "EMPTY"){
+                //Debug.Log("___________________________________________");
+                string[] rawEvents = info.Split('|');
+                for(int i = 0; i < rawEvents.Length; i++){
+                    if(rawEvents[i] != ""){
+                        string[] splitRawEvents = rawEvents[i].Split("~");
+                        switch (splitRawEvents[0])
+                        {
+                            case "u":
+                                serverEvents.update(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //ID, position, rotation
+                                break;
+                            case "newClient":
+                                serverEvents.newClient(splitRawEvents[1], splitRawEvents[2]); //ID, username
+                                break;
+                            case "removeClient":
+                                serverEvents.removeClient(splitRawEvents[1]); //ID
+                                break;
+                            case "setClass":
+                                if(int.Parse(splitRawEvents[1]) != ID){
+                                    serverEvents.setOtherClientClass(splitRawEvents[1], splitRawEvents[2]); //ID, class
+                                }
+                                break;
+                            case "d": //damage
+                                if(int.Parse(splitRawEvents[1]) != ID){
+                                    serverEvents.damage(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4]); //attacker ID, victim ID, damage
+                                }
+                                break;
+                            case "pr": //projectile
+                                serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity, sound ID, volume, pitch
+                                serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
+                                break;
+                            case "setHealth":
+                                serverEvents.setHealth(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //clientID, health, healing cooldown
+                                break;
+                            case "s": //sound
+                                serverEvents.playSound(splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //clipID, position, volume, pitch
+                                break;
+                            case "death":
+                                serverEvents.death(splitRawEvents[1], splitRawEvents[2]); //id of killer, id of killed
+                                break;
+                            case "updateSettings":
+                                string things = "";
+                                for(int j = 1; j < splitRawEvents.Length; j++){
+                                    things += splitRawEvents[j] + "~";
+                                }
+                                variableUpdater.updateVars(things.Substring(0, things.Length - 1));
+                                break;
+                            case "tps":
+                                //Debug.Log(splitRawEvents[1]);
+                                updateSpeed = 1/float.Parse(splitRawEvents[1]);
+                                break;
+                            case "newMap":
+                                mapManager.newMap(int.Parse(splitRawEvents[1]));
+                                break;
+                            case "setClock":
+                                inGameGUIManager.secondsUntilMapChange = int.Parse(splitRawEvents[1]);
+                                break;
+                            default:
+                                droppedPackets++;
+                                Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);
+                                Debug.Log("Message recieved: " + info);
+                                break;
+                        }
                     }
                 }
+            }
+            else{
+                droppedPackets++;
             }
         }
         else{

@@ -23,7 +23,6 @@ public class MapManager : MonoBehaviour
         currentMap.gameObject.SetActive(true);
         playerManager.currentMap = currentMap;
         playerManager.commitDie();
-        Debug.Log("howdy");
     }
 
     public void skipMap(){

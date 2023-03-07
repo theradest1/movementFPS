@@ -185,7 +185,7 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void setHealth(string clientID, string health, string healCooldown){
-        Debug.Log("health: " + health + ", cooldown: " + healCooldown);
+        //Debug.Log("health: " + health + ", cooldown: " + healCooldown);
         if(int.Parse(clientID) == serverComm.ID){
             playerManager.health = float.Parse(health);
             playerManager.healCooldown = float.Parse(healCooldown);
