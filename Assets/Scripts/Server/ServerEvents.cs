@@ -62,8 +62,10 @@ public class ServerEvents : MonoBehaviour
         if(eventName == "damage"){ //I'll eventually get rid of this but i'm currently lazy
             eventName = "d";
         }
-        if(eventName == "sound"){ //I'll eventually get rid of this but i'm currently lazy
+        if(eventName == "sound" || eventName == "s"){ //I'll eventually get rid of this but i'm currently lazy
             eventName = "s";
+            string[] imLazy = eventInfo.Split("~");
+            playSound(imLazy[0], imLazy[1], imLazy[2], imLazy[3]);
         }
         string eventToSend = eventType + "~" + eventName + "~" + serverComm.ID + "~" + eventInfo;
         serverComm.send(eventToSend);
