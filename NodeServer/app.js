@@ -8,7 +8,7 @@ var mem = osu.mem;
 const fs = require('fs');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 128;
+TPS = 40;
 minTPS = 10;
 maxTPS = 128;
 gameClock = 300;

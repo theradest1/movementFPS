@@ -25,6 +25,7 @@ public class ServerComm : MonoBehaviour
     TextMeshProUGUI latencyText;
     TextMeshProUGUI TPSText;
     TextMeshProUGUI throttledPacketsText;
+    TextMeshProUGUI outgoingPackets;
     TextMeshProUGUI droppedPacketsText;
     ControlsManager controlsManager;
     InGameGUIManager inGameGUIManager;
@@ -63,6 +64,7 @@ public class ServerComm : MonoBehaviour
         sendBPSText = GameObject.Find("BPS send debug").GetComponent<TextMeshProUGUI>();
         recieveBPSText = GameObject.Find("BPS recieve debug").GetComponent<TextMeshProUGUI>();
         latencyText = GameObject.Find("Latency Debug").GetComponent<TextMeshProUGUI>();
+        outgoingPackets = GameObject.Find("Outgoing debug").GetComponent<TextMeshProUGUI>();
 
         SERVERADDRESS = MainMenu.address;
         //CLIENTPORT = MainMenu.clientPort;
@@ -119,6 +121,7 @@ public class ServerComm : MonoBehaviour
         throughPackets = 0;
         droppedPackets = 0;
         throttledPackets = 0;
+        totalMessagesBeingSent = 0;
 
         CancelInvoke();
         InvokeRepeating("updatePPSGUI", 1f, 1f);
@@ -149,10 +152,10 @@ public class ServerComm : MonoBehaviour
             else{
                 sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
             }
-            sendBPS += sendBytes.Length;
             totalMessagesBeingSent++;
+            outgoingPackets.text = "Outgoing: " + totalMessagesBeingSent;
             client.Send(sendBytes, sendBytes.Length);
-            throughPackets++;
+            
 
             //recieve
             byte[] receiveBytes = Encoding.ASCII.GetBytes("EMPTY");
@@ -164,12 +167,14 @@ public class ServerComm : MonoBehaviour
             //Invoke("serverUpdate", Mathf.Clamp(updateSpeed - (Time.time - latencyTimer), 0, 999));
             latencyText.text = "Latency: " + Mathf.Round((Time.time - latencyTimer) * 1000f);
 
-            recieveBPS += receiveBytes.Length;
             info = Encoding.ASCII.GetString(receiveBytes);
             //Debug.Log(info);
             serverEvents.resetSmoothTimer();
 
             if(info != "EMPTY"){
+                throughPackets++;
+                sendBPS += sendBytes.Length;
+                recieveBPS += receiveBytes.Length;
                 //Debug.Log("___________________________________________");
                 string[] rawEvents = info.Split('|');
                 for(int i = 0; i < rawEvents.Length; i++){
