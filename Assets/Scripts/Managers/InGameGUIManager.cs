@@ -62,11 +62,11 @@ public class InGameGUIManager : MonoBehaviour
     public void changeGUIState(){
         menu.SetActive(!menu.activeSelf);
         if(menu.activeSelf){
-            Cursor.lockState = CursorLockMode.None;
             look.generalSense = 0f;
+            controlsManager.inMenu = true;
         }
         else{
-            Cursor.lockState = CursorLockMode.Locked;
+            controlsManager.inMenu = false;
             look.generalSense = senseSlider.value;
         }
     }
@@ -95,6 +95,10 @@ public class InGameGUIManager : MonoBehaviour
     public void quit(){
         serverEvents.leave();
         SceneManager.LoadScene(0);
+    }
+    public void retry(){
+        serverEvents.leave();
+        SceneManager.LoadScene(2);
     }
 
     public void hit(bool crit){

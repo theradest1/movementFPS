@@ -10,7 +10,7 @@ const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap'];
 currentID = 0;
 TPS = 32;
 minTPS = 10;
-maxTPS = 64;
+maxTPS = 32;
 gameClock = 300;
 gameLength = 300;
 mapCount = 4;
@@ -97,7 +97,7 @@ function checkDisconnectTimers(){
 				console.log("Decreased TPS: " + TPS);
 				addEventToAll("tps~" + TPS);
 			}
-			else if((memFree > .4 || cpuFree > 40) && TPS < maxTPS){
+			else if((memFree > .8 || cpuFree > 80) && TPS < maxTPS){
 				TPS++;
 				console.log("Increased TPS: " + TPS);
 				addEventToAll("tps~" + TPS);

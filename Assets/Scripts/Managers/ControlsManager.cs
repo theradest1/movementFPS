@@ -35,6 +35,8 @@ public class ControlsManager : MonoBehaviour
     public int equippedNum;
     [HideInInspector]
     public bool tab;
+    public bool disconnected = false;
+    public bool inMenu = false;
     public bool deathMenuControlls = true;
 
     private void Start() {
@@ -60,7 +62,8 @@ public class ControlsManager : MonoBehaviour
 
     void Update()
     {
-        if(!deathMenuControlls){
+        if(!deathMenuControlls && !disconnected && !inMenu){
+            Cursor.lockState = CursorLockMode.Locked;
             //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
             mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();
             
@@ -99,7 +102,7 @@ public class ControlsManager : MonoBehaviour
 
         }
         else{
-            
+            Cursor.lockState = CursorLockMode.None;
             mouseDelta = Vector2.zero;
             moveDirection = Vector3.zero;
             jumping = false;

@@ -34,8 +34,9 @@ public class ServerComm : MonoBehaviour
     int throughPackets = 0;
     int throttledPackets = 0;
     int droppedPackets = 0;
-    int sendBPS;
-    int recieveBPS;
+    int sendBPS = 0;
+    int sendBPSUpdate = 0;
+    int recieveBPS = 0;
     bool inSchool;
 
     VariableUpdater variableUpdater;
@@ -47,6 +48,8 @@ public class ServerComm : MonoBehaviour
     int totalMessagesBeingSent;
     public int maxMessageBuffer = 3;
     public int messageTimoutMS;
+
+    public GameObject disconnectMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -123,6 +126,15 @@ public class ServerComm : MonoBehaviour
         throttledPackets = 0;
         totalMessagesBeingSent = 0;
 
+        if(sendBPSUpdate == 0){
+            disconnectMenu.SetActive(true);
+            controlsManager.disconnected = true;
+        }
+        else{
+            sendBPSUpdate = 0;
+        }
+
+
         CancelInvoke();
         InvokeRepeating("updatePPSGUI", 1f, 1f);
         InvokeRepeating("serverUpdate", 0f, updateSpeed);
@@ -173,6 +185,7 @@ public class ServerComm : MonoBehaviour
 
             if(info != "EMPTY"){
                 throughPackets++;
+                sendBPSUpdate += sendBytes.Length;
                 sendBPS += sendBytes.Length;
                 recieveBPS += receiveBytes.Length;
                 //Debug.Log("___________________________________________");
