@@ -10,6 +10,7 @@ public class LaunchPad : MonoBehaviour
     public int launchSound2;
     public bool launchToGameObject;
     public GameObject target;
+    public float confirmDelay = .35f;
     Rigidbody playerRb;
     GameObject playerCam;
     ServerEvents serverEvents;
@@ -28,7 +29,8 @@ public class LaunchPad : MonoBehaviour
             if(launchToGameObject){
                 //playerRb.gameObject.transform.position = transform.position + Vector3.up;
                 playerRb.velocity = Vector3.zero;
-                movementScript.launchTo(target.transform.position);
+                movementScript.launchTo(transform.position + Vector3.up * 2f);
+                StartCoroutine(confirmVelocity());
             }
             else{
                 playerRb.velocity = new Vector3(playerRb.velocity.x, strength, playerRb.velocity.z);
@@ -37,5 +39,12 @@ public class LaunchPad : MonoBehaviour
             serverEvents.sendEvent("ue", "sound", launchSound1 + "~" + this.transform.position + "~1~1");
             serverEvents.sendEvent("ue", "sound", launchSound2 + "~" + this.transform.position + "~1~1");
         }
+    }
+
+    IEnumerator confirmVelocity(){
+        yield return new WaitForSeconds(confirmDelay);
+        playerRb.velocity = Vector3.zero;
+        movementScript.launchTo(target.transform.position);
+        yield return null;
     }
 }

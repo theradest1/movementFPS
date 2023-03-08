@@ -204,7 +204,10 @@ public class PlayerManager : MonoBehaviour
         }
         deathMenu.SetActive(true);
         controlsManager.deathMenuControlls = true;
-        //transform.position = new Vector3(0f, -9f, 0f);
+        transform.position = new Vector3(0f, currentMap.overviewHeight, 0f);
+        transform.eulerAngles = Vector3.zero;
+        look.camRotX = 90;
+        weaponManager.changeWeapon(4);
     }
 
     public void changeHealth(float subbedHealth){

@@ -103,7 +103,6 @@ MonoBehaviour:
   hitPlayerPrefab: {fileID: 6221045549996187465, guid: 8978d5b40375f3e4c82b5fabe91cfd0a, type: 3}
   rb: {fileID: -3675639272251135434}
   critHeight: 0.5
-  critMultiplier: 2
   maxLifeTime: 3
   fakeBulletAccuracy: 30
   bulletHoleLife: 10
@@ -130,7 +129,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6221045549996187465}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1

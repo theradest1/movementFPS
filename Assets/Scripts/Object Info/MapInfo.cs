@@ -5,4 +5,5 @@ using UnityEngine;
 public class MapInfo : MonoBehaviour
 {
     public List<GameObject> spawnPoints;
+    public float overviewHeight;
 }

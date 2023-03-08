@@ -58,6 +58,7 @@ public class WeaponManager : MonoBehaviour
                 weapons.Add(possibleWeapons[i]);
             }
         }
+        weapons.Add(possibleWeapons[possibleWeapons.Count - 1]);
         changeWeapon(1);
     } 
 

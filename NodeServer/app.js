@@ -8,12 +8,12 @@ var mem = osu.mem;
 const fs = require('fs');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 30;
+TPS = 32;
 minTPS = 10;
-maxTPS = 30;
+maxTPS = 64;
 gameClock = 300;
 gameLength = 300;
-mapCount = 2;
+mapCount = 4;
 currentMap = 0;
 
 const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected

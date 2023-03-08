@@ -111,9 +111,11 @@ public class movement : MonoBehaviour
             serverEvents.sendEvent("ue", "sound", Random.Range(2, 6) + "~" + transform.position + "~1~1");
         }
 
-        if(isGrounded && controlsManager.jumping && ableToJump && !isSliding){
-            rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
-            isGrounded = false;
+        if(controlsManager.jumping){
+            if(isGrounded && ableToJump && !isSliding){
+                rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
+                isGrounded = false;
+            }
             ableToJump = false;
         }
 
