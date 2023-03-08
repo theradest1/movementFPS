@@ -52,6 +52,7 @@ public class movement : MonoBehaviour
     int launchAttempts = 0;
     public int maxLaunchAttempts = 3;
     public float bounceBackCorrection = 1.05f;
+    public Rigidbody weaponContainerRB;
 
     public void launchTo(Vector3 goToPos){
         launchAttempts++;
@@ -88,7 +89,6 @@ public class movement : MonoBehaviour
     void Update()
     {
         FPStext.text = "FPS: " + (Mathf.Round(1/Time.deltaTime));
-        weaponContainer.transform.position = Vector3.Lerp(weaponContainer.transform.position, cam.transform.position, weaponTravelSpeed * Time.deltaTime);
         Vector3 goToPos;
         if(isSliding){
             goToPos = camPosSliding;
@@ -100,6 +100,8 @@ public class movement : MonoBehaviour
     }
 
     void FixedUpdate() {
+        weaponContainerRB.AddForce((cam.transform.position - weaponContainer.gameObject.transform.position)*weaponTravelSpeed); 
+
         //rb.velocity += Vector3.up * gravity;
         Vector2 moveDirection = controlsManager.moveDirection;
         if(!controlsManager.jumping){

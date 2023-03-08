@@ -15,6 +15,7 @@ public class LedgeVaulter : MonoBehaviour
     public float upperHeight;
     public float lowerHeight;
     public LayerMask vaultableLayers;
+    public float nonVerticalSlowdown = .8f;
 
 
     [Header("Vault settings:")]
@@ -25,7 +26,7 @@ public class LedgeVaulter : MonoBehaviour
         Collider[] upperColls = Physics.OverlapBox(transform.position + transform.forward * testersForwardDistance + Vector3.up * upperHeight, upperScale, transform.rotation, vaultableLayers);
         Collider[] lowerColls = Physics.OverlapBox(transform.position + transform.forward * testersForwardDistance + Vector3.up * lowerHeight, lowerScale, transform.rotation, vaultableLayers);
         if(upperColls.Length == 0 && lowerColls.Length > 0 && controlsManager.jumping){
-            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, 0, 99999f), rb.velocity.z);
+            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y*nonVerticalSlowdown, 0, 99999f), rb.velocity.z*nonVerticalSlowdown);
             rb.AddForce(Vector3.up * upForce + transform.forward * forwardForce);
         }
     }
