@@ -20,3 +20,6 @@ equip cooldown
 reload time
 clip size
 headshot multiplier
+recoil vert min
+recoil vert max
+recoil horizontal

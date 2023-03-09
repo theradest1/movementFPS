@@ -22,6 +22,12 @@ public class WeaponInfo : MonoBehaviour
     public int objectsInClip;
     [HideInInspector]
     public float headShotMult;
+    [HideInInspector]
+    public float recoilVerticalMax;
+    [HideInInspector]
+    public float recoilVerticalMin;
+    [HideInInspector]
+    public float recoilHorizontal;
 
     public int projectileID;
     public float startDistance;
@@ -58,5 +64,8 @@ public class WeaponInfo : MonoBehaviour
         clipSize = int.Parse(vars[7]);
         objectsInClip = int.Parse(vars[7]);
         headShotMult = float.Parse(vars[8]);
+        recoilVerticalMin = float.Parse(vars[9]);
+        recoilVerticalMax = float.Parse(vars[10]);
+        recoilHorizontal = float.Parse(vars[11]);
     }
 }

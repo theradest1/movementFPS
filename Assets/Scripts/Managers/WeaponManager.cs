@@ -18,6 +18,7 @@ public class WeaponManager : MonoBehaviour
     GameObject player;
     ServerEvents serverEvents;
     public GameObject weaponContainer;
+    Look look;
     ProjectileManager projectileManager;
     SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
@@ -37,6 +38,7 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        look = GameObject.Find("Main Camera").GetComponent<Look>();
         movementScript = GameObject.Find("Player").GetComponent<movement>();
         projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
@@ -138,6 +140,9 @@ public class WeaponManager : MonoBehaviour
             if(!equippedWeapon.automatic){
                 ableToShoot = false;
             }
+            // cam.transform.Rotate(Random.Range(-equippedWeapon.recoilVertical, 0), Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
+            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin, equippedWeapon.recoilVerticalMax); 
+            transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;

@@ -29,8 +29,6 @@ public class movement : MonoBehaviour
     public float jumpPower;
     public float stopSpeedGround;
     public float stopSpeedSliding;
-    public float stopSpeedAir;
-    public float maxSpeed;
     public float sprintMultiplier;
     public float speedBoostOnDash;
 
@@ -41,6 +39,8 @@ public class movement : MonoBehaviour
     public float camPosSpeed;
     public Vector3 camPosNotSliding;
     public float weaponTravelSpeed;
+    public float weaponDistanceMult;
+    public float weaponDistanceMultVertical;
     GameObject weaponContainer;
 
     public float ableToDash = 0f;
@@ -51,8 +51,6 @@ public class movement : MonoBehaviour
     public float minHeight;
     int launchAttempts = 0;
     public int maxLaunchAttempts = 3;
-    public float bounceBackCorrection = 1.05f;
-    public Rigidbody weaponContainerRB;
 
     public void launchTo(Vector3 goToPos){
         launchAttempts++;
@@ -100,9 +98,8 @@ public class movement : MonoBehaviour
     }
 
     void FixedUpdate() {
-        weaponContainerRB.AddForce((cam.transform.position - weaponContainer.gameObject.transform.position)*weaponTravelSpeed); 
-
         //rb.velocity += Vector3.up * gravity;
+        weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponTravelSpeed);
         Vector2 moveDirection = controlsManager.moveDirection;
         if(!controlsManager.jumping){
             ableToJump = true;
@@ -131,15 +128,19 @@ public class movement : MonoBehaviour
         //if(isGrounded && !isSliding){
         //    rb.velocity = Vector3.up * -.0001f;
         //}
-
+        weaponContainer.transform.position -= new Vector3(0f, rb.velocity.y * weaponDistanceMultVertical, 0f);
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
-                rb.velocity += speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult;
-                rb.velocity += speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult;
+                rb.AddForce(speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
+                rb.AddForce(speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
+                weaponContainer.transform.position -= speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
             else{
-                rb.velocity += speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult;
-                rb.velocity += speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult;
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult);
+                weaponContainer.transform.position -= speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
         }
         else if(!isSliding){
@@ -149,7 +150,7 @@ public class movement : MonoBehaviour
                     serverEvents.sendEvent("ue", "death", serverComm.ID + "");
                 }
                 else{
-                    rb.velocity *= -bounceBackCorrection;
+                    rb.velocity *= -1;
                     launchAttempts++;
                 }
             }
@@ -163,9 +164,6 @@ public class movement : MonoBehaviour
             else{
                 rb.velocity = new Vector3(rb.velocity.x * stopSpeedGround, rb.velocity.y, rb.velocity.z * stopSpeedGround);
             }
-        }
-        else{
-            rb.velocity = new Vector3(rb.velocity.x * stopSpeedAir, rb.velocity.y, rb.velocity.z * stopSpeedAir);
         }
         
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
