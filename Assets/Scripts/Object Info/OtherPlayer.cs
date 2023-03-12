@@ -29,6 +29,8 @@ public class OtherPlayer : MonoBehaviour
     public ClassInfo currentClass;
     public float healCooldown;
 
+    public Vector3 direction;
+
     public void setUsername(string usrname){
         usernameText.text = usrname;
     }

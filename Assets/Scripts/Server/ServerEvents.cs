@@ -226,6 +226,7 @@ public class ServerEvents : MonoBehaviour
         if(int.Parse(clientID) != serverComm.ID){
             int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
             //Debug.Log(clientID);
+            clientScripts[playerIndex].direction = targetPositions[playerIndex] - parseVector3(position);
             pastTargetPositions[playerIndex] = targetPositions[playerIndex];
             targetPositions[playerIndex] = parseVector3(position);
             pastTargetRotations[playerIndex] = targetRotations[playerIndex];
