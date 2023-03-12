@@ -1922,7 +1922,7 @@ MonoBehaviour:
   directionChangeSpeedVertical: 20
   directionChangeSpeedHorizontal: 20
   direction: {x: 0, y: 0}
-  speedToAnimMult: 2.6
+  speedToAnimMult: -5.6
   maxSpeed: 0
 --- !u!1 &7721135724240076048
 GameObject:
