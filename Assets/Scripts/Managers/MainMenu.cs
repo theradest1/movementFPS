@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
     IPEndPoint remoteEndPoint;
     public int delayBeforeOffline = 3000;
     public static int port = 4000;
-    public static string address = "192.168.0.50";//"192.168.0.50";
+    public static string address = "localhost";//"192.168.0.50";
     public static string username = "joe";
     public int usernameLengthLimit;
     public int usernameLengthMin;

@@ -38,6 +38,7 @@ public class ControlsManager : MonoBehaviour
     public bool disconnected = false;
     public bool inMenu = false;
     public bool deathMenuControlls = true;
+    public bool choosingMap = false;
 
     private void Start() {
         movementScript = GameObject.Find("Player").GetComponent<movement>();
@@ -62,7 +63,7 @@ public class ControlsManager : MonoBehaviour
 
     void Update()
     {
-        if(!deathMenuControlls && !disconnected && !inMenu){
+        if(!deathMenuControlls && !disconnected && !inMenu && !choosingMap){
             Cursor.lockState = CursorLockMode.Locked;
             //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
             mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();

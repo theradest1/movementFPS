@@ -30,6 +30,7 @@ public class OtherPlayer : MonoBehaviour
     public float healCooldown;
 
     public Vector3 direction;
+    public int currentMapVote = -1;
 
     public void setUsername(string usrname){
         usernameText.text = usrname;

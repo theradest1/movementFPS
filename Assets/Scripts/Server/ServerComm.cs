@@ -246,6 +246,12 @@ public class ServerComm : MonoBehaviour
                             case "setClock":
                                 inGameGUIManager.secondsUntilMapChange = int.Parse(splitRawEvents[1]);
                                 break;
+                            case "choosingMap":
+                                mapManager.chooseMap();
+                                break;
+                            case "voteMap":
+                                mapManager.setVote(int.Parse(splitRawEvents[1]), int.Parse(splitRawEvents[2])); //voter ID, map ID
+                                break;
                             default:
                                 droppedPackets++;
                                 Debug.LogError("Event called that doesn't have a function: " + splitRawEvents[0]);

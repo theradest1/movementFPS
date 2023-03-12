@@ -50,7 +50,12 @@ public class InGameGUIManager : MonoBehaviour
 
     void updateGameClock(){
         secondsUntilMapChange--;
-        gameClock.text = Mathf.Floor(secondsUntilMapChange/60) + " : " + Mathf.Round(secondsUntilMapChange%60);
+        if(secondsUntilMapChange > 0){
+            gameClock.text = Mathf.Floor(secondsUntilMapChange/60) + " : " + Mathf.Round(secondsUntilMapChange%60);
+        }
+        else{
+            gameClock.text = "00 : 00";
+        }
     }
 
     public void killFeed(string killerUsername, string killedUsername){

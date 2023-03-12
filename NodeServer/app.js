@@ -6,17 +6,18 @@ var osu = require('node-os-utils');
 var cpu = osu.cpu;
 var mem = osu.mem;
 const fs = require('fs');
-const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap']; // u = update, ue = universal event (short for conservation of bandwidth)
+const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap', 'voteMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 TPS = 32;
 minTPS = 10;
 maxTPS = 32;
-gameClock = 300;
-gameLength = 300;
-mapCount = 4;
+gameClock = 15;
+gameLength = 15;
+mapCount = 50; //not actually 50 maps, its just so I dont have to increase it later when adding maps (was used in the past for a random map, but not anymore)
 currentMap = 0;
+const mapChoosingTime = 8;
 
-const maxChecksBeforeDisconnect = 10; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
+const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
 const settingCheckInterval = 60000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
@@ -25,20 +26,32 @@ setInterval(updateGameClock, 1000);
 checkSettings();
 packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
 settings = "";
+choosingMap = false;
 
 playerTransformInfo = []; //position and rotation
 playerInfo = []; //usernames, might be more later
+mapVotes = [];
 currentPlayerIDs = []; //IDs (to find where other information is without having to do larger calculations)
 playerDisconnectTimers = []; //disconnect timers that go up untill they are disconnected because of not updating their transform
 eventsToSend = []; //events that que up untill the client calls an update, where they are dumped and the client then processes them
 
+
 function updateGameClock(){
 	gameClock --;
 	if(gameClock <= 0){
-		currentMap = getRandomInt(mapCount);
-		addEventToAll("newMap~" + currentMap);
-		addEventToAll("setClock~" + gameLength);
-		gameClock = gameLength;
+		if(choosingMap){
+			choosingMap = false;
+			currentMap = findMostVotedMap();
+			gameClock = gameLength;
+			addEventToAll("newMap~" + currentMap);
+			addEventToAll("setClock~" + gameClock);
+		}
+		else{
+			addEventToAll("choosingMap");
+			gameClock = mapChoosingTime;
+			addEventToAll("setClock~" + gameClock);	
+			choosingMap = true;
+		}
 	}
 }
 
@@ -85,6 +98,28 @@ server.on('message', (msg, senderInfo) => {
 
 
 //Server functions -----------------------------------------------------------------------------
+
+function findMostVotedMap(){
+	maps = Array(mapCount).fill(0);
+	//count votes
+	for(voteID in mapVotes){
+		console.log("vote: "+ mapVotes[voteID]);
+		console.log("ID: "+ voteID);
+		if(mapVotes[voteID] != -1){
+			maps[mapVotes[voteID]]++;
+		}
+	}
+	//find winner
+	winner = 0;
+	for (i = 0; i < maps.length; i++){
+		if (maps[i] > winner) {
+			winner = i;
+		}
+	}
+	console.log("new map: " + winner);
+
+	return winner;
+}
 function checkDisconnectTimers(){
 	var startingToLag = false;
 	var increasingTPS = false;
@@ -145,6 +180,7 @@ function disconnectClient(playerIndex){
 	delete playerTransformInfo[playerIndex];
 	delete playerInfo[playerIndex];
 	delete eventsToSend[playerIndex];
+	delete mapVotes[playerIndex];
 }
 
 function addEventToAll(eventString){
@@ -162,6 +198,14 @@ function logSenderInfo(msg, senderInfo){
 }
 
 //Client functions -----------------------------------------------------------------------------
+function voteMap(info, senderPort, senderAddress){
+	splitInfo = info.split("~");
+	//console.log("Player with ID " + splitInfo[1] + " voted for map with ID " + splitInfo[2]);
+	playerIndex = currentPlayerIDs.indexOf(parseInt(splitInfo[1]));
+	mapVotes[playerIndex] = parseInt(splitInfo[2]);
+	//console.log(mapVotes);
+}
+
 function skipMap(info, senderPort, senderAddress){
 	gameClock = 1;
 }
@@ -193,6 +237,7 @@ function newClient(info, senderPort, senderAddress){
 	playerTransformInfo.push("(0, 0, 0)~(0, 0, 0, 1)");
 	playerDisconnectTimers.push(0);
 	currentPlayerIDs.push(currentID);
+	mapVotes.push(-1);
 
 	eventsToSend[currentPlayerIDs.indexOf(parseInt(currentID))] += "tps~" + TPS + "|setClock~" + gameClock + "|newMap~" + currentMap + "|";
 
