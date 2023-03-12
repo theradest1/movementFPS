@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     public TMP_Dropdown toolDropdown;
     public TMP_Dropdown classDropdown;
     public GameObject killer;
+    bool followKiller = false;
     Collider coll;
     Rigidbody rb;
     public ClassInfo currentClass;
@@ -94,7 +95,8 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Update() {
-        if(controlsManager.deathMenuControlls){
+        if(followKiller){
+            Debug.Log("followed");
             transform.position = killer.transform.position;
             transform.rotation = killer.transform.rotation;
         }
@@ -107,16 +109,16 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void spawn(){
-        Cursor.lockState = CursorLockMode.Locked;
+        followKiller = false;
+        controlsManager.deathMenuControlls = false;
+        deathMenu.SetActive(false);
+        weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
+        setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
+
         look.camRotX = 0;
         coll.enabled = true;
         rb.useGravity = true;
-        transform.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
-        deathMenu.SetActive(false);
-        controlsManager.deathMenuControlls = false;
-
-        weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
-        setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
+        rb.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
 
         PlayerPrefs.SetInt("Main", mainDropdown.value);
         PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
@@ -186,27 +188,33 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void commitDie(){
-        death(serverComm.ID);
-    }
-
-    public void death(int killerID){
         flashImage.color = new Color(1, 1, 1, 0);
-        Cursor.lockState = CursorLockMode.None;
-        look.camRotX = 0;
         rb.velocity = Vector3.zero;
         coll.enabled = false;
         rb.useGravity = false;
+        deathMenu.SetActive(true);
+        rb.position = new Vector3(0f, currentMap.overviewHeight, 0f);
+        rb.rotation = Quaternion.identity;
+        look.camRotX = 90;
+        controlsManager.deathMenuControlls = true;
+        weaponManager.changeWeapon(4);
+    }
+
+    public void death(int killerID){
         if(killerID != serverComm.ID){
             killer = GameObject.Find(killerID + "");
         }
         else{
-            killer = this.gameObject;
+            commitDie();
         }
+        followKiller = true;
+        flashImage.color = new Color(1, 1, 1, 0);
+        look.camRotX = 0;
+        rb.velocity = Vector3.zero;
+        coll.enabled = false;
+        rb.useGravity = false;
         deathMenu.SetActive(true);
         controlsManager.deathMenuControlls = true;
-        transform.position = new Vector3(0f, currentMap.overviewHeight, 0f);
-        transform.eulerAngles = Vector3.zero;
-        look.camRotX = 90;
         weaponManager.changeWeapon(4);
     }
 

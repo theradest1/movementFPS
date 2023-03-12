@@ -146,7 +146,6 @@ public class movement : MonoBehaviour
         else if(!isSliding){
             if(transform.position.y < minHeight){
                 if(launchAttempts == maxLaunchAttempts){
-                    transform.position = new Vector3(0f, 100f, 0f);
                     serverEvents.sendEvent("ue", "death", serverComm.ID + "");
                 }
                 else{

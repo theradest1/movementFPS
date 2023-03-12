@@ -30,9 +30,9 @@ public class MapManager : MonoBehaviour
         currentMap = maps[newMapID];
         currentMap.gameObject.SetActive(true);
         playerManager.currentMap = currentMap;
-        playerManager.commitDie();
         mapChoosingMenu.SetActive(false);
         controlsManager.choosingMap = false;
+        playerManager.commitDie();
     }
 
     public void skipMap(){
