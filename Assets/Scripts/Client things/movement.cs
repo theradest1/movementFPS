@@ -108,6 +108,13 @@ public class movement : MonoBehaviour
     }
 
     void FixedUpdate() {
+        if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
+            isGrounded = true;
+            launchAttempts = 0;
+        }
+        else{
+            isGrounded = false;
+        }
         //rb.velocity += Vector3.up * gravity;
         weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponTravelSpeed);
         Vector2 moveDirection = controlsManager.moveDirection;
@@ -178,13 +185,6 @@ public class movement : MonoBehaviour
             ableToDash -= Time.deltaTime * ableToDashLengthInAirMult;
         }
         
-        if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
-            isGrounded = true;
-            launchAttempts = 0;
-        }
-        else{
-            isGrounded = false;
-        }
 
         if(controlsManager.dashing && !isSliding){
             if(ableToDash <= 0 && isGrounded){

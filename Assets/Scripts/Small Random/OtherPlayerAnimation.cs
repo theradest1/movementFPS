@@ -11,9 +11,24 @@ public class OtherPlayerAnimation : MonoBehaviour
     public Vector2 direction;
     public float speedToAnimMult;
     public float maxSpeed;
+    LayerMask groundMask;
+
+    private void Start() {
+        groundMask = GameObject.Find("Player").GetComponent<movement>().groundMask;
+    }
+
+    void OnDrawGizmos(){
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f);
+    }
 
     private void Update() {
-        direction = new Vector2(Mathf.Lerp(direction.x, otherPlayer.direction.x * speedToAnimMult, Time.deltaTime * directionChangeSpeedHorizontal),  Mathf.Lerp(direction.y, otherPlayer.direction.z * speedToAnimMult, Time.deltaTime * directionChangeSpeedVertical));
+        if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
+            direction = new Vector2(Mathf.Lerp(direction.x, otherPlayer.direction.x * speedToAnimMult, Time.deltaTime * directionChangeSpeedHorizontal),  Mathf.Lerp(direction.y, otherPlayer.direction.z * speedToAnimMult, Time.deltaTime * directionChangeSpeedVertical));
+        }
+        else{
+            direction = new Vector2(Mathf.Lerp(direction.x, 0f, Time.deltaTime * directionChangeSpeedHorizontal),  Mathf.Lerp(direction.y, 0f, Time.deltaTime * directionChangeSpeedVertical));
+        }
         Vector2 actualDirection = rotate(direction, transform.eulerAngles.y);
         animator.SetFloat("x", actualDirection.x);
         animator.SetFloat("y", actualDirection.y);
