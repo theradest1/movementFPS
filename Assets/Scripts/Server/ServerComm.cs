@@ -107,9 +107,9 @@ public class ServerComm : MonoBehaviour
             InvokeRepeating("updatePPSGUI", 1f, 1f);
             InvokeRepeating("serverUpdate", 0f, updateSpeed);
         }
-        catch (System.Exception)
+        catch (System.Exception e)
         {
-            Debug.Log("couldn't join");
+            Debug.Log("couldn't join: " + e);
             disconnectMenu.SetActive(true);
             controlsManager.disconnected = true;
         }

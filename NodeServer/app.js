@@ -210,8 +210,11 @@ function skipMap(info, senderPort, senderAddress){
 }
 
 function youOnBruv(info, senderPort, senderAddress){
-	server.send(playerInfo.length + "", senderPort, senderAddress);
-	console.log("player checked if on");
+	totalPlayers = 0;
+	for(i in currentPlayerIDs){
+		totalPlayers++;
+	}
+	server.send(totalPlayers + "", senderPort, senderAddress);
 }
 
 function newClient(info, senderPort, senderAddress){
