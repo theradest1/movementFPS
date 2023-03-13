@@ -54,7 +54,19 @@ public class InGameGUIManager : MonoBehaviour
     void updateGameClock(){
         secondsUntilMapChange--;
         if(secondsUntilMapChange > 0){
-            gameClock.text = Mathf.Floor(secondsUntilMapChange/60) + " : " + Mathf.Round(secondsUntilMapChange%60);
+            int min = (int) Mathf.Floor(secondsUntilMapChange/60);
+            int sec = (int) Mathf.Round(secondsUntilMapChange%60);
+            string clock = "";
+            if(min < 10){
+                clock += "0";
+            }
+            clock += min + " : ";
+            if(sec < 10){
+                clock += "0";
+            }
+            clock += sec;
+
+            gameClock.text = clock;
         }
         else{
             gameClock.text = "00 : 00";

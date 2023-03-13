@@ -92,7 +92,7 @@ public class ServerEvents : MonoBehaviour
         if(int.Parse(killedID) == serverComm.ID){
             clientDeaths += 1;
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
-            playerManager.death(int.Parse(killerID));
+            playerManager.commitDie();
             playerManager.changeHealth(-1000f);
             weaponManager.resetAllWeapons();
         }
