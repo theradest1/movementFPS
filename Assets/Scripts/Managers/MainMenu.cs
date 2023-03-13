@@ -13,20 +13,22 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     //references
-    TMP_InputField portInput;
-    TMP_InputField addressInput;
+    //TMP_InputField portInput;
+    //TMP_InputField addressInput;
     TMP_InputField usernameInput;
-    TMP_Dropdown IPDropdown;
+    //TMP_Dropdown IPDropdown;
     GameObject usernameWarning;
-    TextMeshProUGUI serverStatus;
+    //TextMeshProUGUI serverStatus;
 
     //variables
     UdpClient client;
     IPEndPoint remoteEndPoint;
+    [Header("References:")]
+    public List<ServerInfo> servers;
 
     [Header("Server settings:")]
     public int usernameLengthLimit;
-    public int delayBeforeOffline = 3000;
+    //public int delayBeforeOffline = 3000;
     public int usernameLengthMin;
 
     [HideInInspector]
@@ -38,18 +40,19 @@ public class MainMenu : MonoBehaviour
 
 
     void Start(){
-        serverStatus = GameObject.Find("server status").GetComponent<TextMeshProUGUI>();
+        //serverStatus = GameObject.Find("server status").GetComponent<TextMeshProUGUI>();
         usernameWarning = GameObject.Find("usernameWarning");
         usernameWarning.SetActive(false);
-        IPDropdown = GameObject.Find("IPs").GetComponent<TMP_Dropdown>();
-        portInput = GameObject.Find("port input").GetComponent<TMP_InputField>();
-        addressInput = GameObject.Find("address input").GetComponent<TMP_InputField>();
+        //IPDropdown = GameObject.Find("IPs").GetComponent<TMP_Dropdown>();
+        //portInput = GameObject.Find("port input").GetComponent<TMP_InputField>();
+        //addressInput = GameObject.Find("address input").GetComponent<TMP_InputField>();
         usernameInput = GameObject.Find("username input").GetComponent<TMP_InputField>();
 
         usernameInput.text = PlayerPrefs.GetString("Username", "");
-        IPDropdown.value = PlayerPrefs.GetInt("Server", 0);
+        //IPDropdown.value = PlayerPrefs.GetInt("Server", 0);
 
         updateInfo();
+        refreshServerList();
     }
 
     // Update is called once per frame
@@ -74,62 +77,23 @@ public class MainMenu : MonoBehaviour
         username = usernameInput.text;
     }
 
-    public void serverPresets(){
-        string option = IPDropdown.options[IPDropdown.value].text;
-        
-        if(option == "School"){
-            port = 4000;
-            address = "10.100.4.86";
-        }
-        else if(option == "General"){
-            port = 4000;
-            address = "75.100.205.73";
-        }
-        else if(option == "Local Host - self"){
-            port = 4000;
-            address = "localhost";
-        }
-        else if(option == "Local Host - raspi"){
-            port = 4000;
-            address = "192.168.0.50";
-        }
-        else if(option == "Custom"){
-            port = int.Parse(portInput.text);
-            address = addressInput.text;
-        }
-        serverStatus.text = "Status: ...";
-        testConnection(address, port);
-        setAsOffline();
-    }
-
-    async void setAsOffline(){
-        await Task.Delay(delayBeforeOffline);
-        if(serverStatus.text == "Status: ..."){
-            serverStatus.text = "Status: Offline";
-        }
-    }
-
-    async void testConnection(string ip, int port){
-        try{
-            client = new UdpClient(/*CLIENTPORT*/);
-            client.Connect(ip, port);
-            remoteEndPoint = new IPEndPoint(IPAddress.Any, port);
-            byte[] sendBytes = Encoding.ASCII.GetBytes("youOnBruv");
-            client.Send(sendBytes, sendBytes.Length);
-            await Task.Run(() => client.Receive(ref remoteEndPoint));
-            serverStatus.text = "Status: Online";
-        }
-        catch(Exception e){
-            Debug.LogError("Couldn't connect, exeption: " + e.Message);
-        }
-    }
-
-    public void join(){
+    public void joinServer(string info){
         if(usernameInput.text.Length >= usernameLengthMin){
             PlayerPrefs.SetString("Username", usernameInput.text);
-            PlayerPrefs.SetInt("Server", IPDropdown.value);
+            //PlayerPrefs.SetInt("Server", IPDropdown.value);
             PlayerPrefs.Save();
+
+            string[] splitInfo = info.Split("~");
+            address = splitInfo[0];
+            port = int.Parse(splitInfo[1]);
+        
             SceneManager.LoadScene(1);
+        }
+    }
+
+    public void refreshServerList(){
+        for(int i = 0; i < servers.Count; i++){
+            servers[i].checkStatus();
         }
     }
 

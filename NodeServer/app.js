@@ -116,7 +116,6 @@ function findMostVotedMap(){
 			winner = i;
 		}
 	}
-	console.log("new map: " + winner);
 
 	return winner;
 }
@@ -211,7 +210,7 @@ function skipMap(info, senderPort, senderAddress){
 }
 
 function youOnBruv(info, senderPort, senderAddress){
-	server.send("ong", senderPort, senderAddress);
+	server.send(playerInfo.length + "", senderPort, senderAddress);
 }
 
 function newClient(info, senderPort, senderAddress){
