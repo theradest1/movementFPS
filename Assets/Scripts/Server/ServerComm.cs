@@ -88,22 +88,31 @@ public class ServerComm : MonoBehaviour
 
     async void join(string name)
     {
-        byte[] sendBytes = Encoding.ASCII.GetBytes("newClient~" + name);
-        client.Send(sendBytes, sendBytes.Length);
-        
-        Debug.Log("Joining...");
-        //recieve
+        try
+        {
+            byte[] sendBytes = Encoding.ASCII.GetBytes("newClient~" + name);
+            client.Send(sendBytes, sendBytes.Length);
+            
+            Debug.Log("Joining...");
+            //recieve
 
-        byte[] receiveBytes = new byte[0];
-        await Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint));
-        string recieveString = Encoding.ASCII.GetString(receiveBytes);
-        ID = int.Parse(recieveString.Split('|')[0]);
-        variableUpdater.updateVars(recieveString.Split('|')[1]);
+            byte[] receiveBytes = new byte[0];
+            await Task.WhenAny(Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint)), Task.Delay(messageTimoutMS));
+            string recieveString = Encoding.ASCII.GetString(receiveBytes);
+            ID = int.Parse(recieveString.Split('|')[0]);
+            variableUpdater.updateVars(recieveString.Split('|')[1]);
 
-        Debug.Log("User ID: " + ID);
+            Debug.Log("User ID: " + ID);
 
-        InvokeRepeating("updatePPSGUI", 1f, 1f);
-        InvokeRepeating("serverUpdate", 0f, updateSpeed);
+            InvokeRepeating("updatePPSGUI", 1f, 1f);
+            InvokeRepeating("serverUpdate", 0f, updateSpeed);
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("couldn't join");
+            disconnectMenu.SetActive(true);
+            controlsManager.disconnected = true;
+        }
         /*while(true){
             serverUpdate();
             await Task.Delay((int)(updateSpeed * 1000));
@@ -129,6 +138,7 @@ public class ServerComm : MonoBehaviour
         if(sendBPSUpdate == 0){
             disconnectMenu.SetActive(true);
             controlsManager.disconnected = true;
+            Debug.Log("timed out from server");
         }
         else{
             sendBPSUpdate = 0;

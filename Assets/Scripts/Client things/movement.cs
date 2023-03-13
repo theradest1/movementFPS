@@ -6,8 +6,10 @@ using TMPro;
 
 public class movement : MonoBehaviour
 {
+    //references
     GameObject cam;
     Look look;
+    GameObject weaponContainer;
     Rigidbody rb;
     ControlsManager controlsManager;
     ServerEvents serverEvents;
@@ -15,45 +17,53 @@ public class movement : MonoBehaviour
     TextMeshProUGUI FPStext;
     ServerComm serverComm;
     PlayerManager playerManager;
+    public ClassInfo currentClass;
 
     //Vector3 velocity = new Vector3(0f, 0f, 0f);
 
+    [Header("Debug:")]
     public bool isGrounded = false;
     public bool isSliding = false;
     public bool ableToJump = false;
 
+    [Header("Basic:")]
     public LayerMask groundMask;
-
     public float speed;
-    public float speedMultiplierFromWeapon = 1f;
     public float jumpPower;
     public float stopSpeedGround;
     public float stopSpeedSliding;
     public float sprintMultiplier;
+    
+    [Header("Dash:")]
+    public float ableToDash = 0f;
+    public float dashTimout;
     public float speedBoostOnDash;
 
+    [Header("Footsteps:")]
     public float footstepInterval;
     Vector2 lastFootstepPos;
 
+    [Header("Cam:")]
     public Vector3 camPosSliding;
     public float camPosSpeed;
     public Vector3 camPosNotSliding;
+
+    [Header("Weapon:")]
     public float weaponTravelSpeed;
     public float weaponDistanceMult;
     public float weaponDistanceMultVertical;
-    GameObject weaponContainer;
+    public float speedMultiplierFromWeapon = 1f;
 
-    public float ableToDash = 0f;
-    public float dashTimout;
 
-    public ClassInfo currentClass;
 
+
+    [Header("Rebound:")]
     public float minHeight;
     int launchAttempts = 0;
     public int maxLaunchAttempts = 3;
+    public float ableToDashLengthInAirMult = .1f;
 
     public void launchTo(Vector3 goToPos){
-        launchAttempts++;
         Vector3 toTarget = goToPos - transform.position;
 
         //quadratic
@@ -163,6 +173,9 @@ public class movement : MonoBehaviour
             else{
                 rb.velocity = new Vector3(rb.velocity.x * stopSpeedGround, rb.velocity.y, rb.velocity.z * stopSpeedGround);
             }
+        }
+        else{
+            ableToDash -= Time.deltaTime * ableToDashLengthInAirMult;
         }
         
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){

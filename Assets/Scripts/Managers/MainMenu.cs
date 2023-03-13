@@ -12,23 +12,30 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-
-    UdpClient client;
-    IPEndPoint remoteEndPoint;
-    public int delayBeforeOffline = 3000;
-    public static int port = 4000;
-    public static string address = "localhost";//"192.168.0.50";
-    public static string username = "joe";
-    public int usernameLengthLimit;
-    public int usernameLengthMin;
-
+    //references
     TMP_InputField portInput;
     TMP_InputField addressInput;
     TMP_InputField usernameInput;
     TMP_Dropdown IPDropdown;
     GameObject usernameWarning;
-    Toggle inSchoolToggle;
     TextMeshProUGUI serverStatus;
+
+    //variables
+    UdpClient client;
+    IPEndPoint remoteEndPoint;
+
+    [Header("Server settings:")]
+    public int usernameLengthLimit;
+    public int delayBeforeOffline = 3000;
+    public int usernameLengthMin;
+
+    [HideInInspector]
+    public static int port = 4000;
+    [HideInInspector]
+    public static string address = "localhost";//"192.168.0.50";
+    [HideInInspector]
+    public static string username = "joe";
+
 
     void Start(){
         serverStatus = GameObject.Find("server status").GetComponent<TextMeshProUGUI>();
@@ -65,7 +72,9 @@ public class MainMenu : MonoBehaviour
         }
 
         username = usernameInput.text;
+    }
 
+    public void serverPresets(){
         string option = IPDropdown.options[IPDropdown.value].text;
         
         if(option == "School"){

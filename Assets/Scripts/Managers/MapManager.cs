@@ -25,7 +25,6 @@ public class MapManager : MonoBehaviour
     }
 
     public void newMap(int newMapID){
-        Debug.Log("Changing to map with ID " + newMapID);
         currentMap.gameObject.SetActive(false);
         currentMap = maps[newMapID];
         currentMap.gameObject.SetActive(true);

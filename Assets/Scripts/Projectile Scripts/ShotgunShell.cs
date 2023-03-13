@@ -26,5 +26,6 @@ public class ShotgunShell : MonoBehaviour
                 //newBullet.GetComponent<Bullet>().setInfo(velocity, damagePerBullet, fouxBulletPos, projectileFunctions);
             }
         }
+        Destroy(this.gameObject);
     }
 }

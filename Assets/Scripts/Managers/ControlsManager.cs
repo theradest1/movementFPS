@@ -35,9 +35,13 @@ public class ControlsManager : MonoBehaviour
     public int equippedNum;
     [HideInInspector]
     public bool tab;
+    [HideInInspector]
     public bool disconnected = false;
+    [HideInInspector]
     public bool inMenu = false;
+    [HideInInspector]
     public bool deathMenuControlls = true;
+    [HideInInspector]
     public bool choosingMap = false;
 
     private void Start() {

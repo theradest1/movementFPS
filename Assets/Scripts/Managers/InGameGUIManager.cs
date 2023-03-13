@@ -7,25 +7,28 @@ using UnityEngine.SceneManagement;
 
 public class InGameGUIManager : MonoBehaviour
 {
-    public GameObject menu;
-    public Slider senseSlider;
-    public Slider volumeSlider;
     Look look;
     SoundManager soundManager;
     ControlsManager controlsManager;
     ServerEvents serverEvents;
+    Image hitMarker;
+
+    [Header("References:")]
+    public GameObject menu;
+    public Slider senseSlider;
+    public Slider volumeSlider;
     public GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
-    public float killFeedTime;
     public GameObject scoreboard;
+    public TextMeshProUGUI gameClock;
     public TMP_InputField senseInputText;
 
-    Image hitMarker;
+    [Header("Settings:")]
+    public float killFeedTime;
     public float hitMarkerChangeSpeed;
+
+    [HideInInspector]
     public float secondsUntilMapChange = 0;
-
-    public TextMeshProUGUI gameClock;
-
     
 
     // Start is called before the first frame update
