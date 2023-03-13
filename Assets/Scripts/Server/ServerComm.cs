@@ -97,7 +97,7 @@ public class ServerComm : MonoBehaviour
             //recieve
 
             byte[] receiveBytes = new byte[0];
-            await Task.WhenAny(Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint)), Task.Delay(messageTimoutMS));
+            await Task.WhenAny(Task.Run(() => receiveBytes = client.Receive(ref remoteEndPoint)), Task.Delay(1000));
             string recieveString = Encoding.ASCII.GetString(receiveBytes);
             ID = int.Parse(recieveString.Split('|')[0]);
             variableUpdater.updateVars(recieveString.Split('|')[1]);

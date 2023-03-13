@@ -211,6 +211,7 @@ function skipMap(info, senderPort, senderAddress){
 
 function youOnBruv(info, senderPort, senderAddress){
 	server.send(playerInfo.length + "", senderPort, senderAddress);
+	console.log("player checked if on");
 }
 
 function newClient(info, senderPort, senderAddress){
