@@ -32,9 +32,14 @@ public class ServerEvents : MonoBehaviour
     WeaponManager weaponManager;
     GameObject player;
     ReplayManager replayManager;
-
+    Rigidbody playerRB;
 
     public bool replaying = false;
+    public Quaternion playerTargetRot;
+    public Quaternion playerPastTargetRot;
+    public Vector3 playerTargetPos;
+    public Vector3 playerPastTargetPos;
+
     public GameObject clientPrefab;
     public GameObject scoreboardLeftPrefab;
     public GameObject scoreboardLeftContainer;
@@ -45,6 +50,7 @@ public class ServerEvents : MonoBehaviour
     TextMeshProUGUI clientKDScoreboard;
 
     private void Start() {
+        playerRB = GameObject.Find("Player").GetComponent<Rigidbody>();
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         player = GameObject.Find("Player");
@@ -258,7 +264,9 @@ public class ServerEvents : MonoBehaviour
             percentDone = (Time.time - startTime) / serverComm.updateSpeed;
         }
         else{
-            percentDone = (Time.time - startTime) * (float) replayManager.tickRate;
+            percentDone = (Time.time - startTime) / (1f/(float) replayManager.tickRate);
+            playerRB.position = Vector3.Lerp(playerPastTargetPos, playerTargetPos, percentDone);
+            playerRB.rotation = Quaternion.Slerp(playerPastTargetRot, playerTargetRot, percentDone);
         }
 
         for(int i = 0; i < clientObjects.Count; i++){

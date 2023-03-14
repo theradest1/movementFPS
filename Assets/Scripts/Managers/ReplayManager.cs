@@ -51,8 +51,15 @@ public class ReplayManager : MonoBehaviour
                         serverEvents.pastTargetRotations[playerIndex] = serverEvents.targetRotations[playerIndex];
                         serverEvents.targetRotations[playerIndex] = Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2]));
                     }
+                    else{
+                        serverEvents.playerPastTargetPos = serverEvents.playerTargetPos;
+                        serverEvents.playerTargetPos = serverEvents.parseVector3(individualPlayerTickData[1]);
+                        serverEvents.playerPastTargetRot = serverEvents.playerTargetRot;
+                        serverEvents.playerTargetRot = Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2]));
+                    }
                 }
             }
+            serverEvents.resetSmoothTimer();
             yield return new WaitForSeconds(1f/(float)tickRate);
         }
         serverEvents.replaying = false;

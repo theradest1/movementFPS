@@ -191,7 +191,9 @@ public class ServerComm : MonoBehaviour
 
             info = Encoding.ASCII.GetString(receiveBytes);
             //Debug.Log(info);
-            serverEvents.resetSmoothTimer();
+            if(!serverEvents.replaying){
+                serverEvents.resetSmoothTimer();
+            }
 
             if(info != "EMPTY"){
                 throughPackets++;
