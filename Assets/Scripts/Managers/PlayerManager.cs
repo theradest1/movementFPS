@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     movement movementScript;
     Look look;
     InGameGUIManager inGameGUIManager;
+    ReplayManager replayManager;
 
     Slider healthSlider;
     Image flashImage;
@@ -56,6 +57,7 @@ public class PlayerManager : MonoBehaviour
     public TextMeshProUGUI weaponNameText;
 
     void Start(){
+        replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         playerCam = GameObject.Find("Main Camera");
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
@@ -198,6 +200,18 @@ public class PlayerManager : MonoBehaviour
         look.camRotX = 90;
         controlsManager.deathMenuControlls = true;
         weaponManager.changeWeapon(4);
+        Debug.Log("howdy");
+
+        StartCoroutine(replayManager.startReplay(getReplayData()));
+    }
+
+    public List<List<string>> getReplayData(){
+        List<List<string>> replayData = new List<List<string>>();
+        replayData.Add(replayManager.playerReplayData);
+        foreach(OtherPlayer otherClient in serverEvents.clientScripts){
+            replayData.Add(otherClient.replayData);
+        }
+        return replayData;
     }
 
     public void death(int killerID){

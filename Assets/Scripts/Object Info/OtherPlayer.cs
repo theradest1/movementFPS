@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class OtherPlayer : MonoBehaviour
 {
     public GameObject playerCam;
+    [HideInInspector]
+    public List<string> replayData = new List<string>();
+    int currentTick = 0;
+    int maxTick;
 
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
@@ -26,6 +30,7 @@ public class OtherPlayer : MonoBehaviour
 
     public float healRate;
     PlayerManager playerManager;
+    ReplayManager replayManager;
     public ClassInfo currentClass;
     public float healCooldown;
 
@@ -52,6 +57,7 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Start(){
+        replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         playerManager = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerManager;
         currentClass = GameObject.Find("Guy").GetComponent<ClassInfo>();
         playerCam = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerCam;
@@ -61,6 +67,19 @@ public class OtherPlayer : MonoBehaviour
 
         changeHealth(0f);
         InvokeRepeating("heal", 0, healRate);
+        maxTick = replayManager.tickRate * replayManager.replayTime;
+        for(int i = 0; i < maxTick; i++){
+            replayData.Add("");
+        }
+        InvokeRepeating("storeReplayData", 0f, 1f/(float)replayManager.tickRate);
+    }
+
+    void storeReplayData(){
+        currentTick++;
+        if(currentTick >= maxTick){
+            currentTick = 0;
+        }
+        replayData[currentTick] = gameObject.name + "~" + transform.position + "~" + transform.eulerAngles;
     }
 
     void heal(){

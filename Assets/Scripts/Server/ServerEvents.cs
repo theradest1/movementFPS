@@ -31,8 +31,10 @@ public class ServerEvents : MonoBehaviour
     ProjectileManager projectileManager;
     WeaponManager weaponManager;
     GameObject player;
+    ReplayManager replayManager;
 
 
+    public bool replaying = false;
     public GameObject clientPrefab;
     public GameObject scoreboardLeftPrefab;
     public GameObject scoreboardLeftContainer;
@@ -43,7 +45,7 @@ public class ServerEvents : MonoBehaviour
     TextMeshProUGUI clientKDScoreboard;
 
     private void Start() {
-
+        replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         player = GameObject.Find("Player");
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
@@ -223,7 +225,7 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void update(string clientID, string position, string rotation){
-        if(int.Parse(clientID) != serverComm.ID){
+        if(int.Parse(clientID) != serverComm.ID && !replaying){
             int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
             //Debug.Log(clientID);
             clientScripts[playerIndex].direction = targetPositions[playerIndex] - parseVector3(position);
@@ -235,12 +237,12 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
-    Vector3 parseVector3(string vector3String){
+    public Vector3 parseVector3(string vector3String){
         vector3String = vector3String.Substring(1, vector3String.Length-2); //get rid of parenthisis
 		string[] parts = vector3String.Split(',');
 		return new Vector3(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]));
     }
-    Quaternion parseQuaternion(string quaternionString){
+    public Quaternion parseQuaternion(string quaternionString){
         quaternionString = quaternionString.Substring(1, quaternionString.Length-2); //get rid of parenthisis
 		string[] parts = quaternionString.Split(',');
 		return new Quaternion(float.Parse(parts[0]), float.Parse(parts[1]), float.Parse(parts[2]), float.Parse(parts[3]));
@@ -251,7 +253,13 @@ public class ServerEvents : MonoBehaviour
     }
 
     void Update(){
-        float percentDone = (Time.time - startTime) / serverComm.updateSpeed;
+        float percentDone;
+        if(!replaying){
+            percentDone = (Time.time - startTime) / serverComm.updateSpeed;
+        }
+        else{
+            percentDone = (Time.time - startTime) * (float) replayManager.tickRate;
+        }
 
         for(int i = 0; i < clientObjects.Count; i++){
             clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
