@@ -11,7 +11,8 @@ public class PlayerManager : MonoBehaviour
     ServerComm serverComm;
     ControlsManager controlsManager;
     WeaponManager weaponManager;
-    GameObject deathMenu;
+    [HideInInspector]
+    public GameObject deathMenu;
     GameObject playerCam;
     movement movementScript;
     Look look;

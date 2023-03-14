@@ -64,6 +64,11 @@ public class ServerEvents : MonoBehaviour
         clientKDScoreboard = Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>();
 
         clientUsernameScoreboard.text = " " + serverComm.username;
+
+        playerTargetRot = Quaternion.identity;
+        playerPastTargetRot = Quaternion.identity;
+        playerTargetPos = Vector3.zero;
+        playerPastTargetPos = Vector3.zero;
     }
 
     public void sendEvent(string eventType, string eventName, string eventInfo){
@@ -264,7 +269,7 @@ public class ServerEvents : MonoBehaviour
             percentDone = (Time.time - startTime) / serverComm.updateSpeed;
         }
         else{
-            percentDone = (Time.time - startTime) / (1f/(float) replayManager.tickRate);
+            percentDone = (Time.time - startTime) / (1f/(float) (replayManager.tickRate / replayManager.replaySlowdown));
             playerRB.position = Vector3.Lerp(playerPastTargetPos, playerTargetPos, percentDone);
             playerRB.rotation = Quaternion.Slerp(playerPastTargetRot, playerTargetRot, percentDone);
         }
