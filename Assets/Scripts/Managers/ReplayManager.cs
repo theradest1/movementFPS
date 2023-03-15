@@ -35,14 +35,15 @@ public class ReplayManager : MonoBehaviour
                 currentTick = 0;
             }
             playerReplayData[currentTick] = serverComm.ID + "~" + player.transform.position + "~" + player.transform.eulerAngles;
-            MainListToString();
+            //MainListToString();
         }
     }
 
     public IEnumerator startReplay(List<List<string>> replayData){
-        Debug.Log("started replay");
+        Debug.Log("started replay:");
+        Debug.Log(MainListToString(replayData));
         playerManager.deathMenu.SetActive(false);
-        int playerIndex;
+        //int playerIndex;
         string[] individualPlayerTickData;
         serverEvents.replaying = true;
         look.camRotX = 0f;
@@ -52,16 +53,18 @@ public class ReplayManager : MonoBehaviour
             foreach(List<string> individualPlayerData in replayData){
                 if(individualPlayerData.Count > 0){
                     individualPlayerTickData = individualPlayerData[tick].Split("~");
-                    //Debug.Log("updating player with ID " + individualPlayerTickData[0]);
                     if(individualPlayerData[tick] != ""){
                         //Debug.Log("AWDAWDAWDAW");
                         if(int.Parse(individualPlayerTickData[0]) != serverComm.ID && int.Parse(individualPlayerTickData[0]) != -1){
-                            playerIndex = serverEvents.clientIDs.IndexOf(int.Parse(individualPlayerTickData[0]));
+                            Debug.Log("New data: " + individualPlayerData[tick]);
+                            serverEvents.update(individualPlayerTickData[0], individualPlayerTickData[1], Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2])) + "", true);
+                            /*playerIndex = serverEvents.clientIDs.IndexOf(int.Parse(individualPlayerTickData[0]));
                             
                             serverEvents.pastTargetPositions[playerIndex] = serverEvents.targetPositions[playerIndex];
                             serverEvents.targetPositions[playerIndex] = serverEvents.parseVector3(individualPlayerTickData[1]);
                             serverEvents.pastTargetRotations[playerIndex] = serverEvents.targetRotations[playerIndex];
                             serverEvents.targetRotations[playerIndex] = Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2]));
+                            */
                         }
                         else{
                             serverEvents.playerPastTargetPos = serverEvents.playerTargetPos;
@@ -87,8 +90,8 @@ public class ReplayManager : MonoBehaviour
         Debug.Log("ended replay");
     }
 
-    private void MainListToString() {
-        string thingToPrint = "";
+    private string MainListToString(List<List<string>> list) {
+        /*string thingToPrint = "";
         foreach(OtherPlayer otherPlayer in serverEvents.clientScripts){
             thingToPrint = "";
             foreach(string tick in otherPlayer.replayData){
@@ -100,9 +103,10 @@ public class ReplayManager : MonoBehaviour
         thingToPrint = "";
         foreach(string tick in playerReplayData){
             thingToPrint += tick + "~";
-        }
+        }*/
+        //return thingToPrint
         //Debug.Log("Self: " + thingToPrint);
-        /*string final = "[";
+        string final = "[";
         foreach(List<string> listElement in list){
             final += "[";
             foreach(string tickListElement in listElement){
@@ -110,6 +114,6 @@ public class ReplayManager : MonoBehaviour
             }
             final += "]";
         }
-        return final + "]";*/
+        return final + "]";
     }
 }

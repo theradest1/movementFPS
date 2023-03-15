@@ -112,21 +112,23 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void spawn(){
-        followKiller = false;
-        controlsManager.deathMenuControlls = false;
-        deathMenu.SetActive(false);
-        weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
-        setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
+        if(!serverEvents.replaying){
+            followKiller = false;
+            controlsManager.deathMenuControlls = false;
+            deathMenu.SetActive(false);
+            weaponManager.setWeapons(new List<string> {mainDropdown.options[mainDropdown.value].text, secondaryDropdown.options[secondaryDropdown.value].text, toolDropdown.options[toolDropdown.value].text});
+            setClass(GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>());
 
-        look.camRotX = 0;
-        coll.enabled = true;
-        rb.useGravity = true;
-        rb.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
+            look.camRotX = 0;
+            coll.enabled = true;
+            rb.useGravity = true;
+            rb.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
 
-        PlayerPrefs.SetInt("Main", mainDropdown.value);
-        PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
-        PlayerPrefs.SetInt("Tool", toolDropdown.value);
-        PlayerPrefs.Save();
+            PlayerPrefs.SetInt("Main", mainDropdown.value);
+            PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
+            PlayerPrefs.SetInt("Tool", toolDropdown.value);
+            PlayerPrefs.Save();
+        }
     }
 
     void setClass(ClassInfo classToSet){
@@ -201,9 +203,6 @@ public class PlayerManager : MonoBehaviour
         look.camRotX = 90;
         controlsManager.deathMenuControlls = true;
         weaponManager.changeWeapon(4);
-        Debug.Log("howdy");
-
-        StartCoroutine(replayManager.startReplay(getReplayData()));
     }
 
     public List<List<string>> getReplayData(){
@@ -211,6 +210,7 @@ public class PlayerManager : MonoBehaviour
         replayData.Add(replayManager.playerReplayData);
         foreach(OtherPlayer otherClient in serverEvents.clientScripts){
             replayData.Add(otherClient.replayData);
+            Debug.Log(otherClient.gameObject.name);
         }
         return replayData;
     }
@@ -218,19 +218,20 @@ public class PlayerManager : MonoBehaviour
     public void death(int killerID){
         if(killerID != serverComm.ID){
             killer = GameObject.Find(killerID + "");
+            StartCoroutine(replayManager.startReplay(getReplayData()));
+            //followKiller = true;
+            flashImage.color = new Color(1, 1, 1, 0);
+            look.camRotX = 0;
+            rb.velocity = Vector3.zero;
+            coll.enabled = false;
+            rb.useGravity = false;
+            deathMenu.SetActive(true);
+            controlsManager.deathMenuControlls = true;
+            weaponManager.changeWeapon(4);
         }
         else{
             commitDie();
         }
-        followKiller = true;
-        flashImage.color = new Color(1, 1, 1, 0);
-        look.camRotX = 0;
-        rb.velocity = Vector3.zero;
-        coll.enabled = false;
-        rb.useGravity = false;
-        deathMenu.SetActive(true);
-        controlsManager.deathMenuControlls = true;
-        weaponManager.changeWeapon(4);
     }
 
     public void changeHealth(float subbedHealth){

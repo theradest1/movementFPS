@@ -11,15 +11,15 @@ currentID = 0;
 TPS = 32;
 minTPS = 10;
 maxTPS = 32;
-gameClock = 300;
-gameLength = 300;
+gameClock = 3000;
+gameLength = 3000;
 mapCount = 50; //not actually 50 maps, its just so I dont have to increase it later when adding maps (was used in the past for a random map, but not anymore)
 currentMap = 0;
 const mapChoosingTime = 15;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms
-const settingCheckInterval = 60000; //in ms
+const settingCheckInterval = 5000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 setInterval(checkSettings, settingCheckInterval);
 setInterval(updateGameClock, 1000);

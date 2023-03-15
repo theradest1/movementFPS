@@ -208,7 +208,7 @@ public class ServerComm : MonoBehaviour
                         switch (splitRawEvents[0])
                         {
                             case "u":
-                                serverEvents.update(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //ID, position, rotation
+                                serverEvents.update(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], false); //ID, position, rotation
                                 break;
                             case "newClient":
                                 serverEvents.newClient(splitRawEvents[1], splitRawEvents[2]); //ID, username

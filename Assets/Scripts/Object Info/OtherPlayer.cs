@@ -24,7 +24,7 @@ public class OtherPlayer : MonoBehaviour
     //[HideInInspector]
     public float health;
     public float maxHealth;
-    public Renderer bodyRenderer;
+    public SkinnedMeshRenderer bodyRenderer;
 
     //[HideInInspector]
 

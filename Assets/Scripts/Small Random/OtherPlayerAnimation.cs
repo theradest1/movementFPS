@@ -17,10 +17,10 @@ public class OtherPlayerAnimation : MonoBehaviour
         groundMask = GameObject.Find("Player").GetComponent<movement>().groundMask;
     }
 
-    void OnDrawGizmos(){
+    /*void OnDrawGizmos(){
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f);
-    }
+    }*/
 
     private void Update() {
         if(Physics.CheckSphere(transform.position + new Vector3(0f, -.6f, 0f), .45f, groundMask)){
