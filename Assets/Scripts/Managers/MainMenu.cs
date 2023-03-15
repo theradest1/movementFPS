@@ -16,6 +16,8 @@ public class MainMenu : MonoBehaviour
     //TMP_InputField portInput;
     //TMP_InputField addressInput;
     TMP_InputField usernameInput;
+    public TMP_InputField customAddressInput;
+    public TMP_InputField customPortInput;
     //TMP_Dropdown IPDropdown;
     GameObject usernameWarning;
     //TextMeshProUGUI serverStatus;
@@ -47,8 +49,9 @@ public class MainMenu : MonoBehaviour
         //portInput = GameObject.Find("port input").GetComponent<TMP_InputField>();
         //addressInput = GameObject.Find("address input").GetComponent<TMP_InputField>();
         usernameInput = GameObject.Find("username input").GetComponent<TMP_InputField>();
-
         usernameInput.text = PlayerPrefs.GetString("Username", "");
+        customAddressInput.text = PlayerPrefs.GetString("customIP", "");
+        customPortInput.text = PlayerPrefs.GetString("customPort", "");
         //IPDropdown.value = PlayerPrefs.GetInt("Server", 0);
 
         updateInfo();
@@ -80,12 +83,20 @@ public class MainMenu : MonoBehaviour
     public void joinServer(string info){
         if(usernameInput.text.Length >= usernameLengthMin){
             PlayerPrefs.SetString("Username", usernameInput.text);
+            PlayerPrefs.SetString("customIP", customAddressInput.text);
+            PlayerPrefs.SetString("customPort", customPortInput.text);
             //PlayerPrefs.SetInt("Server", IPDropdown.value);
             PlayerPrefs.Save();
 
-            string[] splitInfo = info.Split("~");
-            address = splitInfo[0];
-            port = int.Parse(splitInfo[1]);
+            if(info == "custom"){
+                address = customAddressInput.text;
+                port = int.Parse(customPortInput.text);
+            }
+            else{
+                string[] splitInfo = info.Split("~");
+                address = splitInfo[0];
+                port = int.Parse(splitInfo[1]);
+            }
         
             SceneManager.LoadScene(1);
         }
@@ -95,6 +106,7 @@ public class MainMenu : MonoBehaviour
         for(int i = 0; i < servers.Count; i++){
             servers[i].checkStatus();
         }
+
     }
 
     public void quit(){

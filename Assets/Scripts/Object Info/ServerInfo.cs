@@ -19,9 +19,17 @@ public class ServerInfo : MonoBehaviour
     public TextMeshProUGUI playerCount;
     public int timoutTime = 1000;
 
+    [Header("Only for custom server")]
+    public TMP_InputField customAddressInput;
+    public TMP_InputField customPortInput;
+
     async public void checkStatus(){
         try{
             client = new UdpClient(/*CLIENTPORT*/);
+            if(serverName == "custom"){
+                port = int.Parse(customPortInput.text);
+                IP = customAddressInput.text;
+            }
             client.Connect(IP, port);
             remoteEndPoint = new IPEndPoint(IPAddress.Any, port);
 
@@ -37,7 +45,9 @@ public class ServerInfo : MonoBehaviour
             }
             else{
                 connectionIndicator.SetActive(false);
-                playerCount.text = info;
+                if(serverName != "custom"){
+                    playerCount.text = info;
+                }
             }
         }
         catch(Exception e){
