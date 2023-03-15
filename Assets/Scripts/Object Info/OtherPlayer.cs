@@ -9,8 +9,6 @@ public class OtherPlayer : MonoBehaviour
     public GameObject playerCam;
     [HideInInspector]
     public List<string> replayData = new List<string>();
-    int currentTick = 0;
-    int maxTick;
 
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
@@ -67,18 +65,13 @@ public class OtherPlayer : MonoBehaviour
 
         changeHealth(0f);
         InvokeRepeating("heal", 0, healRate);
-        maxTick = replayManager.tickRate * replayManager.replayTime;
-        for(int i = 0; i < maxTick; i++){
+        for(int i = 0; i < replayManager.tickRate * replayManager.replayTime; i++){
             replayData.Add("");
         }
-        InvokeRepeating("storeReplayData", 0f, 1f/(float)replayManager.tickRate);
+        //InvokeRepeating("storeReplayData", 0f, 1f/(float)replayManager.tickRate);
     }
 
-    void storeReplayData(){
-        currentTick++;
-        if(currentTick >= maxTick){
-            currentTick = 0;
-        }
+    public void storeReplayData(int currentTick){
         replayData[currentTick] = gameObject.name + "~" + transform.position + "~" + transform.eulerAngles;
     }
 

@@ -237,9 +237,9 @@ public class ServerEvents : MonoBehaviour
 
     public void update(string clientID, string position, string rotation, bool isReplayData){
         if(int.Parse(clientID) != serverComm.ID && ((!replaying && !isReplayData) || (replaying && isReplayData))){
-            if(replaying){
+            /*if(replaying){
                 Debug.Log("Updated client with ID " + clientID + ", is replay data: " + isReplayData + ", pos: " + position + ", rot: " + rotation);
-            }
+            }*/
             int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
             //Debug.Log(clientID);
             clientScripts[playerIndex].direction = targetPositions[playerIndex] - parseVector3(position);
@@ -279,8 +279,10 @@ public class ServerEvents : MonoBehaviour
 
         for(int i = 0; i < clientObjects.Count; i++){
             clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
-           // Debug.Log("Player with ID: " + clientObjects[i].name + " has a new pos of " + targetPositions[i]);
             clientObjects[i].transform.rotation = Quaternion.Slerp(pastTargetRotations[i], targetRotations[i], percentDone);
+            if(replaying){
+                Debug.Log("Player with ID: " + clientObjects[i].name + " has a new pos of " + targetPositions[i]);
+            }
         }
     }
 }

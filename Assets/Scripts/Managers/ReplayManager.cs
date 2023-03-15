@@ -37,6 +37,9 @@ public class ReplayManager : MonoBehaviour
             playerReplayData[currentTick] = serverComm.ID + "~" + player.transform.position + "~" + player.transform.eulerAngles;
             //MainListToString();
         }
+        foreach(OtherPlayer otherPlayer in serverEvents.clientScripts){
+            otherPlayer.storeReplayData(currentTick);
+        }
     }
 
     public IEnumerator startReplay(List<List<string>> replayData){
@@ -72,9 +75,6 @@ public class ReplayManager : MonoBehaviour
                             serverEvents.playerPastTargetRot = serverEvents.playerTargetRot;
                             serverEvents.playerTargetRot = Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2]));
                         }
-                    }
-                    else{
-                        tick = startingTick - 1;
                     }
                 }
             }
