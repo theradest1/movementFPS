@@ -10,7 +10,7 @@ public class DataSaveManager : MonoBehaviour
         return saveFile.text;
     }
 
-    public string getDataByName(string name){
+    /*public string getDataByName(string name){
         string allData = getAllData();
-    }
+    }*/
 }
