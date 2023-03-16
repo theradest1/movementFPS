@@ -6,6 +6,7 @@ public class ReplayManager : MonoBehaviour
 {
     [HideInInspector]
     public List<string> playerReplayData = new List<string>();
+
     [Header("References:")]
     public ServerComm serverComm;
     public ServerEvents serverEvents;
@@ -19,7 +20,7 @@ public class ReplayManager : MonoBehaviour
     [Header("Settings:")]
     public int tickRate = 10;
     public int replayTime = 3; 
-    public float replaySlowdown = 10;
+    public float replaySlowdown = 1;
 
     int currentTick = -1;
 
