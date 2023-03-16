@@ -218,6 +218,8 @@ public class PlayerManager : MonoBehaviour
     public void death(int killerID){
         if(killerID != serverComm.ID){
             killer = GameObject.Find(killerID + "");
+            controlsManager.deathMenuControlls = true;
+            weaponManager.changeWeapon(4);
             StartCoroutine(replayManager.startReplay(getReplayData()));
             //followKiller = true;
             flashImage.color = new Color(1, 1, 1, 0);
@@ -225,9 +227,6 @@ public class PlayerManager : MonoBehaviour
             rb.velocity = Vector3.zero;
             coll.enabled = false;
             rb.useGravity = false;
-            deathMenu.SetActive(true);
-            controlsManager.deathMenuControlls = true;
-            weaponManager.changeWeapon(4);
         }
         else{
             commitDie();

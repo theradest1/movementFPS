@@ -141,8 +141,6 @@ public class WeaponManager : MonoBehaviour
                 ableToShoot = false;
             }
             // cam.transform.Rotate(Random.Range(-equippedWeapon.recoilVertical, 0), Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
-            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin, equippedWeapon.recoilVerticalMax); 
-            transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
@@ -157,6 +155,8 @@ public class WeaponManager : MonoBehaviour
 
             serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * equippedWeapon.bulletTravelSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //serverEvents.sendEvent("ue", "sound",  + "~" + equippedWeapon.transform.position + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
+            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin, equippedWeapon.recoilVerticalMax); 
+            transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
         }
     }
 }

@@ -44,11 +44,11 @@ public class ReplayManager : MonoBehaviour
 
     public IEnumerator startReplay(List<List<string>> replayData){
         Debug.Log("started replay:");
-        Debug.Log(MainListToString(replayData));
+        serverEvents.replaying = true;
+        //Debug.Log(MainListToString(replayData));
         playerManager.deathMenu.SetActive(false);
         //int playerIndex;
         string[] individualPlayerTickData;
-        serverEvents.replaying = true;
         look.camRotX = 0f;
         int startingTick = currentTick;
         int tick = startingTick + 1;
@@ -59,7 +59,7 @@ public class ReplayManager : MonoBehaviour
                     if(individualPlayerData[tick] != ""){
                         //Debug.Log("AWDAWDAWDAW");
                         if(int.Parse(individualPlayerTickData[0]) != serverComm.ID && int.Parse(individualPlayerTickData[0]) != -1){
-                            Debug.Log("New data: " + individualPlayerData[tick]);
+                            //Debug.Log("New data: " + individualPlayerData[tick]);
                             serverEvents.update(individualPlayerTickData[0], individualPlayerTickData[1], Quaternion.Euler(serverEvents.parseVector3(individualPlayerTickData[2])) + "", true);
                             /*playerIndex = serverEvents.clientIDs.IndexOf(int.Parse(individualPlayerTickData[0]));
                             
@@ -87,6 +87,7 @@ public class ReplayManager : MonoBehaviour
         }
         playerManager.deathMenu.SetActive(true);
         serverEvents.replaying = false;
+        playerManager.commitDie();
         Debug.Log("ended replay");
     }
 

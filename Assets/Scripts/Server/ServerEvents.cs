@@ -105,35 +105,42 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void death(string killerID, string killedID){
+        string killerUsername;
+        string killedUsername;
         if(int.Parse(killedID) == serverComm.ID){
             clientDeaths += 1;
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
             playerManager.death(int.Parse(killerID));
             playerManager.changeHealth(-1000f);
             weaponManager.resetAllWeapons();
+            killedUsername = serverComm.username;
         }
         else{
             OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(killedID))];
             clientScript.changeScoreboard(0, 1);
             clientScript.invincibilityTimer = invincibilityTimeOnDeath;
             clientScript.changeHealth(-1000f); 
+            killedUsername = clientScript.username;
             //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
         }
 
         if(int.Parse(killerID) == serverComm.ID){
             clientKills += 1;
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
+            killerUsername = serverComm.username;
         }
         else
         {
-            OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(killedID))];
+            OtherPlayer clientScript = getClientScript(killerID);
+            Debug.Log(killerID);
             clientScript.changeScoreboard(1, 0);
+            killerUsername = clientScript.username;
             //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         }
+        inGameGUIManager.killFeed(killerUsername, killedUsername);
 
         //kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
         //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
-        inGameGUIManager.killFeed(getClientScript(killerID).username, getClientScript(killedID).username);
     }
 
     /*string getUsername(string _ID){ //is a string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
@@ -146,6 +153,8 @@ public class ServerEvents : MonoBehaviour
     }*/
 
     OtherPlayer getClientScript(string _ID){
+        Debug.Log(int.Parse(_ID));
+        Debug.Log(clientIDs.IndexOf(int.Parse(_ID)));
         return clientScripts[clientIDs.IndexOf(int.Parse(_ID))];
     }
 
