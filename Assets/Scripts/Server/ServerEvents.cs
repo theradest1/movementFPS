@@ -5,20 +5,23 @@ using TMPro;
 
 public class ServerEvents : MonoBehaviour
 {
-    public List<GameObject> clientObjects;
+    //public List<GameObject> clientObjects;
     public List<OtherPlayer> clientScripts;
     public List<int> clientIDs;
-    public List<Vector3> targetPositions;
-    public List<Vector3> pastTargetPositions;
-    public List<Quaternion> targetRotations;
-    public List<Quaternion> pastTargetRotations;
-    public List<string> clientUsernames;
+    //public List<Vector3> targetPositions;
+    //public List<Vector3> pastTargetPositions;
+    //public List<Quaternion> targetRotations;
+    //public List<Quaternion> pastTargetRotations;
+    //public List<string> clientUsernames;
     public List<TextMeshProUGUI> scoreboardUsername;
     public List<TextMeshProUGUI> scoreboardKDRatio;
-    public List<int> kills;
-    public List<int> deaths;
+    //public List<int> kills;
+    //public List<int> deaths;
     int clientKills = 0;
     int clientDeaths = 0;
+    
+    [HideInInspector]
+    public float percentDone = 0;
 
     float startTime;
 
@@ -110,10 +113,11 @@ public class ServerEvents : MonoBehaviour
             weaponManager.resetAllWeapons();
         }
         else{
-            deaths[clientIDs.IndexOf(int.Parse(killedID))] += 1;    
-            scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
-            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].invincibilityTimer = invincibilityTimeOnDeath;
-            clientScripts[clientIDs.IndexOf(int.Parse(killedID))].changeHealth(-1000f); 
+            OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(killedID))];
+            clientScript.changeScoreboard(0, 1);
+            clientScript.invincibilityTimer = invincibilityTimeOnDeath;
+            clientScript.changeHealth(-1000f); 
+            //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
         }
 
         if(int.Parse(killerID) == serverComm.ID){
@@ -122,22 +126,27 @@ public class ServerEvents : MonoBehaviour
         }
         else
         {
-            kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;    
-            scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
+            OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(killedID))];
+            clientScript.changeScoreboard(1, 0);
+            //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         }
 
         //kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
         //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
-        inGameGUIManager.killFeed(getUsername(killerID), getUsername(killedID));
+        inGameGUIManager.killFeed(getClientScript(killerID).username, getClientScript(killedID).username);
     }
 
-    string getUsername(string _ID){ //is a string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
+    /*string getUsername(string _ID){ //is a string because thats how I recieve it from the server, not because I am dumb stupid (but I am, its just not corralated)
         if(int.Parse(_ID) == serverComm.ID){
             return serverComm.username;
         }
         else{
             return clientUsernames[clientIDs.IndexOf(int.Parse(_ID))];
         }
+    }*/
+
+    OtherPlayer getClientScript(string _ID){
+        return clientScripts[clientIDs.IndexOf(int.Parse(_ID))];
     }
 
     public void setOtherClientClass(string ID, string classToSet){
@@ -145,27 +154,23 @@ public class ServerEvents : MonoBehaviour
         clientScript.setClass(classToSet);
     }
 
-    public void newClient(string newClientID, string newCleintUsername){
+    public void newClient(string newClientID, string newClientUsername){
         //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
         GameObject newClientObject = Instantiate(clientPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         newClientObject.name = newClientID;
-        newClientObject.GetComponent<OtherPlayer>().setUsername(newCleintUsername);
-        clientObjects.Add(newClientObject);
+        OtherPlayer clientScript = newClientObject.GetComponent<OtherPlayer>();
+        clientScript.setUsername(newClientUsername);
         clientScripts.Add(newClientObject.GetComponent<OtherPlayer>());
-        clientUsernames.Add(newCleintUsername);
         clientIDs.Add(int.Parse(newClientID));
-        deaths.Add(0);
-        kills.Add(0);
+
         TextMeshProUGUI newClientScoreboardUsername = Instantiate(scoreboardLeftPrefab, scoreboardLeftContainer.transform).GetComponent<TextMeshProUGUI>();
         scoreboardUsername.Add(newClientScoreboardUsername);
-        newClientScoreboardUsername.text = " "  + newCleintUsername;
-        scoreboardKDRatio.Add(Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>());
+        newClientScoreboardUsername.text = " "  + newClientUsername;
+        TextMeshProUGUI newKDPeice = Instantiate(scoreboardRightPrefab, scoreboardRightContainer.transform).GetComponent<TextMeshProUGUI>();
+        scoreboardKDRatio.Add(newKDPeice);
+        clientScript.scoreboardPeice = newKDPeice;
 
         Debug.Log("New player's ID: " + int.Parse(newClientID));
-        pastTargetPositions.Add(new Vector3(0f, 0f, 0f));
-        targetPositions.Add(new Vector3(0f, 0f, 0f));
-        pastTargetRotations.Add(Quaternion.identity);
-        targetRotations.Add(Quaternion.identity);
 
         sendEvent("ue", "setClass", playerManager.currentClass.gameObject.name);
         sendEvent("ue", "setHealth", playerManager.health + "~" + playerManager.healCooldown);
@@ -175,12 +180,8 @@ public class ServerEvents : MonoBehaviour
         Debug.Log("Player with ID " + ID + " has left the game");
         int playerIndex = clientIDs.IndexOf(int.Parse(ID));
         clientIDs.RemoveAt(playerIndex);
-        pastTargetPositions.RemoveAt(playerIndex);
-        targetPositions.RemoveAt(playerIndex);
-        Destroy(clientObjects[playerIndex]);
-        clientObjects.RemoveAt(playerIndex);
+        Destroy(clientScripts[playerIndex].gameObject);
         clientScripts.RemoveAt(playerIndex);
-        clientUsernames.RemoveAt(playerIndex);
 
         Destroy(scoreboardKDRatio[playerIndex].gameObject);
         Destroy(scoreboardUsername[playerIndex].gameObject);
@@ -216,9 +217,9 @@ public class ServerEvents : MonoBehaviour
     public void clientDamage(string victimID, string damage){
         if(float.Parse(damage) > 0){
             if(int.Parse(victimID) != serverComm.ID){
-                int victimIndex = clientIDs.IndexOf(int.Parse(victimID));
-                clientScripts[victimIndex].healCooldown = clientScripts[victimIndex].currentClass.healCooldown;
-                clientScripts[victimIndex].changeHealth(0f);
+                OtherPlayer clientScript = getClientScript(victimID);
+                clientScript.healCooldown = clientScript.currentClass.healCooldown;
+                clientScript.changeHealth(0f);
             }
             else{
                 playerManager.healCooldown = playerManager.timeBeforeHeal;
@@ -240,13 +241,13 @@ public class ServerEvents : MonoBehaviour
             /*if(replaying){
                 Debug.Log("Updated client with ID " + clientID + ", is replay data: " + isReplayData + ", pos: " + position + ", rot: " + rotation);
             }*/
-            int playerIndex = clientIDs.IndexOf(int.Parse(clientID));
+            OtherPlayer clientScript = getClientScript(clientID);
             //Debug.Log(clientID);
-            clientScripts[playerIndex].direction = targetPositions[playerIndex] - parseVector3(position);
-            pastTargetPositions[playerIndex] = targetPositions[playerIndex];
-            targetPositions[playerIndex] = parseVector3(position);
-            pastTargetRotations[playerIndex] = targetRotations[playerIndex];
-            targetRotations[playerIndex] = parseQuaternion(rotation);
+            clientScript.direction = clientScript.targetPosition - parseVector3(position);
+            clientScript.pastTargetPosition = clientScript.targetPosition;
+            clientScript.targetPosition = parseVector3(position);
+            clientScript.pastTargetRotation = clientScript.targetRotation;
+            clientScript.targetRotation = parseQuaternion(rotation);
             //Debug.Log("Client's ID: " + clientID + "  New position: " + position + "  New rotation: " + rotation);
         }
     }
@@ -267,7 +268,6 @@ public class ServerEvents : MonoBehaviour
     }
 
     void Update(){
-        float percentDone;
         if(!replaying){
             percentDone = (Time.time - startTime) / serverComm.updateSpeed;
         }
@@ -275,14 +275,6 @@ public class ServerEvents : MonoBehaviour
             percentDone = (Time.time - startTime) / (1f/(float) (replayManager.tickRate / replayManager.replaySlowdown));
             playerRB.position = Vector3.Lerp(playerPastTargetPos, playerTargetPos, percentDone);
             playerRB.rotation = Quaternion.Slerp(playerPastTargetRot, playerTargetRot, percentDone);
-        }
-
-        for(int i = 0; i < clientObjects.Count; i++){
-            clientObjects[i].transform.position = Vector3.Lerp(pastTargetPositions[i], targetPositions[i], percentDone);
-            clientObjects[i].transform.rotation = Quaternion.Slerp(pastTargetRotations[i], targetRotations[i], percentDone);
-            if(replaying){
-                Debug.Log("Player with ID: " + clientObjects[i].name + " has a new pos of " + targetPositions[i]);
-            }
         }
     }
 }

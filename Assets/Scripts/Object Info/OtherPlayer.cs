@@ -6,37 +6,56 @@ using UnityEngine.UI;
 
 public class OtherPlayer : MonoBehaviour
 {
-    public GameObject playerCam;
+    //data other scripts use
     [HideInInspector]
     public List<string> replayData = new List<string>();
+    [HideInInspector]
+    public float invincibilityTimer = 0f;
+    [HideInInspector]
+    public float health;
+    [HideInInspector]
+    public float maxHealth;
+    [HideInInspector]
+    public float healRate;
+    [HideInInspector]
+    public float healCooldown;
+    [HideInInspector]
+    public Vector3 direction;
+    [HideInInspector]
+    public int currentMapVote = -1;
+    [HideInInspector]
+    public TextMeshProUGUI scoreboardPeice; 
 
+
+    public Vector3 targetPosition;
+    public Vector3 pastTargetPosition;
+    public Quaternion targetRotation;
+    public Quaternion pastTargetRotation;
+    public string username;
+    public int kills;
+    public int deaths;
+
+    
+    //scripts
+    PlayerManager playerManager;
+    ReplayManager replayManager;
+    ServerEvents serverEvents;
+    
+    
+    [Header("References: ")]
+    public GameObject playerCam;
     public TextMeshProUGUI usernameText;
     public Canvas usernameCanvas;
     public Slider healthSlider;
-
-    public float invincibilityTimer = 0f;
-
     public Collider bodyColl;
     public Collider headColl;
-    
-    //[HideInInspector]
-    public float health;
-    public float maxHealth;
     public SkinnedMeshRenderer bodyRenderer;
-
-    //[HideInInspector]
-
-    public float healRate;
-    PlayerManager playerManager;
-    ReplayManager replayManager;
     public ClassInfo currentClass;
-    public float healCooldown;
 
-    public Vector3 direction;
-    public int currentMapVote = -1;
 
-    public void setUsername(string usrname){
-        usernameText.text = usrname;
+    public void setUsername(string givenUsername){
+        usernameText.text = givenUsername;
+        username = givenUsername;
     }
 
     public void setClass(string classToSet){
@@ -55,6 +74,12 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Start(){
+        targetPosition = Vector3.zero;
+        pastTargetPosition = Vector3.zero;
+        targetRotation = Quaternion.identity;
+        pastTargetRotation = Quaternion.identity;
+
+        serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         playerManager = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerManager;
         currentClass = GameObject.Find("Guy").GetComponent<ClassInfo>();
@@ -87,6 +112,12 @@ public class OtherPlayer : MonoBehaviour
         }
     }
 
+    public void changeScoreboard(int killsToAdd, int deathsToAdd){
+        kills += killsToAdd;
+        deaths += deathsToAdd;
+        scoreboardPeice.text = kills + "/" + deaths;
+    }
+
     void Update(){
         healCooldown -= Time.deltaTime;
         usernameCanvas.gameObject.transform.LookAt(playerCam.transform);
@@ -101,5 +132,8 @@ public class OtherPlayer : MonoBehaviour
             bodyColl.enabled = true;
             headColl.enabled = true;
         }
+
+        transform.position = Vector3.Lerp(pastTargetPosition, targetPosition, serverEvents.percentDone);
+        transform.rotation = Quaternion.Slerp(pastTargetRotation, targetRotation, serverEvents.percentDone);
     }
 }
