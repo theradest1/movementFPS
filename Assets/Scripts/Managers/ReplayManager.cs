@@ -13,6 +13,8 @@ public class ReplayManager : MonoBehaviour
     public Look look;
     public InGameGUIManager inGameGUIManager;
     public GameObject player;
+    public ReplayCam replayCam;
+    public GameObject cam;
 
     [Header("Settings:")]
     public int tickRate = 10;
@@ -45,6 +47,9 @@ public class ReplayManager : MonoBehaviour
     public IEnumerator startReplay(List<List<string>> replayData){
         Debug.Log("started replay:");
         serverEvents.replaying = true;
+        cam.SetActive(false);
+        replayCam.gameObject.SetActive(true);
+        replayCam.distance = replayCam.maxDist;
         //Debug.Log(MainListToString(replayData));
         playerManager.deathMenu.SetActive(false);
         //int playerIndex;
@@ -86,6 +91,8 @@ public class ReplayManager : MonoBehaviour
             yield return new WaitForSeconds(1f/((float)tickRate / replaySlowdown));
         }
         playerManager.deathMenu.SetActive(true);
+        replayCam.gameObject.SetActive(false);
+        cam.SetActive(true);
         serverEvents.replaying = false;
         playerManager.commitDie();
         Debug.Log("ended replay");

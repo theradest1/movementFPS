@@ -153,8 +153,6 @@ public class ServerEvents : MonoBehaviour
     }*/
 
     OtherPlayer getClientScript(string _ID){
-        Debug.Log(int.Parse(_ID));
-        Debug.Log(clientIDs.IndexOf(int.Parse(_ID)));
         return clientScripts[clientIDs.IndexOf(int.Parse(_ID))];
     }
 
