@@ -15,16 +15,17 @@ public class ReplayCam : MonoBehaviour
     public LayerMask stopFrom;
     public Camera replayCamera;
     public float otherObjectMinPos;
+    public float maxXRot;
+    public float preferredXRot;
+    public float preferredSpeed;
+    public float minXRot;
 
     private void Update() {
         
         RaycastHit hit;
-        if(Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit, Vector3.Distance(transform.position, player.transform.position), stopFrom)){
-            distance = Mathf.Clamp(Vector3.Distance(player.transform.position, hit.point), minDist, maxDist);
-        }
-        else{
-            distance = Mathf.Clamp(distance + smoothness * Time.deltaTime, minDist, maxDist);
-        }
+        Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit, maxDist, stopFrom);
+        distance = Mathf.Clamp(Vector3.Distance(player.transform.position, hit.point), minDist, maxDist);
+
         transform.position = player.transform.position + Vector3.Normalize(transform.position - player.transform.position) * distance;
         //boomArm.transform.Rotate(0f, (maxDist - distance) * minBoomArmRotSpeed * Time.deltaTime, 0f, Space.World);
         transform.LookAt(player.transform.position);
@@ -42,5 +43,9 @@ public class ReplayCam : MonoBehaviour
         else if(otherObjectPos.y < 1 - otherObjectMinPos){
             boomArm.transform.Rotate(smoothness * Time.deltaTime, 0f, 0f, Space.World);
         }
+        else{
+            boomArm.transform.Rotate(-(boomArm.transform.eulerAngles.x/Mathf.Abs(boomArm.transform.eulerAngles.x)) * Time.deltaTime / preferredSpeed, 0f, 0f, Space.World);
+        }
+        boomArm.transform.eulerAngles = new Vector3(Mathf.Clamp(boomArm.transform.eulerAngles.x, minXRot, maxXRot), boomArm.transform.eulerAngles.y, boomArm.transform.eulerAngles.z);
     }
 }
