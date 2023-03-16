@@ -275,6 +275,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "enter",
+                    "type": "Button",
+                    "id": "f828e8cd-f655-45bc-9176-b3a1ba5d1679",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -330,6 +339,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "tab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7304381-9474-4d3d-824c-234510843fa4",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "enter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

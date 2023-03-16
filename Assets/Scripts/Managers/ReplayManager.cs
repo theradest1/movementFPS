@@ -11,6 +11,7 @@ public class ReplayManager : MonoBehaviour
     public ServerComm serverComm;
     public ServerEvents serverEvents;
     public PlayerManager playerManager;
+    public ControlsManager controlsManager;
     public Look look;
     public InGameGUIManager inGameGUIManager;
     public GameObject player;
@@ -89,6 +90,9 @@ public class ReplayManager : MonoBehaviour
                 tick = 0;
             }
             serverEvents.resetSmoothTimer();
+            if(controlsManager.enter){
+                tick = startingTick;
+            }
             yield return new WaitForSeconds(1f/((float)tickRate / replaySlowdown));
         }
         playerManager.deathMenu.SetActive(true);

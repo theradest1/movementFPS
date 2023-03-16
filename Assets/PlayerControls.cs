@@ -297,6 +297,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""f828e8cd-f655-45bc-9176-b3a1ba5d1679"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -352,6 +361,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7304381-9474-4d3d-824c-234510843fa4"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""enter"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -464,6 +484,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_interactions_reload = m_interactions.FindAction("reload", throwIfNotFound: true);
         m_interactions_escape = m_interactions.FindAction("escape", throwIfNotFound: true);
         m_interactions_tab = m_interactions.FindAction("tab", throwIfNotFound: true);
+        m_interactions_enter = m_interactions.FindAction("enter", throwIfNotFound: true);
         // weaponSelects
         m_weaponSelects = asset.FindActionMap("weaponSelects", throwIfNotFound: true);
         m_weaponSelects_one = m_weaponSelects.FindAction("one", throwIfNotFound: true);
@@ -652,6 +673,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_interactions_reload;
     private readonly InputAction m_interactions_escape;
     private readonly InputAction m_interactions_tab;
+    private readonly InputAction m_interactions_enter;
     public struct InteractionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -661,6 +683,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @reload => m_Wrapper.m_interactions_reload;
         public InputAction @escape => m_Wrapper.m_interactions_escape;
         public InputAction @tab => m_Wrapper.m_interactions_tab;
+        public InputAction @enter => m_Wrapper.m_interactions_enter;
         public InputActionMap Get() { return m_Wrapper.m_interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -685,6 +708,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @tab.started += instance.OnTab;
             @tab.performed += instance.OnTab;
             @tab.canceled += instance.OnTab;
+            @enter.started += instance.OnEnter;
+            @enter.performed += instance.OnEnter;
+            @enter.canceled += instance.OnEnter;
         }
 
         private void UnregisterCallbacks(IInteractionsActions instance)
@@ -704,6 +730,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @tab.started -= instance.OnTab;
             @tab.performed -= instance.OnTab;
             @tab.canceled -= instance.OnTab;
+            @enter.started -= instance.OnEnter;
+            @enter.performed -= instance.OnEnter;
+            @enter.canceled -= instance.OnEnter;
         }
 
         public void RemoveCallbacks(IInteractionsActions instance)
@@ -809,6 +838,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
         void OnTab(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
     }
     public interface IWeaponSelectsActions
     {

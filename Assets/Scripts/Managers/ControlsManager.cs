@@ -43,6 +43,8 @@ public class ControlsManager : MonoBehaviour
     public bool deathMenuControlls = true;
     [HideInInspector]
     public bool choosingMap = false;
+    [HideInInspector]
+    public bool enter = false;
 
     private void Start() {
         movementScript = GameObject.Find("Player").GetComponent<movement>();
@@ -81,6 +83,8 @@ public class ControlsManager : MonoBehaviour
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
             aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
             reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
+            enter = playerControls.interactions.enter.ReadValue<float>() == 1;
+
 
             tab = playerControls.interactions.tab.ReadValue<float>() == 1;
 
@@ -121,6 +125,7 @@ public class ControlsManager : MonoBehaviour
             if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){
                 inGameGUIManager.changeGUIState();
             }
+            enter = playerControls.interactions.enter.ReadValue<float>() == 1;
             escape = playerControls.interactions.escape.ReadValue<float>() == 1;
         }
     }
