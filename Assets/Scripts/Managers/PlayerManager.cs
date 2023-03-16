@@ -210,7 +210,7 @@ public class PlayerManager : MonoBehaviour
         replayData.Add(replayManager.playerReplayData);
         foreach(OtherPlayer otherClient in serverEvents.clientScripts){
             replayData.Add(otherClient.replayData);
-            Debug.Log(otherClient.gameObject.name);
+            //Debug.Log(otherClient.gameObject.name);
         }
         return replayData;
     }

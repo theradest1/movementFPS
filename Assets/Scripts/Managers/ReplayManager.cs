@@ -6,6 +6,7 @@ public class ReplayManager : MonoBehaviour
 {
     [HideInInspector]
     public List<string> playerReplayData = new List<string>();
+    public bool enter = false;
 
     [Header("References:")]
     public ServerComm serverComm;
@@ -47,7 +48,8 @@ public class ReplayManager : MonoBehaviour
     }
 
     public IEnumerator startReplay(List<List<string>> replayData){
-        Debug.Log("started replay:");
+        //Debug.Log("started replay:");
+        enter = false;
         serverEvents.replaying = true;
         cam.SetActive(false);
         replayCam.gameObject.SetActive(true);
@@ -90,7 +92,7 @@ public class ReplayManager : MonoBehaviour
                 tick = 0;
             }
             serverEvents.resetSmoothTimer();
-            if(controlsManager.enter){
+            if(enter){
                 tick = startingTick;
             }
             yield return new WaitForSeconds(1f/((float)tickRate / replaySlowdown));
@@ -100,7 +102,7 @@ public class ReplayManager : MonoBehaviour
         cam.SetActive(true);
         serverEvents.replaying = false;
         playerManager.commitDie();
-        Debug.Log("ended replay");
+        //Debug.Log("ended replay");
     }
 
     private string MainListToString(List<List<string>> list) {

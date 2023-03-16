@@ -14,6 +14,7 @@ public class ControlsManager : MonoBehaviour
     Look look;
     WeaponManager weaponManager;
     InGameGUIManager inGameGUIManager;
+    ReplayManager replayManager;
 
     [HideInInspector]
     public bool jumping;
@@ -47,6 +48,7 @@ public class ControlsManager : MonoBehaviour
     public bool enter = false;
 
     private void Start() {
+        replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         movementScript = GameObject.Find("Player").GetComponent<movement>();
         look = GameObject.Find("Main Camera").GetComponent<Look>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
@@ -126,6 +128,9 @@ public class ControlsManager : MonoBehaviour
                 inGameGUIManager.changeGUIState();
             }
             enter = playerControls.interactions.enter.ReadValue<float>() == 1;
+            if(!replayManager.enter && enter){
+                replayManager.enter = true;
+            }
             escape = playerControls.interactions.escape.ReadValue<float>() == 1;
         }
     }

@@ -13,6 +13,8 @@ public class ReplayCam : MonoBehaviour
     public float minBoomArmRotSpeed;
     public float distance;
     public LayerMask stopFrom;
+    public Camera replayCamera;
+    public float otherObjectMinPos;
 
     private void Update() {
         
@@ -24,7 +26,21 @@ public class ReplayCam : MonoBehaviour
             distance = Mathf.Clamp(distance + smoothness * Time.deltaTime, minDist, maxDist);
         }
         transform.position = player.transform.position + Vector3.Normalize(transform.position - player.transform.position) * distance;
-        boomArm.transform.Rotate(0f, (maxDist - distance) * minBoomArmRotSpeed * Time.deltaTime, 0f, Space.World);
+        //boomArm.transform.Rotate(0f, (maxDist - distance) * minBoomArmRotSpeed * Time.deltaTime, 0f, Space.World);
         transform.LookAt(player.transform.position);
+
+        Vector2 otherObjectPos = new Vector2(replayCamera.WorldToScreenPoint(otherObject.transform.position).x/Screen.width, replayCamera.WorldToScreenPoint(otherObject.transform.position).y/Screen.height);
+        if(otherObjectPos.x > otherObjectMinPos){
+            boomArm.transform.Rotate(0f, smoothness * Time.deltaTime, 0f, Space.World);
+        }
+        else if(otherObjectPos.x < 1 - otherObjectMinPos){
+            boomArm.transform.Rotate(0f, -smoothness * Time.deltaTime, 0f, Space.World);
+        }
+        if(otherObjectPos.y > otherObjectMinPos){
+            boomArm.transform.Rotate(-smoothness * Time.deltaTime, 0f, 0f, Space.World);
+        }
+        else if(otherObjectPos.y < 1 - otherObjectMinPos){
+            boomArm.transform.Rotate(smoothness * Time.deltaTime, 0f, 0f, Space.World);
+        }
     }
 }
