@@ -9,7 +9,7 @@ public class movement : MonoBehaviour
     //references
     GameObject cam;
     Look look;
-    GameObject weaponContainer;
+    //GameObject weaponContainer;
     Rigidbody rb;
     ControlsManager controlsManager;
     ServerEvents serverEvents;
@@ -85,7 +85,7 @@ public class movement : MonoBehaviour
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         rb = this.gameObject.GetComponent<Rigidbody>();
         FPStext = GameObject.Find("FPS debug").GetComponent<TextMeshProUGUI>();
-        weaponContainer = GameObject.Find("weapons");
+        //weaponContainer = GameObject.Find("weapons");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         cam = GameObject.Find("Main Camera");
         look = cam.GetComponent<Look>();
@@ -116,7 +116,7 @@ public class movement : MonoBehaviour
             isGrounded = false;
         }
         //rb.velocity += Vector3.up * gravity;
-        weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponTravelSpeed);
+        //weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponTravelSpeed);
         Vector2 moveDirection = controlsManager.moveDirection;
         if(!controlsManager.jumping){
             ableToJump = true;
@@ -145,19 +145,19 @@ public class movement : MonoBehaviour
         //if(isGrounded && !isSliding){
         //    rb.velocity = Vector3.up * -.0001f;
         //}
-        weaponContainer.transform.position -= new Vector3(0f, rb.velocity.y * weaponDistanceMultVertical, 0f);
+        //weaponContainer.transform.position -= new Vector3(0f, rb.velocity.y * weaponDistanceMultVertical, 0f);
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
                 rb.AddForce(speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
                 rb.AddForce(speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
-                weaponContainer.transform.position -= speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
-                weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                //weaponContainer.transform.position -= speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                //weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
             else{
                 rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult);
                 rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult);
-                weaponContainer.transform.position -= speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
-                weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                //weaponContainer.transform.position -= speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
+                //weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
         }
         else if(!isSliding){

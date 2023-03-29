@@ -50,6 +50,13 @@ public class WeaponInfo : MonoBehaviour
     public bool main = true;
     public bool secondary = false;
 
+    public Vector3 restingPos;
+    public Vector3 restingRot;
+    public Vector3 scopingPos;
+    public Vector3 scopingRot;
+
+    public bool canADS = false;
+
     private void Update() {
         cooldownTimer -= Time.deltaTime;
     }

@@ -14,6 +14,8 @@ public class Look : MonoBehaviour
     public float minCamRotX;
     public float maxCamRotX;
 
+    public GameObject scopeCam;
+
 
     ControlsManager controlsManager;
 
@@ -29,6 +31,8 @@ public class Look : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //scopeCam.transform.localRotation = transform.localRotation;
+        scopeCam.transform.rotation = Quaternion.LookRotation(scopeCam.transform.position - transform.position, transform.up);
         //Debug.Log(controlsManager.mouseDelta);
         //player.transform.Rotate(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
 

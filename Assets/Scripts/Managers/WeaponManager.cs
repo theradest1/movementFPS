@@ -33,6 +33,16 @@ public class WeaponManager : MonoBehaviour
     public bool reloading;
     public bool ableToShoot = true;
 
+    public float relaxSpeed;
+    public float aimSpeed;
+    public Camera gunRenderingCam;
+    public Camera mainCam;
+    public float FOVChangeSpeed;
+    public float gunNormalFOV;
+    public float gunScopingFOV;
+    public float normalFOV;
+    public float scopingFOV;
+
     public ClassInfo currentClass;
 
     // Start is called before the first frame update
@@ -118,9 +128,9 @@ public class WeaponManager : MonoBehaviour
             ableToShoot = true;
         }
         
-        weaponContainer.transform.rotation = Quaternion.Slerp(weaponContainer.transform.rotation, player.transform.rotation, weaponRotationSpeed * Time.deltaTime);
+        //weaponContainer.transform.rotation = Quaternion.Slerp(weaponContainer.transform.rotation, player.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
-        equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
+        //equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
         
         if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
@@ -155,8 +165,29 @@ public class WeaponManager : MonoBehaviour
 
             serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * equippedWeapon.bulletTravelSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //serverEvents.sendEvent("ue", "sound",  + "~" + equippedWeapon.transform.position + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
-            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin, equippedWeapon.recoilVerticalMax); 
-            transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
+            //look.camRotX
+            
+            
+            equippedWeapon.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin, equippedWeapon.recoilVerticalMax), 0f, 0f); 
+            
+            
+            equippedWeapon.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
+        }
+
+        if(controlsManager.aiming && equippedWeapon.canADS){
+            equippedWeapon.transform.localPosition = Vector3.Lerp(equippedWeapon.transform.localPosition, equippedWeapon.scopingPos, aimSpeed * Time.deltaTime);
+            //equippedWeapon.transform.localRotation = Quaternion.Euler(Vector3.Lerp(equippedWeapon.transform.localEulerAngles, equippedWeapon.scopingRot, relaxSpeed * Time.deltaTime));
+            equippedWeapon.transform.localRotation = Quaternion.Euler(equippedWeapon.scopingRot);
+            //equippedWeapon.transform.localEulerAngles = Vector3.Slerp(equippedWeapon.transform.localEulerAngles, equippedWeapon.scopingRot, aimSpeed * Time.deltaTime);
+            gunRenderingCam.fieldOfView = Mathf.Lerp(gunRenderingCam.fieldOfView, gunScopingFOV, FOVChangeSpeed * Time.deltaTime);
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, scopingFOV, FOVChangeSpeed * Time.deltaTime);
+        }
+        else{
+            equippedWeapon.transform.localPosition = Vector3.Lerp(equippedWeapon.transform.localPosition, equippedWeapon.restingPos, relaxSpeed * Time.deltaTime);
+            //equippedWeapon.transform.localRotation = Quaternion.Euler(Vector3.Lerp(equippedWeapon.transform.localEulerAngles, equippedWeapon.restingRot, relaxSpeed * Time.deltaTime));
+            equippedWeapon.transform.localRotation = Quaternion.Euler(equippedWeapon.restingRot);
+            mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, normalFOV, FOVChangeSpeed * Time.deltaTime);
+            gunRenderingCam.fieldOfView = Mathf.Lerp(gunRenderingCam.fieldOfView, gunNormalFOV, FOVChangeSpeed * Time.deltaTime);
         }
     }
 }
