@@ -23,6 +23,8 @@ public class ControlsManager : MonoBehaviour
     [HideInInspector]
     public bool aiming;
     [HideInInspector]
+    public bool canToggleADS;
+    [HideInInspector]
     public bool reloading;
     [HideInInspector]
     public bool sprinting;
@@ -83,10 +85,15 @@ public class ControlsManager : MonoBehaviour
             crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
 
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
-            aiming = playerControls.interactions.ADS.ReadValue<float>() == 1;
             reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
             enter = playerControls.interactions.enter.ReadValue<float>() == 1;
-
+            if(canToggleADS && playerControls.interactions.ADS.ReadValue<float>() == 1){
+                aiming = !aiming;
+                canToggleADS = false;
+            }
+            if(playerControls.interactions.ADS.ReadValue<float>() != 1){
+                canToggleADS = true;
+            }
 
             tab = playerControls.interactions.tab.ReadValue<float>() == 1;
 
@@ -120,7 +127,7 @@ public class ControlsManager : MonoBehaviour
             sprinting = false;
             crouching = false;
             shooting = false;
-            aiming = false;
+            //aiming = false;
             reloading = false;
 
             tab = playerControls.interactions.tab.ReadValue<float>() == 1;

@@ -15,6 +15,7 @@ public class Look : MonoBehaviour
     public float maxCamRotX;
 
     public GameObject scopeCam;
+    public float scopedSenseMult;
 
 
     ControlsManager controlsManager;
@@ -35,12 +36,21 @@ public class Look : MonoBehaviour
         scopeCam.transform.rotation = Quaternion.LookRotation(scopeCam.transform.position - transform.position, transform.up);
         //Debug.Log(controlsManager.mouseDelta);
         //player.transform.Rotate(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
-
-        camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
+        if(controlsManager.aiming){
+            camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense * scopedSenseMult, minCamRotX, maxCamRotX);
+        }
+        else{
+            camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
+        }
         this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
     }
 
     private void FixedUpdate() {
-        rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
+        if(controlsManager.aiming){
+            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense * scopedSenseMult, 0f);
+        }
+        else{
+            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
+        }
     }
 }

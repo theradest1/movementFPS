@@ -55,6 +55,9 @@ public class WeaponInfo : MonoBehaviour
     public Vector3 scopingPos;
     public Vector3 scopingRot;
 
+    public Quaternion scopingRotQ;
+    public Quaternion restingRotQ;
+
     public bool canADS = false;
 
     private void Update() {
