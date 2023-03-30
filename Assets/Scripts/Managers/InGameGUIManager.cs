@@ -29,6 +29,7 @@ public class InGameGUIManager : MonoBehaviour
     public Toggle fullscreenToggle;
     public Toggle toggleADS;
     public Toggle postToggle;
+    public Toggle vsyncToggle;
     public PostProcessLayer postLayer;
     public PostProcessLayer postLayerScope;
 
@@ -53,6 +54,7 @@ public class InGameGUIManager : MonoBehaviour
         senseSliderADS.value = PlayerPrefs.GetFloat("SensitivityADS", 1f);
         volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
         fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        vsyncToggle.isOn = PlayerPrefs.GetInt("Vsync", 1) == 1;
         toggleADS.isOn = PlayerPrefs.GetInt("ToggleADS", 1) == 1;
         postToggle.isOn = PlayerPrefs.GetInt("Post", 1) == 1;
         qualitySlider.value = PlayerPrefs.GetInt("Quality", 5);
@@ -117,6 +119,7 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void changeValue(){
+        Debug.Log("Updated settings");
         look.generalSense = senseSlider.value;
         look.generalSenseADS = senseSliderADS.value;
         senseInputText.text = (senseSlider.value * 100)  + "";
@@ -142,11 +145,18 @@ public class InGameGUIManager : MonoBehaviour
             postLayer.enabled = false;
             postLayerScope.enabled = false;
         }
+        if(postToggle.isOn){
+            QualitySettings.vSyncCount = 1;
+        }
+        else{
+            QualitySettings.vSyncCount = 0;
+        }
         QualitySettings.SetQualityLevel((int)qualitySlider.value, true);
         PlayerPrefs.SetFloat("Sensitivity", senseSlider.value);
         PlayerPrefs.SetFloat("SensitivityADS", senseSliderADS.value);
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         PlayerPrefs.SetInt("Quality", (int)qualitySlider.value);
+        PlayerPrefs.SetInt("Vsync", QualitySettings.vSyncCount);
         if(fullscreenToggle.isOn){
             PlayerPrefs.SetInt("Fullscreen", 1);
         }

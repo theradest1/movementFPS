@@ -12,6 +12,7 @@ public class Look : MonoBehaviour
     public float generalSense;
     public float generalSenseADS;
     public float camRotX;
+    public float rotY = 0f;
     public float minCamRotX;
     public float maxCamRotX;
 
@@ -43,14 +44,14 @@ public class Look : MonoBehaviour
             camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
         }
         this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
-    }
-
-    private void FixedUpdate() {
+        
         if(controlsManager.aiming){
-            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS, 0f);
+            rotY += controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS;
+            //rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS, 0f);
         }
         else{
-            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
+            rotY += controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense;
         }
+        rb.MoveRotation(Quaternion.Euler(0f, rotY, 0f));
     }
 }
