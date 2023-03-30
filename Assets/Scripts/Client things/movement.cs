@@ -38,6 +38,7 @@ public class movement : MonoBehaviour
     public float ableToDash = 0f;
     public float dashTimout;
     public float speedBoostOnDash;
+    public float velocityMagVertical;
 
     [Header("Footsteps:")]
     public float footstepInterval;
@@ -198,7 +199,7 @@ public class movement : MonoBehaviour
         if(controlsManager.dashing && !isSliding){
             if(ableToDash <= 0 && isGrounded){
                 float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
-                rb.velocity = cam.transform.forward * velocityMag;
+                rb.velocity = new Vector3(0f, cam.transform.forward.y, 0f) * velocityMagVertical * velocityMag + moveDirection.x * transform.right * velocityMag + moveDirection.y * transform.forward * velocityMag;
                 ableToDash = dashTimout;
             }
         }
