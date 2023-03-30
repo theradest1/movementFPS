@@ -48,6 +48,8 @@ public class ControlsManager : MonoBehaviour
     public bool choosingMap = false;
     [HideInInspector]
     public bool enter = false;
+    [HideInInspector]
+    public bool toggleADS = false;
 
     private void Start() {
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
@@ -87,12 +89,21 @@ public class ControlsManager : MonoBehaviour
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
             reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
             enter = playerControls.interactions.enter.ReadValue<float>() == 1;
-            if(canToggleADS && playerControls.interactions.ADS.ReadValue<float>() == 1){
-                aiming = !aiming;
-                canToggleADS = false;
+            
+            if((canToggleADS || !toggleADS) && playerControls.interactions.ADS.ReadValue<float>() == 1){
+                if(toggleADS){
+                    aiming = !aiming;
+                    canToggleADS = false;
+                }
+                else{
+                    aiming = true;
+                }
             }
             if(playerControls.interactions.ADS.ReadValue<float>() != 1){
                 canToggleADS = true;
+            }
+            if(!toggleADS && playerControls.interactions.ADS.ReadValue<float>() != 1){
+                aiming = false;
             }
 
             tab = playerControls.interactions.tab.ReadValue<float>() == 1;

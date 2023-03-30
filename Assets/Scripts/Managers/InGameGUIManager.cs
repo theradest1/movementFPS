@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.PostProcessing;
 
 public class InGameGUIManager : MonoBehaviour
 {
@@ -18,12 +19,18 @@ public class InGameGUIManager : MonoBehaviour
     public Slider senseSlider;
     public Slider senseSliderADS;
     public Slider volumeSlider;
+    public Slider qualitySlider;
     public GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
     public GameObject scoreboard;
     public TextMeshProUGUI gameClock;
     public TMP_InputField senseInputText;
     public TMP_InputField senseInputTextADS;
+    public Toggle fullscreenToggle;
+    public Toggle toggleADS;
+    public Toggle postToggle;
+    public PostProcessLayer postLayer;
+    public PostProcessLayer postLayerScope;
 
     [Header("Settings:")]
     public float killFeedTime;
@@ -42,13 +49,14 @@ public class InGameGUIManager : MonoBehaviour
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 
-        float sense = PlayerPrefs.GetFloat("Sensitivity", 1f);
-        float senseADS = PlayerPrefs.GetFloat("SensitivityADS", 1f);
-        float volume = PlayerPrefs.GetFloat("Volume", 1f);
+        senseSlider.value = PlayerPrefs.GetFloat("Sensitivity", 1f);
+        senseSliderADS.value = PlayerPrefs.GetFloat("SensitivityADS", 1f);
+        volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
+        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        toggleADS.isOn = PlayerPrefs.GetInt("ToggleADS", 1) == 1;
+        postToggle.isOn = PlayerPrefs.GetInt("Post", 1) == 1;
+        qualitySlider.value = PlayerPrefs.GetInt("Quality", 5);
 
-        senseSlider.value = sense;
-        senseSliderADS.value = senseADS;
-        volumeSlider.value = volume;
 
         menu.SetActive(false);
         changeValue();
@@ -114,9 +122,49 @@ public class InGameGUIManager : MonoBehaviour
         senseInputText.text = (senseSlider.value * 100)  + "";
         senseInputTextADS.text = (senseSliderADS.value * 100)  + "";
         soundManager.generalVolume = volumeSlider.value;
+        if(fullscreenToggle.isOn){
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+        }
+        else{
+            Screen.fullScreenMode = FullScreenMode.Windowed;
+        }
+        if(toggleADS.isOn){
+            controlsManager.toggleADS = true;
+        }
+        else{
+            controlsManager.toggleADS = false;
+        }
+        if(postToggle.isOn){
+            postLayer.enabled = true;
+            postLayerScope.enabled = true;
+        }
+        else{
+            postLayer.enabled = false;
+            postLayerScope.enabled = false;
+        }
+        QualitySettings.SetQualityLevel((int)qualitySlider.value, true);
         PlayerPrefs.SetFloat("Sensitivity", senseSlider.value);
         PlayerPrefs.SetFloat("SensitivityADS", senseSliderADS.value);
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
+        PlayerPrefs.SetInt("Quality", (int)qualitySlider.value);
+        if(fullscreenToggle.isOn){
+            PlayerPrefs.SetInt("Fullscreen", 1);
+        }
+        else{
+            PlayerPrefs.SetInt("Fullscreen", 0);
+        }
+        if(toggleADS.isOn){
+            PlayerPrefs.SetInt("ToggleADS", 1);
+        }
+        else{
+            PlayerPrefs.SetInt("ToggleADS", 0);
+        }
+        if(postToggle.isOn){
+            PlayerPrefs.SetInt("Post", 1);
+        }
+        else{
+            PlayerPrefs.SetInt("Post", 0);
+        }
         PlayerPrefs.Save();
     }
 

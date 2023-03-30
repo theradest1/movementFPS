@@ -160,7 +160,7 @@ function checkDisconnectTimers(){
 		}
 	}
 	if(playerIndexesToDisconnect.length >= 1){
-		console.log("Players to disconnect: " + playerIndexesToDisconnect);
+		console.log("Player TimedOut: " + playerIndexesToDisconnect);
 		for(playerIndexesID in playerIndexesToDisconnect){
 			disconnectClient(playerIndexesToDisconnect[playerIndexesToDisconnect.length - 1 - playerIndexesID]);
 		}

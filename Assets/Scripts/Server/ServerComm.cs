@@ -169,7 +169,7 @@ public class ServerComm : MonoBehaviour
             string info = "";
             byte[] sendBytes;
             if(controlsManager.deathMenuControlls){
-                sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + new Vector3(0f, -9, 0f) + "~" + player.transform.rotation);
+                sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + new Vector3(0f, 10000f, 0f) + "~" + player.transform.rotation);
             }
             else{
                 sendBytes = Encoding.ASCII.GetBytes("u~" + ID + "~" + player.transform.position + "~" + player.transform.rotation);
