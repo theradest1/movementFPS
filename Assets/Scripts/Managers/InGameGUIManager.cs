@@ -16,12 +16,14 @@ public class InGameGUIManager : MonoBehaviour
     [Header("References:")]
     public GameObject menu;
     public Slider senseSlider;
+    public Slider senseSliderADS;
     public Slider volumeSlider;
     public GameObject killFeedObject;
     public GameObject killFeedChildPrefab;
     public GameObject scoreboard;
     public TextMeshProUGUI gameClock;
     public TMP_InputField senseInputText;
+    public TMP_InputField senseInputTextADS;
 
     [Header("Settings:")]
     public float killFeedTime;
@@ -41,9 +43,11 @@ public class InGameGUIManager : MonoBehaviour
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 
         float sense = PlayerPrefs.GetFloat("Sensitivity", 1f);
+        float senseADS = PlayerPrefs.GetFloat("SensitivityADS", 1f);
         float volume = PlayerPrefs.GetFloat("Volume", 1f);
 
         senseSlider.value = sense;
+        senseSliderADS.value = senseADS;
         volumeSlider.value = volume;
 
         menu.SetActive(false);
@@ -95,6 +99,7 @@ public class InGameGUIManager : MonoBehaviour
         try
         {
             senseSlider.value = float.Parse(senseInputText.text)/100;
+            senseSliderADS.value = float.Parse(senseInputTextADS.text)/100;
             changeValue();
         }
         catch (System.Exception)
@@ -105,9 +110,12 @@ public class InGameGUIManager : MonoBehaviour
 
     public void changeValue(){
         look.generalSense = senseSlider.value;
+        look.generalSenseADS = senseSliderADS.value;
         senseInputText.text = (senseSlider.value * 100)  + "";
+        senseInputTextADS.text = (senseSliderADS.value * 100)  + "";
         soundManager.generalVolume = volumeSlider.value;
         PlayerPrefs.SetFloat("Sensitivity", senseSlider.value);
+        PlayerPrefs.SetFloat("SensitivityADS", senseSliderADS.value);
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         PlayerPrefs.Save();
     }

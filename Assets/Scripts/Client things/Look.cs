@@ -10,12 +10,12 @@ public class Look : MonoBehaviour
     public float LookSpeedHorizontal;
     public float LookSpeedVertical;
     public float generalSense;
+    public float generalSenseADS;
     public float camRotX;
     public float minCamRotX;
     public float maxCamRotX;
 
     public GameObject scopeCam;
-    public float scopedSenseMult;
 
 
     ControlsManager controlsManager;
@@ -37,7 +37,7 @@ public class Look : MonoBehaviour
         //Debug.Log(controlsManager.mouseDelta);
         //player.transform.Rotate(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
         if(controlsManager.aiming){
-            camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense * scopedSenseMult, minCamRotX, maxCamRotX);
+            camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSenseADS, minCamRotX, maxCamRotX);
         }
         else{
             camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
@@ -47,7 +47,7 @@ public class Look : MonoBehaviour
 
     private void FixedUpdate() {
         if(controlsManager.aiming){
-            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense * scopedSenseMult, 0f);
+            rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS, 0f);
         }
         else{
             rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);

@@ -35,6 +35,7 @@ public class WeaponManager : MonoBehaviour
 
     public float relaxSpeed;
     public float aimSpeed;
+    public float moveRecoverySpeed;
     public Camera gunRenderingCam;
     public Camera mainCam;
     public float FOVChangeSpeed;
@@ -46,6 +47,7 @@ public class WeaponManager : MonoBehaviour
     public ClassInfo currentClass;
     public float spreadADSMult;
     public float camRecoilPercent;
+    public float generalRecoilMult = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -170,9 +172,9 @@ public class WeaponManager : MonoBehaviour
             //look.camRotX
             
             
-            equippedWeapon.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult, equippedWeapon.recoilVerticalMax * spreadADSMult), 0f, 0f); 
-            equippedWeapon.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal * spreadADSMult, equippedWeapon.recoilHorizontal * spreadADSMult), 0f);
-            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult, equippedWeapon.recoilVerticalMax * spreadADSMult) * camRecoilPercent;
+            equippedWeapon.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult), 0f, 0f); 
+            equippedWeapon.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult, equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult), 0f);
+            look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult) * camRecoilPercent;
         }
 
         if(controlsManager.aiming && equippedWeapon.canADS){
@@ -193,5 +195,6 @@ public class WeaponManager : MonoBehaviour
             mainCam.fieldOfView = Mathf.Lerp(mainCam.fieldOfView, normalFOV, FOVChangeSpeed * Time.deltaTime);
             gunRenderingCam.fieldOfView = Mathf.Lerp(gunRenderingCam.fieldOfView, gunNormalFOV, FOVChangeSpeed * Time.deltaTime);
         }
+        weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, moveRecoverySpeed * Time.deltaTime);
     }
 }

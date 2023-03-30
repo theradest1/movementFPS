@@ -49,10 +49,12 @@ public class movement : MonoBehaviour
     public Vector3 camPosNotSliding;
 
     [Header("Weapon:")]
-    public float weaponTravelSpeed;
+    //public float weaponTravelSpeed;
     public float weaponDistanceMult;
-    public float weaponDistanceMultVertical;
+    public float weaponDistanceMultADS;
+    //public float weaponDistanceMultVertical;
     public float speedMultiplierFromWeapon = 1f;
+    public GameObject weaponContainer;
 
 
 
@@ -105,6 +107,12 @@ public class movement : MonoBehaviour
             goToPos = camPosNotSliding;
         }
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed * Time.deltaTime);
+        if(controlsManager.aiming){
+            weaponContainer.transform.position -= rb.velocity * weaponDistanceMultADS * Time.deltaTime;
+        }
+        else{
+            weaponContainer.transform.position -= rb.velocity * weaponDistanceMult * Time.deltaTime;
+        }
     }
 
     void FixedUpdate() {
