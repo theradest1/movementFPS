@@ -30,8 +30,10 @@ public class InGameGUIManager : MonoBehaviour
     public Toggle toggleADS;
     public Toggle postToggle;
     public Toggle vsyncToggle;
+    public Toggle debugToggle;
     public PostProcessLayer postLayer;
     public PostProcessLayer postLayerScope;
+    public GameObject debugContainer;
 
     [Header("Settings:")]
     public float killFeedTime;
@@ -50,15 +52,27 @@ public class InGameGUIManager : MonoBehaviour
         soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 
-        senseSlider.value = PlayerPrefs.GetFloat("Sensitivity", 1f);
-        senseSliderADS.value = PlayerPrefs.GetFloat("SensitivityADS", 1f);
-        volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
-        fullscreenToggle.isOn = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
-        vsyncToggle.isOn = PlayerPrefs.GetInt("Vsync", 1) == 1;
-        toggleADS.isOn = PlayerPrefs.GetInt("ToggleADS", 1) == 1;
-        postToggle.isOn = PlayerPrefs.GetInt("Post", 1) == 1;
-        qualitySlider.value = PlayerPrefs.GetInt("Quality", 5);
 
+        //Dont clean this chunk up, it is so things don't get overwriten (you already tried to clean it up)
+        float sense = PlayerPrefs.GetFloat("Sensitivity", 1f);
+        float senseADS = PlayerPrefs.GetFloat("SensitivityADS", 1f);
+        float volume = PlayerPrefs.GetFloat("Volume", 1f);
+        bool fullscreen = PlayerPrefs.GetInt("Fullscreen", 1) == 1;
+        bool vsync = PlayerPrefs.GetInt("Vsync", 1) == 1;
+        bool ads = PlayerPrefs.GetInt("ToggleADS", 1) == 1;
+        bool post = PlayerPrefs.GetInt("Post", 1) == 1;
+        bool debug = PlayerPrefs.GetInt("Debug", 1) == 1;
+        int quality = PlayerPrefs.GetInt("Quality", 5);
+
+        senseSlider.value = sense;
+        senseSliderADS.value = senseADS;
+        volumeSlider.value = volume;
+        fullscreenToggle.isOn = fullscreen;
+        vsyncToggle.isOn = vsync;
+        toggleADS.isOn = ads;
+        postToggle.isOn = post;
+        qualitySlider.value = quality;
+        debugToggle.isOn = debug;
 
         menu.SetActive(false);
         changeValue();
@@ -119,7 +133,6 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void changeValue(){
-        Debug.Log("Updated settings");
         look.generalSense = senseSlider.value;
         look.generalSenseADS = senseSliderADS.value;
         senseInputText.text = (senseSlider.value * 100)  + "";
@@ -151,12 +164,20 @@ public class InGameGUIManager : MonoBehaviour
         else{
             QualitySettings.vSyncCount = 0;
         }
+        debugContainer.SetActive(debugToggle.isOn);
+
         QualitySettings.SetQualityLevel((int)qualitySlider.value, true);
         PlayerPrefs.SetFloat("Sensitivity", senseSlider.value);
         PlayerPrefs.SetFloat("SensitivityADS", senseSliderADS.value);
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         PlayerPrefs.SetInt("Quality", (int)qualitySlider.value);
         PlayerPrefs.SetInt("Vsync", QualitySettings.vSyncCount);
+        if(debugToggle.isOn){
+            PlayerPrefs.SetInt("Debug", 1);
+        }
+        else{
+            PlayerPrefs.SetInt("Debug", 0);
+        }
         if(fullscreenToggle.isOn){
             PlayerPrefs.SetInt("Fullscreen", 1);
         }
