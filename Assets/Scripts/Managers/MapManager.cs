@@ -7,7 +7,8 @@ public class MapManager : MonoBehaviour
 {
     public List<MapInfo> maps;
     public List<TextMeshProUGUI> lables;
-    MapInfo currentMap;
+    [HideInInspector]
+    public MapInfo currentMap;
     PlayerManager playerManager;
     ServerComm serverComm;
     ServerEvents serverEvents;

@@ -172,6 +172,7 @@ public class InGameGUIManager : MonoBehaviour
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         PlayerPrefs.SetInt("Quality", (int)qualitySlider.value);
         PlayerPrefs.SetInt("Vsync", QualitySettings.vSyncCount);
+        
         if(debugToggle.isOn){
             PlayerPrefs.SetInt("Debug", 1);
         }

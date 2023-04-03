@@ -122,6 +122,23 @@ public class WeaponManager : MonoBehaviour
         return 0;
     }
 
+    public bool refillTool(){
+        for(int weaponID = 0; weaponID < weapons.Count; weaponID++){
+            if(weapons[weaponID].tool){
+                if(weapons[weaponID].objectsInClip < (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult)){
+                    Debug.Log(weapons[weaponID].objectsInClip + " < " + (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult));
+                    weapons[weaponID].objectsInClip++;
+                    if(equippedWeapon == weapons[weaponID]){
+                        objectsInClipText.text = equippedWeapon.objectsInClip + "/" + getModifiedMaxObjects();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
     // Update is called once per frame
     void Update()
     {

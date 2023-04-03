@@ -30,6 +30,7 @@ public class ServerComm : MonoBehaviour
     ControlsManager controlsManager;
     InGameGUIManager inGameGUIManager;
     MapManager mapManager;
+    ToolReloadManager toolReloadManager;
 
     int throughPackets = 0;
     int throttledPackets = 0;
@@ -55,6 +56,7 @@ public class ServerComm : MonoBehaviour
     void Start()
     {
         mapManager = GameObject.Find("manager").GetComponent<MapManager>();
+        toolReloadManager = GameObject.Find("manager").GetComponent<ToolReloadManager>();
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         variableUpdater = GameObject.Find("manager").GetComponent<VariableUpdater>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
@@ -263,6 +265,10 @@ public class ServerComm : MonoBehaviour
                                 break;
                             case "voteMap":
                                 mapManager.setVote(int.Parse(splitRawEvents[1]), int.Parse(splitRawEvents[2])); //voter ID, map ID
+                                break;
+                            case "toolRefill":
+                                //Debug.Log(rawEvents[i]);
+                                toolReloadManager.spawnToolRefill(int.Parse(splitRawEvents[1]), int.Parse(splitRawEvents[2])); //spawn pos, type
                                 break;
                             default:
                                 droppedPackets++;

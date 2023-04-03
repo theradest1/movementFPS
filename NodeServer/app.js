@@ -6,6 +6,8 @@ var osu = require('node-os-utils');
 var cpu = osu.cpu;
 var mem = osu.mem;
 const fs = require('fs');
+const { randomInt } = require('crypto');
+const { get } = require('http');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap', 'voteMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
 TPS = 32;
@@ -23,6 +25,7 @@ const settingCheckInterval = 5000; //in ms
 setInterval(checkDisconnectTimers, disconnectInterval);
 setInterval(checkSettings, settingCheckInterval);
 setInterval(updateGameClock, 1000);
+setInterval(spawnTool, 15000);
 checkSettings();
 packetCounter = 0; //will be inaccurate if disconnect interval is different than 1000
 settings = "";
@@ -35,6 +38,9 @@ currentPlayerIDs = []; //IDs (to find where other information is without having 
 playerDisconnectTimers = []; //disconnect timers that go up untill they are disconnected because of not updating their transform
 eventsToSend = []; //events that que up untill the client calls an update, where they are dumped and the client then processes them
 
+function spawnTool(){
+	addEventToAll("toolRefill~" + getRandomInt(1000) + "~" + getRandomInt(1));	
+}
 
 function updateGameClock(){
 	gameClock --;

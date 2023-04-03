@@ -13,8 +13,6 @@ public class movement : MonoBehaviour
     Rigidbody rb;
     ControlsManager controlsManager;
     ServerEvents serverEvents;
-    TextMeshProUGUI velocityText;
-    TextMeshProUGUI FPStext;
     ServerComm serverComm;
     PlayerManager playerManager;
     public ClassInfo currentClass;
@@ -22,6 +20,8 @@ public class movement : MonoBehaviour
     //Vector3 velocity = new Vector3(0f, 0f, 0f);
 
     [Header("Debug:")]
+    public TextMeshProUGUI velocityText;
+    public TextMeshProUGUI FPStext;
     public bool isGrounded = false;
     public bool isSliding = false;
     public bool ableToJump = false;
@@ -87,13 +87,11 @@ public class movement : MonoBehaviour
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         rb = this.gameObject.GetComponent<Rigidbody>();
-        FPStext = GameObject.Find("FPS debug").GetComponent<TextMeshProUGUI>();
         //weaponContainer = GameObject.Find("weapons");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         cam = GameObject.Find("Main Camera");
         look = cam.GetComponent<Look>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
-        velocityText = GameObject.Find("velocity debug").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
