@@ -31,6 +31,7 @@ public class ServerComm : MonoBehaviour
     InGameGUIManager inGameGUIManager;
     MapManager mapManager;
     ToolReloadManager toolReloadManager;
+    ChatManager chatManager;
 
     int throughPackets = 0;
     int throttledPackets = 0;
@@ -56,6 +57,7 @@ public class ServerComm : MonoBehaviour
     void Start()
     {
         mapManager = GameObject.Find("manager").GetComponent<MapManager>();
+        chatManager = GameObject.Find("manager").GetComponent<ChatManager>();
         toolReloadManager = GameObject.Find("manager").GetComponent<ToolReloadManager>();
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         variableUpdater = GameObject.Find("manager").GetComponent<VariableUpdater>();
@@ -269,6 +271,9 @@ public class ServerComm : MonoBehaviour
                             case "toolRefill":
                                 //Debug.Log(rawEvents[i]);
                                 toolReloadManager.spawnToolRefill(int.Parse(splitRawEvents[1]), int.Parse(splitRawEvents[2])); //spawn pos, type
+                                break;
+                            case "chat":
+                                chatManager.newChat(int.Parse(splitRawEvents[1]), splitRawEvents[2]); //chatter ID, message
                                 break;
                             default:
                                 droppedPackets++;

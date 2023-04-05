@@ -47,6 +47,8 @@ public class ControlsManager : MonoBehaviour
     [HideInInspector]
     public bool choosingMap = false;
     [HideInInspector]
+    public bool chatting = false;
+    [HideInInspector]
     public bool enter = false;
     [HideInInspector]
     public bool toggleADS = false;
@@ -75,7 +77,7 @@ public class ControlsManager : MonoBehaviour
 
     void Update()
     {
-        if(!deathMenuControlls && !disconnected && !inMenu && !choosingMap){
+        if(!deathMenuControlls && !disconnected && !inMenu && !choosingMap && !chatting){
             Cursor.lockState = CursorLockMode.Locked;
             //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
             mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();
