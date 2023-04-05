@@ -10,12 +10,14 @@ public class ChatManager : MonoBehaviour
     public GameObject chatChildPrefab;
     List<GameObject> chatChildObjects;
     public GameObject chatParentObject;
+    public GameObject messageContainer;
     public float timeBeforeHide;
     public float timer;
     public bool ableToOpenChat = true;
     bool currentlyOpen;
     public ControlsManager controlsManager;
     public ServerEvents serverEvents;
+    public ServerComm serverComm;
     public TMP_InputField  inputText;
 
     private void Start() {
@@ -71,5 +73,13 @@ public class ChatManager : MonoBehaviour
     public void newChat(int chatterID, string message){
         Debug.Log("Player with ID " + chatterID + " said \"" + message + "\"");
         timer = timeBeforeHide;
+
+        if(chatterID == serverComm.ID){
+            message = "You: " + message;
+        }
+        else{
+            message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + message;
+        }
+        Instantiate(chatChildPrefab, messageContainer.transform).GetComponent<TextMeshProUGUI>().text = message;
     }
 }
