@@ -66,10 +66,9 @@ public class ChatManager : MonoBehaviour
         if(inputText.text != ""){
             serverEvents.sendEvent("ue", "chat", inputText.text);
             inputText.text = "";
-            Debug.Log("disabled");
-            inputText.enabled = false;
-            ableToOpenChat = false;
         }
+        inputText.enabled = false;
+        ableToOpenChat = false;
     }
 
     public void newChat(int chatterID, string message){
@@ -86,8 +85,14 @@ public class ChatManager : MonoBehaviour
             message = "You: " + message;
         }
         else{
-            message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + message;
+            message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + ": " + message;
         }
         Instantiate(chatChildPrefab, messageContainer.transform).GetComponent<TextMeshProUGUI>().text = message;
+        Invoke("UpdateParentLayoutGroup", 0.01f);
+    }
+
+    void UpdateParentLayoutGroup(){
+        chatParentObject.SetActive(false);
+        chatParentObject.SetActive(true);
     }
 }

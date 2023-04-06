@@ -143,7 +143,10 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
         int modifiedMaxObjects = getModifiedMaxObjects();
-
+        float tempBulletSpeed = equippedWeapon.bulletTravelSpeed;
+        if(controlsManager.aiming && equippedWeapon.canADS){
+            tempBulletSpeed *= equippedWeapon.bulletSpeedADSMult;
+        }
         
         if(!controlsManager.shooting){
             ableToShoot = true;
@@ -171,20 +174,21 @@ public class WeaponManager : MonoBehaviour
             if(!equippedWeapon.automatic){
                 ableToShoot = false;
             }
+            
             // cam.transform.Rotate(Random.Range(-equippedWeapon.recoilVertical, 0), Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal), 0f);
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
             equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
-        
+
             if(equippedWeapon.projectileID == 3){ //only for bullets
-                projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * equippedWeapon.bulletTravelSpeed);
+                projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed);
             }
             if(equippedWeapon.projectileID == 6){ //only for shotgunShells
-                projectileManager.createProjectile(0, 5, equippedWeapon.damage, cam.transform.position, cam.transform.forward * equippedWeapon.bulletTravelSpeed);
+                projectileManager.createProjectile(0, 5, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed);
             }
 
-            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * equippedWeapon.bulletTravelSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
+            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * tempBulletSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //serverEvents.sendEvent("ue", "sound",  + "~" + equippedWeapon.transform.position + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //look.camRotX
             

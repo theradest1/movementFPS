@@ -60,6 +60,8 @@ public class WeaponInfo : MonoBehaviour
 
     public bool canADS = false;
 
+    public float bulletSpeedADSMult = 1f;
+
     private void Update() {
         cooldownTimer -= Time.deltaTime;
     }
