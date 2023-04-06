@@ -7,18 +7,23 @@ using UnityEngine.EventSystems;
 
 public class ChatManager : MonoBehaviour
 {
+    float timer;
+    bool ableToOpenChat = true;
+    bool currentlyOpen;
+    int totalMesssages = 0;
+    
+    [Header("References:")]
     public GameObject chatChildPrefab;
-    List<GameObject> chatChildObjects;
     public GameObject chatParentObject;
     public GameObject messageContainer;
-    public float timeBeforeHide;
-    public float timer;
-    public bool ableToOpenChat = true;
-    bool currentlyOpen;
     public ControlsManager controlsManager;
     public ServerEvents serverEvents;
     public ServerComm serverComm;
-    public TMP_InputField  inputText;
+    public TMP_InputField inputText;
+
+    [Header("Settings:")]
+    public float timeBeforeHide;
+    public int messagesUntillDelete = 5;
 
     private void Start() {
         inputText.enabled = true;
@@ -48,9 +53,6 @@ public class ChatManager : MonoBehaviour
             ableToOpenChat = true;
         }
 
-
-
-
         if(!inputText.isFocused && timer <= 0){
             chatParentObject.SetActive(false);
         }
@@ -71,6 +73,12 @@ public class ChatManager : MonoBehaviour
     }
 
     public void newChat(int chatterID, string message){
+        totalMesssages++;
+        if(totalMesssages >= messagesUntillDelete){
+            totalMesssages--;
+            Destroy(messageContainer.transform.GetChild(0).gameObject);
+        }
+
         Debug.Log("Player with ID " + chatterID + " said \"" + message + "\"");
         timer = timeBeforeHide;
 
