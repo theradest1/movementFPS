@@ -12,17 +12,20 @@ public class MapManager : MonoBehaviour
     PlayerManager playerManager;
     ServerComm serverComm;
     ServerEvents serverEvents;
+    ToolReloadManager toolReloadManager;
     public GameObject mapChoosingMenu;
     ControlsManager controlsManager;
     int currentMapVote = -1;
     //ServerEvents serverEvents;
 
     private void Start() {
+        toolReloadManager = GameObject.Find("manager").GetComponent<ToolReloadManager>();
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         currentMap = playerManager.currentMap;
+        toolReloadManager.newMap();
     }
 
     public void newMap(int newMapID){
@@ -33,6 +36,7 @@ public class MapManager : MonoBehaviour
         mapChoosingMenu.SetActive(false);
         controlsManager.choosingMap = false;
         playerManager.commitDie();
+        toolReloadManager.newMap();
     }
 
     public void skipMap(){
