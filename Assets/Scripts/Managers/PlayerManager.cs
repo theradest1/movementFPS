@@ -74,22 +74,29 @@ public class PlayerManager : MonoBehaviour
         healthSlider = GameObject.Find("health").GetComponent<Slider>();
         flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
+        //updateWeaponStats(mainDropdown);
         int _class = PlayerPrefs.GetInt("Class", 0);
-        int _main = PlayerPrefs.GetInt("Main", 1);
-        int _second = PlayerPrefs.GetInt("Secondary", 1);
-        int _tool = PlayerPrefs.GetInt("Tool", 1);
-        
-        //Debug.Log("Main: " + _main);
-
         classDropdown.value = _class;
-        mainDropdown.value = _main;
-        secondaryDropdown.value = _second;
-        toolDropdown.value = _tool;
 
-        //spawn();
         InvokeRepeating("heal", 0, healRate);
         changeHealth(0f);
         updateClassStats();
+
+        Invoke("getWeaponChoices", .1f);
+    }
+
+    void getWeaponChoices(){
+        int _main = PlayerPrefs.GetInt("Main", 0);
+        int _second = PlayerPrefs.GetInt("Secondary", 0);
+        int _tool = PlayerPrefs.GetInt("Tool", 0);
+        
+        //Debug.Log("Main: " + _main);
+
+        mainDropdown.value = _main;
+        secondaryDropdown.value = _second;
+        toolDropdown.value = _tool;
+        Debug.Log(_main + ", " + _second + ", " + _tool);
+        Debug.Log(mainDropdown.value + ", " + secondaryDropdown.value + ", " + toolDropdown.value);
     }
 
     void heal(){
@@ -177,6 +184,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void updateWeaponStats(TMP_Dropdown dropdown){
+        Debug.Log("updated weapon stats");
         WeaponInfo selectedWeapon = weaponManager.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
         /*ClassInfo selectedClass = GameObject.Find(classDropdown.options[classDropdown.value].text).GetComponent<ClassInfo>();
         for(int i = 0; i < selectedClass.possibleWeapons.Count; i++){

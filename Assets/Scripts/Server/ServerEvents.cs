@@ -181,14 +181,14 @@ public class ServerEvents : MonoBehaviour
         scoreboardKDRatio.Add(newKDPeice);
         clientScript.scoreboardPeice = newKDPeice;
 
-        Debug.Log("New player's ID: " + int.Parse(newClientID));
+        //Debug.Log("New player's ID: " + int.Parse(newClientID));
 
         sendEvent("ue", "setClass", playerManager.currentClass.gameObject.name);
         sendEvent("ue", "setHealth", playerManager.health + "~" + playerManager.healCooldown);
     }
 
     public void removeClient(string ID){
-        Debug.Log("Player with ID " + ID + " has left the game");
+        //Debug.Log("Player with ID " + ID + " has left the game");
         int playerIndex = clientIDs.IndexOf(int.Parse(ID));
         chatManager.newChat(clientScripts[playerIndex].username + " has left the game", Color.red);
         clientIDs.RemoveAt(playerIndex);
