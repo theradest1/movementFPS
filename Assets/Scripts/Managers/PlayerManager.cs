@@ -74,10 +74,17 @@ public class PlayerManager : MonoBehaviour
         healthSlider = GameObject.Find("health").GetComponent<Slider>();
         flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
-        classDropdown.value = PlayerPrefs.GetInt("Class", 0);
-        mainDropdown.value = PlayerPrefs.GetInt("Main", 0);
-        secondaryDropdown.value = PlayerPrefs.GetInt("Secondary", 0);
-        toolDropdown.value = PlayerPrefs.GetInt("Tool", 0);
+        int _class = PlayerPrefs.GetInt("Class", 0);
+        int _main = PlayerPrefs.GetInt("Main", 1);
+        int _second = PlayerPrefs.GetInt("Secondary", 1);
+        int _tool = PlayerPrefs.GetInt("Tool", 1);
+        
+        //Debug.Log("Main: " + _main);
+
+        classDropdown.value = _class;
+        mainDropdown.value = _main;
+        secondaryDropdown.value = _second;
+        toolDropdown.value = _tool;
 
         //spawn();
         InvokeRepeating("heal", 0, healRate);
@@ -123,11 +130,6 @@ public class PlayerManager : MonoBehaviour
             coll.enabled = true;
             rb.useGravity = true;
             rb.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
-
-            PlayerPrefs.SetInt("Main", mainDropdown.value);
-            PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
-            PlayerPrefs.SetInt("Tool", toolDropdown.value);
-            PlayerPrefs.Save();
         }
     }
 
@@ -171,7 +173,7 @@ public class PlayerManager : MonoBehaviour
         
         PlayerPrefs.SetInt("Class", classDropdown.value);
         PlayerPrefs.Save();
-        updateWeaponStats(mainDropdown);
+        //updateWeaponStats(mainDropdown);
     }
 
     public void updateWeaponStats(TMP_Dropdown dropdown){
@@ -190,6 +192,11 @@ public class PlayerManager : MonoBehaviour
         weaponClipSizeText.text = selectedWeapon.clipSize + "";
         weaponHeadshotText.text = (selectedWeapon.headShotMult * 100) + "%";
         weaponNameText.text = selectedWeapon.gameObject.name + "";
+
+        PlayerPrefs.SetInt("Main", mainDropdown.value);
+        PlayerPrefs.SetInt("Secondary", secondaryDropdown.value);
+        PlayerPrefs.SetInt("Tool", toolDropdown.value);
+        PlayerPrefs.Save();
     }
 
     public void commitDie(){
