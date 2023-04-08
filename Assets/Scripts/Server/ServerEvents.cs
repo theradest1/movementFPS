@@ -35,6 +35,7 @@ public class ServerEvents : MonoBehaviour
     WeaponManager weaponManager;
     GameObject player;
     ReplayManager replayManager;
+    ChatManager chatManager;
     Rigidbody playerRB;
 
     public bool replaying = false;
@@ -53,7 +54,9 @@ public class ServerEvents : MonoBehaviour
     TextMeshProUGUI clientKDScoreboard;
 
     private void Start() {
+
         playerRB = GameObject.Find("Player").GetComponent<Rigidbody>();
+        chatManager = GameObject.Find("manager").GetComponent<ChatManager>();
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
         player = GameObject.Find("Player");
@@ -163,6 +166,7 @@ public class ServerEvents : MonoBehaviour
 
     public void newClient(string newClientID, string newClientUsername){
         //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
+        chatManager.newChat(newClientUsername + " has joined the game", Color.red);
         GameObject newClientObject = Instantiate(clientPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         newClientObject.name = newClientID;
         OtherPlayer clientScript = newClientObject.GetComponent<OtherPlayer>();
@@ -186,6 +190,7 @@ public class ServerEvents : MonoBehaviour
     public void removeClient(string ID){
         Debug.Log("Player with ID " + ID + " has left the game");
         int playerIndex = clientIDs.IndexOf(int.Parse(ID));
+        chatManager.newChat(clientScripts[playerIndex].username + " has left the game", Color.red);
         clientIDs.RemoveAt(playerIndex);
         Destroy(clientScripts[playerIndex].gameObject);
         clientScripts.RemoveAt(playerIndex);

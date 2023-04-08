@@ -275,7 +275,7 @@ public class ServerComm : MonoBehaviour
                                 toolReloadManager.spawnToolRefill(int.Parse(splitRawEvents[1]), int.Parse(splitRawEvents[2])); //spawn pos, type
                                 break;
                             case "chat":
-                                chatManager.newChat(int.Parse(splitRawEvents[1]), splitRawEvents[2]); //chatter ID, message
+                                chatManager.newChat(splitRawEvents[2], Color.white, int.Parse(splitRawEvents[1])); //message, chatter ID
                                 break;
                             default:
                                 droppedPackets++;

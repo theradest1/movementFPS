@@ -72,7 +72,7 @@ public class ChatManager : MonoBehaviour
         ableToOpenChat = false;
     }
 
-    public void newChat(int chatterID, string message){
+    public void newChat(string message, Color messageColor, int chatterID = -1){
         totalMesssages++;
         if(totalMesssages >= messagesUntillDelete){
             totalMesssages--;
@@ -81,14 +81,17 @@ public class ChatManager : MonoBehaviour
 
         //Debug.Log("Player with ID " + chatterID + " said \"" + message + "\"");
         timer = timeBeforeHide;
-
-        if(chatterID == serverComm.ID){
-            message = "You: " + message;
+        if(chatterID != -1){
+            if(chatterID == serverComm.ID){
+                message = "You: " + message;
+            }
+            else{
+                message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + ": " + message;
+            }
         }
-        else{
-            message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + ": " + message;
-        }
-        Instantiate(chatChildPrefab, messageContainer.transform).GetComponent<TextMeshProUGUI>().text = message;
+        TextMeshProUGUI newMessageObject = Instantiate(chatChildPrefab, messageContainer.transform).GetComponent<TextMeshProUGUI>();
+        newMessageObject.text = message;
+        newMessageObject.color = messageColor;
         Invoke("UpdateParentLayoutGroup", 0.1f);
     }
 
