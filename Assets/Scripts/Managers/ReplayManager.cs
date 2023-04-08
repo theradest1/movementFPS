@@ -61,7 +61,7 @@ public class ReplayManager : MonoBehaviour
         look.camRotX = 0f;
         int startingTick = currentTick;
         int tick = startingTick + 1;
-        while(tick != startingTick){
+        while(tick != startingTick && tick < tickRate*replayTime + 10){ //the second statement is to stop a softlock
             foreach(List<string> individualPlayerData in replayData){
                 if(individualPlayerData.Count > 0){
                     individualPlayerTickData = individualPlayerData[tick].Split("~");
