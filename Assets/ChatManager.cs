@@ -44,6 +44,7 @@ public class ChatManager : MonoBehaviour
 
         if(inputText.isFocused){
             controlsManager.chatting = true;
+            timer = timeBeforeHide;
         }
         else{
             controlsManager.chatting = false;
@@ -53,7 +54,7 @@ public class ChatManager : MonoBehaviour
             ableToOpenChat = true;
         }
 
-        if(!inputText.isFocused && timer <= 0){
+        if(timer <= 0){
             chatParentObject.SetActive(false);
         }
         else{
@@ -78,7 +79,7 @@ public class ChatManager : MonoBehaviour
             Destroy(messageContainer.transform.GetChild(0).gameObject);
         }
 
-        Debug.Log("Player with ID " + chatterID + " said \"" + message + "\"");
+        //Debug.Log("Player with ID " + chatterID + " said \"" + message + "\"");
         timer = timeBeforeHide;
 
         if(chatterID == serverComm.ID){
@@ -88,7 +89,7 @@ public class ChatManager : MonoBehaviour
             message = GameObject.Find(chatterID + "").GetComponent<OtherPlayer>().username + ": " + message;
         }
         Instantiate(chatChildPrefab, messageContainer.transform).GetComponent<TextMeshProUGUI>().text = message;
-        Invoke("UpdateParentLayoutGroup", 0.01f);
+        Invoke("UpdateParentLayoutGroup", 0.1f);
     }
 
     void UpdateParentLayoutGroup(){

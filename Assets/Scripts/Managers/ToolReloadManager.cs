@@ -12,7 +12,6 @@ public class ToolReloadManager : MonoBehaviour
     public void spawnToolRefill(int spawnPosID, int type){
         spawnPosID %= mapManager.currentMap.toolSpawnPoints.Count;
         Vector3 pos = mapManager.currentMap.toolSpawnPoints[spawnPosID].transform.position;
-        Debug.Log(spawnPosID + " - " + mapManager.currentMap.toolSpawnPoints.Count + " - " + refillSpots.Count);
         if(refillSpots[spawnPosID] != null){
             Destroy(refillSpots[spawnPosID].gameObject);
         }
@@ -22,9 +21,10 @@ public class ToolReloadManager : MonoBehaviour
 
     public void newMap(){
         if(refillSpots.Count > 0){
-            Debug.Log("Count: " + refillSpots.Count);
             for (int i = 0; i < refillSpots.Count; i++){
-                Destroy(refillSpots[i].gameObject);
+                if(refillSpots[i] != null){
+                    Destroy(refillSpots[i].gameObject);
+                }
             }
         }
         refillSpots = new List<ToolRefill>();
