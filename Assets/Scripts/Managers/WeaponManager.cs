@@ -8,6 +8,8 @@ public class WeaponManager : MonoBehaviour
 {
     ControlsManager controlsManager;
     movement movementScript;
+    SoundManager soundManager;
+    public Rigidbody rb;
     public List<WeaponInfo> possibleWeapons;
     public List<WeaponInfo> weapons;
     
@@ -20,7 +22,6 @@ public class WeaponManager : MonoBehaviour
     public GameObject weaponContainer;
     Look look;
     ProjectileManager projectileManager;
-    SoundManager soundManager;
     TextMeshProUGUI objectsInClipText;
     TextMeshProUGUI equippedWeaponText;
 
@@ -56,10 +57,10 @@ public class WeaponManager : MonoBehaviour
         movementScript = GameObject.Find("Player").GetComponent<movement>();
         projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
+        soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         cam = GameObject.Find("Main Camera");
         player = GameObject.Find("Player");
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
-        soundManager = GameObject.Find("manager").GetComponent<SoundManager>();
         equippedWeaponText = GameObject.Find("equipped weapon").GetComponent<TextMeshProUGUI>();
         objectsInClipText = GameObject.Find("ammo left").GetComponent<TextMeshProUGUI>();
 
@@ -182,13 +183,14 @@ public class WeaponManager : MonoBehaviour
             equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
 
             if(equippedWeapon.projectileID == 3){ //only for bullets
-                projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed);
+                projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed + rb.velocity);
             }
             if(equippedWeapon.projectileID == 6){ //only for shotgunShells
-                projectileManager.createProjectile(0, 5, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed);
+                projectileManager.createProjectile(0, 5, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed + rb.velocity);
             }
 
-            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + cam.transform.forward * tempBulletSpeed + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
+            serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage + "~" + cam.transform.position + "~" + (cam.transform.forward * tempBulletSpeed + rb.velocity) + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
+            soundManager.playSound(equippedWeapon.shootSound, cam.transform.position, equippedWeapon.shootVolume, equippedWeapon.shootPitch, cam.transform);
             //serverEvents.sendEvent("ue", "sound",  + "~" + equippedWeapon.transform.position + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
             //look.camRotX
             

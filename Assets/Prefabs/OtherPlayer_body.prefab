@@ -28,8 +28,8 @@ Transform:
   m_LocalScale: {x: 0.9999992, y: 1, z: 0.9999996}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3976951991550120462}
   - {fileID: 2086777910367156271}
+  - {fileID: 4684310409926304808}
   m_Father: {fileID: 2595070219243915858}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -453,7 +453,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510520643775199377}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: leftHint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1213,6 +1213,38 @@ Transform:
   m_Father: {fileID: 2595070219243915858}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4203524453651889568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4684310409926304808}
+  m_Layer: 0
+  m_Name: weapons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4684310409926304808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4203524453651889568}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3976951991550120462}
+  m_Father: {fileID: 6506468325776491946}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4236762159240372007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,7 +1319,7 @@ GameObject:
   - component: {fileID: 7865790699528524232}
   - component: {fileID: 7866673893291203243}
   - component: {fileID: 6323973811530066381}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: AK47(Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1832,7 +1864,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3976951991550120462}
   - component: {fileID: 4471423937644758311}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: AK47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1846,16 +1878,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5968033788173632539}
-  m_LocalRotation: {x: 0.613981, y: 0.35091332, z: 0.35115865, w: 0.6136569}
-  m_LocalPosition: {x: 0.02129, y: -0.00923, z: -0.00098}
-  m_LocalScale: {x: 0.018684695, y: 0.018684704, z: 0.018684715}
+  m_LocalRotation: {x: 0.613981, y: 0.35091332, z: 0.35115862, w: 0.6136569}
+  m_LocalPosition: {x: 0.02129001, y: -0.009230005, z: -0.0009800033}
+  m_LocalScale: {x: 0.01868469, y: 0.018684706, z: 0.018684715}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7865790699528524232}
   - {fileID: 8082522388077325696}
   - {fileID: 7764751143016284499}
   - {fileID: 1510520643775199377}
-  m_Father: {fileID: 6506468325776491946}
+  m_Father: {fileID: 4684310409926304808}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4471423937644758311
@@ -2205,7 +2237,7 @@ Transform:
   - {fileID: 7087548848092060885}
   - {fileID: 5025882585138388394}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3388384417985480646
 MonoBehaviour:
@@ -2412,7 +2444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8082522388077325696}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: leftHandPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2564,7 +2596,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7764751143016284499}
-  m_Layer: 11
+  m_Layer: 7
   m_Name: rightHandPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

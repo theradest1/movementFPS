@@ -232,7 +232,9 @@ public class ServerComm : MonoBehaviour
                                 break;
                             case "pr": //projectile
                                 serverEvents.spawnProjectile(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3], splitRawEvents[4], splitRawEvents[5]); //senderID, type ID, damage, position, velocity, sound ID, volume, pitch
-                                serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
+                                if(int.Parse(splitRawEvents[1]) != ID){
+                                    serverEvents.playSound(splitRawEvents[6], splitRawEvents[4], splitRawEvents[7], splitRawEvents[8]);
+                                }
                                 break;
                             case "setHealth":
                                 serverEvents.setHealth(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //clientID, health, healing cooldown
