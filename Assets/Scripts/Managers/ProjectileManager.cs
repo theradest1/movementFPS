@@ -31,7 +31,7 @@ public class ProjectileManager : MonoBehaviour
                 newProjectile.GetComponent<FakeBullet>().setInfo(velocity, senderID);
             }
             if(projectileID == 4){
-                newProjectile.GetComponent<Smoke>().setInfo(velocity);
+                newProjectile.GetComponent<Smoke>().setInfo(velocity, projectileFunctions);
             }
             if(projectileID == 5){
                 newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, false);

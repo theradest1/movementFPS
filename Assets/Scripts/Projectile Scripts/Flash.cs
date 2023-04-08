@@ -30,7 +30,7 @@ public class Flash : MonoBehaviour
         if(GeometryUtility.TestPlanesAABB(planes , coll.bounds) && !Physics.Raycast(transform.position, projectileFunctions.playerCam.transform.position - transform.position, Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), stopFrom)){
             projectileFunctions.flashImage.color = new Color(1, 1, 1, 1);
         }
-        Debug.Log("bang (flash)");
+        //Debug.Log("bang (flash)");
         Destroy(this.gameObject);
     }
 
