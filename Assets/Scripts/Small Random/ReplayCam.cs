@@ -21,6 +21,7 @@ public class ReplayCam : MonoBehaviour
     public float minXRot;
 
     private void Update() {
+        boomArm.transform.position = player.transform.position;
         
         RaycastHit hit;
         Physics.Raycast(player.transform.position, transform.position - player.transform.position, out hit, maxDist, stopFrom);

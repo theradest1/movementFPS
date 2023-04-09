@@ -15,7 +15,6 @@ public class Look : MonoBehaviour
     public float rotY = 0f;
     public float minCamRotX;
     public float maxCamRotX;
-
     public GameObject scopeCam;
 
 
