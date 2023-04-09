@@ -47,7 +47,7 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
-    public IEnumerator startReplay(List<List<string>> replayData){
+    public IEnumerator startReplay(List<List<string>> replayData, GameObject otherObject){
         //Debug.Log("started replay:");
         enter = false;
         serverEvents.replaying = true;

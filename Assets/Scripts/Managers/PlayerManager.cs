@@ -235,7 +235,8 @@ public class PlayerManager : MonoBehaviour
             killer = GameObject.Find(killerID + "");
             controlsManager.deathMenuControlls = true;
             weaponManager.changeWeapon(4);
-            StartCoroutine(replayManager.startReplay(getReplayData()));
+            Debug.Log("DEATHHTTHTHTHTHTHTHTH");
+            StartCoroutine(replayManager.startReplay(getReplayData(), killer));
             //followKiller = true;
             flashImage.color = new Color(1, 1, 1, 0);
             look.camRotX = 0;

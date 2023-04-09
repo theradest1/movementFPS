@@ -35,6 +35,10 @@ public class InGameGUIManager : MonoBehaviour
     public PostProcessLayer postLayerScope;
     public GameObject debugContainer;
 
+    public GameObject generalMenu;
+    public GameObject graphicsMenu;
+    public GameObject controlsMenu;
+
     [Header("Settings:")]
     public float killFeedTime;
     public float hitMarkerChangeSpeed;
@@ -79,6 +83,14 @@ public class InGameGUIManager : MonoBehaviour
         InvokeRepeating("updateGameClock", 0f, 1f);
     }
 
+    public void openMenuSection(GameObject menuToOpen){
+        generalMenu.SetActive(false);
+        controlsMenu.SetActive(false);
+        graphicsMenu.SetActive(false);
+
+        menuToOpen.SetActive(true);
+    }
+
     void updateGameClock(){
         secondsUntilMapChange--;
         if(secondsUntilMapChange > 0){
@@ -112,6 +124,9 @@ public class InGameGUIManager : MonoBehaviour
         if(menu.activeSelf){
             look.generalSense = 0f;
             controlsManager.inMenu = true;
+            generalMenu.SetActive(true);
+            controlsMenu.SetActive(false);
+            graphicsMenu.SetActive(false);
         }
         else{
             controlsManager.inMenu = false;
