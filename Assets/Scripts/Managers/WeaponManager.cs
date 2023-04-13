@@ -160,7 +160,8 @@ public class WeaponManager : MonoBehaviour
         
         if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
-            reloadingTimer = equippedWeapon.GetComponent<GunAnimController>().triggerReload(currentClass.reloadSpeedMult);//equippedWeapon.reloadTime;
+            reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+            equippedWeapon.GetComponent<GunAnimController>().triggerReload(currentClass.reloadSpeedMult);
             objectsInClipText.text = "--/" + modifiedMaxObjects;
             serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
@@ -181,7 +182,8 @@ public class WeaponManager : MonoBehaviour
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
-            equippedWeapon.cooldownTimer = equippedWeapon.GetComponent<GunAnimController>().triggerShoot(currentClass.gunFireSpeedMult);//equippedWeapon.cooldown;
+            equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
+            equippedWeapon.GetComponent<GunAnimController>().triggerShoot(currentClass.gunFireSpeedMult);
 
             if(equippedWeapon.projectileID == 3){ //only for bullets
                 projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed + rb.velocity);
@@ -199,9 +201,13 @@ public class WeaponManager : MonoBehaviour
             equippedWeapon.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult), 0f, 0f); 
             equippedWeapon.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult, equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult), 0f);
             look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult) * camRecoilPercent;
+
+            if(equippedWeapon.unscopeAfterShoot){
+                controlsManager.aiming = false;
+            }
         }
 
-        if(controlsManager.aiming && equippedWeapon.canADS){
+        if(controlsManager.aiming && equippedWeapon.canADS && !reloading){
             equippedWeapon.transform.localPosition = Vector3.Lerp(equippedWeapon.transform.localPosition, equippedWeapon.scopingPos, aimSpeed * Time.deltaTime);
               //equippedWeapon.transform.localRotation = Quaternion.Euler(Vector3.Slerp(equippedWeapon.transform.localEulerAngles, equippedWeapon.scopingRot, relaxSpeed * Time.deltaTime));
             //equippedWeapon.transform.localRotation = Quaternion.Euler(equippedWeapon.scopingRot);

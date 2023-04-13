@@ -13,28 +13,22 @@ public class GunAnimController : MonoBehaviour
     public string pulloutAnim;
     public float timeToPullout;
 
-    public float triggerReload(float speedMult){
+    public void triggerReload(float speedMult){
         if(reloadAnim != ""){
             animator.SetFloat("reloadSpeed", 1/speedMult);
             animator.Play(reloadAnim);
-            return timeToReload;
         }
-        return 0;
     }
-    public float triggerShoot(float speedMult){
+    public void triggerShoot(float speedMult){
         if(reloadAnim != ""){
             animator.SetFloat("shootSpeed", 1/speedMult);
             animator.Play(shootAnim);
-            return timeToShoot;
         }
-        return 0;
     }
-    public float triggerPullout(float speedMult){
+    public void triggerPullout(float speedMult){
         if(reloadAnim != ""){
             animator.SetFloat("pulloutSpeed", 1/speedMult);
             animator.Play(pulloutAnim);
-            return timeToPullout;
         }
-        return 0;
     }
 }

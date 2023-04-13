@@ -49,6 +49,7 @@ public class WeaponInfo : MonoBehaviour
     public bool tool = false;
     public bool main = true;
     public bool secondary = false;
+    public bool unscopeAfterShoot = false;
 
     public Vector3 restingPos;
     public Vector3 restingRot;
