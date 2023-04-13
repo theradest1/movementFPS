@@ -10,11 +10,19 @@ public class Smoke : MonoBehaviour
     public float smokeTime;
     public int bangSound;
     ProjectileFunctions projectileFunctions;
+    public float minHeight;
+    public bool explodeOnImpact;
 
     public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions){
         rb.velocity = givenVelocity;
         Invoke("explode", timeToExplode);
         projectileFunctions = givenProjectileFunctions;
+    }
+
+    private void FixedUpdate() {
+        if(transform.position.y < minHeight){
+            rb.velocity *= -1;
+        }
     }
 
     void explode(){

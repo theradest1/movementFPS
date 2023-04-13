@@ -19,6 +19,7 @@ public class Granade : MonoBehaviour
     public GameObject explosionParticles;
     public LayerMask stopFrom;
     public Collider coll;
+    public float minHeight;
 
     public void setInfo(Vector3 givenVelocity, float givenDamage, int givenSenderID, ProjectileFunctions givenProjectileFunctions){
         projectileFunctions = givenProjectileFunctions;
@@ -35,6 +36,12 @@ public class Granade : MonoBehaviour
 
     private void Update() {
         distanceVisualizer.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+    }
+    private void FixedUpdate() {
+        if(transform.position.y <= minHeight){
+            rb.velocity *= -1;
+
+        }
     }
 
     void explode(){

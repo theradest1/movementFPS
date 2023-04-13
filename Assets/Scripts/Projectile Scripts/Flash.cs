@@ -12,6 +12,7 @@ public class Flash : MonoBehaviour
     public LayerMask stopFrom;
     ProjectileFunctions projectileFunctions;
     public Collider coll;
+    public float minHeight;
 
     public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions){
         rb.velocity = givenVelocity;
@@ -32,6 +33,12 @@ public class Flash : MonoBehaviour
         }
         //Debug.Log("bang (flash)");
         Destroy(this.gameObject);
+    }
+
+    private void Update() {
+        if(transform.position.y <= minHeight){
+            rb.velocity *= -1;
+        }
     }
 
     void OnCollisionEnter(Collision coll){

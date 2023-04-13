@@ -24,6 +24,7 @@ public class WeaponManager : MonoBehaviour
     ProjectileManager projectileManager;
     TextMeshProUGUI objectsInClipText;
     TextMeshProUGUI equippedWeaponText;
+    public GunAnimController gunAnimController;
 
     //public LayerMask playerMask;
     //public LayerMask aimableMask;
@@ -159,7 +160,7 @@ public class WeaponManager : MonoBehaviour
         
         if((controlsManager.reloading && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && !reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0)){
             reloading = true;
-            reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+            reloadingTimer = gunAnimController.triggerReload(currentClass.reloadSpeedMult);//equippedWeapon.reloadTime;
             objectsInClipText.text = "--/" + modifiedMaxObjects;
             serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
         }
@@ -180,7 +181,7 @@ public class WeaponManager : MonoBehaviour
             reloading = false;
             equippedWeapon.objectsInClip -= 1;
             objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
-            equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
+            equippedWeapon.cooldownTimer = gunAnimController.triggerShoot(currentClass.gunFireSpeedMult);//equippedWeapon.cooldown;
 
             if(equippedWeapon.projectileID == 3){ //only for bullets
                 projectileManager.createProjectile(0, 0, equippedWeapon.damage, cam.transform.position, cam.transform.forward * tempBulletSpeed + rb.velocity);
