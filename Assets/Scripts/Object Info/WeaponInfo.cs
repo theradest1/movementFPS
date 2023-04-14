@@ -50,6 +50,8 @@ public class WeaponInfo : MonoBehaviour
     public bool main = true;
     public bool secondary = false;
     public bool unscopeAfterShoot = false;
+    public bool unscopeAfterReload = false;
+    public bool individualBulletReload = false;
 
     public Vector3 restingPos;
     public Vector3 restingRot;
