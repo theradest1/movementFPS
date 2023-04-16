@@ -123,7 +123,7 @@ public class WeaponManager : MonoBehaviour
 			movementScript.speedMultiplierFromWeapon = equippedWeapon.speedMultiplier;
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + getModifiedMaxObjects();
 			currentGunAnimController = equippedWeapon.GetComponent<GunAnimController>();
-			Debug.Log("set");
+			//Debug.Log("set");
 		}
 	}
 
@@ -148,7 +148,7 @@ public class WeaponManager : MonoBehaviour
 			{
 				if (weapons[weaponID].objectsInClip < (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult))
 				{
-					Debug.Log(weapons[weaponID].objectsInClip + " < " + (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult));
+					//Debug.Log(weapons[weaponID].objectsInClip + " < " + (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult));
 					weapons[weaponID].objectsInClip++;
 					if (equippedWeapon == weapons[weaponID])
 					{
@@ -189,7 +189,7 @@ public class WeaponManager : MonoBehaviour
 				reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
 				if (equippedWeapon.individualBulletReload)
 				{
-					reloadingTimer -= reloadingTimer * equippedWeapon.objectsInClip / modifiedMaxObjects;
+					reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects;
 				}
 				currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
 				if (equippedWeapon.unscopeAfterReload)
@@ -206,10 +206,18 @@ public class WeaponManager : MonoBehaviour
 			}
 		}
 
-		if(reloading && reloadingTimer >= 0){
+		if(reloading && reloadingTimer >= 0 && equippedWeapon.individualBulletReload){
 			equippedWeapon.objectsInClip = modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects));
 			//Debug.Log((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)));
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
+			if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) <= 1){
+				currentGunAnimController.animator.SetBool("reloading", false);
+			}
+			else{
+				currentGunAnimController.animator.SetBool("reloading", true);
+			}
+		}
+		else if(reloading && reloadingTimer >= 0 && !equippedWeapon.individualBulletReload){
             currentGunAnimController.animator.SetBool("reloading", true);
 		}
         else{
