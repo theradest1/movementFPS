@@ -16,6 +16,7 @@ public class movement : MonoBehaviour
     ServerComm serverComm;
     PlayerManager playerManager;
     public ClassInfo currentClass;
+    Grapple grapple;
 
     //Vector3 velocity = new Vector3(0f, 0f, 0f);
 
@@ -29,6 +30,8 @@ public class movement : MonoBehaviour
     [Header("Basic:")]
     public LayerMask groundMask;
     public float speed;
+    public float inAirMultiplier;
+    public float grapplingMultiplier;
     public float jumpPower;
     public float stopSpeedGround;
     public float stopSpeedSliding;
@@ -84,6 +87,7 @@ public class movement : MonoBehaviour
     }
 
     void Start(){
+        grapple = GameObject.Find("Player").GetComponent<Grapple>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         rb = this.gameObject.GetComponent<Rigidbody>();
@@ -168,6 +172,15 @@ public class movement : MonoBehaviour
             }
         }
         else if(!isSliding){
+            if(grapple.grappling){
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * grapplingMultiplier);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * grapplingMultiplier);
+            }
+            else{
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * inAirMultiplier);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * inAirMultiplier);
+            }
+
             if(transform.position.y < minHeight){
                 if(launchAttempts == maxLaunchAttempts){
                     rb.position = new Vector3(0f, 100f, 0f);
@@ -195,10 +208,11 @@ public class movement : MonoBehaviour
         
 
         if(controlsManager.dashing && !isSliding){
-            if(ableToDash <= 0 && isGrounded){
-                float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
-                rb.velocity = new Vector3(0f, cam.transform.forward.y, 0f) * velocityMagVertical * velocityMag + moveDirection.x * transform.right * velocityMag + moveDirection.y * transform.forward * velocityMag;
-                ableToDash = dashTimout;
+            if(ableToDash <= 0){// && isGrounded){
+                //grapple.attach();
+                //float velocityMag = rb.velocity.magnitude + speedBoostOnDash;
+                //rb.velocity = new Vector3(0f, cam.transform.forward.y, 0f) * velocityMagVertical * velocityMag + moveDirection.x * transform.right * velocityMag + moveDirection.y * transform.forward * velocityMag;
+                //ableToDash = dashTimout;
             }
         }
 

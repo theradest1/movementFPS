@@ -35,7 +35,7 @@ public class Flash : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if(transform.position.y <= minHeight){
             rb.velocity *= -1;
         }

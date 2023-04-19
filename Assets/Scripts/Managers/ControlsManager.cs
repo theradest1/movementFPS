@@ -52,6 +52,8 @@ public class ControlsManager : MonoBehaviour
     public bool enter = false;
     [HideInInspector]
     public bool toggleADS = false;
+    [HideInInspector]
+    public bool grappling = false;
 
     private void Start() {
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
@@ -85,7 +87,7 @@ public class ControlsManager : MonoBehaviour
             moveDirection = playerControls.movement.Walk.ReadValue<Vector2>();
             jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
             sprinting = playerControls.movement.Sprint.ReadValue<float>() == 1;
-            dashing = playerControls.movement.Sprint.ReadValue<float>() == 1;
+            /*dashing*/grappling = playerControls.movement.Sprint.ReadValue<float>() == 1;
             crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
 
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
@@ -140,6 +142,7 @@ public class ControlsManager : MonoBehaviour
             sprinting = false;
             crouching = false;
             shooting = false;
+            grappling = false;
             //aiming = false;
             reloading = false;
 

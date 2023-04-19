@@ -9,6 +9,7 @@ public class WeaponManager : MonoBehaviour
 	ControlsManager controlsManager;
 	movement movementScript;
 	SoundManager soundManager;
+	Grapple grapple;
 	public Rigidbody rb;
 	public List<WeaponInfo> possibleWeapons;
 	public List<WeaponInfo> weapons;
@@ -55,6 +56,7 @@ public class WeaponManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		grapple = GameObject.Find("Player").GetComponent<Grapple>();
 		look = GameObject.Find("Main Camera").GetComponent<Look>();
 		movementScript = GameObject.Find("Player").GetComponent<movement>();
 		projectileManager = GameObject.Find("Player").GetComponent<ProjectileManager>();
@@ -185,24 +187,29 @@ public class WeaponManager : MonoBehaviour
 		{
 			if (!reloading)
 			{
-				reloading = true;
-				reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
-				if (equippedWeapon.individualBulletReload)
-				{
-					reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects;
-				}
-				currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
-				if (equippedWeapon.unscopeAfterReload)
-				{
-					controlsManager.aiming = false;
-				}
+				//if(!equippedWeapon.grapple){
+					reloading = true;
+					reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+					if (equippedWeapon.individualBulletReload)
+					{
+						reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects;
+					}
+					currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
+					if (equippedWeapon.unscopeAfterReload)
+					{
+						controlsManager.aiming = false;
+					}
 
-				if (!equippedWeapon.individualBulletReload)
-				{
-					objectsInClipText.text = "--/" + modifiedMaxObjects;
-				}
+					if (!equippedWeapon.individualBulletReload)
+					{
+						objectsInClipText.text = "--/" + modifiedMaxObjects;
+					}
 
-				serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
+					serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
+				//}
+				//else{
+				//	grapple.attach();
+				//}
 			}
 		}
 

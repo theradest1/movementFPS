@@ -49,6 +49,7 @@ public class WeaponInfo : MonoBehaviour
     public bool tool = false;
     public bool main = true;
     public bool secondary = false;
+    //public bool grapple = false;
     public bool unscopeAfterShoot = false;
     public bool unscopeAfterReload = false;
     public bool individualBulletReload = false;
