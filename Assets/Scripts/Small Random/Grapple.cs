@@ -24,6 +24,7 @@ public class Grapple : MonoBehaviour
     Vector3 connectPos;
     public float climbSpeed;
     public float minDistToRedoRope;
+    public int ropeDetail;
 
     private void Start() {
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
@@ -33,6 +34,7 @@ public class Grapple : MonoBehaviour
 
     public void attach(){
         if(Physics.Raycast(transform.position, cam.transform.forward, out RaycastHit hitInfo, maxDist, stopFrom)){
+            grappling = true;
             connectPos = hitInfo.point;
             distanceToGrapple = Vector3.Distance(cam.transform.position, connectPos);
 
@@ -51,16 +53,14 @@ public class Grapple : MonoBehaviour
             softJointLimit.limit = distanceToGrapple;
             joint.linearLimit = softJointLimit;
             //joint.massScale = massScale;
-            grappleRope.gameObject.SetActive(true);
-            grappleRope.changeLength(Vector3.Distance(player.transform.position, connectPos));
-            grappleRope.connection = connectPos;
+            //grappleRope.gameObject.SetActive(true);
+            grappleRope.makeRope(ropeDetail, connectPos);
             //joint.maxDistance = Vector3.Distance(cam.transform.position, connectPos);
             //joint.minDistance = Vector3.Distance(cam.transform.position, connectPos);*/
 
-            lineRenderer.enabled = true;
+            //lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, connectPos);
 
-            grappling = true;
         }
     }
 
@@ -70,7 +70,7 @@ public class Grapple : MonoBehaviour
         }
         else if(grappling && !controlsManager.grappling){
             Destroy(joint);
-            grappleRope.gameObject.SetActive(false);
+            grappleRope.destroyRope();
             grappling = false;
         }
         if(grappling){
@@ -89,8 +89,9 @@ public class Grapple : MonoBehaviour
                 joint.connectedAnchor = connectPos;
                 lineRenderer.SetPosition(0, connectPos);
                 if(Vector3.Distance(pastConnect, connectPos) > minDistToRedoRope){
-                    grappleRope.changeLength(Vector3.Distance(player.transform.position, connectPos));
-                    grappleRope.connection = connectPos;
+                    grappleRope.makeRope(ropeDetail, connectPos);
+                    //grappleRope.changeLength(Vector3.Distance(pastConnect, connectPos), connectPos);
+                    //grappleRope.connection = connectPos;
                 }
             }
         }

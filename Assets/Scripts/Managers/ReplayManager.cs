@@ -53,7 +53,8 @@ public class ReplayManager : MonoBehaviour
         serverEvents.replaying = true;
         cam.SetActive(false);
         replayCam.gameObject.SetActive(true);
-        replayCam.distance = replayCam.maxDist;
+        StartCoroutine(replayCam.panToPos(otherObject.transform.position + Vector3.up, player.transform.position + Vector3.up, replayTime * replaySlowdown + .2f));
+        //replayCam.distance = replayCam.maxDist;
         //Debug.Log(MainListToString(replayData));
         playerManager.deathMenu.SetActive(false);
         //int playerIndex;
@@ -61,7 +62,7 @@ public class ReplayManager : MonoBehaviour
         look.camRotX = 0f;
         int startingTick = currentTick;
         int tick = startingTick + 1;
-        while(tick != startingTick && tick < tickRate*replayTime + 10){ //the second statement is to stop a softlock
+        while(tick != startingTick && tick < tickRate*replayTime + 5){ //the second statement is to stop a softlock
             foreach(List<string> individualPlayerData in replayData){
                 if(individualPlayerData.Count > 0){
                     individualPlayerTickData = individualPlayerData[tick].Split("~");

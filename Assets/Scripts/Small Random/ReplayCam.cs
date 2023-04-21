@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ReplayCam : MonoBehaviour
 {
-    public GameObject boomArm;
+    /*public GameObject boomArm;
     public GameObject player;
     public GameObject otherObject;
     public float minDist;
@@ -18,9 +18,23 @@ public class ReplayCam : MonoBehaviour
     public float maxXRot;
     public float preferredXRot;
     public float preferredSpeed;
-    public float minXRot;
+    public float minXRot;*/
+    [HideInInspector]
+    public Vector3 targetPos;
+
+    public IEnumerator panToPos(Vector3 startPos, Vector3 endPos, float totalTime){
+        float timer = Time.time;
+        while(Time.time - timer <= totalTime){
+            transform.LookAt(endPos);
+            transform.position = Vector3.Lerp(startPos, endPos, (Time.time - timer)/totalTime);
+            yield return 0;
+        }
+        yield return null;
+    }
 
     private void Update() {
+        //transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
+        /*
         boomArm.transform.position = player.transform.position;
         
         RaycastHit hit;
@@ -48,5 +62,6 @@ public class ReplayCam : MonoBehaviour
             boomArm.transform.Rotate(-(boomArm.transform.eulerAngles.x/Mathf.Abs(boomArm.transform.eulerAngles.x)) * Time.deltaTime / preferredSpeed, 0f, 0f, Space.World);
         }
         boomArm.transform.eulerAngles = new Vector3(Mathf.Clamp(boomArm.transform.eulerAngles.x, minXRot, maxXRot), boomArm.transform.eulerAngles.y, boomArm.transform.eulerAngles.z);
+        */
     }
 }
