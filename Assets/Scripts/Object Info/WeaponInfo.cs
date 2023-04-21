@@ -36,6 +36,13 @@ public class WeaponInfo : MonoBehaviour
     public float shootPitch = 1f;
     public float shootVolume = 1f;
     public int reloadSound;
+
+    [Header("New sound system settings:")]
+    public int startReloadSoundID;
+    public int reloadPerBulletSoundID;
+    public int endReloadSoundID;
+
+    [Header("Settings:")]
     
     [HideInInspector]
     public float cooldownTimer;

@@ -28,7 +28,7 @@ public class Rope : MonoBehaviour
     public void changeLength(float reduction, Vector3 newConnectPos){
         joints[joints.Count - 1].transform.position = newConnectPos;
         SoftJointLimit softJointLimit = new SoftJointLimit();
-        softJointLimit.limit = (joints[0].linearLimit.limit - reduction/(joints.Count + 1))/(joints.Count + 1) * distanceMult;
+        softJointLimit.limit = (joints[0].linearLimit.limit*(joints.Count + 1) - reduction)/(joints.Count + 1) * distanceMult;
         connection = newConnectPos;
         foreach(ConfigurableJoint joint in joints){
             joint.linearLimit = softJointLimit;

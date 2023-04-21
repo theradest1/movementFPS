@@ -74,13 +74,14 @@ public class Grapple : MonoBehaviour
             grappling = false;
         }
         if(grappling){
-            SoftJointLimit softJointLimit = new SoftJointLimit();
+            /*
             distanceToGrapple -= climbSpeed * Time.deltaTime;
             softJointLimit.limit = distanceToGrapple;
-            joint.linearLimit = softJointLimit;
+            joint.linearLimit = softJointLimit;*/
 
 
             if(Physics.Raycast(cam.transform.position, connectPos - cam.transform.position, out RaycastHit hitInfo, Vector3.Distance(cam.transform.position, connectPos), stopFrom)){
+                SoftJointLimit softJointLimit = new SoftJointLimit();
                 distanceToGrapple -= Vector3.Distance(connectPos, hitInfo.point);
                 softJointLimit.limit = distanceToGrapple;
                 joint.linearLimit = softJointLimit;
@@ -89,8 +90,8 @@ public class Grapple : MonoBehaviour
                 joint.connectedAnchor = connectPos;
                 lineRenderer.SetPosition(0, connectPos);
                 if(Vector3.Distance(pastConnect, connectPos) > minDistToRedoRope){
-                    grappleRope.makeRope(ropeDetail, connectPos);
-                    //grappleRope.changeLength(Vector3.Distance(pastConnect, connectPos), connectPos);
+                    //grappleRope.makeRope(ropeDetail, connectPos);
+                    grappleRope.changeLength(Vector3.Distance(pastConnect, connectPos), connectPos);
                     //grappleRope.connection = connectPos;
                 }
             }

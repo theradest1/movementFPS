@@ -173,7 +173,6 @@ public class WeaponManager : MonoBehaviour
 		{
 			tempBulletSpeed *= equippedWeapon.bulletSpeedADSMult;
 		}
-
 		if (!controlsManager.shooting)
 		{
 			ableToShoot = true;
@@ -183,41 +182,46 @@ public class WeaponManager : MonoBehaviour
 
 		//equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, cam.transform.rotation, weaponRotationSpeed * Time.deltaTime);
 
+
+		// start reloading
 		if ((controlsManager.reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0))
 		{
 			if (!reloading)
 			{
-				//if(!equippedWeapon.grapple){
-					reloading = true;
-					reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
-					if (equippedWeapon.individualBulletReload)
-					{
-						reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects;
-					}
-					currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
-					if (equippedWeapon.unscopeAfterReload)
-					{
-						controlsManager.aiming = false;
-					}
+				reloading = true;
+				reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+				if (equippedWeapon.individualBulletReload)
+				{
+					reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects + .01f;
+				}
+				currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
+				if (equippedWeapon.unscopeAfterReload)
+				{
+					controlsManager.aiming = false;
+				}
 
-					if (!equippedWeapon.individualBulletReload)
-					{
-						objectsInClipText.text = "--/" + modifiedMaxObjects;
-					}
+				if (!equippedWeapon.individualBulletReload)
+				{
+					objectsInClipText.text = "--/" + modifiedMaxObjects;
+				}
 
-					serverEvents.sendEvent("ue", "sound", equippedWeapon.reloadSound + "~" + equippedWeapon.transform.position + "~1~1");
-				//}
-				//else{
-				//	grapple.attach();
-				//}
+				serverEvents.sendEvent("ue", "sound", equippedWeapon.startReloadSoundID + "~" + equippedWeapon.transform.position + "~1~1");
 			}
 		}
 
+		//per-bullet reloading
 		if(reloading && reloadingTimer >= 0 && equippedWeapon.individualBulletReload){
-			equippedWeapon.objectsInClip = modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects));
-			//Debug.Log((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)));
+			if(equippedWeapon.objectsInClip != modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects))){
+				equippedWeapon.objectsInClip = modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects));
+				if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) == 0){
+					soundManager.playSound(equippedWeapon.endReloadSoundID, cam.transform.position, 1f, 1f, cam.transform);
+				}
+				else{
+					soundManager.playSound(equippedWeapon.reloadPerBulletSoundID, cam.transform.position, 1f, 1f, cam.transform);
+				}
+			}
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
-			if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) <= 1){
+			if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) <= 0){
 				currentGunAnimController.animator.SetBool("reloading", false);
 			}
 			else{
@@ -231,14 +235,18 @@ public class WeaponManager : MonoBehaviour
             currentGunAnimController.animator.SetBool("reloading", false);
         }
 
+		// reloading
 		reloadingTimer -= Time.deltaTime;
 		if (reloading && reloadingTimer <= 0 && equippedWeapon.objectsInClip < modifiedMaxObjects)
 		{
 			reloading = false;
 			equippedWeapon.objectsInClip = modifiedMaxObjects;
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
+			soundManager.playSound(equippedWeapon.endReloadSoundID, cam.transform.position, 1f, 1f, cam.transform);
+			Debug.Log("finished reloading");
 		}
 
+		//shooting
 		if (controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0 && ableToShoot)
 		{
 			if (!equippedWeapon.automatic)
@@ -278,6 +286,8 @@ public class WeaponManager : MonoBehaviour
 			}
 		}
 
+
+		// aiming down sights
 		if (controlsManager.aiming && equippedWeapon.canADS && !reloading)
 		{
 			equippedWeapon.transform.localPosition = Vector3.Lerp(equippedWeapon.transform.localPosition, equippedWeapon.scopingPos, aimSpeed * Time.deltaTime);
