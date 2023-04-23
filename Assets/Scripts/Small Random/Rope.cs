@@ -53,7 +53,7 @@ public class Rope : MonoBehaviour
             ConfigurableJoint newJoint = Instantiate(jointPrefab, spawnPos, Quaternion.identity, ropeParent.transform).GetComponent<ConfigurableJoint>();
             newJoint.linearLimit = softJointLimit;
             newJoint.connectedBody = linkedRB;
-            newJoint.gameObject.GetComponent<DrawRope>().objectToFollow = linkedRB.gameObject.transform;
+            newJoint.gameObject.GetComponent<RopeRenderer>().objectToFollow = linkedRB.gameObject.transform;
             linkedRB = newJoint.gameObject.GetComponent<Rigidbody>();
             joints.Add(newJoint);
             spawnPos += stepPos;

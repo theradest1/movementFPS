@@ -73,6 +73,12 @@ public class WeaponInfo : MonoBehaviour
 
     public float bulletSpeedADSMult = 1f;
 
+    [Header("Casings")]
+    public bool ejectCasings;
+    public Transform casingStartPos;
+    public Vector3 casingVelocity;
+    public GameObject casingPrefab;
+
     private void Update() {
         cooldownTimer -= Time.deltaTime;
     }

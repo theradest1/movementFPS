@@ -52,6 +52,7 @@ public class WeaponManager : MonoBehaviour
 	public float spreadADSMult;
 	public float camRecoilPercent;
 	public float generalRecoilMult = 1f;
+	public float casingLifetime = 3;
 
 	// Start is called before the first frame update
 	void Start()
@@ -283,6 +284,13 @@ public class WeaponManager : MonoBehaviour
 			if (equippedWeapon.unscopeAfterShoot)
 			{
 				controlsManager.aiming = false;
+			}
+
+			if(equippedWeapon.ejectCasings){
+				GameObject casing = Instantiate(equippedWeapon.casingPrefab, equippedWeapon.casingStartPos.position, equippedWeapon.casingStartPos.rotation);
+				casing.GetComponent<Rigidbody>().AddRelativeForce(equippedWeapon.casingVelocity);
+				casing.GetComponent<Rigidbody>().velocity += rb.velocity;
+				Destroy(casing, casingLifetime);
 			}
 		}
 
