@@ -88,6 +88,7 @@ public class ControlsManager : MonoBehaviour
             jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
             sprinting = playerControls.movement.Sprint.ReadValue<float>() == 1;
             /*dashing*/grappling = playerControls.movement.Sprint.ReadValue<float>() == 1;
+            dashing = playerControls.movement.Dash.ReadValue<float>() == 1;
             crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
 
             shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
@@ -145,6 +146,7 @@ public class ControlsManager : MonoBehaviour
             grappling = false;
             //aiming = false;
             reloading = false;
+            dashing = false;
 
             tab = playerControls.interactions.tab.ReadValue<float>() == 1;
             if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){

@@ -37,7 +37,7 @@ public class movement : MonoBehaviour
     public float stopSpeedSliding;
     public float sprintMultiplier;
     
-    [Header("Dash:")]
+    [Header("Dash (old):")]
     public float ableToDash = 0f;
     public float dashTimout;
     public float speedBoostOnDash;
@@ -68,6 +68,13 @@ public class movement : MonoBehaviour
     int launchAttempts = 0;
     public int maxLaunchAttempts = 3;
     public float ableToDashLengthInAirMult = .1f;
+
+    [Header("Dash (new):")]
+    public float dashTime;
+    public float dashMultiplier;
+    public float dashCooldown;
+    float dashCooldownTimer;
+    public bool dashing;
 
     public void launchTo(Vector3 goToPos){
         Vector3 toTarget = goToPos - transform.position;
@@ -116,6 +123,19 @@ public class movement : MonoBehaviour
         else{
             weaponContainer.transform.position -= rb.velocity * weaponDistanceMult * Time.deltaTime;
         }
+
+        dashCooldownTimer -= Time.deltaTime;
+        if(controlsManager.dashing && dashCooldownTimer <= 0){
+            StartCoroutine(dash());
+            dashCooldownTimer = dashCooldown;
+        }
+    }
+
+    IEnumerator dash(){
+        dashing = true;
+        yield return new WaitForSeconds(dashTime);
+        dashing = false;
+        yield return null;
     }
 
     void FixedUpdate() {
@@ -215,7 +235,11 @@ public class movement : MonoBehaviour
                 //ableToDash = dashTimout;
             }
         }
-
         velocityText.text = "Velocity: " + (Mathf.Round(new Vector3(rb.velocity.x, 0f, rb.velocity.z).magnitude * 100f) / 100f);
+
+        //dashing
+        if(dashing){
+            rb.MovePosition(transform.position + moveDirection.x * dashMultiplier * transform.right * speed + moveDirection.y * dashMultiplier * transform.forward * speed);
+        }
     }
 }
