@@ -11,7 +11,6 @@ public class Smoke : MonoBehaviour
     public int bangSound;
     ProjectileFunctions projectileFunctions;
     public float minHeight;
-    public bool explodeOnImpact;
 
     public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions){
         rb.velocity = givenVelocity;

@@ -294,4 +294,4 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
-server.bind(4000);
+server.bind(4040);

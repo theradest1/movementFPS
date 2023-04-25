@@ -924,7 +924,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: localhost~4000
+          m_StringArgument: localhost~4040
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &215585446
@@ -979,7 +979,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverName: local self
   IP: localhost
-  port: 4000
+  port: 4040
   connectionIndicator: {fileID: 66903699}
   playerCount: {fileID: 1121613440}
   timoutTime: 1000
@@ -1083,7 +1083,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 192.168.0.50~4000
+          m_StringArgument: 192.168.0.50~4040
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &267644404
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverName: local raspi
   IP: 192.168.0.50
-  port: 4000
+  port: 4040
   connectionIndicator: {fileID: 1813184458}
   playerCount: {fileID: 1514854703}
   timoutTime: 1000
@@ -3127,7 +3127,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 10.100.4.41~4000
+          m_StringArgument: 10.100.4.41~4040
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &537118395
@@ -3182,7 +3182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverName: school
   IP: 10.100.4.41
-  port: 4000
+  port: 4040
   connectionIndicator: {fileID: 1457749866}
   playerCount: {fileID: 535398394}
   timoutTime: 1000
@@ -10683,7 +10683,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 75.100.205.73~4000
+          m_StringArgument: 75.100.205.73~4040
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1930949795
@@ -10700,7 +10700,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverName: general
   IP: 75.100.205.73
-  port: 4000
+  port: 4040
   connectionIndicator: {fileID: 51276111}
   playerCount: {fileID: 1620434747}
   timoutTime: 1000

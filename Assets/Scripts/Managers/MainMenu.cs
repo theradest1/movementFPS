@@ -34,7 +34,7 @@ public class MainMenu : MonoBehaviour
     public int usernameLengthMin;
 
     [HideInInspector]
-    public static int port = 4000;
+    public static int port = 4040;
     [HideInInspector]
     public static string address = "localhost";//"192.168.0.50";
     [HideInInspector]
