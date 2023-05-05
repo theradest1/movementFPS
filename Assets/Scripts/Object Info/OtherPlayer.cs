@@ -11,17 +11,11 @@ public class OtherPlayer : MonoBehaviour
     public List<string> replayData = new List<string>();
     [HideInInspector]
     public float invincibilityTimer = 0f;
-    [HideInInspector]
     public float health;
-    [HideInInspector]
     public float maxHealth;
-    [HideInInspector]
     public float healRate;
-    [HideInInspector]
     public float healCooldown;
-    [HideInInspector]
     public Vector3 direction;
-    [HideInInspector]
     public int currentMapVote = -1;
     [HideInInspector]
     public TextMeshProUGUI scoreboardPeice; 
@@ -50,7 +44,6 @@ public class OtherPlayer : MonoBehaviour
     public Collider bodyColl;
     public Collider headColl;
     public SkinnedMeshRenderer bodyRenderer;
-    public ClassInfo currentClass;
 
 
     public void setUsername(string givenUsername){
@@ -58,18 +51,13 @@ public class OtherPlayer : MonoBehaviour
         username = givenUsername;
     }
 
-    public void setClass(string classToSet){
-        currentClass = GameObject.Find(classToSet).GetComponent<ClassInfo>();
-        maxHealth = currentClass.health;
-        bodyRenderer.material = currentClass.classMaterial;
-    }
-
     public void changeHealth(float subbedHealth){
         health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
         healthSlider.value = health/maxHealth;
+        Debug.Log(healthSlider.value);
 
         if(subbedHealth > 0){
-            healCooldown = currentClass.healCooldown;
+            healCooldown = playerManager.timeBeforeHeal;
         }
     }
 
@@ -82,14 +70,13 @@ public class OtherPlayer : MonoBehaviour
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         playerManager = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerManager;
-        currentClass = GameObject.Find("Guy").GetComponent<ClassInfo>();
         playerCam = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerCam;
         healRate = playerManager.healRate;
-        maxHealth = currentClass.health;
+        maxHealth = playerManager.maxHealth;
         health = 100f;
-
+        healRate = playerManager.healRate;
         changeHealth(0f);
-        InvokeRepeating("heal", 0, healRate);
+        InvokeRepeating("heal", 0, .1f);
         for(int i = 0; i < replayManager.tickRate * replayManager.replayTime; i++){
             replayData.Add("");
         }
@@ -102,12 +89,12 @@ public class OtherPlayer : MonoBehaviour
 
     void heal(){
         if(healCooldown <= 0 && health < maxHealth){
-            if(health + currentClass.healAmount > maxHealth){
+            if(health > maxHealth){
                 health = maxHealth;
                 changeHealth(0);
             }
             else{
-                changeHealth(-currentClass.healAmount);
+                changeHealth(-healRate);
             }
         }
     }

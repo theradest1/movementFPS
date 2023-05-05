@@ -15,7 +15,6 @@ public class movement : MonoBehaviour
     ServerEvents serverEvents;
     ServerComm serverComm;
     PlayerManager playerManager;
-    public ClassInfo currentClass;
     Grapple grapple;
 
     //Vector3 velocity = new Vector3(0f, 0f, 0f);
@@ -179,26 +178,26 @@ public class movement : MonoBehaviour
         //weaponContainer.transform.position -= new Vector3(0f, rb.velocity.y * weaponDistanceMultVertical, 0f);
         if(isGrounded && !isSliding){
             if(controlsManager.sprinting){
-                rb.AddForce(speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
-                rb.AddForce(speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult);
+                rb.AddForce(speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon);
+                rb.AddForce(speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon);
                 //weaponContainer.transform.position -= speed * transform.right * moveDirection.x * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
                 //weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * sprintMultiplier * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
             else{
-                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult);
-                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult);
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon);
                 //weaponContainer.transform.position -= speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
                 //weaponContainer.transform.position -= speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * weaponDistanceMult;
             }
         }
         else if(!isSliding){
             if(grapple.grappling){
-                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * grapplingMultiplier);
-                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * grapplingMultiplier);
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * grapplingMultiplier);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * grapplingMultiplier);
             }
             else{
-                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * currentClass.speedMult * inAirMultiplier);
-                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * currentClass.speedMult * inAirMultiplier);
+                rb.AddForce(speed * transform.right * moveDirection.x * speedMultiplierFromWeapon * inAirMultiplier);
+                rb.AddForce(speed * transform.forward * moveDirection.y * speedMultiplierFromWeapon * inAirMultiplier);
             }
 
             if(transform.position.y < minHeight){

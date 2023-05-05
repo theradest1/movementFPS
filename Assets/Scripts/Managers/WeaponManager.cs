@@ -48,7 +48,7 @@ public class WeaponManager : MonoBehaviour
 	public float normalFOV;
 	public float scopingFOV;
 
-	public ClassInfo currentClass;
+
 	public float spreadADSMult;
 	public float camRecoilPercent;
 	public float generalRecoilMult = 1f;
@@ -93,7 +93,7 @@ public class WeaponManager : MonoBehaviour
 		for (int weaponID = 0; weaponID < weapons.Count; weaponID++)
 		{
 			equippedWeapon = weapons[weaponID];
-			equippedWeapon.objectsInClip = getModifiedMaxObjects();//(int)(weapons[weaponID].clipSize * currentClass.ammoCapacityMult);
+			equippedWeapon.objectsInClip = getModifiedMaxObjects();//(int)(weapons[weaponID].clipSize);
 			equippedWeapon.cooldownTimer = 0f;
 			equippedWeapon.gameObject.SetActive(false);
 		}
@@ -134,11 +134,11 @@ public class WeaponManager : MonoBehaviour
 	{
 		if (equippedWeapon.gun)
 		{
-			return (int)(equippedWeapon.clipSize * currentClass.ammoCapacityMult);
+			return (int)(equippedWeapon.clipSize);
 		}
 		else if (equippedWeapon.tool)
 		{
-			return (int)(equippedWeapon.clipSize * currentClass.toolCapacityMult);
+			return (int)(equippedWeapon.clipSize);
 		}
 		return 0;
 	}
@@ -149,9 +149,9 @@ public class WeaponManager : MonoBehaviour
 		{
 			if (weapons[weaponID].tool)
 			{
-				if (weapons[weaponID].objectsInClip < (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult))
+				if (weapons[weaponID].objectsInClip < (int)(weapons[weaponID].clipSize))
 				{
-					//Debug.Log(weapons[weaponID].objectsInClip + " < " + (int)(weapons[weaponID].clipSize * currentClass.toolCapacityMult));
+					//Debug.Log(weapons[weaponID].objectsInClip + " < " + (int)(weapons[weaponID].clipSize));
 					weapons[weaponID].objectsInClip++;
 					if (equippedWeapon == weapons[weaponID])
 					{
@@ -190,12 +190,12 @@ public class WeaponManager : MonoBehaviour
 			if (!reloading)
 			{
 				reloading = true;
-				reloadingTimer = equippedWeapon.reloadTime * currentClass.reloadSpeedMult;
+				reloadingTimer = equippedWeapon.reloadTime;
 				if (equippedWeapon.individualBulletReload)
 				{
 					reloadingTimer -= reloadingTimer * (equippedWeapon.objectsInClip - 1) / modifiedMaxObjects + .01f;
 				}
-				currentGunAnimController.triggerReload(equippedWeapon.reloadTime * currentClass.reloadSpeedMult);
+				currentGunAnimController.triggerReload(equippedWeapon.reloadTime);
 				if (equippedWeapon.unscopeAfterReload)
 				{
 					controlsManager.aiming = false;
@@ -212,9 +212,9 @@ public class WeaponManager : MonoBehaviour
 
 		//per-bullet reloading
 		if(reloading && reloadingTimer >= 0 && equippedWeapon.individualBulletReload){
-			if(equippedWeapon.objectsInClip != modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects))){
-				equippedWeapon.objectsInClip = modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects));
-				if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) == 0){
+			if(equippedWeapon.objectsInClip != modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime / (float)modifiedMaxObjects))){
+				equippedWeapon.objectsInClip = modifiedMaxObjects - (int)(reloadingTimer / (equippedWeapon.reloadTime / (float)modifiedMaxObjects));
+				if((int)(reloadingTimer / (equippedWeapon.reloadTime / (float)modifiedMaxObjects)) == 0){
 					soundManager.playSound(equippedWeapon.endReloadSoundID, cam.transform.position, 1f, 1f, cam.transform);
 				}
 				else{
@@ -222,7 +222,7 @@ public class WeaponManager : MonoBehaviour
 				}
 			}
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
-			if((int)(reloadingTimer / (equippedWeapon.reloadTime * currentClass.reloadSpeedMult / (float)modifiedMaxObjects)) <= 0){
+			if((int)(reloadingTimer / (equippedWeapon.reloadTime / (float)modifiedMaxObjects)) <= 0){
 				currentGunAnimController.animator.SetBool("reloading", false);
 			}
 			else{
@@ -259,8 +259,8 @@ public class WeaponManager : MonoBehaviour
 			reloading = false;
 			equippedWeapon.objectsInClip -= 1;
 			objectsInClipText.text = equippedWeapon.objectsInClip + "/" + modifiedMaxObjects;
-			equippedWeapon.cooldownTimer = equippedWeapon.cooldown * currentClass.gunFireSpeedMult;
-			equippedWeapon.GetComponent<GunAnimController>().triggerShoot(equippedWeapon.cooldown * currentClass.gunFireSpeedMult);
+			equippedWeapon.cooldownTimer = equippedWeapon.cooldown;
+			equippedWeapon.GetComponent<GunAnimController>().triggerShoot(equippedWeapon.cooldown);
 
 			if (equippedWeapon.projectileID == 3)
 			{ //only for bullets

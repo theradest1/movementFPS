@@ -2274,7 +2274,6 @@ MonoBehaviour:
   bodyColl: {fileID: 6988133319193165348}
   headColl: {fileID: 3540693194487107856}
   bodyRenderer: {fileID: 6094640830536312595}
-  currentClass: {fileID: 0}
 --- !u!114 &6016066119577255374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2552,7 +2551,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.725
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

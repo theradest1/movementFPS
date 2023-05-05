@@ -159,11 +159,6 @@ public class ServerEvents : MonoBehaviour
         return clientScripts[clientIDs.IndexOf(int.Parse(_ID))];
     }
 
-    public void setOtherClientClass(string ID, string classToSet){
-        OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(ID))];
-        clientScript.setClass(classToSet);
-    }
-
     public void newClient(string newClientID, string newClientUsername){
         //Debug.Log("New client's ID: " + newClientID + "  New client's username: " + newCleintUsername);
         chatManager.newChat(newClientUsername + " has joined the game", Color.red);
@@ -182,8 +177,6 @@ public class ServerEvents : MonoBehaviour
         clientScript.scoreboardPeice = newKDPeice;
 
         //Debug.Log("New player's ID: " + int.Parse(newClientID));
-
-        sendEvent("ue", "setClass", playerManager.currentClass.gameObject.name);
         sendEvent("ue", "setHealth", playerManager.health + "~" + playerManager.healCooldown);
     }
 
@@ -230,7 +223,7 @@ public class ServerEvents : MonoBehaviour
         if(float.Parse(damage) > 0){
             if(int.Parse(victimID) != serverComm.ID){
                 OtherPlayer clientScript = getClientScript(victimID);
-                clientScript.healCooldown = clientScript.currentClass.healCooldown;
+                //clientScript.healCooldown = clientScript.healCooldown;
                 clientScript.changeHealth(0f);
             }
             else{
