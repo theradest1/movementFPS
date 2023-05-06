@@ -232,7 +232,7 @@ public class ServerComm : MonoBehaviour
                                 }
                                 break;
                             case "setHealth":
-                                serverEvents.setHealth(splitRawEvents[1], splitRawEvents[2], splitRawEvents[3]); //clientID, health, healing cooldown
+                                serverEvents.setHealth(splitRawEvents[1], splitRawEvents[2]); //clientID, health
                                 break;
                             case "s": //sound
                                 if(int.Parse(splitRawEvents[1]) != ID){

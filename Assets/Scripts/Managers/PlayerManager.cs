@@ -26,9 +26,6 @@ public class PlayerManager : MonoBehaviour
 	public float maxHealth = 100f;
 	public float flashRecovery;
 	//public List<GameObject> spawnPoints;
-	public float timeBeforeHeal;
-	public float healRate;
-	public float healCooldown;
 	public TMP_Dropdown mainDropdown;
 	public TMP_Dropdown toolDropdown;
 	public GameObject killer;
@@ -64,8 +61,6 @@ public class PlayerManager : MonoBehaviour
 		flashImage = GameObject.Find("flash image").GetComponent<Image>();
 
 		//updateWeaponStats(mainDropdown);
-
-		InvokeRepeating("heal", 0, .1f);
 		changeHealth(0f);
 
 		Invoke("getWeaponChoices", .1f);
@@ -84,22 +79,6 @@ public class PlayerManager : MonoBehaviour
 		//Debug.Log(mainDropdown.value + ", " + toolDropdown.value);
 	}
 
-	void heal()
-	{
-		if (healCooldown <= 0 && health < maxHealth)
-		{
-			if (health > maxHealth)
-			{
-				health = maxHealth;
-				changeHealth(0);
-			}
-			else
-			{
-				changeHealth(healRate);
-			}
-		}
-	}
-
 	private void Update()
 	{
 		if (followKiller)
@@ -109,7 +88,6 @@ public class PlayerManager : MonoBehaviour
 			transform.rotation = killer.transform.rotation;
 		}
 
-		healCooldown -= Time.deltaTime;
 		if (flashImage.color.a > 0)
 		{
 			flashImage.color = new Color(1, 1, 1, flashImage.color.a - flashRecovery * Time.deltaTime);
@@ -204,9 +182,5 @@ public class PlayerManager : MonoBehaviour
 		health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
 		healthSlider.value = health / maxHealth;
 		healthText.text = Mathf.Round(health) + "/" + maxHealth;
-		if (subbedHealth > 0)
-		{
-			healCooldown = timeBeforeHeal;
-		}
 	}
 }

@@ -13,8 +13,6 @@ public class OtherPlayer : MonoBehaviour
     public float invincibilityTimer = 0f;
     public float health;
     public float maxHealth;
-    public float healRate;
-    public float healCooldown;
     public Vector3 direction;
     public int currentMapVote = -1;
     [HideInInspector]
@@ -55,10 +53,6 @@ public class OtherPlayer : MonoBehaviour
         health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
         healthSlider.value = health/maxHealth;
         Debug.Log(healthSlider.value);
-
-        if(subbedHealth > 0){
-            healCooldown = playerManager.timeBeforeHeal;
-        }
     }
 
     void Start(){
@@ -71,12 +65,9 @@ public class OtherPlayer : MonoBehaviour
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
         playerManager = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerManager;
         playerCam = GameObject.Find("manager").GetComponent<ProjectileFunctions>().playerCam;
-        healRate = playerManager.healRate;
         maxHealth = playerManager.maxHealth;
         health = 100f;
-        healRate = playerManager.healRate;
         changeHealth(0f);
-        InvokeRepeating("heal", 0, .1f);
         for(int i = 0; i < replayManager.tickRate * replayManager.replayTime; i++){
             replayData.Add("");
         }
@@ -87,18 +78,6 @@ public class OtherPlayer : MonoBehaviour
         replayData[currentTick] = gameObject.name + "~" + transform.position + "~" + transform.eulerAngles;
     }
 
-    void heal(){
-        if(healCooldown <= 0 && health < maxHealth){
-            if(health > maxHealth){
-                health = maxHealth;
-                changeHealth(0);
-            }
-            else{
-                changeHealth(-healRate);
-            }
-        }
-    }
-
     public void changeScoreboard(int killsToAdd, int deathsToAdd){
         kills += killsToAdd;
         deaths += deathsToAdd;
@@ -106,7 +85,6 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Update(){
-        healCooldown -= Time.deltaTime;
         usernameCanvas.gameObject.transform.LookAt(playerCam.transform);
 
         invincibilityTimer -= Time.deltaTime;

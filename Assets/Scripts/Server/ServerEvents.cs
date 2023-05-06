@@ -177,7 +177,7 @@ public class ServerEvents : MonoBehaviour
         clientScript.scoreboardPeice = newKDPeice;
 
         //Debug.Log("New player's ID: " + int.Parse(newClientID));
-        sendEvent("ue", "setHealth", playerManager.health + "~" + playerManager.healCooldown);
+        sendEvent("ue", "setHealth", playerManager.health + "");
     }
 
     public void removeClient(string ID){
@@ -205,16 +205,14 @@ public class ServerEvents : MonoBehaviour
         }
     }
 
-    public void setHealth(string clientID, string health, string healCooldown){
-        //Debug.Log("health: " + health + ", cooldown: " + healCooldown);
+    public void setHealth(string clientID, string health){
+        //Debug.Log("health: " + health + ");
         if(int.Parse(clientID) == serverComm.ID){
             playerManager.health = float.Parse(health);
-            playerManager.healCooldown = float.Parse(healCooldown);
         }
         else{
             int clientIDParsed = clientIDs.IndexOf(int.Parse(clientID));
             clientScripts[clientIDParsed].health = float.Parse(health);
-            clientScripts[clientIDParsed].healCooldown = float.Parse(healCooldown);
             clientScripts[clientIDParsed].changeHealth(0f);
         }
     }
@@ -223,11 +221,9 @@ public class ServerEvents : MonoBehaviour
         if(float.Parse(damage) > 0){
             if(int.Parse(victimID) != serverComm.ID){
                 OtherPlayer clientScript = getClientScript(victimID);
-                //clientScript.healCooldown = clientScript.healCooldown;
                 clientScript.changeHealth(0f);
             }
             else{
-                playerManager.healCooldown = playerManager.timeBeforeHeal;
                 playerManager.changeHealth(0f);
             }
         }
