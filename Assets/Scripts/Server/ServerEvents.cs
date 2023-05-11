@@ -230,7 +230,8 @@ public class ServerEvents : MonoBehaviour
     }
 
     public void spawnProjectile(string senderID, string typeID, string damage, string position, string velocity){
-        projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), parseVector3(velocity));
+        //projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), parseVector3(velocity));
+        projectileManager.createProjectile(int.Parse(senderID), int.Parse(typeID), float.Parse(damage), parseVector3(position), Quaternion.identity, parseVector3(velocity), Vector3.zero);
     }
 
     public void playSound(string clipID, string position, string volume, string pitch){

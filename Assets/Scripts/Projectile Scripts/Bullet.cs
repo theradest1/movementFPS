@@ -28,10 +28,13 @@ public class Bullet : MonoBehaviour
         projectileFunctions = givenProjectileFunctions;
         damage = givenDamage;
         fakeBullet = Instantiate(fakeBulletPrefab, fouxBulletPos, Quaternion.identity);
-        fakeBullet.transform.LookAt(fakeBullet.transform.position + rb.velocity);
+        fakeBullet.transform.LookAt(fakeBullet.transform.position + givenVelocity);
 
         Destroy(fakeBullet, maxLifeTime);
         Destroy(this.gameObject, maxLifeTime);
+        
+        WeaponInfo equippedWeapon = projectileFunctions.weapons.equippedWeapon;
+        projectileFunctions.serverEvents.sendEvent("ue", "pr", 3 + "~" + 0 + "~" + fouxBulletPos + "~" + givenVelocity + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
     }
 
     private void Start() {

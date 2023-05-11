@@ -62,8 +62,8 @@ public class Weapons : MonoBehaviour
     public void shoot(float damageMultiplier){
         if(canShoot && cooldownTimer <= 0){
             if(objectsInClip > 0){
-                projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
-                serverEvents.sendEvent("ue", "pr", equippedWeapon.projectileID + "~" + equippedWeapon.damage * damageMultiplier + "~" + equippedWeapon.bulletSpawnPos.position + "~" + (cam.transform.forward * equippedWeapon.bulletSpeed + playerRB.velocity) + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
+                //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
+                projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
                 objectsInClip -= 1;
                 updateGUI();
                 cooldownTimer = equippedWeapon.cooldown;
