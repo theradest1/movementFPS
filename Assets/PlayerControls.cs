@@ -28,7 +28,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""8d7db207-3da2-41f1-a012-4dfe4f275d43"",
             ""actions"": [
                 {
-                    ""name"": ""Walk"",
+                    ""name"": ""moveDirection"",
                     ""type"": ""Value"",
                     ""id"": ""933aa543-d467-4c44-bb52-592cb11ffe1f"",
                     ""expectedControlType"": ""Vector2"",
@@ -37,36 +37,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""jump"",
                     ""type"": ""Button"",
                     ""id"": ""edc17366-df53-472e-98f3-67056113ae18"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""4be22819-e75c-42d1-9375-6bb6c4a00fc1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Sprint"",
-                    ""type"": ""Button"",
-                    ""id"": ""2c1fa066-6395-4df8-95d6-7761d74368a1"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Dash"",
-                    ""type"": ""Button"",
-                    ""id"": ""29a342bb-a28f-4e99-9b05-7b53dda93ea5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -81,7 +54,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -92,7 +65,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -103,7 +76,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -114,7 +87,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -125,7 +98,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -136,7 +109,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -147,7 +120,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -158,7 +131,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -169,7 +142,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -180,7 +153,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""moveDirection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -191,7 +164,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -202,40 +175,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9a24b07c-ca80-421d-8dc4-d0b2acf216d3"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Crouch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6a7afc51-546c-4b08-a394-e8aa287473c8"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Sprint"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0d957ae5-457c-4878-aecf-0ee9dd585e3d"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dash"",
+                    ""action"": ""jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -274,7 +214,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""ea087e4d-b92f-4497-8491-bfd6978eb7be"",
             ""actions"": [
                 {
-                    ""name"": ""shoot"",
+                    ""name"": ""weaponUse"",
                     ""type"": ""Button"",
                     ""id"": ""7d268154-92fe-4518-b535-2ffd7cd61241"",
                     ""expectedControlType"": ""Button"",
@@ -283,7 +223,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ADS"",
+                    ""name"": ""aiming"",
                     ""type"": ""Button"",
                     ""id"": ""826f8676-ab80-4b42-aba6-373a602180f4"",
                     ""expectedControlType"": ""Button"",
@@ -310,7 +250,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""tab"",
+                    ""name"": ""openScoreBoard"",
                     ""type"": ""Button"",
                     ""id"": ""55e4f593-e2c1-4ca3-9da6-2a87a83ffe29"",
                     ""expectedControlType"": ""Button"",
@@ -319,9 +259,36 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""enter"",
+                    ""name"": ""chat"",
                     ""type"": ""Button"",
                     ""id"": ""f828e8cd-f655-45bc-9176-b3a1ba5d1679"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""throwableUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""08d049aa-3a39-43bb-b306-5b17243836bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""abilityUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1223ad2-ad0c-4871-8163-1f2a21cc5a32"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""toolUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""8372bf6d-ab87-4cf5-a8f5-e69a1938f765"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -336,7 +303,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""shoot"",
+                    ""action"": ""weaponUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -347,7 +314,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ADS"",
+                    ""action"": ""aiming"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -380,7 +347,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""tab"",
+                    ""action"": ""openScoreBoard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -391,7 +358,40 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""enter"",
+                    ""action"": ""chat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3450c5a-1f14-4668-aa26-4b37dca4c3a0"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""throwableUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83629ffc-b137-4c55-b485-72bc789ab64d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""abilityUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1b5ac83-e6bd-463d-8cb5-68129e8805f0"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""toolUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -490,22 +490,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
 }");
         // movement
         m_movement = asset.FindActionMap("movement", throwIfNotFound: true);
-        m_movement_Walk = m_movement.FindAction("Walk", throwIfNotFound: true);
-        m_movement_Jump = m_movement.FindAction("Jump", throwIfNotFound: true);
-        m_movement_Crouch = m_movement.FindAction("Crouch", throwIfNotFound: true);
-        m_movement_Sprint = m_movement.FindAction("Sprint", throwIfNotFound: true);
-        m_movement_Dash = m_movement.FindAction("Dash", throwIfNotFound: true);
+        m_movement_moveDirection = m_movement.FindAction("moveDirection", throwIfNotFound: true);
+        m_movement_jump = m_movement.FindAction("jump", throwIfNotFound: true);
         // camera
         m_camera = asset.FindActionMap("camera", throwIfNotFound: true);
         m_camera_mouseDelta = m_camera.FindAction("mouseDelta", throwIfNotFound: true);
         // interactions
         m_interactions = asset.FindActionMap("interactions", throwIfNotFound: true);
-        m_interactions_shoot = m_interactions.FindAction("shoot", throwIfNotFound: true);
-        m_interactions_ADS = m_interactions.FindAction("ADS", throwIfNotFound: true);
+        m_interactions_weaponUse = m_interactions.FindAction("weaponUse", throwIfNotFound: true);
+        m_interactions_aiming = m_interactions.FindAction("aiming", throwIfNotFound: true);
         m_interactions_reload = m_interactions.FindAction("reload", throwIfNotFound: true);
         m_interactions_escape = m_interactions.FindAction("escape", throwIfNotFound: true);
-        m_interactions_tab = m_interactions.FindAction("tab", throwIfNotFound: true);
-        m_interactions_enter = m_interactions.FindAction("enter", throwIfNotFound: true);
+        m_interactions_openScoreBoard = m_interactions.FindAction("openScoreBoard", throwIfNotFound: true);
+        m_interactions_chat = m_interactions.FindAction("chat", throwIfNotFound: true);
+        m_interactions_throwableUse = m_interactions.FindAction("throwableUse", throwIfNotFound: true);
+        m_interactions_abilityUse = m_interactions.FindAction("abilityUse", throwIfNotFound: true);
+        m_interactions_toolUse = m_interactions.FindAction("toolUse", throwIfNotFound: true);
         // weaponSelects
         m_weaponSelects = asset.FindActionMap("weaponSelects", throwIfNotFound: true);
         m_weaponSelects_one = m_weaponSelects.FindAction("one", throwIfNotFound: true);
@@ -573,20 +573,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // movement
     private readonly InputActionMap m_movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
-    private readonly InputAction m_movement_Walk;
-    private readonly InputAction m_movement_Jump;
-    private readonly InputAction m_movement_Crouch;
-    private readonly InputAction m_movement_Sprint;
-    private readonly InputAction m_movement_Dash;
+    private readonly InputAction m_movement_moveDirection;
+    private readonly InputAction m_movement_jump;
     public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
         public MovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Walk => m_Wrapper.m_movement_Walk;
-        public InputAction @Jump => m_Wrapper.m_movement_Jump;
-        public InputAction @Crouch => m_Wrapper.m_movement_Crouch;
-        public InputAction @Sprint => m_Wrapper.m_movement_Sprint;
-        public InputAction @Dash => m_Wrapper.m_movement_Dash;
+        public InputAction @moveDirection => m_Wrapper.m_movement_moveDirection;
+        public InputAction @jump => m_Wrapper.m_movement_jump;
         public InputActionMap Get() { return m_Wrapper.m_movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -596,40 +590,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
-            @Walk.started += instance.OnWalk;
-            @Walk.performed += instance.OnWalk;
-            @Walk.canceled += instance.OnWalk;
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
-            @Crouch.started += instance.OnCrouch;
-            @Crouch.performed += instance.OnCrouch;
-            @Crouch.canceled += instance.OnCrouch;
-            @Sprint.started += instance.OnSprint;
-            @Sprint.performed += instance.OnSprint;
-            @Sprint.canceled += instance.OnSprint;
-            @Dash.started += instance.OnDash;
-            @Dash.performed += instance.OnDash;
-            @Dash.canceled += instance.OnDash;
+            @moveDirection.started += instance.OnMoveDirection;
+            @moveDirection.performed += instance.OnMoveDirection;
+            @moveDirection.canceled += instance.OnMoveDirection;
+            @jump.started += instance.OnJump;
+            @jump.performed += instance.OnJump;
+            @jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
         {
-            @Walk.started -= instance.OnWalk;
-            @Walk.performed -= instance.OnWalk;
-            @Walk.canceled -= instance.OnWalk;
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
-            @Crouch.started -= instance.OnCrouch;
-            @Crouch.performed -= instance.OnCrouch;
-            @Crouch.canceled -= instance.OnCrouch;
-            @Sprint.started -= instance.OnSprint;
-            @Sprint.performed -= instance.OnSprint;
-            @Sprint.canceled -= instance.OnSprint;
-            @Dash.started -= instance.OnDash;
-            @Dash.performed -= instance.OnDash;
-            @Dash.canceled -= instance.OnDash;
+            @moveDirection.started -= instance.OnMoveDirection;
+            @moveDirection.performed -= instance.OnMoveDirection;
+            @moveDirection.canceled -= instance.OnMoveDirection;
+            @jump.started -= instance.OnJump;
+            @jump.performed -= instance.OnJump;
+            @jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -697,22 +673,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // interactions
     private readonly InputActionMap m_interactions;
     private List<IInteractionsActions> m_InteractionsActionsCallbackInterfaces = new List<IInteractionsActions>();
-    private readonly InputAction m_interactions_shoot;
-    private readonly InputAction m_interactions_ADS;
+    private readonly InputAction m_interactions_weaponUse;
+    private readonly InputAction m_interactions_aiming;
     private readonly InputAction m_interactions_reload;
     private readonly InputAction m_interactions_escape;
-    private readonly InputAction m_interactions_tab;
-    private readonly InputAction m_interactions_enter;
+    private readonly InputAction m_interactions_openScoreBoard;
+    private readonly InputAction m_interactions_chat;
+    private readonly InputAction m_interactions_throwableUse;
+    private readonly InputAction m_interactions_abilityUse;
+    private readonly InputAction m_interactions_toolUse;
     public struct InteractionsActions
     {
         private @PlayerControls m_Wrapper;
         public InteractionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @shoot => m_Wrapper.m_interactions_shoot;
-        public InputAction @ADS => m_Wrapper.m_interactions_ADS;
+        public InputAction @weaponUse => m_Wrapper.m_interactions_weaponUse;
+        public InputAction @aiming => m_Wrapper.m_interactions_aiming;
         public InputAction @reload => m_Wrapper.m_interactions_reload;
         public InputAction @escape => m_Wrapper.m_interactions_escape;
-        public InputAction @tab => m_Wrapper.m_interactions_tab;
-        public InputAction @enter => m_Wrapper.m_interactions_enter;
+        public InputAction @openScoreBoard => m_Wrapper.m_interactions_openScoreBoard;
+        public InputAction @chat => m_Wrapper.m_interactions_chat;
+        public InputAction @throwableUse => m_Wrapper.m_interactions_throwableUse;
+        public InputAction @abilityUse => m_Wrapper.m_interactions_abilityUse;
+        public InputAction @toolUse => m_Wrapper.m_interactions_toolUse;
         public InputActionMap Get() { return m_Wrapper.m_interactions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -722,46 +704,64 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_InteractionsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_InteractionsActionsCallbackInterfaces.Add(instance);
-            @shoot.started += instance.OnShoot;
-            @shoot.performed += instance.OnShoot;
-            @shoot.canceled += instance.OnShoot;
-            @ADS.started += instance.OnADS;
-            @ADS.performed += instance.OnADS;
-            @ADS.canceled += instance.OnADS;
+            @weaponUse.started += instance.OnWeaponUse;
+            @weaponUse.performed += instance.OnWeaponUse;
+            @weaponUse.canceled += instance.OnWeaponUse;
+            @aiming.started += instance.OnAiming;
+            @aiming.performed += instance.OnAiming;
+            @aiming.canceled += instance.OnAiming;
             @reload.started += instance.OnReload;
             @reload.performed += instance.OnReload;
             @reload.canceled += instance.OnReload;
             @escape.started += instance.OnEscape;
             @escape.performed += instance.OnEscape;
             @escape.canceled += instance.OnEscape;
-            @tab.started += instance.OnTab;
-            @tab.performed += instance.OnTab;
-            @tab.canceled += instance.OnTab;
-            @enter.started += instance.OnEnter;
-            @enter.performed += instance.OnEnter;
-            @enter.canceled += instance.OnEnter;
+            @openScoreBoard.started += instance.OnOpenScoreBoard;
+            @openScoreBoard.performed += instance.OnOpenScoreBoard;
+            @openScoreBoard.canceled += instance.OnOpenScoreBoard;
+            @chat.started += instance.OnChat;
+            @chat.performed += instance.OnChat;
+            @chat.canceled += instance.OnChat;
+            @throwableUse.started += instance.OnThrowableUse;
+            @throwableUse.performed += instance.OnThrowableUse;
+            @throwableUse.canceled += instance.OnThrowableUse;
+            @abilityUse.started += instance.OnAbilityUse;
+            @abilityUse.performed += instance.OnAbilityUse;
+            @abilityUse.canceled += instance.OnAbilityUse;
+            @toolUse.started += instance.OnToolUse;
+            @toolUse.performed += instance.OnToolUse;
+            @toolUse.canceled += instance.OnToolUse;
         }
 
         private void UnregisterCallbacks(IInteractionsActions instance)
         {
-            @shoot.started -= instance.OnShoot;
-            @shoot.performed -= instance.OnShoot;
-            @shoot.canceled -= instance.OnShoot;
-            @ADS.started -= instance.OnADS;
-            @ADS.performed -= instance.OnADS;
-            @ADS.canceled -= instance.OnADS;
+            @weaponUse.started -= instance.OnWeaponUse;
+            @weaponUse.performed -= instance.OnWeaponUse;
+            @weaponUse.canceled -= instance.OnWeaponUse;
+            @aiming.started -= instance.OnAiming;
+            @aiming.performed -= instance.OnAiming;
+            @aiming.canceled -= instance.OnAiming;
             @reload.started -= instance.OnReload;
             @reload.performed -= instance.OnReload;
             @reload.canceled -= instance.OnReload;
             @escape.started -= instance.OnEscape;
             @escape.performed -= instance.OnEscape;
             @escape.canceled -= instance.OnEscape;
-            @tab.started -= instance.OnTab;
-            @tab.performed -= instance.OnTab;
-            @tab.canceled -= instance.OnTab;
-            @enter.started -= instance.OnEnter;
-            @enter.performed -= instance.OnEnter;
-            @enter.canceled -= instance.OnEnter;
+            @openScoreBoard.started -= instance.OnOpenScoreBoard;
+            @openScoreBoard.performed -= instance.OnOpenScoreBoard;
+            @openScoreBoard.canceled -= instance.OnOpenScoreBoard;
+            @chat.started -= instance.OnChat;
+            @chat.performed -= instance.OnChat;
+            @chat.canceled -= instance.OnChat;
+            @throwableUse.started -= instance.OnThrowableUse;
+            @throwableUse.performed -= instance.OnThrowableUse;
+            @throwableUse.canceled -= instance.OnThrowableUse;
+            @abilityUse.started -= instance.OnAbilityUse;
+            @abilityUse.performed -= instance.OnAbilityUse;
+            @abilityUse.canceled -= instance.OnAbilityUse;
+            @toolUse.started -= instance.OnToolUse;
+            @toolUse.performed -= instance.OnToolUse;
+            @toolUse.canceled -= instance.OnToolUse;
         }
 
         public void RemoveCallbacks(IInteractionsActions instance)
@@ -851,11 +851,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public WeaponSelectsActions @weaponSelects => new WeaponSelectsActions(this);
     public interface IMovementActions
     {
-        void OnWalk(InputAction.CallbackContext context);
+        void OnMoveDirection(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnCrouch(InputAction.CallbackContext context);
-        void OnSprint(InputAction.CallbackContext context);
-        void OnDash(InputAction.CallbackContext context);
     }
     public interface ICameraActions
     {
@@ -863,12 +860,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IInteractionsActions
     {
-        void OnShoot(InputAction.CallbackContext context);
-        void OnADS(InputAction.CallbackContext context);
+        void OnWeaponUse(InputAction.CallbackContext context);
+        void OnAiming(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
-        void OnTab(InputAction.CallbackContext context);
-        void OnEnter(InputAction.CallbackContext context);
+        void OnOpenScoreBoard(InputAction.CallbackContext context);
+        void OnChat(InputAction.CallbackContext context);
+        void OnThrowableUse(InputAction.CallbackContext context);
+        void OnAbilityUse(InputAction.CallbackContext context);
+        void OnToolUse(InputAction.CallbackContext context);
     }
     public interface IWeaponSelectsActions
     {

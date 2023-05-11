@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class WeaponManager : MonoBehaviour
 {
-	ControlsManager controlsManager;
+	/*ControlsManager controlsManager;
 	movement movementScript;
 	SoundManager soundManager;
 	Grapple grapple;
@@ -98,7 +98,7 @@ public class WeaponManager : MonoBehaviour
 			equippedWeapon.gameObject.SetActive(false);
 		}
 		equippedWeapon = weapons[0];
-		controlsManager.equippedNum = 1;
+		//controlsManager.equippedNum = 1;
 		equippedWeapon.gameObject.SetActive(true);
 		objectsInClipText.text = equippedWeapon.objectsInClip + "/" + getModifiedMaxObjects();
 	}
@@ -174,7 +174,7 @@ public class WeaponManager : MonoBehaviour
 		{
 			tempBulletSpeed *= equippedWeapon.bulletSpeedADSMult;
 		}
-		if (!controlsManager.shooting)
+		if (!controlsManager.weaponUse)
 		{
 			ableToShoot = true;
 		}
@@ -185,7 +185,7 @@ public class WeaponManager : MonoBehaviour
 
 
 		// start reloading
-		if ((controlsManager.reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.shooting && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0))
+		if ((controlsManager.reloading && equippedWeapon.reloadable && equippedWeapon.objectsInClip < modifiedMaxObjects) || (controlsManager.weaponUse && equippedWeapon.reloadable && equippedWeapon.objectsInClip <= 0))
 		{
 			if (!reloading)
 			{
@@ -248,7 +248,7 @@ public class WeaponManager : MonoBehaviour
 		}
 
 		//shooting
-		if (controlsManager.shooting && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0 && ableToShoot)
+		if (controlsManager.weaponUse && equippedWeapon.objectsInClip > 0 && equippedWeapon.cooldownTimer <= 0 && ableToShoot)
 		{
 			if (!equippedWeapon.automatic)
 			{
@@ -317,5 +317,5 @@ public class WeaponManager : MonoBehaviour
 			gunRenderingCam.fieldOfView = Mathf.Lerp(gunRenderingCam.fieldOfView, gunNormalFOV, FOVChangeSpeed * Time.deltaTime);
 		}
 		weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, moveRecoverySpeed * Time.deltaTime);
-	}
+	}*/
 }

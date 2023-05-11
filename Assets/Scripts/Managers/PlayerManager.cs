@@ -10,7 +10,7 @@ public class PlayerManager : MonoBehaviour
 	ServerEvents serverEvents;
 	ServerComm serverComm;
 	ControlsManager controlsManager;
-	WeaponManager weaponManager;
+	Weapons weapons;
 	[HideInInspector]
 	public GameObject deathMenu;
 	GameObject playerCam;
@@ -26,8 +26,10 @@ public class PlayerManager : MonoBehaviour
 	public float maxHealth = 100f;
 	public float flashRecovery;
 	//public List<GameObject> spawnPoints;
-	public TMP_Dropdown mainDropdown;
+	public TMP_Dropdown weaponDropdown;
 	public TMP_Dropdown toolDropdown;
+	public TMP_Dropdown abilityDropdown;
+	public TMP_Dropdown throwableDropdown;
 	public GameObject killer;
 	bool followKiller = false;
 	Collider coll;
@@ -51,7 +53,7 @@ public class PlayerManager : MonoBehaviour
 		movementScript = this.gameObject.GetComponent<movement>();
 		coll = this.gameObject.GetComponent<Collider>();
 		rb = this.gameObject.GetComponent<Rigidbody>();
-		weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
+		weapons = GameObject.Find("Player").GetComponent<Weapons>();
 		deathMenu = GameObject.Find("deathMenu");
 		controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
 		healthText = GameObject.Find("healthText").GetComponent<TextMeshProUGUI>();
@@ -68,13 +70,17 @@ public class PlayerManager : MonoBehaviour
 
 	void getWeaponChoices()
 	{
-		int _main = PlayerPrefs.GetInt("Main", 0);
+		int _weapon = PlayerPrefs.GetInt("Weapon", 0);
 		int _tool = PlayerPrefs.GetInt("Tool", 0);
+		int _ability = PlayerPrefs.GetInt("Ability", 0);
+		int _throwable = PlayerPrefs.GetInt("Throwable", 0);
 
 		//Debug.Log("Main: " + _main);
 
-		mainDropdown.value = _main;
+		weaponDropdown.value = _weapon;
 		toolDropdown.value = _tool;
+		abilityDropdown.value = _ability;
+		throwableDropdown.value = _throwable;
 		//Debug.Log(_main + ", " + _second + ", " + _tool);
 		//Debug.Log(mainDropdown.value + ", " + toolDropdown.value);
 	}
@@ -102,7 +108,7 @@ public class PlayerManager : MonoBehaviour
 			followKiller = false;
 			controlsManager.deathMenuControlls = false;
 			deathMenu.SetActive(false);
-			weaponManager.setWeapons(new List<string> { mainDropdown.options[mainDropdown.value].text, null, toolDropdown.options[toolDropdown.value].text });
+			weapons.setWeapon(weaponDropdown.value);
 
 			look.camRotX = 0;
 			coll.enabled = true;
@@ -114,7 +120,7 @@ public class PlayerManager : MonoBehaviour
 	public void updateWeaponStats(TMP_Dropdown dropdown)
 	{
 		Debug.Log("updated weapon stats");
-		WeaponInfo selectedWeapon = weaponManager.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
+		/*WeaponInfo selectedWeapon = weapons.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
 
 		weaponSpeedText.text = (selectedWeapon.speedMultiplier * 100) + "%";
 		weaponDamageText.text = selectedWeapon.damage + "";
@@ -126,7 +132,7 @@ public class PlayerManager : MonoBehaviour
 
 		PlayerPrefs.SetInt("Main", mainDropdown.value);
 		PlayerPrefs.SetInt("Tool", toolDropdown.value);
-		PlayerPrefs.Save();
+		PlayerPrefs.Save();*/
 	}
 
 	public void commitDie()
@@ -140,7 +146,7 @@ public class PlayerManager : MonoBehaviour
 		rb.rotation = Quaternion.identity;
 		look.camRotX = 90;
 		controlsManager.deathMenuControlls = true;
-		weaponManager.changeWeapon(4);
+		weapons.setWeapon(4);
 	}
 
 	public List<List<string>> getReplayData()
@@ -161,7 +167,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			killer = GameObject.Find(killerID + "");
 			controlsManager.deathMenuControlls = true;
-			weaponManager.changeWeapon(4);
+			weapons.setWeapon(4);
 			//Debug.Log("DEATHHTTHTHTHTHTHTHTH");
 			StartCoroutine(replayManager.startReplay(getReplayData(), killer));
 			//followKiller = true;

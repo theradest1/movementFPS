@@ -18,10 +18,10 @@ public class ToolRefill : MonoBehaviour
         string objectName = other.gameObject.name;
         if(objectName == "Player" || objectName == "head" || objectName == "body"){
             if(objectName == "Player"){
-                if(weaponManager.refillTool()){
-                    Destroy(this.gameObject);
-                    Debug.Log("Collected tool refill");
-                }
+                //if(weaponManager.refillTool()){
+                //    Destroy(this.gameObject);
+                //    Debug.Log("Collected tool refill");
+                //}
             }
             else{
                 Destroy(this.gameObject);

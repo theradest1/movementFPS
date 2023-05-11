@@ -4,40 +4,50 @@ using UnityEngine;
 
 public class ControlsManager : MonoBehaviour
 {
-    [HideInInspector]
-    public Vector2 moveDirection;
-    [HideInInspector]
-    public Vector2 mouseDelta;
-
-    public PlayerControls playerControls;
     movement movementScript;
     Look look;
     WeaponManager weaponManager;
     InGameGUIManager inGameGUIManager;
     ReplayManager replayManager;
 
+    [Header("References:")]
+    public PlayerControls playerControls;
+
+    //mouse and movement
     [HideInInspector]
-    public bool jumping;
+    public Vector2 moveDirection;
     [HideInInspector]
-    public bool shooting;
+    public Vector2 mouseDelta;
+
+    //weapon
     [HideInInspector]
     public bool aiming;
     [HideInInspector]
-    public bool canToggleADS;
-    [HideInInspector]
     public bool reloading;
+
+    //inventory use
     [HideInInspector]
-    public bool sprinting;
+    public bool weaponUse;
     [HideInInspector]
-    public bool dashing;
+    public bool throwableUse;
     [HideInInspector]
-    public bool crouching;
+    public bool abilityUse;
+    [HideInInspector]
+    public bool toolUse;
+
+    //movement
+    [HideInInspector]
+    public bool jumping;
+
+    //menu
     [HideInInspector]
     public bool escape;
     [HideInInspector]
-    public int equippedNum;
+    public bool openScoreBoard;
     [HideInInspector]
-    public bool tab;
+    public bool chat = false;
+
+    //events
     [HideInInspector]
     public bool disconnected = false;
     [HideInInspector]
@@ -48,12 +58,6 @@ public class ControlsManager : MonoBehaviour
     public bool choosingMap = false;
     [HideInInspector]
     public bool chatting = false;
-    [HideInInspector]
-    public bool enter = false;
-    [HideInInspector]
-    public bool toggleADS = false;
-    [HideInInspector]
-    public bool grappling = false;
 
     private void Start() {
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
@@ -80,80 +84,53 @@ public class ControlsManager : MonoBehaviour
     void Update()
     {
         if(!deathMenuControlls && !disconnected && !inMenu && !choosingMap && !chatting){
-            Cursor.lockState = CursorLockMode.Locked;
             //I'll change these eventually to a call based system but for now I really don't care enough for the effect frames it would give
+            //basic things
+            Cursor.lockState = CursorLockMode.Locked;
             mouseDelta = playerControls.camera.mouseDelta.ReadValue<Vector2>();
+            moveDirection = playerControls.movement.moveDirection.ReadValue<Vector2>();
             
-            moveDirection = playerControls.movement.Walk.ReadValue<Vector2>();
-            jumping = playerControls.movement.Jump.ReadValue<float>() == 1;
-            sprinting = playerControls.movement.Sprint.ReadValue<float>() == 1;
-            /*dashing*/grappling = playerControls.movement.Sprint.ReadValue<float>() == 1;
-            dashing = playerControls.movement.Dash.ReadValue<float>() == 1;
-            crouching = playerControls.movement.Crouch.ReadValue<float>() == 1;
+            //global movement
+            jumping = playerControls.movement.jump.ReadValue<float>() == 1;
 
-            shooting = playerControls.interactions.shoot.ReadValue<float>() == 1;
+            //inventory use
+            weaponUse = playerControls.interactions.weaponUse.ReadValue<float>() == 1;
+            throwableUse = playerControls.interactions.throwableUse.ReadValue<float>() == 1;
+            abilityUse = playerControls.interactions.abilityUse.ReadValue<float>() == 1;
+            toolUse = playerControls.interactions.toolUse.ReadValue<float>() == 1;
+
+            //weapon
             reloading = playerControls.interactions.reload.ReadValue<float>() == 1;
-            enter = playerControls.interactions.enter.ReadValue<float>() == 1;
-            
-            if((canToggleADS || !toggleADS) && playerControls.interactions.ADS.ReadValue<float>() == 1){
-                if(toggleADS){
-                    aiming = !aiming;
-                    canToggleADS = false;
-                }
-                else{
-                    aiming = true;
-                }
-            }
-            if(playerControls.interactions.ADS.ReadValue<float>() != 1){
-                canToggleADS = true;
-            }
-            if(!toggleADS && playerControls.interactions.ADS.ReadValue<float>() != 1){
-                aiming = false;
-            }
+            aiming = playerControls.interactions.aiming.ReadValue<float>() == 1;
 
-            tab = playerControls.interactions.tab.ReadValue<float>() == 1;
+            //menu
+            chat = playerControls.interactions.chat.ReadValue<float>() == 1;
+            openScoreBoard = playerControls.interactions.openScoreBoard.ReadValue<float>() == 1;
 
             if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){
                 inGameGUIManager.changeGUIState();
             }
             escape = playerControls.interactions.escape.ReadValue<float>() == 1;
-
-            int newEquippedNum = equippedNum;
-            if(playerControls.weaponSelects.one.ReadValue<float>() == 1){
-                newEquippedNum = 1;
-            }
-            if(playerControls.weaponSelects.two.ReadValue<float>() == 1){
-                newEquippedNum = 2;
-            }
-            if(playerControls.weaponSelects.three.ReadValue<float>() == 1){
-                newEquippedNum = 3;
-            }
-            newEquippedNum = Mathf.Clamp(newEquippedNum + (int)Mathf.Clamp(playerControls.weaponSelects.scroll.ReadValue<Vector2>().y, -1, 1), 1, 3);
-            if(newEquippedNum != equippedNum){
-                weaponManager.changeWeapon(newEquippedNum);
-                equippedNum = newEquippedNum;
-            }
-
         }
         else{
             Cursor.lockState = CursorLockMode.None;
             mouseDelta = Vector2.zero;
             moveDirection = Vector3.zero;
             jumping = false;
-            sprinting = false;
-            crouching = false;
-            shooting = false;
-            grappling = false;
-            //aiming = false;
-            reloading = false;
-            dashing = false;
 
-            tab = playerControls.interactions.tab.ReadValue<float>() == 1;
+            weaponUse = false;
+            throwableUse = false;
+            abilityUse = false;
+            toolUse = false;
+
+            reloading = false;
+
+            openScoreBoard = playerControls.interactions.openScoreBoard.ReadValue<float>() == 1;
             if(escape != (playerControls.interactions.escape.ReadValue<float>() == 1) && escape == false){
                 inGameGUIManager.changeGUIState();
             }
-            enter = playerControls.interactions.enter.ReadValue<float>() == 1;
-            if(!replayManager.enter && enter){
+            chat = playerControls.interactions.chat.ReadValue<float>() == 1;
+            if(!replayManager.enter && chat){
                 replayManager.enter = true;
             }
             escape = playerControls.interactions.escape.ReadValue<float>() == 1;

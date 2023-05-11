@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class ProjectileManager : MonoBehaviour
 {
-    WeaponManager weaponManager;
+    Weapons weapons;
     ProjectileFunctions projectileFunctions;
     public List<GameObject> projectiles;
 
     private void Start() {
         projectileFunctions = GameObject.Find("manager").GetComponent<ProjectileFunctions>();
-        weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
+        weapons = GameObject.Find("Player").GetComponent<Weapons>();
         
         Physics.IgnoreLayerCollision(9, 9, true);
     }
@@ -19,7 +19,7 @@ public class ProjectileManager : MonoBehaviour
         if((projectileID == 3 && senderID != projectileFunctions.serverComm.ID) || (projectileID == 6 && senderID != projectileFunctions.serverComm.ID) || (projectileID != 3 && projectileID != 6)){
             GameObject newProjectile = Instantiate(projectiles[projectileID], initialPos, Quaternion.identity);
             if(projectileID == 0){
-                newProjectile.GetComponent<Bullet>().setInfo(velocity, damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, projectileFunctions);
+                newProjectile.GetComponent<Bullet>().setInfo(velocity, damage, weapons.equippedWeapon.bulletSpawnPos.position, projectileFunctions);
             }
             if(projectileID == 1){
                 newProjectile.GetComponent<Flash>().setInfo(velocity, projectileFunctions);
@@ -34,11 +34,11 @@ public class ProjectileManager : MonoBehaviour
                 newProjectile.GetComponent<Smoke>().setInfo(velocity, projectileFunctions);
             }
             if(projectileID == 5){
-                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, false);
-                //newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
+                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weapons.equippedWeapon.bulletSpawnPos.position, velocity, projectileFunctions, false);
+                //newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weapons.equippedWeapon.transform.position + weapons.equippedWeapon.startDistance * weapons.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
             }
             if(projectileID == 6){
-                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weaponManager.equippedWeapon.transform.position + weaponManager.equippedWeapon.startDistance * weaponManager.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
+                newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weapons.equippedWeapon.bulletSpawnPos.position, velocity, projectileFunctions, true);
             }
             
         }

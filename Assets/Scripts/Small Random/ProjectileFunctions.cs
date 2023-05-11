@@ -12,7 +12,7 @@ public class ProjectileFunctions : MonoBehaviour
     public ServerEvents serverEvents;
     public PlayerManager playerManager;
     public SoundManager soundManager;
-    public WeaponManager weaponManager;
+    public Weapons weapons;
     public movement movementScript;
     public Collider playerColl;
     public GameObject playerCam;
@@ -22,7 +22,7 @@ public class ProjectileFunctions : MonoBehaviour
     private void Start() {
         movementScript = GameObject.Find("Player").GetComponent<movement>();
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
-        weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
+        weapons = GameObject.Find("Player").GetComponent<Weapons>();
         serverEvents = GameObject.Find("manager").GetComponent<ServerEvents>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();

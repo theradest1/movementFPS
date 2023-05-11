@@ -65,10 +65,10 @@ public class Grapple : MonoBehaviour
     }
 
     private void Update() {
-        if(!grappling && controlsManager.grappling){
+        if(!grappling && controlsManager.toolUse){
             attach();
         }
-        else if(grappling && !controlsManager.grappling){
+        else if(grappling && !controlsManager.toolUse){
             Destroy(joint);
             grappleRope.destroyRope();
             grappling = false;

@@ -32,7 +32,7 @@ public class ChatManager : MonoBehaviour
     private void Update() {
         timer -= Time.deltaTime;
 
-        if(controlsManager.enter && ableToOpenChat){
+        if(controlsManager.chat && ableToOpenChat){
             if(!inputText.isFocused){
                 timer = timeBeforeHide;
                 inputText.enabled = true;
@@ -50,7 +50,7 @@ public class ChatManager : MonoBehaviour
             controlsManager.chatting = false;
         }
         
-        if(!controlsManager.enter){
+        if(!controlsManager.chat){
             ableToOpenChat = true;
         }
 

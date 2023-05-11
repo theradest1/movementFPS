@@ -4,94 +4,49 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
-    [HideInInspector]
-    public float speedMultiplier = 1f;
-    [HideInInspector]
-    public float bulletTravelSpeed;
-    [HideInInspector]
+    [Header("Server controled variables:")]
+    public float weight;
+    public float bulletSpeed;
     public float damage;
-    [HideInInspector]
     public float cooldown;
-    [HideInInspector]
-    public float equipCooldown;
-    [HideInInspector]
     public float reloadTime;
-    [HideInInspector]
     public int clipSize;
-    [HideInInspector]
-    public int objectsInClip;
-    [HideInInspector]
     public float headShotMult;
-    [HideInInspector]
-    public float recoilVerticalMax;
-    [HideInInspector]
     public float recoilVerticalMin;
-    [HideInInspector]
+    public float recoilVerticalMax;
     public float recoilHorizontal;
+    public float objectSpeedADSMult = 1f;
 
-    public int projectileID;
-    public float startDistance;
 
-    public int shootSound;
+
+    [Header("Sound system settings:")]
     public float shootPitch = 1f;
     public float shootVolume = 1f;
-    public int reloadSound;
-
-    [Header("New sound system settings:")]
+    public int shootSound;
     public int startReloadSoundID;
     public int reloadPerBulletSoundID;
     public int endReloadSoundID;
 
-    [Header("Settings:")]
-    
-    [HideInInspector]
-    public float cooldownTimer;
-
-    public bool reloadable;
+    [Header("Gun settings:")]
+    public int projectileID;
     public bool automatic = true;
-
-
-    public bool gun = true;
-    
-    public bool tool = false;
-    public bool main = true;
-    public bool secondary = false;
-    //public bool grapple = false;
-    public bool unscopeAfterShoot = false;
-    public bool unscopeAfterReload = false;
-    public bool individualBulletReload = false;
-
-    public Vector3 restingPos;
-    public Vector3 restingRot;
-    public Vector3 scopingPos;
-    public Vector3 scopingRot;
-
-    public Quaternion scopingRotQ;
-    public Quaternion restingRotQ;
-
     public bool canADS = false;
+    public bool autoReload; //when trying to shoot without any bullets left, it will reload automatically (might not want this for things like a rocket launcher)
 
-    public float bulletSpeedADSMult = 1f;
 
-    [Header("Casings")]
-    public bool ejectCasings;
-    public Transform casingStartPos;
-    public Vector3 casingVelocity;
-    public GameObject casingPrefab;
+    public Transform restingTransform;
+    public Transform scopingTransform;
+    public Transform bulletSpawnPos;
 
-    private void Update() {
-        cooldownTimer -= Time.deltaTime;
-    }
+
 
     public void setVars(string[] vars){
-        speedMultiplier = float.Parse(vars[1]);
-        bulletTravelSpeed = float.Parse(vars[2]);
+        weight = float.Parse(vars[1]);
+        bulletSpeed = float.Parse(vars[2]);
         damage = float.Parse(vars[3]);
         cooldown = float.Parse(vars[4]);
-        equipCooldown = float.Parse(vars[5]);
         reloadTime = float.Parse(vars[6]);
         clipSize = int.Parse(vars[7]);
-        objectsInClip = int.Parse(vars[7]);
         headShotMult = float.Parse(vars[8]);
         recoilVerticalMin = float.Parse(vars[9]);
         recoilVerticalMax = float.Parse(vars[10]);

@@ -32,7 +32,7 @@ public class ServerEvents : MonoBehaviour
     SoundManager soundManager;
     InGameGUIManager inGameGUIManager;
     ProjectileManager projectileManager;
-    WeaponManager weaponManager;
+    Weapons weapons;
     GameObject player;
     ReplayManager replayManager;
     ChatManager chatManager;
@@ -58,7 +58,7 @@ public class ServerEvents : MonoBehaviour
         playerRB = GameObject.Find("Player").GetComponent<Rigidbody>();
         chatManager = GameObject.Find("manager").GetComponent<ChatManager>();
         replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
-        weaponManager = GameObject.Find("Player").GetComponent<WeaponManager>();
+        weapons = GameObject.Find("Player").GetComponent<Weapons>();
         player = GameObject.Find("Player");
         inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();
         serverComm = GameObject.Find("manager").GetComponent<ServerComm>();
@@ -115,7 +115,7 @@ public class ServerEvents : MonoBehaviour
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
             playerManager.death(int.Parse(killerID));
             playerManager.changeHealth(-1000f);
-            weaponManager.resetAllWeapons();
+            weapons.resetAll();
             killedUsername = serverComm.username;
         }
         else{

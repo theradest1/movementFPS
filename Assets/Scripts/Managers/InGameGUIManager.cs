@@ -160,10 +160,12 @@ public class InGameGUIManager : MonoBehaviour
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
         if(toggleADS.isOn){
-            controlsManager.toggleADS = true;
+            //controlsManager.toggleADS = true;\
+            Debug.Log("Tried to turn toggle ADS on, but that is currently disabled");
         }
         else{
-            controlsManager.toggleADS = false;
+            //controlsManager.toggleADS = false;
+            Debug.Log("Tried to turn toggle ADS off, but that is currently disabled");
         }
         if(postToggle.isOn){
             postLayer.enabled = true;
@@ -235,6 +237,6 @@ public class InGameGUIManager : MonoBehaviour
 
     private void Update() {
         hitMarker.color = new Color(1, hitMarker.color.g + hitMarkerChangeSpeed * Time.deltaTime, hitMarker.color.b + hitMarkerChangeSpeed * Time.deltaTime, hitMarker.color.a - hitMarkerChangeSpeed * Time.deltaTime);
-        scoreboard.SetActive(controlsManager.tab);
+        scoreboard.SetActive(controlsManager.openScoreBoard);
     }
 }

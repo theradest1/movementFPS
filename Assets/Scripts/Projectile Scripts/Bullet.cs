@@ -62,7 +62,7 @@ public class Bullet : MonoBehaviour
                 if(damagedScript.invincibilityTimer <= 0){
                     bool isCrit = coll.gameObject.name == "head";
                     if(isCrit){
-                        damage *= projectileFunctions.weaponManager.equippedWeapon.headShotMult;
+                        damage *= projectileFunctions.weapons.equippedWeapon.headShotMult;
                         projectileFunctions.soundManager.playSound(10, projectileFunctions.playerCam.transform.position, .1f, 1.2f);
                     }
                     projectileFunctions.inGameGUIManager.hit(isCrit);
