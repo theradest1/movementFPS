@@ -146,7 +146,7 @@ public class PlayerManager : MonoBehaviour
 		rb.rotation = Quaternion.identity;
 		look.camRotX = 90;
 		controlsManager.deathMenuControlls = true;
-		weapons.setWeapon(4);
+		weapons.setWeapon(-1);
 	}
 
 	public List<List<string>> getReplayData()
@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour
 		{
 			killer = GameObject.Find(killerID + "");
 			controlsManager.deathMenuControlls = true;
-			weapons.setWeapon(4);
+			weapons.setWeapon(-1);
 			//Debug.Log("DEATHHTTHTHTHTHTHTHTH");
 			StartCoroutine(replayManager.startReplay(getReplayData(), killer));
 			//followKiller = true;

@@ -17,7 +17,7 @@ public class ProjectileManager : MonoBehaviour
     }
     public void createProjectile(int senderID, int projectileID, float damage, Vector3 initialPos, Vector3 velocity){
         if((projectileID == 3 && senderID != projectileFunctions.serverComm.ID) || (projectileID == 6 && senderID != projectileFunctions.serverComm.ID) || (projectileID != 3 && projectileID != 6)){
-            GameObject newProjectile = Instantiate(projectiles[projectileID], initialPos, Quaternion.identity);
+            GameObject newProjectile = Instantiate(projectiles[projectileID], initialPos, weapons.equippedWeapon.bulletSpawnPos.rotation);
             if(projectileID == 0){
                 newProjectile.GetComponent<Bullet>().setInfo(velocity, damage, weapons.equippedWeapon.bulletSpawnPos.position, projectileFunctions);
             }

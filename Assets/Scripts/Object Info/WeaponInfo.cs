@@ -32,7 +32,8 @@ public class WeaponInfo : MonoBehaviour
     public bool automatic = true;
     public bool canADS = false;
     public bool autoReload; //when trying to shoot without any bullets left, it will reload automatically (might not want this for things like a rocket launcher)
-
+    public bool charge = false;
+    public float maxCharge;
 
     public Transform restingTransform;
     public Transform scopingTransform;
