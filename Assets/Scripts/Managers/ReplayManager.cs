@@ -23,6 +23,10 @@ public class ReplayManager : MonoBehaviour
     public int tickRate = 10;
     public int replayTime = 3; 
     public float replaySlowdown = 1;
+    public float bulletTimeToTravel = .1f;
+    public float bulletToGunTime = .1f;
+
+    GameObject currentOtherObject;
 
     int currentTick = -1;
 
@@ -47,13 +51,24 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
+    void cameraPan(){
+        StartCoroutine(replayCam.panToPos(currentOtherObject.transform.position + Vector3.up, player.transform.position + Vector3.up, bulletTimeToTravel));
+    }
+
+    void cameraMoveToGun(){
+        StartCoroutine(replayCam.panToPos(replayCam.transform.position, currentOtherObject.transform.position + Vector3.up, bulletToGunTime));
+    }
+
     public IEnumerator startReplay(List<List<string>> replayData, GameObject otherObject){
         //Debug.Log("started replay:");
+        currentOtherObject = otherObject;
         enter = false;
         serverEvents.replaying = true;
         cam.SetActive(false);
         replayCam.gameObject.SetActive(true);
-        StartCoroutine(replayCam.panToPos(otherObject.transform.position + Vector3.up, player.transform.position + Vector3.up, replayTime * replaySlowdown + .2f));
+        StartCoroutine(replayCam.follow(currentOtherObject, replayTime * replaySlowdown - bulletTimeToTravel - bulletToGunTime, 2));
+        Invoke("cameraMoveToGun", replayTime * replaySlowdown - bulletTimeToTravel - bulletToGunTime);
+        Invoke("cameraPan", replayTime * replaySlowdown - bulletTimeToTravel);
         //replayCam.distance = replayCam.maxDist;
         //Debug.Log(MainListToString(replayData));
         playerManager.deathMenu.SetActive(false);

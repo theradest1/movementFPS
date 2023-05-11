@@ -18,6 +18,9 @@ public class ShotgunShell : MonoBehaviour
                 newBullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
                 newBullet.GetComponent<Bullet>().setInfo(velocity + new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), Random.Range(-spread, spread)), damagePerBullet, fouxBulletPos, projectileFunctions);
             }
+
+            WeaponInfo equippedWeapon = projectileFunctions.weapons.equippedWeapon;
+            projectileFunctions.serverEvents.sendEvent("ue", "pr", 6 + "~" + 0 + "~" + fouxBulletPos + "~" + velocity + "~" + equippedWeapon.shootSound + "~" + equippedWeapon.shootVolume + "~" + equippedWeapon.shootPitch);
         }
         else{
             for(int i = 0; i < bullets; i++){

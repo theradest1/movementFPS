@@ -52,7 +52,7 @@ public class OtherPlayer : MonoBehaviour
     public void changeHealth(float subbedHealth){
         health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
         healthSlider.value = health/maxHealth;
-        Debug.Log(healthSlider.value);
+        //Debug.Log(healthSlider.value);
     }
 
     void Start(){

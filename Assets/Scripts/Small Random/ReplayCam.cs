@@ -32,6 +32,16 @@ public class ReplayCam : MonoBehaviour
         yield return null;
     }
 
+    public IEnumerator follow(GameObject objectToFollow, float totalTime, float distance){
+        float timer = Time.time;
+        while(Time.time - timer <= totalTime){
+            transform.position = objectToFollow.transform.position - objectToFollow.transform.forward * distance + Vector3.up * distance;
+            transform.rotation = objectToFollow.transform.rotation;
+            yield return 0;
+        }
+        yield return null;
+    }
+
     private void Update() {
         //transform.position = Vector3.Lerp(transform.position, targetPos, speed * Time.deltaTime);
         /*

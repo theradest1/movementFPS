@@ -38,6 +38,7 @@ public class ProjectileManager : MonoBehaviour
                 //newProjectile.GetComponent<ShotgunShell>().setInfo(damage, weapons.equippedWeapon.transform.position + weapons.equippedWeapon.startDistance * weapons.equippedWeapon.transform.forward, velocity, projectileFunctions, true);
             }
             if(projectileID == 6){
+                Debug.Log("Created fake shotgun bullets");
                 newProjectile.GetComponent<ShotgunShell>().setInfo(damage, fouxInitialPos, velocity, projectileFunctions, true);
             }
             
