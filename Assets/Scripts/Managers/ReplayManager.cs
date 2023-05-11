@@ -122,21 +122,6 @@ public class ReplayManager : MonoBehaviour
     }
 
     private string MainListToString(List<List<string>> list) {
-        /*string thingToPrint = "";
-        foreach(OtherPlayer otherPlayer in serverEvents.clientScripts){
-            thingToPrint = "";
-            foreach(string tick in otherPlayer.replayData){
-                thingToPrint += tick + "~";
-            }
-            //Debug.Log("Client with ID " + otherPlayer.gameObject.name + ": " + thingToPrint);
-        }
-
-        thingToPrint = "";
-        foreach(string tick in playerReplayData){
-            thingToPrint += tick + "~";
-        }*/
-        //return thingToPrint
-        //Debug.Log("Self: " + thingToPrint);
         string final = "[";
         foreach(List<string> listElement in list){
             final += "[";
