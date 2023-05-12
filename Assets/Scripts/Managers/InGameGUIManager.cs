@@ -34,6 +34,7 @@ public class InGameGUIManager : MonoBehaviour
     public PostProcessLayer postLayer;
     public PostProcessLayer postLayerScope;
     public GameObject debugContainer;
+    public Weapons weapons;
 
     public GameObject generalMenu;
     public GameObject graphicsMenu;
@@ -159,14 +160,8 @@ public class InGameGUIManager : MonoBehaviour
         else{
             Screen.fullScreenMode = FullScreenMode.Windowed;
         }
-        if(toggleADS.isOn){
-            //controlsManager.toggleADS = true;\
-            Debug.Log("Tried to turn toggle ADS on, but that is currently disabled");
-        }
-        else{
-            //controlsManager.toggleADS = false;
-            Debug.Log("Tried to turn toggle ADS off, but that is currently disabled");
-        }
+        weapons.toggleScoping = toggleADS.isOn;
+
         if(postToggle.isOn){
             postLayer.enabled = true;
             postLayerScope.enabled = true;

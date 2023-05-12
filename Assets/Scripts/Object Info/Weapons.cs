@@ -18,6 +18,9 @@ public class Weapons : MonoBehaviour
     public float reloadTimer;
     public bool reloading;
     public bool releasedShoot = true;
+    public bool scoping;
+    public bool toggleScoping;
+    public bool releasedAiming;
 
     [Header("References:")]
     public Look look;
@@ -93,7 +96,7 @@ public class Weapons : MonoBehaviour
 
             //recoil
             //weaponContainer.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult), 0f, 0f);
-			if(equippedWeapon.canADS && controlsManager.aiming){
+			if(scoping){
                 weaponContainer.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult, equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult), 0f);
                 look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult) * camRecoilPercent;
             }
@@ -123,6 +126,21 @@ public class Weapons : MonoBehaviour
     private void Update() {
         if(!controlsManager.weaponUse){
             releasedShoot = true;
+        }
+        if(!controlsManager.aiming){
+            releasedAiming = true;
+        }
+        if(toggleScoping && equippedWeapon.canADS){
+            if(releasedAiming && controlsManager.aiming){
+                scoping = !scoping;
+                releasedAiming = false;
+            }
+        }
+        else if(equippedWeapon.canADS){
+            scoping = controlsManager.aiming;
+        }
+        else{
+            scoping = false;
         }
 
         cooldownTimer -= Time.deltaTime;
@@ -166,7 +184,7 @@ public class Weapons : MonoBehaviour
 
 
         //ADSing stuffs:
-        if(equippedWeapon.canADS && controlsManager.aiming){
+        if(scoping){
             gunCamComponent.fieldOfView = Mathf.Lerp(gunCamComponent.fieldOfView, gunCamScopingFOV, FOVChangeSpeed * Time.deltaTime);
             camComponent.fieldOfView = Mathf.Lerp(camComponent.fieldOfView, scopingFOV, FOVChangeSpeed * Time.deltaTime);
             

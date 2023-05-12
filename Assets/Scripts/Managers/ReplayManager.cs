@@ -18,6 +18,7 @@ public class ReplayManager : MonoBehaviour
     public GameObject player;
     public ReplayCam replayCam;
     public GameObject cam;
+    public GameObject fouxBullet;
 
     [Header("Settings:")]
     public int tickRate = 10;
@@ -52,6 +53,7 @@ public class ReplayManager : MonoBehaviour
     }
 
     void cameraPan(){
+        fouxBullet.SetActive(true);
         StartCoroutine(replayCam.panToPos(currentOtherObject.transform.position + Vector3.up, player.transform.position + Vector3.up, bulletTimeToTravel));
     }
 
@@ -118,6 +120,7 @@ public class ReplayManager : MonoBehaviour
         cam.SetActive(true);
         serverEvents.replaying = false;
         playerManager.commitDie();
+        fouxBullet.SetActive(false);
         //Debug.Log("ended replay");
     }
 
