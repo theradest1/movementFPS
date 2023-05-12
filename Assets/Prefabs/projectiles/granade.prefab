@@ -245,7 +245,8 @@ MonoBehaviour:
     m_Bits: 503
   coll: {fileID: 8581965224537758689}
   minHeight: -10
-  explodeOnImpact: 0
+  camShakeAmplitude: 2
+  minCamShake: 0.2
 --- !u!1001 &1305683219851752536
 PrefabInstance:
   m_ObjectHideFlags: 0

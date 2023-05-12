@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Look : MonoBehaviour
 {
+    ControlsManager controlsManager;
     GameObject player;
     Rigidbody rb;
     public float LookSpeedHorizontal;
@@ -17,8 +18,13 @@ public class Look : MonoBehaviour
     public float maxCamRotX;
     public GameObject scopeCam;
 
+    [Header("cam shake")]
+    public Vector3 initialPos;
+    public float translationalMult;
+    public float rotationalMult;
+    public float camShakeDecay;
+    public float amplitude;
 
-    ControlsManager controlsManager;
 
     void Start()
     {
@@ -27,30 +33,32 @@ public class Look : MonoBehaviour
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         camRotX = 90;
         //Cursor.lockState = CursorLockMode.Locked;
+
+        initialPos = transform.localPosition;
     }
+
+    public void camShake(float amount){
+        amplitude += amount;
+    }   
 
     // Update is called once per frame
     void Update()
     {
-        //scopeCam.transform.localRotation = transform.localRotation;
         scopeCam.transform.rotation = Quaternion.LookRotation(scopeCam.transform.position - transform.position, transform.up);
-        //Debug.Log(controlsManager.mouseDelta);
-        //player.transform.Rotate(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense, 0f);
+
         if(controlsManager.aiming){
             camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSenseADS, minCamRotX, maxCamRotX);
+            rotY += controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS;
         }
         else{
             camRotX = Mathf.Clamp(camRotX - controlsManager.mouseDelta.y * LookSpeedVertical * generalSense, minCamRotX, maxCamRotX);
-        }
-        this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
-        
-        if(controlsManager.aiming){
-            rotY += controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS;
-            //rb.rotation *= Quaternion.Euler(0f, controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSenseADS, 0f);
-        }
-        else{
             rotY += controlsManager.mouseDelta.x * LookSpeedHorizontal * generalSense;
         }
+        this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
         rb.MoveRotation(Quaternion.Euler(0f, rotY, 0f));
+
+        amplitude = Mathf.MoveTowards(amplitude, 0, camShakeDecay * Time.deltaTime);
+        transform.localPosition = Random.Range(-amplitude, amplitude) * transform.right * translationalMult + Random.Range(-amplitude, amplitude) * transform.up * translationalMult + initialPos;
+        Debug.Log(amplitude);
     }
 }

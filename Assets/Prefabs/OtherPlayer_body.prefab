@@ -1543,7 +1543,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9007632685173550870, guid: 0f6aa4e0cd61a7a469448840d2d2d466, type: 3}
+  - {fileID: 2100000, guid: e37202219871f9d46adf5bd083cab276, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2255,8 +2255,6 @@ MonoBehaviour:
   invincibilityTimer: 0
   health: 500
   maxHealth: 0
-  healRate: 0
-  healCooldown: 0
   direction: {x: 0, y: 0, z: 0}
   currentMapVote: -1
   scoreboardPeice: {fileID: 0}

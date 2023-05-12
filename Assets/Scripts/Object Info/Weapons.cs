@@ -84,7 +84,7 @@ public class Weapons : MonoBehaviour
         if(releasedShoot || equippedWeapon.automatic){
             releasedShoot = false;
             //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
-            projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
+            projectileManager.createProjectile(serverComm.ID, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
             soundManager.playSound(equippedWeapon.shootSound, cam.transform.position, equippedWeapon.shootVolume, equippedWeapon.shootPitch, cam.transform);
 
             objectsInClip -= 1;
