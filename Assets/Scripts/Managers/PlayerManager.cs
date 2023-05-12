@@ -138,6 +138,7 @@ public class PlayerManager : MonoBehaviour
 	public void commitDie()
 	{
 		flashImage.color = new Color(1, 1, 1, 0);
+		changeHealth(-maxHealth);
 		rb.velocity = Vector3.zero;
 		coll.enabled = false;
 		rb.useGravity = false;

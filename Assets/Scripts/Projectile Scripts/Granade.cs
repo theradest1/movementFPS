@@ -50,7 +50,6 @@ public class Granade : MonoBehaviour
         Destroy(Instantiate(explosionParticles, transform.position, Quaternion.identity), 5f);
         projectileFunctions.soundManager.playSound(bangSound, transform.position, 1f, 1f);
         projectileFunctions.Explosion(transform.position, radius, damage, 0, true, stopFrom, senderID);
-        projectileFunctions.look.camShake(Mathf.Max(camShakeAmplitude/Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position), minCamShake));
         Destroy(this.gameObject);
     }
 

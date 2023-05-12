@@ -20,6 +20,10 @@ public class ProjectileFunctions : MonoBehaviour
     public Camera playerCamComponent;
     public Image flashImage;
 
+    public float minCamShake;
+    public float maxCamShake;
+    public float camShakeMult;
+
     private void Start() {
         look = playerCam.GetComponent<Look>();
         movementScript = GameObject.Find("Player").GetComponent<movement>();
@@ -69,6 +73,15 @@ public class ProjectileFunctions : MonoBehaviour
                     serverEvents.sendEventFromOther(senderID, "ue", "death", serverComm.ID + "");
                 }*/
             }
+            else{
+                damage = 0;
+            }
         }
+        else{
+            damage = 0;
+        }
+        Debug.Log("Possible: " + damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult);
+        Debug.Log("Actual: " + Mathf.Clamp(damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult, minCamShake, maxCamShake));
+        look.camShake(Mathf.Clamp(damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult, minCamShake, maxCamShake));
     }
 }

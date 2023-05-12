@@ -56,9 +56,11 @@ public class Look : MonoBehaviour
         }
         this.gameObject.transform.localRotation = Quaternion.Euler(camRotX, 0f, 0f);
         rb.MoveRotation(Quaternion.Euler(0f, rotY, 0f));
-
-        amplitude = Mathf.MoveTowards(amplitude, 0, camShakeDecay * Time.deltaTime);
+        
         transform.localPosition = Random.Range(-amplitude, amplitude) * transform.right * translationalMult + Random.Range(-amplitude, amplitude) * transform.up * translationalMult + initialPos;
-        Debug.Log(amplitude);
+    }
+
+    void FixedUpdate() {
+        amplitude *= camShakeDecay;
     }
 }
