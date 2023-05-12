@@ -20,7 +20,12 @@ public class Abilities : MonoBehaviour
     public float cooldownTimer;
 
     public void resetAll(){
-        Debug.Log("reset abilities");
+        cooldownTimer = 0;
+    }
+
+    public void setAbility(int abilityID){
+        resetAll();
+        equippedAbility = abilityID;
     }
 
     public IEnumerator dash(){

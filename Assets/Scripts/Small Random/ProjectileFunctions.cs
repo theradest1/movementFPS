@@ -73,8 +73,8 @@ public class ProjectileFunctions : MonoBehaviour
         else{
             damage = 0;
         }
-        Debug.Log("Possible: " + damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult);
-        Debug.Log("Actual: " + Mathf.Clamp(damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult, minCamShake, maxCamShake));
+        //Debug.Log("Possible: " + damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult);
+        //Debug.Log("Actual: " + Mathf.Clamp(damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult, minCamShake, maxCamShake));
         look.camShake(Mathf.Clamp(damage/Vector3.Distance(pos, playerCam.transform.position)*camShakeMult, minCamShake, maxCamShake));
     }
 }

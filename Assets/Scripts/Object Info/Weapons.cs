@@ -171,7 +171,6 @@ public class Weapons : MonoBehaviour
             }
             else if(objectsInClip <= 0 && equippedWeapon.autoReload && !reloading && cooldownTimer <= 0){
                 reload();
-                Debug.Log("Auto reload");
             }
         }
 
