@@ -13,8 +13,11 @@ public class Weapons : MonoBehaviour
     public bool canShoot;
     public bool canADS;
     public int objectsInClip;
-    public float cooldownTimer;
     public float charge;
+    public float cooldownTimer;
+    public float reloadTimer;
+    public bool reloading;
+    public bool releasedShoot = true;
 
     [Header("References:")]
     public Look look;
@@ -22,12 +25,15 @@ public class Weapons : MonoBehaviour
     public ServerComm serverComm;
     public ServerEvents serverEvents;
     public GameObject cam;
+    public Camera camComponent;
+    public Camera gunCamComponent;
     public Rigidbody playerRB;
     public List<WeaponInfo> weaponInfos;
     public ControlsManager controlsManager;
     public TextMeshProUGUI objectsInClipText;
 	public TextMeshProUGUI equippedWeaponText;
 	public Slider chargeIndicator;
+    public GameObject weaponContainer;
 
     [Header("Settings:")]
     public float scopingFOV;
@@ -36,8 +42,13 @@ public class Weapons : MonoBehaviour
     public float gunCamRegularFOV;
     public float FOVChangeSpeed;
     public float gunCamFOVChangeSpeed;
+    
     public float aimSpeed;
     public float relaxSpeed;
+
+    public float weaponContainerSpeed;
+    public float weaponDistanceMult;
+    public float weaponDistanceMultADS;
 
 
     private void Start() {
@@ -45,6 +56,7 @@ public class Weapons : MonoBehaviour
         setWeapon(0);
     }
     public void setWeapon(int weaponID){
+        resetAll();
         foreach(WeaponInfo weapon in weaponInfos){
             weapon.gameObject.SetActive(false);
         }
@@ -60,32 +72,39 @@ public class Weapons : MonoBehaviour
     }
 
     public void shoot(float damageMultiplier){
-        if(canShoot && cooldownTimer <= 0){
-            if(objectsInClip > 0){
-                //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
-                projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
-                objectsInClip -= 1;
-                updateGUI();
-                cooldownTimer = equippedWeapon.cooldown;
-            }
-            else if(equippedWeapon.autoReload){
-                reload();
-            }
+        if(releasedShoot || equippedWeapon.automatic){
+            releasedShoot = false;
+            //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
+            projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
+            //soundManager.playSound(equippedWeapon.shootSound, cam.transform.position, equippedWeapon.shootVolume, equippedWeapon.shootPitch, cam.transform);
+            
+            objectsInClip -= 1;
+            updateGUI();
+            cooldownTimer = equippedWeapon.cooldown;
         }
     }
 
     public void reload(){
-        if(cooldownTimer <= 0 && objectsInClip < equippedWeapon.clipSize){
-            objectsInClipText.text = "--/" + equippedWeapon.clipSize;
-            objectsInClip = equippedWeapon.clipSize;
-            cooldownTimer = equippedWeapon.reloadTime;
-            Invoke("updateGUI", equippedWeapon.reloadTime);
+        reloading = true;
+
+        if(equippedWeapon.incrimentalReload){
+            reloadTimer = equippedWeapon.reloadTime/equippedWeapon.clipSize;
         }
-    }   
+        else{
+            reloadTimer = equippedWeapon.reloadTime;
+            objectsInClipText.text = "--/" + equippedWeapon.clipSize;
+        }
+    }
 
     private void Update() {
+        if(!controlsManager.weaponUse){
+            releasedShoot = true;
+        }
+
         cooldownTimer -= Time.deltaTime;
-        if(controlsManager.weaponUse){
+        reloadTimer -= Time.deltaTime;
+        if(controlsManager.weaponUse && objectsInClip > 0 && cooldownTimer <= 0 && canShoot){
+            reloading = false;
             if(equippedWeapon.charge){
                 charge = Mathf.Clamp(charge += Time.deltaTime, 0, equippedWeapon.maxCharge);
                 updateGUI();
@@ -100,13 +119,49 @@ public class Weapons : MonoBehaviour
                 charge = 0;
                 updateGUI();
             }
+            else if(objectsInClip <= 0 && equippedWeapon.autoReload && !reloading && cooldownTimer <= 0){
+                reload();
+                Debug.Log("Auto reload");
+            }
         }
 
-        if(controlsManager.reloading){
+        if(controlsManager.reloading && !reloading && objectsInClip <= equippedWeapon.clipSize && cooldownTimer <= 0){
             reload();
         }
-        look.FOV = Mathf.Lerp(look.FOV, regularFOV, FOVChangeSpeed);
-        look.gunCamFOV = Mathf.Lerp(look.gunCamFOV, gunCamRegularFOV, FOVChangeSpeed);
+        else if(reloading && reloadTimer <= 0){
+            if(equippedWeapon.incrimentalReload && objectsInClip < equippedWeapon.clipSize){
+                objectsInClip++;
+                reloadTimer = equippedWeapon.reloadTime/equippedWeapon.clipSize;
+            }
+            else{
+                reloading = false;
+                objectsInClip = equippedWeapon.clipSize;
+            }
+            updateGUI();
+        }
+
+
+        //ADSing stuffs:
+        if(equippedWeapon.canADS && controlsManager.aiming){
+            gunCamComponent.fieldOfView = Mathf.Lerp(gunCamComponent.fieldOfView, gunCamScopingFOV, FOVChangeSpeed * Time.deltaTime);
+            camComponent.fieldOfView = Mathf.Lerp(camComponent.fieldOfView, scopingFOV, FOVChangeSpeed * Time.deltaTime);
+            
+            equippedWeapon.transform.position = Vector3.Lerp(equippedWeapon.transform.position, equippedWeapon.scopingTransform.position, aimSpeed * Time.deltaTime);
+            //equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, equippedWeapon.scopingTransform.rotation, aimSpeed * Time.deltaTime);
+            
+            weaponContainer.transform.position -= playerRB.velocity * weaponDistanceMultADS * Time.deltaTime;
+            
+        }
+        else{
+            gunCamComponent.fieldOfView = Mathf.Lerp(gunCamComponent.fieldOfView, gunCamRegularFOV, FOVChangeSpeed * Time.deltaTime);
+            camComponent.fieldOfView = Mathf.Lerp(camComponent.fieldOfView, regularFOV, FOVChangeSpeed * Time.deltaTime);
+            
+            equippedWeapon.transform.position = Vector3.Lerp(equippedWeapon.transform.position, equippedWeapon.restingTransform.position, relaxSpeed * Time.deltaTime);
+            
+            weaponContainer.transform.position -= playerRB.velocity * weaponDistanceMult * Time.deltaTime;
+        }
+
+        weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponContainerSpeed * Time.deltaTime);
     }
 
     public void resetAll(){

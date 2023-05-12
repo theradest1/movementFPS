@@ -48,6 +48,7 @@ public class movement : MonoBehaviour
     //public float weaponDistanceMultVertical;
     public float speedMultiplierFromWeapon = 1f;
     public GameObject weaponContainer;
+    public float weaponContainerSpeed;
 
     [Header("Rebound:")]
     public float minHeight;
@@ -89,13 +90,6 @@ public class movement : MonoBehaviour
         FPStext.text = "FPS: " + (Mathf.Round(1/Time.deltaTime));
         Vector3 goToPos = camPosNotSliding;
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, goToPos, camPosSpeed * Time.deltaTime);
-
-        /*if(controlsManager.aiming){
-            weaponContainer.transform.position -= rb.velocity * weaponDistanceMultADS * Time.deltaTime;
-        }
-        else{
-            weaponContainer.transform.position -= rb.velocity * weaponDistanceMult * Time.deltaTime;
-        }*/
     }
 
     void FixedUpdate() {

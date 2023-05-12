@@ -16,8 +16,6 @@ public class Look : MonoBehaviour
     public float minCamRotX;
     public float maxCamRotX;
     public GameObject scopeCam;
-    public float FOV;
-    public float gunCamFOV;
 
 
     ControlsManager controlsManager;
