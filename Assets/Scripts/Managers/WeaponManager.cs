@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using System.Threading.Tasks;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : MonoBehaviour //This file was re-written as Weapons.cs
 {
 	/*ControlsManager controlsManager;
 	movement movementScript;

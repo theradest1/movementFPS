@@ -7,6 +7,7 @@ public class WeaponInfo : MonoBehaviour
     [Header("Server controled variables:")]
     public float weight;
     public float bulletSpeed;
+    public float ADSBulletSpeed;
     public float damage;
     public float cooldown;
     public float reloadTime;

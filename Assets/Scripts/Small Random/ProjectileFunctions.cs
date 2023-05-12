@@ -65,13 +65,6 @@ public class ProjectileFunctions : MonoBehaviour
                     damage *= 1 - Vector3.Distance(pos, playerCam.transform.position)/radius;
                 }
                 triggerDamage(null, damage, senderID);
-                /*if(playerManager.health > damage){
-                    serverEvents.sendEventFromOther(senderID, "ue", "d", serverComm.ID + "~" + damage);
-                    playerManager.health -= damage;
-                }
-                else{
-                    serverEvents.sendEventFromOther(senderID, "ue", "death", serverComm.ID + "");
-                }*/
             }
             else{
                 damage = 0;

@@ -376,7 +376,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""83629ffc-b137-4c55-b485-72bc789ab64d"",
-                    ""path"": ""<Keyboard>/2"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
