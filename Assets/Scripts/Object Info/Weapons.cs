@@ -24,6 +24,7 @@ public class Weapons : MonoBehaviour
     public ProjectileManager projectileManager;
     public ServerComm serverComm;
     public ServerEvents serverEvents;
+    public SoundManager soundManager;
     public GameObject cam;
     public Camera camComponent;
     public Camera gunCamComponent;
@@ -47,8 +48,16 @@ public class Weapons : MonoBehaviour
     public float relaxSpeed;
 
     public float weaponContainerSpeed;
+    public float weaponContainerRotateSpeed;
     public float weaponDistanceMult;
     public float weaponDistanceMultADS;
+
+    public float spreadADSMult;
+    public float generalRecoilMult;
+    public float horizontalRecoilMult;
+    public float verticalRecoilMult;
+    public float camRecoilPercent;
+
 
 
     private void Start() {
@@ -76,11 +85,26 @@ public class Weapons : MonoBehaviour
             releasedShoot = false;
             //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
             projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity, equippedWeapon.bulletSpawnPos.position);
-            //soundManager.playSound(equippedWeapon.shootSound, cam.transform.position, equippedWeapon.shootVolume, equippedWeapon.shootPitch, cam.transform);
-            
+            soundManager.playSound(equippedWeapon.shootSound, cam.transform.position, equippedWeapon.shootVolume, equippedWeapon.shootPitch, cam.transform);
+
             objectsInClip -= 1;
             updateGUI();
             cooldownTimer = equippedWeapon.cooldown;
+
+            //recoil
+            //weaponContainer.transform.localEulerAngles = equippedWeapon.transform.localEulerAngles - new Vector3(Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult), 0f, 0f);
+			if(equippedWeapon.canADS && controlsManager.aiming){
+                weaponContainer.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult, equippedWeapon.recoilHorizontal * spreadADSMult * generalRecoilMult), 0f);
+                look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * spreadADSMult * generalRecoilMult, equippedWeapon.recoilVerticalMax * spreadADSMult * generalRecoilMult) * camRecoilPercent;
+            }
+            else{
+                weaponContainer.transform.Rotate(0f, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal) * generalRecoilMult * horizontalRecoilMult, 0f);
+                weaponContainer.transform.Rotate(Random.Range(0, -equippedWeapon.recoilVerticalMax) * generalRecoilMult * verticalRecoilMult, 0f, 0f);
+                
+                look.camRotX -= Random.Range(equippedWeapon.recoilVerticalMin * generalRecoilMult, equippedWeapon.recoilVerticalMax * generalRecoilMult) * camRecoilPercent * verticalRecoilMult;
+                //playerRB.MoveRotation(playerRB.rotation * Quaternion.Euler(0, Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal) * generalRecoilMult * camRecoilPercent * horizontalRecoilMult, 0));
+                look.rotY -= Random.Range(-equippedWeapon.recoilHorizontal, equippedWeapon.recoilHorizontal) * generalRecoilMult * camRecoilPercent * horizontalRecoilMult;
+            }
         }
     }
 
@@ -147,7 +171,7 @@ public class Weapons : MonoBehaviour
             camComponent.fieldOfView = Mathf.Lerp(camComponent.fieldOfView, scopingFOV, FOVChangeSpeed * Time.deltaTime);
             
             equippedWeapon.transform.position = Vector3.Lerp(equippedWeapon.transform.position, equippedWeapon.scopingTransform.position, aimSpeed * Time.deltaTime);
-            //equippedWeapon.transform.rotation = Quaternion.Slerp(equippedWeapon.transform.rotation, equippedWeapon.scopingTransform.rotation, aimSpeed * Time.deltaTime);
+            //equippedWeapon.transform.localRotation = Quaternion.Slerp(equippedWeapon.transform.localRotation, equippedWeapon.scopingTransform.localRotation, aimSpeed * Time.deltaTime);
             
             weaponContainer.transform.position -= playerRB.velocity * weaponDistanceMultADS * Time.deltaTime;
             
@@ -161,6 +185,7 @@ public class Weapons : MonoBehaviour
             weaponContainer.transform.position -= playerRB.velocity * weaponDistanceMult * Time.deltaTime;
         }
 
+        weaponContainer.transform.localRotation = Quaternion.Slerp(weaponContainer.transform.localRotation, Quaternion.identity, weaponContainerRotateSpeed * Time.deltaTime);
         weaponContainer.transform.localPosition = Vector3.Lerp(weaponContainer.transform.localPosition, Vector3.zero, weaponContainerSpeed * Time.deltaTime);
     }
 
