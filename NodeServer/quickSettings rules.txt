@@ -1,4 +1,13 @@
 
+Abilities:
+dashTime
+dashSpeed
+dashCooldown
+healTime
+healTotal
+healSteps
+healCooldown
+
 Weapons: (all float unless shown)
 name (corrisponds with the gameobject name)
 weight

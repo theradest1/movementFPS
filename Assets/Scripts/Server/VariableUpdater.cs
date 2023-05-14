@@ -6,6 +6,7 @@ public class VariableUpdater : MonoBehaviour
 {
 
     public GameObject weapons;
+    public Abilities abilities;
     public GameObject throwableInfos;
 
     public void updateVars(string allData){
@@ -19,6 +20,9 @@ public class VariableUpdater : MonoBehaviour
             }
             else if(throwableInfos.transform.Find(vars[0])){
                 throwableInfos.transform.Find(vars[0]).GetComponent<ThrowableInfo>().setVars(vars);
+            }
+            else{
+                abilities.setVars(vars);
             }
         }
     }

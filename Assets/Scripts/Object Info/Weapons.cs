@@ -61,7 +61,15 @@ public class Weapons : MonoBehaviour
     public float verticalRecoilMult;
     public float camRecoilPercent;
 
-
+    public float getCooldownPercentage(){
+        if(reloading && objectsInClip < equippedWeapon.clipSize){
+            if(equippedWeapon.incrimentalReload){
+                return reloadTimer/(equippedWeapon.reloadTime/equippedWeapon.clipSize);
+            }
+            return reloadTimer/equippedWeapon.reloadTime;
+        }
+        return cooldownTimer/equippedWeapon.cooldown;
+    }
 
     private void Start() {
         weaponIDForNothing = weaponInfos.Count - 1;
