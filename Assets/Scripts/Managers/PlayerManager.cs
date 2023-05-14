@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class PlayerManager : MonoBehaviour
 	public TextMeshProUGUI weaponHeadshotText;
 	public TextMeshProUGUI weaponNameText;
 
+	public Vignette vignette;
+
 	[Header("Controlled by server:")]
 	public float maxHealth = 100f;
 	public float flashRecovery;
@@ -50,10 +53,15 @@ public class PlayerManager : MonoBehaviour
 	public GameObject killer;
 	bool followKiller = false;
 	public MapInfo currentMap;
+	public float redness = 0;
+
+	[Header("Settings:")]
+	public float rednessRate = 1;
 
 
 	void Start()
 	{
+		GameObject.Find("Main Camera").GetComponent<PostProcessVolume>().profile.TryGetSettings(out vignette);
 		health = maxHealth;
 		replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
 		playerCam = GameObject.Find("Main Camera");
@@ -96,6 +104,7 @@ public class PlayerManager : MonoBehaviour
 
 	private void Update()
 	{
+		redness -= rednessRate * Time.deltaTime;
 		if (followKiller)
 		{
 			Debug.Log("followed");
@@ -108,6 +117,7 @@ public class PlayerManager : MonoBehaviour
 			flashImage.color = new Color(1, 1, 1, flashImage.color.a - flashRecovery * Time.deltaTime);
 		}
 
+		vignette.color.Override(new Color(Mathf.Clamp(redness, 0, 1), 0, 0));
 	}
 
 	public void spawn()
@@ -198,5 +208,9 @@ public class PlayerManager : MonoBehaviour
 		health = Mathf.Clamp(health - subbedHealth, 0f, maxHealth);
 		healthSlider.value = health / maxHealth;
 		healthText.text = Mathf.Round(health) + "/" + maxHealth;
+
+		if(subbedHealth > 0){
+			redness = 1;
+		}
 	}
 }

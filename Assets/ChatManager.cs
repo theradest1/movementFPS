@@ -15,6 +15,7 @@ public class ChatManager : MonoBehaviour
     [Header("References:")]
     public GameObject chatChildPrefab;
     public GameObject chatParentObject;
+    public GameObject chatMessageParent;
     public GameObject messageContainer;
     public ControlsManager controlsManager;
     public ServerEvents serverEvents;
@@ -96,7 +97,7 @@ public class ChatManager : MonoBehaviour
     }
 
     void UpdateParentLayoutGroup(){
-        chatParentObject.SetActive(false);
-        chatParentObject.SetActive(true);
+        chatMessageParent.SetActive(false);
+        chatMessageParent.SetActive(true);
     }
 }

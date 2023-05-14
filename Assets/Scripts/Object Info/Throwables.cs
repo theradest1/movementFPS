@@ -33,7 +33,7 @@ public class Throwables : MonoBehaviour
     }
 
     public void use(){
-        projectileManager.createProjectile(serverComm.ID, equippedThrowable.projectileID, equippedThrowable.damage, playerCam.position + playerCam.forward, Quaternion.identity, playerCam.forward * equippedThrowable.speed + playerRB.velocity, Vector3.zero);
+        projectileManager.createProjectile(serverComm.ID, equippedThrowable.projectileID, equippedThrowable.damage, playerCam.position + playerCam.forward, Quaternion.identity, playerCam.forward * equippedThrowable.speed + playerRB.velocity, Vector3.zero, true, equippedThrowable.throwSound, equippedThrowable.throwVolume, equippedThrowable.throwPitch);
         cooldownTimer = equippedThrowable.cooldown;
     }
 }

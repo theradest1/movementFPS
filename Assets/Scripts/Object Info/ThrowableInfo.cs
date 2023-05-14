@@ -12,6 +12,9 @@ public class ThrowableInfo : MonoBehaviour
     [Header("Settings:")]
     public int projectileID;
     public string title;
+    public int throwSound;
+    public float throwVolume;
+    public float throwPitch;
 
     public void setVars(string[] vars){
         damage = float.Parse(vars[1]);
