@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
+	[Header("References:")]
 	TextMeshProUGUI healthText;
 	ServerEvents serverEvents;
 	ServerComm serverComm;
@@ -22,19 +23,13 @@ public class PlayerManager : MonoBehaviour
 	Slider healthSlider;
 	Image flashImage;
 
-	public float health;
-	public float maxHealth = 100f;
-	public float flashRecovery;
-	//public List<GameObject> spawnPoints;
 	public TMP_Dropdown weaponDropdown;
 	public TMP_Dropdown toolDropdown;
 	public TMP_Dropdown abilityDropdown;
 	public TMP_Dropdown throwableDropdown;
-	public GameObject killer;
-	bool followKiller = false;
+
 	Collider coll;
 	Rigidbody rb;
-	public MapInfo currentMap;
 
 	public TextMeshProUGUI weaponSpeedText;
 	public TextMeshProUGUI weaponDamageText;
@@ -44,8 +39,22 @@ public class PlayerManager : MonoBehaviour
 	public TextMeshProUGUI weaponHeadshotText;
 	public TextMeshProUGUI weaponNameText;
 
+	[Header("Controlled by server:")]
+	public float maxHealth = 100f;
+	public float flashRecovery;
+
+	//public List<GameObject> spawnPoints;
+
+	[Header("Debug:")]
+	public float health;
+	public GameObject killer;
+	bool followKiller = false;
+	public MapInfo currentMap;
+
+
 	void Start()
 	{
+		health = maxHealth;
 		replayManager = GameObject.Find("manager").GetComponent<ReplayManager>();
 		playerCam = GameObject.Find("Main Camera");
 		inGameGUIManager = GameObject.Find("manager").GetComponent<InGameGUIManager>();

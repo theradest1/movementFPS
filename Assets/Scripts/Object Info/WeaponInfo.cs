@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponInfo : MonoBehaviour
 {
-    [Header("Server controled variables:")]
+    [Header("Server controled variables (changing these here won't do anything):")]
     public float weight;
     public float bulletSpeed;
     public float ADSBulletSpeed;
@@ -17,6 +17,7 @@ public class WeaponInfo : MonoBehaviour
     public float recoilVerticalMax;
     public float recoilHorizontal;
     public float objectSpeedADSMult = 1f;
+    public float maxCharge;
 
 
 
@@ -34,7 +35,6 @@ public class WeaponInfo : MonoBehaviour
     public bool canADS = false;
     public bool autoReload; //when trying to shoot without any bullets left, it will reload automatically (might not want this for things like a rocket launcher)
     public bool charge = false;
-    public float maxCharge;
     public bool incrimentalReload = false;
 
     public Transform restingTransform;
@@ -46,13 +46,16 @@ public class WeaponInfo : MonoBehaviour
     public void setVars(string[] vars){
         weight = float.Parse(vars[1]);
         bulletSpeed = float.Parse(vars[2]);
-        damage = float.Parse(vars[3]);
-        cooldown = float.Parse(vars[4]);
+        ADSBulletSpeed = float.Parse(vars[3]);
+        damage = float.Parse(vars[4]);
+        cooldown = float.Parse(vars[5]);
         reloadTime = float.Parse(vars[6]);
         clipSize = int.Parse(vars[7]);
         headShotMult = float.Parse(vars[8]);
         recoilVerticalMin = float.Parse(vars[9]);
         recoilVerticalMax = float.Parse(vars[10]);
         recoilHorizontal = float.Parse(vars[11]);
+        objectSpeedADSMult = float.Parse(vars[12]);
+        maxCharge = float.Parse(vars[13]);
     }
 }

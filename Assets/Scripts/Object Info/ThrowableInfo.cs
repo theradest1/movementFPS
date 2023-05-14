@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class ThrowableInfo : MonoBehaviour
 {
-    public int projectileID;
-    public string title;
+    [Header("Controlled by server:")]
     public float damage;
     public float speed;
     public float cooldown;
+
+    [Header("Settings:")]
+    public int projectileID;
+    public string title;
+
+    public void setVars(string[] vars){
+        damage = float.Parse(vars[1]);
+        speed = float.Parse(vars[2]);
+        cooldown = float.Parse(vars[3]);
+    }
 }

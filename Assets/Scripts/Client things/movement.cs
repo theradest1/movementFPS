@@ -25,16 +25,20 @@ public class movement : MonoBehaviour
     public bool isGrounded = false;
     public bool ableToJump = false;
 
-    [Header("Basic:")]
-    public LayerMask groundMask;
+    [Header("Controlled by server:")]
     public float speed;
     public float inAirMultiplier;
     //public float grapplingMultiplier;
     public float jumpPower;
     public float stopSpeedGround;
+    public float footstepInterval;
+    public float minHeight;
+    public int maxLaunchAttempts = 3;
+
+    [Header("Basic:")]
+    public LayerMask groundMask;
 
     [Header("Footsteps:")]
-    public float footstepInterval;
     Vector2 lastFootstepPos;
 
     [Header("Cam:")]
@@ -51,9 +55,7 @@ public class movement : MonoBehaviour
     public float weaponContainerSpeed;
 
     [Header("Rebound:")]
-    public float minHeight;
     int launchAttempts = 0;
-    public int maxLaunchAttempts = 3;
 
     public void launchTo(Vector3 goToPos){
         Vector3 toTarget = goToPos - transform.position;
