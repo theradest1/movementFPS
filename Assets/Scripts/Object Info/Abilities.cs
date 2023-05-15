@@ -68,16 +68,13 @@ public class Abilities : MonoBehaviour
 
     public IEnumerator heal(){
         cooldownTimer = healCooldown + healTime;
-        Debug.Log("Started healing");
         for(int step = 0; step < healSteps; step++){
             projectileFunctions.triggerDamage(null, -healTotal/healSteps, serverComm.ID);
             yield return new WaitForSeconds(healTime/healSteps);
         }
-        Debug.Log("Finished healing");
     }
 
     public void use(){
-        Debug.Log("Used ability with ID " + equippedAbility);
         if(equippedAbility == 0){
             StartCoroutine(dash());
         }

@@ -17,6 +17,7 @@ public class MapManager : MonoBehaviour
     ControlsManager controlsManager;
     int currentMapVote = -1;
     //ServerEvents serverEvents;
+    Light sun;
 
     private void Start() {
         toolReloadManager = GameObject.Find("manager").GetComponent<ToolReloadManager>();
@@ -26,6 +27,7 @@ public class MapManager : MonoBehaviour
         playerManager = GameObject.Find("Player").GetComponent<PlayerManager>();
         currentMap = playerManager.currentMap;
         toolReloadManager.newMap();
+        sun = GameObject.Find("sun").GetComponent<Light>();
     }
 
     public void newMap(int newMapID){
@@ -37,6 +39,11 @@ public class MapManager : MonoBehaviour
         controlsManager.choosingMap = false;
         playerManager.commitDie();
         toolReloadManager.newMap();
+
+        sun.color = currentMap.sunColor;
+        sun.intensity = currentMap.sunIntensity;
+
+        RenderSettings.skybox = currentMap.skyboxMaterial;
     }
 
     public void skipMap(){

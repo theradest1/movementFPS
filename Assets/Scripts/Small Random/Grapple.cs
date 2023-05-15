@@ -33,7 +33,7 @@ public class Grapple : MonoBehaviour
     }
 
     public void attach(){
-        if(Physics.Raycast(transform.position, cam.transform.forward, out RaycastHit hitInfo, maxDist, stopFrom)){
+        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, maxDist, stopFrom)){
             grappling = true;
             connectPos = hitInfo.point;
             distanceToGrapple = Vector3.Distance(cam.transform.position, connectPos);
@@ -111,6 +111,15 @@ public class Grapple : MonoBehaviour
         }
         else if(lineRenderer.enabled){
             lineRenderer.enabled = false;
+        }
+    }
+
+    public Vector3 getLookPos(){
+        if(!grappling && Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, maxDist, stopFrom)){
+            return hitInfo.point;
+        }
+        else{
+            return new Vector3(99999999, 99999999, 999999999);
         }
     }
 }
