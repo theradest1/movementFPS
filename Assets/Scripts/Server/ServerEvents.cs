@@ -123,6 +123,7 @@ public class ServerEvents : MonoBehaviour
             clientScript.changeScoreboard(0, 1);
             clientScript.invincibilityTimer = invincibilityTimeOnDeath;
             clientScript.changeHealth(-1000f); 
+            clientScript.death();
             killedUsername = clientScript.username;
             //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
         }

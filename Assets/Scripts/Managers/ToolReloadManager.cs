@@ -5,7 +5,7 @@ using UnityEngine;
 public class ToolReloadManager : MonoBehaviour
 {
     public MapManager mapManager; 
-    List<ToolRefill> refillSpots = new List<ToolRefill>();
+    //List<Refill> refillSpots = new List<ToolRefill>();
     public GameObject refillPrefab;
     public WeaponManager weaponManager;
 

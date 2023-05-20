@@ -17,12 +17,6 @@ public class Abilities : MonoBehaviour
     public bool dashing;
     public float dashCooldown;
 
-    [Header("Heal")]
-    public float healTime;
-    public float healTotal;
-    public int healSteps;
-    public float healCooldown;
-
     [Header("Debug:")]
     public int equippedAbility; //dash, heal
     public float cooldownTimer;
@@ -31,11 +25,6 @@ public class Abilities : MonoBehaviour
         dashTime = float.Parse(vars[1]);
         dashSpeed = float.Parse(vars[2]);
         dashCooldown = float.Parse(vars[3]);
-
-        healTime = float.Parse(vars[4]);
-        healTotal = float.Parse(vars[5]);
-        healSteps = int.Parse(vars[6]);
-        healCooldown = float.Parse(vars[7]);
     }
 
     public void resetAll(){
@@ -60,26 +49,12 @@ public class Abilities : MonoBehaviour
         if(equippedAbility == 0){
             return cooldownTimer/dashCooldown;
         }
-        else if(equippedAbility == 1){
-            return cooldownTimer/healCooldown;
-        }
         return 1;
-    }
-
-    public IEnumerator heal(){
-        cooldownTimer = healCooldown + healTime;
-        for(int step = 0; step < healSteps; step++){
-            projectileFunctions.triggerDamage(null, -healTotal/healSteps, serverComm.ID);
-            yield return new WaitForSeconds(healTime/healSteps);
-        }
     }
 
     public void use(){
         if(equippedAbility == 0){
             StartCoroutine(dash());
-        }
-        if(equippedAbility == 1){
-            StartCoroutine(heal());
         }
     }
 

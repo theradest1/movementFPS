@@ -8,6 +8,7 @@ using UnityEngine.Rendering.PostProcessing;
 public class PlayerManager : MonoBehaviour
 {
 	[Header("References:")]
+	public RefillManager refillManager;
 	TextMeshProUGUI healthText;
 	ServerEvents serverEvents;
 	ServerComm serverComm;
@@ -40,7 +41,9 @@ public class PlayerManager : MonoBehaviour
 	public TextMeshProUGUI weaponHeadshotText;
 	public TextMeshProUGUI weaponNameText;
 
-	public Vignette vignette;
+	Vignette vignette;
+
+	public InventoryManager inventoryManager;
 
 	[Header("Controlled by server:")]
 	public float maxHealth = 100f;
@@ -57,7 +60,20 @@ public class PlayerManager : MonoBehaviour
 
 	[Header("Settings:")]
 	public float rednessRate = 1;
+	
 
+    public float refillPosSpread;
+    public float refillVelSpread;
+    public int toolRefillsDroppedOnDeath;
+    public int healthRefillsDroppedOnDeath;
+    public int throwableRefillsDroppedOnDeath;
+	
+
+    public void createRefills(string type, int amount){
+        for(int i = 0; i < amount; i++){
+            refillManager.sendNewRefillEvent(type, transform.position + new Vector3(Random.Range(-refillPosSpread, refillPosSpread), 0f, Random.Range(-refillPosSpread, refillPosSpread)), new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360)), new Vector3(Random.Range(-refillVelSpread, refillVelSpread), Random.Range(-refillVelSpread, refillVelSpread), Random.Range(-refillVelSpread, refillVelSpread)));
+        }
+    }
 
 	void Start()
 	{
@@ -167,6 +183,7 @@ public class PlayerManager : MonoBehaviour
 		look.camRotX = 90;
 		controlsManager.deathMenuControlls = true;
 		weapons.setWeapon(-1);
+		inventoryManager.resetAllObjets();
 	}
 
 	public List<List<string>> getReplayData()
@@ -183,6 +200,9 @@ public class PlayerManager : MonoBehaviour
 
 	public void death(int killerID)
 	{
+		createRefills("tool", toolRefillsDroppedOnDeath);
+        createRefills("health", healthRefillsDroppedOnDeath);
+        createRefills("throwable", throwableRefillsDroppedOnDeath);
 		if (killerID != serverComm.ID)
 		{
 			killer = GameObject.Find(killerID + "");
@@ -212,5 +232,15 @@ public class PlayerManager : MonoBehaviour
 		if(subbedHealth > 0){
 			redness = 1;
 		}
+	}
+	public bool collectHealth(float healthCollected)
+	{
+		if(health < maxHealth){
+			health = Mathf.Clamp(health + healthCollected, 0f, maxHealth);
+			healthSlider.value = health / maxHealth;
+			healthText.text = Mathf.Round(health) + "/" + maxHealth;
+			return true;
+		}
+		return false;
 	}
 }

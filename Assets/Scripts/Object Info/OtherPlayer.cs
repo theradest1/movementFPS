@@ -55,6 +55,10 @@ public class OtherPlayer : MonoBehaviour
         //Debug.Log(healthSlider.value);
     }
 
+    public void death(){
+        return;
+    }
+
     void Start(){
         targetPosition = Vector3.zero;
         pastTargetPosition = Vector3.zero;

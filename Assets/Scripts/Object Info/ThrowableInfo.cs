@@ -15,6 +15,7 @@ public class ThrowableInfo : MonoBehaviour
     public int throwSound;
     public float throwVolume;
     public float throwPitch;
+    public int maxCharges = 5;
 
     public void setVars(string[] vars){
         damage = float.Parse(vars[1]);

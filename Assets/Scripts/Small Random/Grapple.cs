@@ -29,10 +29,9 @@ public class Grapple : MonoBehaviour
     private void Start() {
         controlsManager = GameObject.Find("manager").GetComponent<ControlsManager>();
         grappleRope = GameObject.Find("grapple rope parent").GetComponent<Rope>();
-        //joint = null;
     }
 
-    public void attach(){
+    public bool attach(){
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hitInfo, maxDist, stopFrom)){
             grappling = true;
             connectPos = hitInfo.point;
@@ -42,8 +41,6 @@ public class Grapple : MonoBehaviour
             joint.autoConfigureConnectedAnchor = false;
             joint.anchor = Vector3.zero;
             joint.connectedAnchor = connectPos;
-            //joint.linearLimitSpring.spring = springForce;
-            //joint.damper = damper;
 
             joint.xMotion = ConfigurableJointMotion.Limited;
             joint.yMotion = ConfigurableJointMotion.Limited;
@@ -52,34 +49,21 @@ public class Grapple : MonoBehaviour
             SoftJointLimit softJointLimit = new SoftJointLimit();
             softJointLimit.limit = distanceToGrapple;
             joint.linearLimit = softJointLimit;
-            //joint.massScale = massScale;
-            //grappleRope.gameObject.SetActive(true);
             grappleRope.makeRope(ropeDetail, connectPos);
-            //joint.maxDistance = Vector3.Distance(cam.transform.position, connectPos);
-            //joint.minDistance = Vector3.Distance(cam.transform.position, connectPos);*/
-
-            //lineRenderer.enabled = true;
             lineRenderer.SetPosition(0, connectPos);
-
+            return true;
         }
+        return false;
+    }
+
+    public void detach(){
+        Destroy(joint);
+        grappleRope.destroyRope();
+        grappling = false;
     }
 
     private void Update() {
-        if(!grappling && controlsManager.toolUse){
-            attach();
-        }
-        else if(grappling && !controlsManager.toolUse){
-            Destroy(joint);
-            grappleRope.destroyRope();
-            grappling = false;
-        }
         if(grappling){
-            /*
-            distanceToGrapple -= climbSpeed * Time.deltaTime;
-            softJointLimit.limit = distanceToGrapple;
-            joint.linearLimit = softJointLimit;*/
-
-
             if(Physics.Raycast(cam.transform.position, connectPos - cam.transform.position, out RaycastHit hitInfo, Vector3.Distance(cam.transform.position, connectPos), stopFrom)){
                 SoftJointLimit softJointLimit = new SoftJointLimit();
                 distanceToGrapple -= Vector3.Distance(connectPos, hitInfo.point);
@@ -90,23 +74,14 @@ public class Grapple : MonoBehaviour
                 joint.connectedAnchor = connectPos;
                 lineRenderer.SetPosition(0, connectPos);
                 if(Vector3.Distance(pastConnect, connectPos) > minDistToRedoRope){
-                    //grappleRope.makeRope(ropeDetail, connectPos);
                     grappleRope.changeLength(Vector3.Distance(pastConnect, connectPos), connectPos);
-                    //grappleRope.connection = connectPos;
                 }
             }
         }
     }
 
     void LateUpdate() {
-        //Debug.Log(Vector3.Distance(player.transform.position, connectPos));
         if(grappling){
-            /*if(Vector3.Distance(player.transform.position, connectPos) > distanceToGrapple - .1f){
-                joint.spring = 100f;
-            }
-            else if(Vector3.Distance(player.transform.position, connectPos) < distanceToGrapple + .05f){
-                joint.spring = 0f;
-            }*/
             lineRenderer.SetPosition(1, player.transform.position);
         }
         else if(lineRenderer.enabled){

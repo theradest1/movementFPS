@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     [Header("References:")]
     public Weapons weapons; //guns, swords
     public Throwables throwables; //granade, flash, smoke, molley
-    public UsableTools tools; //grapple, air control, heal
+    public Tools tools; //grapple, air control, heal
     public Abilities abilities; //dash, heal, teleport
 
     public TMP_Dropdown weaponDropdown;
@@ -22,6 +22,9 @@ public class InventoryManager : MonoBehaviour
 	public Slider abilityCooldown;
 	public Slider throwableCooldown;
 
+    public TextMeshProUGUI toolCharges;
+    public TextMeshProUGUI throwableCharges;
+
     public void resetAllObjets(){
         weapons.resetAll();
         throwables.resetAll();
@@ -32,14 +35,18 @@ public class InventoryManager : MonoBehaviour
     public void updateInventory(){
         throwables.setThrowable(throwableDropdown.value);
         abilities.setAbility(abilityDropdown.value);
+        tools.setTool(toolDropdown.value);
     }
 
     void Update() {
         weaponCooldown.value = weapons.getCooldownPercentage();
 
-        toolCooldown.value = 0f; //not added yet
+        toolCooldown.value = tools.getCooldownPercentage();
 
         abilityCooldown.value = abilities.getCooldownPercentage();
         throwableCooldown.value = throwables.cooldownTimer/throwables.equippedThrowable.cooldown;
+
+        toolCharges.text = tools.charges + "";
+        throwableCharges.text = throwables.throwableCharges + "";
     }
 }

@@ -32,6 +32,7 @@ public class ServerComm : MonoBehaviour
     MapManager mapManager;
     ToolReloadManager toolReloadManager;
     ChatManager chatManager;
+    RefillManager refillManager;
 
     int throughPackets = 0;
     int throttledPackets = 0;
@@ -56,6 +57,7 @@ public class ServerComm : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        refillManager = GameObject.Find("manager").GetComponent<RefillManager>();
         mapManager = GameObject.Find("manager").GetComponent<MapManager>();
         chatManager = GameObject.Find("manager").GetComponent<ChatManager>();
         toolReloadManager = GameObject.Find("manager").GetComponent<ToolReloadManager>();
@@ -271,6 +273,12 @@ public class ServerComm : MonoBehaviour
                                 break;
                             case "chat":
                                 chatManager.newChat(splitRawEvents[2], Color.white, int.Parse(splitRawEvents[1])); //message, chatter ID
+                                break;
+                            case "refill":
+                                refillManager.collectedRefill(int.Parse(splitRawEvents[2]));
+                                break;
+                            case "newrefill":
+                                refillManager.addRefill(splitRawEvents[2], serverEvents.parseVector3(splitRawEvents[3]), serverEvents.parseVector3(splitRawEvents[4]), serverEvents.parseVector3(splitRawEvents[5]));
                                 break;
                             default:
                                 droppedPackets++;
