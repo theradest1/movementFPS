@@ -68,6 +68,10 @@ public class PlayerManager : MonoBehaviour
     public int healthRefillsDroppedOnDeath;
     public int throwableRefillsDroppedOnDeath;
 	
+	public void setVars(string[] vars){
+        maxHealth = int.Parse(vars[1]);
+        flashRecovery = float.Parse(vars[2]);
+    }
 
     public void createRefills(string type, int amount){
         for(int i = 0; i < amount; i++){

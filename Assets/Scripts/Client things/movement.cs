@@ -28,7 +28,6 @@ public class movement : MonoBehaviour
     [Header("Controlled by server:")]
     public float speed;
     public float inAirMultiplier;
-    //public float grapplingMultiplier;
     public float jumpPower;
     public float stopSpeedGround;
     public float footstepInterval;
@@ -56,6 +55,16 @@ public class movement : MonoBehaviour
 
     [Header("Rebound:")]
     int launchAttempts = 0;
+
+    public void setVars(string[] vars){
+        speed = float.Parse(vars[1]);
+        inAirMultiplier = float.Parse(vars[2]);
+        jumpPower = float.Parse(vars[3]);
+        stopSpeedGround = float.Parse(vars[4]);
+        footstepInterval = float.Parse(vars[5]);
+        minHeight = float.Parse(vars[6]);
+        maxLaunchAttempts = int.Parse(vars[7]);
+    }
 
     public void launchTo(Vector3 goToPos){
         Vector3 toTarget = goToPos - transform.position;
