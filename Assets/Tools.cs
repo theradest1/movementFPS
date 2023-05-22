@@ -11,6 +11,11 @@ public class Tools : MonoBehaviour
     public ControlsManager controlsManager;
     public GameObject grappleIndicator;
     public Grapple grapple;
+    Transform cam;
+    Rigidbody rb;
+
+    public float teleportMaxDist;
+    public LayerMask stopFrom;
 
     [Header("Controlled by server:")]
     public int maxChargesGrapple;
@@ -26,6 +31,12 @@ public class Tools : MonoBehaviour
     public int charges;
     public float grappleTime;
     public bool released = true;
+
+    private void Start()
+    {
+        rb = GameObject.Find("Player").GetComponent<Rigidbody>();
+        cam = GameObject.Find("Main Camera").transform;
+    }
 
     public void setVars(string[] vars){
         maxChargesGrapple = int.Parse(vars[1]);
@@ -52,9 +63,17 @@ public class Tools : MonoBehaviour
         }
     }
 
+    public bool teleport(){
+        if(Physics.Raycast(cam.position, cam.forward, out RaycastHit hitInfo, teleportMaxDist, stopFrom)){
+            rb.MovePosition(hitInfo.point + Vector3.up);
+            return true;
+        }
+        return false;
+    }
+
     public void setTool(int newTool){
         equippedTool = newTool;
-        if(equippedTool == 0){
+        if(equippedTool == 0 || equippedTool == 2){
             grappleIndicator.SetActive(true);
         }
         else{
@@ -93,6 +112,12 @@ public class Tools : MonoBehaviour
         else if(equippedTool == 1 && controlsManager.toolUse && cooldownTimer <= 0 && charges > 0){
             charges--;
             StartCoroutine(heal());
+        }
+        else if(equippedTool == 2 && controlsManager.toolUse && released && charges > 0){
+            if(teleport()){
+                charges--;
+                released = false;
+            }
         }
     }
 
