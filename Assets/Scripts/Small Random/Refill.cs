@@ -34,7 +34,6 @@ public class Refill : MonoBehaviour
     private void Update() {
         if(active){
             if(Vector3.Distance(transform.position, player.position) <= distanceToCollect){
-                Debug.Log("close enough");
                 if(type == "tool"){
                     if(tools.collectCharge()){
                         StartCoroutine(collectAnim());
@@ -56,18 +55,14 @@ public class Refill : MonoBehaviour
 
     public IEnumerator collectAnim(){
         //setup
-        Debug.Log("collect");
         active = false;
-        Destroy(transform.parent.GetComponent<Rigidbody>());
-        Destroy(transform.parent.GetComponent<Collider>());
-        Transform parentTransform = transform.parent.transform;
         Transform playerTransform = GameObject.Find("Player").transform;
         Vector3 startPos = transform.position;
 
         //anim
         float timer = Time.time;
         while(Time.time - timer <= animTime){
-            parentTransform.position = Vector3.Lerp(startPos, playerTransform.position + Vector3.up/3, (Time.time - timer)/animTime);
+            transform.position = Vector3.Lerp(startPos, playerTransform.position + Vector3.up/3, (Time.time - timer)/animTime);
             yield return new WaitForEndOfFrame();
         }
 
@@ -76,7 +71,6 @@ public class Refill : MonoBehaviour
     }
 
     public void clean(){
-        Destroy(transform.parent.gameObject);
         Destroy(this.gameObject);
     }
 }

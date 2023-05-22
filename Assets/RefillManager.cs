@@ -14,9 +14,9 @@ public class RefillManager : MonoBehaviour
 
     public void addRefill(string type, Vector3 position, Vector3 rotation, Vector3 velocity){
         GameObject refillPrefab = getRefillPrefab(type);
-        GameObject refillBody = Instantiate(refillPrefab, position, Quaternion.Euler(rotation));
-        refillBody.GetComponent<Rigidbody>().velocity = velocity;
-        Refill newRefill = refillBody.transform.GetChild(0).GetComponent<Refill>();
+        GameObject refill = Instantiate(refillPrefab, position, Quaternion.Euler(rotation));
+        refill.GetComponent<Rigidbody>().velocity = velocity;
+        Refill newRefill = refill.GetComponent<Refill>();
         newRefill.ID = currentID;
         refills.Add(newRefill);
         currentID++;
@@ -36,7 +36,6 @@ public class RefillManager : MonoBehaviour
     }
 
     public void collectedRefill(int collectedRefillID){
-        Debug.Log("Collected: " + collectedRefillID);
         foreach(Refill refill in refills){
             if(refill.ID == collectedRefillID){
                 refills.Remove(refill);
