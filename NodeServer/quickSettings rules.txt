@@ -37,6 +37,7 @@ healSteps
 healTotal
 healCooldown
 maxChargesHeal
+grapple max time
 
 Player:
 health

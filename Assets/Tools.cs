@@ -14,6 +14,7 @@ public class Tools : MonoBehaviour
 
     [Header("Controlled by server:")]
     public int maxChargesGrapple;
+    public float grappleTimeLimit;
     public float healTime;
     public float healTotal;
     public int healSteps;
@@ -23,6 +24,8 @@ public class Tools : MonoBehaviour
     [Header("Debug:")]
     public float cooldownTimer;
     public int charges;
+    public float grappleTime;
+    public bool released = true;
 
     public void setVars(string[] vars){
         maxChargesGrapple = int.Parse(vars[1]);
@@ -31,6 +34,7 @@ public class Tools : MonoBehaviour
         healTotal = float.Parse(vars[4]);
         healCooldown = float.Parse(vars[5]);
         maxChargesHeal = int.Parse(vars[6]);
+        grappleTimeLimit = float.Parse(vars[7]);
     }
 
     private void LateUpdate()
@@ -61,15 +65,29 @@ public class Tools : MonoBehaviour
 
     private void Update()
     {
+        if(!controlsManager.toolUse){
+            released = true;
+        }
         cooldownTimer -= Time.deltaTime;
         if(equippedTool == 0){
             if(grapple.grappling && !controlsManager.toolUse){
                 grapple.detach();
             }
-            else if(!grapple.grappling && controlsManager.toolUse && charges > 0){
+            else if(charges > 0 && released && !grapple.grappling && controlsManager.toolUse){
                 if(grapple.attach()){
+                    released = false;
                     charges--;
                 }
+            }
+            if(grapple.grappling){
+                grappleTime += Time.deltaTime;
+                if(grappleTime > grappleTimeLimit){
+                    grapple.detach();
+                    grappleTime = 0;
+                }
+            }
+            else{
+                grappleTime = 0;
             }
         }
         else if(equippedTool == 1 && controlsManager.toolUse && cooldownTimer <= 0 && charges > 0){
@@ -80,6 +98,7 @@ public class Tools : MonoBehaviour
 
     public void resetAll(){
         cooldownTimer = 0f;
+        grappleTime = 0f;
         if(equippedTool == 0){
             charges = maxChargesGrapple;
         }
@@ -90,7 +109,7 @@ public class Tools : MonoBehaviour
 
     public float getCooldownPercentage(){
         if(equippedTool == 0){
-            return 0f;
+            return 0;
         }
         else if(equippedTool == 1){
             return cooldownTimer/(healCooldown + healTime);

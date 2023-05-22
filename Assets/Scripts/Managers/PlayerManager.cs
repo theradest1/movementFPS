@@ -238,7 +238,8 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 	public bool collectHealth(float healthCollected)
-	{
+	{	
+		serverEvents.sendEvent("ue", "d", serverComm.ID + "~" + serverComm.ID + "~" + (-healthCollected));
 		if(health < maxHealth){
 			health = Mathf.Clamp(health + healthCollected, 0f, maxHealth);
 			healthSlider.value = health / maxHealth;
