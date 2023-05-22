@@ -85,11 +85,10 @@ public class InGameGUIManager : MonoBehaviour
     }
 
     public void openMenuSection(GameObject menuToOpen){
-        generalMenu.SetActive(false);
-        controlsMenu.SetActive(false);
-        graphicsMenu.SetActive(false);
-
         menuToOpen.SetActive(true);
+    }
+    public void closeMenuSection(GameObject menuToClose){
+        menuToClose.SetActive(false);
     }
 
     void updateGameClock(){
