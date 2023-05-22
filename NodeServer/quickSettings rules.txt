@@ -30,8 +30,20 @@ damage
 speed
 cooldown
 
-NOT ADDED YET{
+Tools:
+maxChargesGrapple
+healTime
+healSteps
+healTotal
+healCooldown
+maxChargesHeal
+grapple max time
+
 Player:
+health
+flashRecovery
+
+Movement:
 speed
 in air multiplier
 jump power
@@ -39,8 +51,6 @@ stopSpeedGround
 footstepInterval
 minHeight (for rebound)
 max launch launchAttempts
-health
-flashRecovery}
 
 Formating:
 semicolon after every line
