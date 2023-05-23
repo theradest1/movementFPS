@@ -61,8 +61,8 @@ MonoBehaviour:
   tickTimer: 0
   particleTimeToStop: 1
   particles: {fileID: 6035826932438846397}
-  collider: 1
-  distance: 3
+  useCollider: 0
+  distance: 8
 --- !u!64 &6586868895945973464
 MeshCollider:
   m_ObjectHideFlags: 0

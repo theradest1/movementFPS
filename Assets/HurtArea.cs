@@ -12,7 +12,7 @@ public class HurtArea : MonoBehaviour
     public float tickTimer;
     public float particleTimeToStop;
     public ParticleSystem particles;
-    public bool collider;
+    public bool useCollider;
     public float distance;
 
     private void Start()
@@ -23,18 +23,21 @@ public class HurtArea : MonoBehaviour
     private void Update()
     {
         tickTimer -= Time.deltaTime;
-        if(!collider && Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= distance){
+        if(!useCollider && Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= distance){
             if(tickTimer <= 0){
-                Debug.Log("Hurting");
+                Debug.Log("Hurting with distance");
                 projectileFunctions.triggerDamage(null, damage * timePerTick, userID);
                 tickTimer = timePerTick;
             }
+        }
+        else{
+            Debug.Log(Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position));
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if(collider){
+        if(useCollider){
             if(tickTimer <= 0){
                 Debug.Log("Hurting");
                 projectileFunctions.triggerDamage(null, damage * timePerTick, userID);
