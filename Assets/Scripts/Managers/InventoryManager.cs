@@ -32,10 +32,53 @@ public class InventoryManager : MonoBehaviour
         abilities.resetAll();
     }
 
+    private void Start()
+    {
+        Invoke("loadInventory", .1f);
+    }
+
+    public void loadInventory(){
+        int _weapon = PlayerPrefs.GetInt("Weapon", 0);
+		int _tool = PlayerPrefs.GetInt("Tool", 0);
+		int _ability = PlayerPrefs.GetInt("Ability", 0);
+		int _throwable = PlayerPrefs.GetInt("Throwable", 0);
+
+		//Debug.Log("Main: " + _main);
+
+		weaponDropdown.value = _weapon;
+		toolDropdown.value = _tool;
+		abilityDropdown.value = _ability;
+		throwableDropdown.value = _throwable;
+    }
+
+    /*public void updateWeaponStats(TMP_Dropdown dropdown)
+	{
+		Debug.Log("updated weapon stats");
+		WeaponInfo selectedWeapon = weapons.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
+
+		weaponSpeedText.text = (selectedWeapon.speedMultiplier * 100) + "%";
+		weaponDamageText.text = selectedWeapon.damage + "";
+		weaponFireRateText.text = selectedWeapon.cooldown + "";
+		weaponReloadTimeText.text = selectedWeapon.reloadTime + "";
+		weaponClipSizeText.text = selectedWeapon.clipSize + "";
+		weaponHeadshotText.text = (selectedWeapon.headShotMult * 100) + "%";
+		weaponNameText.text = selectedWeapon.gameObject.name + "";
+
+		PlayerPrefs.SetInt("Main", mainDropdown.value);
+		PlayerPrefs.SetInt("Tool", toolDropdown.value);
+		PlayerPrefs.Save();
+	}*/
+
     public void updateInventory(){
         throwables.setThrowable(throwableDropdown.value);
         abilities.setAbility(abilityDropdown.value);
         tools.setTool(toolDropdown.value);
+
+        PlayerPrefs.SetInt("Weapon", weaponDropdown.value);
+		PlayerPrefs.SetInt("Tool", toolDropdown.value);
+		PlayerPrefs.SetInt("Ability", abilityDropdown.value);
+		PlayerPrefs.SetInt("Throwable", throwableDropdown.value);
+        PlayerPrefs.Save();
     }
 
     void Update() {

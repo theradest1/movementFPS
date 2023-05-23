@@ -101,25 +101,6 @@ public class PlayerManager : MonoBehaviour
 
 		//updateWeaponStats(mainDropdown);
 		changeHealth(0f);
-
-		Invoke("getWeaponChoices", .1f);
-	}
-
-	void getWeaponChoices()
-	{
-		int _weapon = PlayerPrefs.GetInt("Weapon", 0);
-		int _tool = PlayerPrefs.GetInt("Tool", 0);
-		int _ability = PlayerPrefs.GetInt("Ability", 0);
-		int _throwable = PlayerPrefs.GetInt("Throwable", 0);
-
-		//Debug.Log("Main: " + _main);
-
-		weaponDropdown.value = _weapon;
-		toolDropdown.value = _tool;
-		abilityDropdown.value = _ability;
-		throwableDropdown.value = _throwable;
-		//Debug.Log(_main + ", " + _second + ", " + _tool);
-		//Debug.Log(mainDropdown.value + ", " + toolDropdown.value);
 	}
 
 	private void Update()
@@ -147,31 +128,13 @@ public class PlayerManager : MonoBehaviour
 			followKiller = false;
 			controlsManager.deathMenuControlls = false;
 			deathMenu.SetActive(false);
-			weapons.setWeapon(weaponDropdown.value);
 
 			look.camRotX = 0;
 			coll.enabled = true;
 			rb.useGravity = true;
 			rb.position = currentMap.spawnPoints[Random.Range(0, currentMap.spawnPoints.Count)].transform.position + Vector3.up;
 		}
-	}
-
-	public void updateWeaponStats(TMP_Dropdown dropdown)
-	{
-		Debug.Log("updated weapon stats");
-		/*WeaponInfo selectedWeapon = weapons.weaponContainer.transform.Find(dropdown.options[dropdown.value].text).GetComponent<WeaponInfo>();
-
-		weaponSpeedText.text = (selectedWeapon.speedMultiplier * 100) + "%";
-		weaponDamageText.text = selectedWeapon.damage + "";
-		weaponFireRateText.text = selectedWeapon.cooldown + "";
-		weaponReloadTimeText.text = selectedWeapon.reloadTime + "";
-		weaponClipSizeText.text = selectedWeapon.clipSize + "";
-		weaponHeadshotText.text = (selectedWeapon.headShotMult * 100) + "%";
-		weaponNameText.text = selectedWeapon.gameObject.name + "";
-
-		PlayerPrefs.SetInt("Main", mainDropdown.value);
-		PlayerPrefs.SetInt("Tool", toolDropdown.value);
-		PlayerPrefs.Save();*/
+        weapons.setWeapon(weaponDropdown.value);
 	}
 
 	public void commitDie()
