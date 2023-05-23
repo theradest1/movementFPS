@@ -43,6 +43,9 @@ public class ProjectileManager : MonoBehaviour
                     Debug.Log("Created fake shotgun bullets");
                     newProjectile.GetComponent<ShotgunShell>().setInfo(damage, fouxInitialPos, velocity, projectileFunctions, true);
                 }
+                if(projectileID == 7){
+                    newProjectile.GetComponent<Molley>().setInfo(velocity, projectileFunctions);
+                }
             }
             else{
                 serverEvents.sendEvent("ue", "pr", projectileID + "~" + damage + "~" + initialPos + "~" + velocity + "~" + shootSound + "~" + shootVolume + "~" + shootPitch);

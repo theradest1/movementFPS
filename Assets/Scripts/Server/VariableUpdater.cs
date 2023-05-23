@@ -17,7 +17,7 @@ public class VariableUpdater : MonoBehaviour
         for(int i = 0; i < varChunks.Length; i++){
 
             string[] vars = varChunks[i].Split(";");
-            Debug.Log(vars[0]);
+            //Debug.Log(vars[0]);
             if(weapons.transform.Find(vars[0]) != null){
                 weapons.transform.Find(vars[0]).GetComponent<WeaponInfo>().setVars(vars);
             }
