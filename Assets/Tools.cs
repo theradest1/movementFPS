@@ -25,6 +25,7 @@ public class Tools : MonoBehaviour
     public int healSteps;
     public float healCooldown;
     public int maxChargesHeal;
+    public int maxChargesTeleport;
 
     [Header("Debug:")]
     public float cooldownTimer;
@@ -46,11 +47,12 @@ public class Tools : MonoBehaviour
         healCooldown = float.Parse(vars[5]);
         maxChargesHeal = int.Parse(vars[6]);
         grappleTimeLimit = float.Parse(vars[7]);
+        maxChargesTeleport = int.Parse(vars[8]);
     }
 
     private void LateUpdate()
     {
-        if(equippedTool == 0){
+        if(equippedTool == 0 || equippedTool == 2){
             grappleIndicator.transform.position = grapple.getLookPos();
         }
     }
@@ -127,13 +129,19 @@ public class Tools : MonoBehaviour
         if(equippedTool == 0){
             charges = maxChargesGrapple;
         }
-        else{
+        else if(equippedTool == 1){
             charges = maxChargesHeal;
+        }
+        else if(equippedTool == 2){
+            charges = maxChargesTeleport;
+        }
+        else{
+            Debug.Log("Charges arent set for tool with ID " + equippedTool);
         }
     }
 
     public float getCooldownPercentage(){
-        if(equippedTool == 0){
+        if(equippedTool == 0 || equippedTool == 2){
             return 0;
         }
         else if(equippedTool == 1){
@@ -148,6 +156,10 @@ public class Tools : MonoBehaviour
             return true;
         }
         else if(equippedTool == 1 && charges < maxChargesHeal){
+            charges++;
+            return true;
+        }
+        else if(equippedTool == 2 && charges < maxChargesTeleport){
             charges++;
             return true;
         }
