@@ -2490,8 +2490,6 @@ MonoBehaviour:
   health: 500
   maxHealth: 0
   direction: {x: 0, y: 0, z: 0}
-  lerpedSpeed: 0
-  lerpedSpeedChangeSpeed: 4
   currentMapVote: -1
   scoreboardPeice: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
@@ -2501,8 +2499,8 @@ MonoBehaviour:
   username: 
   kills: 0
   deaths: 0
-  minSpeedForParticles: 1.2
-  dashOnTime: 0.1
+  minSpeedForParticles: 3
+  dashOnTime: 0.2
   particlesOn: 0
   playerCam: {fileID: 0}
   usernameText: {fileID: 3938763685985506324}
