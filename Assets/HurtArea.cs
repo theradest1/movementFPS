@@ -12,8 +12,8 @@ public class HurtArea : MonoBehaviour
     public float tickTimer;
     public float particleTimeToStop;
     public ParticleSystem particles;
-    public bool useCollider;
     public float distance;
+    bool damaging = true;
 
     private void Start()
     {
@@ -23,26 +23,10 @@ public class HurtArea : MonoBehaviour
     private void Update()
     {
         tickTimer -= Time.deltaTime;
-        if(!useCollider && Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= distance){
-            if(tickTimer <= 0){
-                Debug.Log("Hurting with distance");
-                projectileFunctions.triggerDamage(null, damage * timePerTick, userID);
-                tickTimer = timePerTick;
-            }
-        }
-        else{
-            Debug.Log(Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position));
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(useCollider){
-            if(tickTimer <= 0){
-                Debug.Log("Hurting");
-                projectileFunctions.triggerDamage(null, damage * timePerTick, userID);
-                tickTimer = timePerTick;
-            }
+        if(damaging && tickTimer <= 0 && Vector3.Distance(transform.position, projectileFunctions.playerCam.transform.position) <= distance){
+            Debug.Log("Hurting with distance");
+            projectileFunctions.triggerDamage(null, damage * timePerTick, userID);
+            tickTimer = timePerTick;
         }
     }
 
@@ -53,6 +37,7 @@ public class HurtArea : MonoBehaviour
 
     public void stopParticles(){
         particles.Stop();
+        damaging = false;
     }
 
 }

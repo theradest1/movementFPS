@@ -122,15 +122,15 @@ public class ServerEvents : MonoBehaviour
             OtherPlayer clientScript = clientScripts[clientIDs.IndexOf(int.Parse(killedID))];
             clientScript.changeScoreboard(0, 1);
             clientScript.invincibilityTimer = invincibilityTimeOnDeath;
-            clientScript.changeHealth(-1000f); 
+            clientScript.changeHealth(-1000f);
             clientScript.death();
             killedUsername = clientScript.username;
             //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killedID))].text = kills[clientIDs.IndexOf(int.Parse(killedID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killedID))];
         }
 
         if(int.Parse(killerID) == serverComm.ID){
-            clientKills += 1;
             clientKDScoreboard.text = clientKills + "/" + clientDeaths;
+            clientKills += 1;
             killerUsername = serverComm.username;
         }
         else
@@ -141,7 +141,13 @@ public class ServerEvents : MonoBehaviour
             killerUsername = clientScript.username;
             //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];
         }
-        inGameGUIManager.killFeed(killerUsername, killedUsername);
+
+        if(killerUsername == killedUsername){
+            inGameGUIManager.killFeed(killerUsername + " was sick of the cruel world");
+        }
+        else{
+            inGameGUIManager.killFeed(killerUsername + " done got " + killedUsername);
+        }
 
         //kills[clientIDs.IndexOf(int.Parse(killerID))] += 1;
         //scoreboardKDRatio[clientIDs.IndexOf(int.Parse(killerID))].text = kills[clientIDs.IndexOf(int.Parse(killerID))] + "/" + deaths[clientIDs.IndexOf(int.Parse(killerID))];

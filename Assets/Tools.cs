@@ -145,7 +145,7 @@ public class Tools : MonoBehaviour
             return 0;
         }
         else if(equippedTool == 1){
-            return cooldownTimer/(healCooldown + healTime);
+            return cooldownTimer/healCooldown;
         }
         return 1;
     }
