@@ -14,6 +14,8 @@ public class OtherPlayer : MonoBehaviour
     public float health;
     public float maxHealth;
     public Vector3 direction;
+    public float lerpedSpeed;
+    public float lerpedSpeedChangeSpeed;
     public int currentMapVote = -1;
     [HideInInspector]
     public TextMeshProUGUI scoreboardPeice; 
@@ -32,6 +34,10 @@ public class OtherPlayer : MonoBehaviour
     PlayerManager playerManager;
     ReplayManager replayManager;
     ServerEvents serverEvents;
+
+    public float minSpeedForParticles;
+    public float dashOnTime;
+    public bool particlesOn = false;
     
     
     [Header("References: ")]
@@ -42,6 +48,7 @@ public class OtherPlayer : MonoBehaviour
     public Collider bodyColl;
     public Collider headColl;
     public SkinnedMeshRenderer bodyRenderer;
+    public ParticleSystem dashParticles;
 
 
     public void setUsername(string givenUsername){
@@ -89,6 +96,7 @@ public class OtherPlayer : MonoBehaviour
     }
 
     void Update(){
+        lerpedSpeed = Mathf.Lerp(lerpedSpeed, direction.magnitude, Time.deltaTime * lerpedSpeedChangeSpeed);
         usernameCanvas.gameObject.transform.LookAt(playerCam.transform);
 
         invincibilityTimer -= Time.deltaTime;
@@ -104,5 +112,16 @@ public class OtherPlayer : MonoBehaviour
 
         transform.position = Vector3.Lerp(pastTargetPosition, targetPosition, serverEvents.percentDone);
         transform.rotation = Quaternion.Slerp(pastTargetRotation, targetRotation, serverEvents.percentDone);
+
+        if(!particlesOn && lerpedSpeed >= minSpeedForParticles){
+            dashParticles.Play();
+            Invoke("turnOffParticles", dashOnTime);
+            particlesOn = true;
+        }
+    }
+
+    public void turnOffParticles(){
+        dashParticles.Stop();
+        particlesOn = false;
     }
 }
