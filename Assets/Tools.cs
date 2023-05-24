@@ -14,7 +14,6 @@ public class Tools : MonoBehaviour
     Transform cam;
     Rigidbody rb;
 
-    public float teleportMaxDist;
     public LayerMask stopFrom;
 
     [Header("Controlled by server:")]
@@ -26,6 +25,7 @@ public class Tools : MonoBehaviour
     public float healCooldown;
     public int maxChargesHeal;
     public int maxChargesTeleport;
+    public float maxTelportDistance;
 
     [Header("Debug:")]
     public float cooldownTimer;
@@ -48,12 +48,16 @@ public class Tools : MonoBehaviour
         maxChargesHeal = int.Parse(vars[6]);
         grappleTimeLimit = float.Parse(vars[7]);
         maxChargesTeleport = int.Parse(vars[8]);
+        maxTelportDistance = float.Parse(vars[9]);
     }
 
     private void LateUpdate()
     {
-        if(equippedTool == 0 || equippedTool == 2){
+        if((equippedTool == 0 || (equippedTool == 2 && Physics.Raycast(cam.position, cam.forward, out RaycastHit hitInfo, maxTelportDistance, stopFrom))) && charges > 0){
             grappleIndicator.transform.position = grapple.getLookPos();
+        }
+        else{
+            grappleIndicator.transform.position = new Vector3(9999, 9999, 9999);
         }
     }
 
@@ -66,7 +70,7 @@ public class Tools : MonoBehaviour
     }
 
     public bool teleport(){
-        if(Physics.Raycast(cam.position, cam.forward, out RaycastHit hitInfo, teleportMaxDist, stopFrom)){
+        if(Physics.Raycast(cam.position, cam.forward, out RaycastHit hitInfo, maxTelportDistance, stopFrom)){
             rb.MovePosition(hitInfo.point + Vector3.up);
             return true;
         }

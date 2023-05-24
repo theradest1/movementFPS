@@ -44,7 +44,7 @@ public class ProjectileManager : MonoBehaviour
                     newProjectile.GetComponent<ShotgunShell>().setInfo(damage, fouxInitialPos, velocity, projectileFunctions, true);
                 }
                 if(projectileID == 7){
-                    newProjectile.GetComponent<Molley>().setInfo(velocity, projectileFunctions);
+                    newProjectile.GetComponent<Molley>().setInfo(velocity, projectileFunctions, damage);
                 }
             }
             else{

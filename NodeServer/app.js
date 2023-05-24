@@ -10,14 +10,14 @@ const { randomInt } = require('crypto');
 const { get } = require('http');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap', 'voteMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 32;
+TPS = 16;
 minTPS = 10;
-maxTPS = 32;
+maxTPS = 16;
 gameClock = 600;
 gameLength = 600;
 mapCount = 50; //not actually 50 maps, its just so I dont have to increase it later when adding maps (was used in the past for a random map, but not anymore)
 currentMap = 0;
-const mapChoosingTime = 5;
+const mapChoosingTime = 9;
 
 const maxChecksBeforeDisconnect = 3; //this times diconnect interval is how long it takes (in ms) for a player to get disconnected
 const disconnectInterval = 1000; //in ms

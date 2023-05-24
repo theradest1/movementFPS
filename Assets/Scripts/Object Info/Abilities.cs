@@ -21,12 +21,12 @@ public class Abilities : MonoBehaviour
     public bool dashing;
     public float dashCooldown;
 
-    [Header("Firerate Boost (not server controlled):")]
+    [Header("Firerate Boost:")]
     public float quickWeaponCooldown;
     public float quickWeaponAmount;
     public float quickWeaponTime;
 
-    [Header("Instant Reload (not server controlled):")]
+    [Header("Instant Reload:")]
     public float instantReloadCooldown;
 
 
@@ -34,6 +34,10 @@ public class Abilities : MonoBehaviour
         dashTime = float.Parse(vars[1]);
         dashSpeed = float.Parse(vars[2]);
         dashCooldown = float.Parse(vars[3]);
+        quickWeaponCooldown = float.Parse(vars[4]);
+        quickWeaponAmount = float.Parse(vars[5]);
+        quickWeaponTime = float.Parse(vars[6]);
+        instantReloadCooldown = float.Parse(vars[7]);
     }
 
     public void resetAll(){

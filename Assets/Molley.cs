@@ -16,10 +16,11 @@ public class Molley : MonoBehaviour
     public float damage;
     public float fireLifetime;
 
-    public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions){
+    public void setInfo(Vector3 givenVelocity, ProjectileFunctions givenProjectileFunctions, float givenDamage){
         rb.velocity = givenVelocity;
         projectileFunctions = givenProjectileFunctions;
         userID = projectileFunctions.serverComm.ID;
+        damage = givenDamage;
     }
 
     private void Start() {
