@@ -96,11 +96,16 @@ public class Weapons : MonoBehaviour
             releasedShoot = false;
             //projectileManager.createProjectile(0, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, equippedWeapon.bulletSpawnPos.position, equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity);
             Vector3 bulletSpeed;
+            Vector3 addedSpeed = Vector3.zero;
+            if(equippedWeapon.addPlayerVel){
+                addedSpeed = playerRB.velocity;
+            }
+
             if(scoping){
-                bulletSpeed = equippedWeapon.ADSBulletSpeed * cam.transform.forward + playerRB.velocity;
+                bulletSpeed = equippedWeapon.ADSBulletSpeed * cam.transform.forward + addedSpeed;
             }
             else{
-                bulletSpeed = equippedWeapon.bulletSpeed * cam.transform.forward + playerRB.velocity;
+                bulletSpeed = equippedWeapon.bulletSpeed * cam.transform.forward + addedSpeed;
             }
 
             projectileManager.createProjectile(serverComm.ID, equippedWeapon.projectileID, equippedWeapon.damage * damageMultiplier, cam.transform.position, equippedWeapon.bulletSpawnPos.rotation, bulletSpeed, equippedWeapon.bulletSpawnPos.position);

@@ -46,6 +46,9 @@ public class ProjectileManager : MonoBehaviour
                 if(projectileID == 7){
                     newProjectile.GetComponent<Molley>().setInfo(velocity, projectileFunctions, damage);
                 }
+                if(projectileID == 8){
+                    newProjectile.GetComponent<Rocket>().setInfo(velocity, damage, senderID, projectileFunctions);
+                }
             }
             else{
                 serverEvents.sendEvent("ue", "pr", projectileID + "~" + damage + "~" + initialPos + "~" + velocity + "~" + shootSound + "~" + shootVolume + "~" + shootPitch);
