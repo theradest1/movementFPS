@@ -47,7 +47,6 @@ public class Rocket : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision coll){
-        print(coll.gameObject.name);
         explode();
     }
 }
