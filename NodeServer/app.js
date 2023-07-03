@@ -10,9 +10,9 @@ const { randomInt } = require('crypto');
 const { get } = require('http');
 const validCommands = ['u', 'newClient', 'ue', 'leave', 'youOnBruv', 'skipMap', 'voteMap']; // u = update, ue = universal event (short for conservation of bandwidth)
 currentID = 0;
-TPS = 24;
-minTPS = 16;
-maxTPS = 24;
+TPS = 10;
+minTPS = 5;
+maxTPS = 13;
 gameClock = 600;
 gameLength = 600;
 mapCount = 50; //not actually 50 maps, its just so I dont have to increase it later when adding maps (was used in the past for a random map, but not anymore)
